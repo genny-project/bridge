@@ -84,7 +84,12 @@ public class ServiceVerticle extends AbstractVerticle {
 	@Override
 	public void start() {
 		setupCluster();
+//		createAuth2();
 
+		Future<Void> fut = Future.future();
+		runRouters().compose(i->{
+			fut.complete();
+		},fut);
 	}
 
 	public void setupCluster() {

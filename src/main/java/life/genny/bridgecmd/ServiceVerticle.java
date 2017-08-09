@@ -127,7 +127,7 @@ public class ServiceVerticle extends AbstractVerticle {
 
 				if (System.getenv("GENNYDEV") == null) {
 					System.out.println("setClusterHost etc");
-					options.setClusterHost("vertxswarm").setClusterPublicHost("vertxswarm").setClusterPort(15701);
+					options.setClusterHost("bridge").setClusterPublicHost("bridge").setClusterPort(15701);
 				} else {
 					logger.info("Running DEV mode, no cluster");
 					options.setBlockedThreadCheckInterval(200000000);

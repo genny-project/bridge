@@ -1,14 +1,17 @@
-FROM java:8u111-jre-alpine
+FROM openjdk:8u131-jre-alpine
+RUN apk update && apk add jq
 
-ADD target/bridge-0.0.1-SNAPSHOT-fat.jar /test.jar
+ADD target/bridge-0.0.1-SNAPSHOT-fat.jar /service.jar
+ADD cluster.xml /cluster.xml
 
+ADD realm /realm
+ADD docker-entrypoint.sh /docker-entrypoint.sh
 
-# Create our entrypoint
-RUN echo "set -e; command=\"\$1\"; if [ \"\$command\" != \"java\" ]; then echo \"ERROR: command must start with: java\"; exit 1; fi; exec \"\$@\"" > /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+WORKDIR /
 
 EXPOSE 5701
 EXPOSE 8081
 
-ENTRYPOINT ["sh","/entrypoint.sh"]
-CMD ["java"]
+#CMD ["java"]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
+

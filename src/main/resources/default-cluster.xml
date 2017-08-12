@@ -48,7 +48,7 @@
                 <tag-value>hz-nodes</tag-value>
             </aws>
         </join>
-        <interfaces enabled="true">
+        <interfaces enabled="false">
             <interface>172.19.0.*</interface>
             <interface>172.18.0.*</interface>
             <interface>192.168.64.*</interface>

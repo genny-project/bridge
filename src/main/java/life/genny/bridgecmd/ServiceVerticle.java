@@ -1,9 +1,19 @@
 package life.genny.bridgecmd;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bitsofinfo.hazelcast.discovery.docker.swarm.SwarmAddressPicker;
 import org.bitsofinfo.hazelcast.discovery.docker.swarm.SystemPrintLogger;
@@ -69,6 +79,8 @@ public class ServiceVerticle extends AbstractVerticle {
 	private OAuth2Auth oauth2;
 	String token;
 
+	Map<String, String> keycloakJsonMap = new HashMap<String, String>();
+
 	Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
 		@Override
 		public LocalDateTime deserialize(JsonElement json, Type type,
@@ -83,13 +95,16 @@ public class ServiceVerticle extends AbstractVerticle {
 
 	@Override
 	public void start() {
+		// Load in keycloakJsons
+		readFilenamesFromDirectory("./realm", keycloakJsonMap);
+
 		setupCluster();
-//		createAuth2();
+		// createAuth2();
 
 		Future<Void> fut = Future.future();
-		runRouters().compose(i->{
+		runRouters().compose(i -> {
 			fut.complete();
-		},fut);
+		}, fut);
 	}
 
 	public void setupCluster() {
@@ -167,6 +182,7 @@ public class ServiceVerticle extends AbstractVerticle {
 		Router router = Router.router(vertx);
 		// router.route("/frontend/*").handler(this::checkToken);
 		router.route("/frontend/*").handler(eventBusHandler());
+		router.route(HttpMethod.POST, "/api/events/init").handler(this::apiInitHandler);
 		router.route(HttpMethod.POST, "/api/events").handler(this::apiHandler);
 		router.route(HttpMethod.POST, "/api/service").handler(this::apiServiceHandler);
 
@@ -360,11 +376,74 @@ public class ServiceVerticle extends AbstractVerticle {
 		routingContext.response().end();
 	}
 
+	public void apiInitHandler(RoutingContext routingContext) {
+
+		routingContext.request().bodyHandler(body -> {
+			//
+			System.out.println("init json=" + body);
+			JsonObject j = body.toJsonObject();
+			logger.info("url init:" + j);
+			String fullurl = j.getString("url");
+			URL aURL = null;
+			try {
+				aURL = new URL(fullurl);
+				String url = aURL.getHost();
+				System.out.println("url:" + url);
+
+				String keycloakJsonText = keycloakJsonMap.get(url);
+				if (keycloakJsonText != null) {
+					routingContext.response().end(keycloakJsonText);
+				} else {
+					routingContext.response().end();
+				}
+			} catch (MalformedURLException e) {
+				routingContext.response().end();
+			}
+			;
+
+		});
+
+	}
+
 	private ErrorHandler errorHandler() {
 		return ErrorHandler.create(true);
 	}
 
 	private StaticHandler staticHandler() {
 		return StaticHandler.create().setCachingEnabled(false);
+	}
+
+	private void readFilenamesFromDirectory(String rootFilePath, Map<String, String> keycloakJsonMap) {
+		File folder = new File(rootFilePath);
+		File[] listOfFiles = folder.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				System.out.println("File " + listOfFiles[i].getName());
+				try {
+					String keycloakJsonText = getFileAsText(listOfFiles[i]);
+					keycloakJsonMap.put(listOfFiles[i].getName(), keycloakJsonText);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			} else if (listOfFiles[i].isDirectory()) {
+				System.out.println("Directory " + listOfFiles[i].getName());
+				readFilenamesFromDirectory(listOfFiles[i].getName(), keycloakJsonMap);
+			}
+		}
+	}
+
+	private String getFileAsText(File file) throws IOException {
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		String ret = "";
+		String line = null;
+		while ((line = in.readLine()) != null) {
+			ret += line;
+		}
+		in.close();
+
+		return ret;
 	}
 }

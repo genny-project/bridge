@@ -8,6 +8,6 @@ fi
 
 
 docker push gennyproject/bridge:"${version}"
-docker tag -f gennyproject/bridge:"${version}"  gennyproject/bridge:latest
+docker tag  gennyproject/bridge:"${version}"  gennyproject/bridge:latest
 docker push gennyproject/bridge:latest
 

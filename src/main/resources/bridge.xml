@@ -4,7 +4,7 @@
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <group>
-        <name>hazelcast-genny</name>
+        <name>bridge</name>
         <password>haz3lcast1</password>
     </group>
 

@@ -128,7 +128,7 @@ public class ServiceVerticle extends AbstractVerticle {
 			if (System.getenv("SWARM") != null) {
 
 				Config conf = new ClasspathXmlConfig("hazelcast-genny.xml");
-				System.out.println("Starting hazelcast DISCOVERY!!!!!");
+				System.out.println("Starting hazelcast SWARM DISCOVERY!!!!!");
 				NodeContext nodeContext = new DefaultNodeContext() {
 					@Override
 					public AddressPicker createAddressPicker(Node node) {
@@ -137,7 +137,7 @@ public class ServiceVerticle extends AbstractVerticle {
 				};
 
 				HazelcastInstance hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(conf,
-						"hazelcast-genny", nodeContext);
+						"bridge", nodeContext);
 				System.out.println("Done hazelcast DISCOVERY");
 
 				mgr = new HazelcastClusterManager(hazelcastInstance);

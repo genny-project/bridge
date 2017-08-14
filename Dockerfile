@@ -2,7 +2,7 @@ FROM openjdk:8u131-jre-alpine
 RUN apk update && apk add jq
 
 ADD target/bridge-0.0.1-SNAPSHOT-fat.jar /service.jar
-#ADD bridge.xml /bridge.xml
+#ADD cluster.xml /cluster.xml
 
 ADD realm /realm
 ADD docker-entrypoint.sh /docker-entrypoint.sh

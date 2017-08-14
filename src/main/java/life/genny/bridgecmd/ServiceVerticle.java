@@ -58,6 +58,7 @@ import io.vertx.rxjava.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.rxjava.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.RoutingContext;
+import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
@@ -185,8 +186,15 @@ public class ServiceVerticle extends AbstractVerticle {
 		System.out.println("Setting up routes");
 		Future<Void> fut = Future.future();
 		Router router = Router.router(vertx);
+		router.route().handler(CorsHandler.create("*")
+		.allowedMethod(HttpMethod.GET)
+		.allowedMethod(HttpMethod.POST)
+		.allowedMethod(HttpMethod.OPTIONS)
+		.allowedHeader("X-PINGARUNER")
+		.allowedHeader("Content-Type"));
 		// router.route("/frontend/*").handler(this::checkToken);
 		router.route("/frontend/*").handler(eventBusHandler());
+		router.route(HttpMethod.GET, "/api/events/init").handler(this::apiGetInitHandler);
 		router.route(HttpMethod.POST, "/api/events/init").handler(this::apiInitHandler);
 		router.route(HttpMethod.POST, "/api/events").handler(this::apiHandler);
 		router.route(HttpMethod.POST, "/api/service").handler(this::apiServiceHandler);
@@ -394,6 +402,33 @@ public class ServiceVerticle extends AbstractVerticle {
 				aURL = new URL(fullurl);
 				String url = aURL.getHost();
 				System.out.println("url:" + url);
+
+				String keycloakJsonText = keycloakJsonMap.get(url);
+				if (keycloakJsonText != null) {
+					routingContext.response().end(keycloakJsonText);
+				} else {
+					routingContext.response().end();
+				}
+			} catch (MalformedURLException e) {
+				routingContext.response().end();
+			}
+			;
+
+		});
+
+	}
+	
+	public void apiGetInitHandler(RoutingContext routingContext) {
+
+		routingContext.request().bodyHandler(body -> {
+			//
+			String fullurl = routingContext.request().getParam("url");
+			System.out.println("init json=" + fullurl);
+			URL aURL = null;
+			try {
+				aURL = new URL(fullurl);
+				String url = aURL.getHost();
+				System.out.println("url host:" + url);
 
 				String keycloakJsonText = keycloakJsonMap.get(url);
 				if (keycloakJsonText != null) {

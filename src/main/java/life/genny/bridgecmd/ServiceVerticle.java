@@ -406,7 +406,7 @@ public class ServiceVerticle extends AbstractVerticle {
 			try {
 				aURL = new URL(fullurl);
 				String url = aURL.getHost();
-				System.out.println("url:" + url);
+				System.out.println("received post url:" + url);
 
 				String keycloakJsonText = keycloakJsonMap.get(url);
 				if (keycloakJsonText != null) {
@@ -417,7 +417,7 @@ public class ServiceVerticle extends AbstractVerticle {
 					retInit.put("url", kcUrl);
 					String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);					
-					
+					System.out.println("Sending back :"+retInit.toString());
 					routingContext.response().end(retInit.toString());
 				} else {
 					routingContext.response().end();
@@ -441,15 +441,22 @@ public class ServiceVerticle extends AbstractVerticle {
 			try {
 				aURL = new URL(fullurl);
 				String url = aURL.getHost();
-				System.out.println("url host:" + url);
+				System.out.println("received get url:" + url);
 
 				String keycloakJsonText = keycloakJsonMap.get(url);
 				if (keycloakJsonText != null) {
-					routingContext.response().end(keycloakJsonText);
+					
+					JsonObject retInit = new JsonObject(keycloakJsonText);
+					retInit.put("vertx_url", vertxUrl);
+					String kcUrl = retInit.getString("auth-server-url");
+					retInit.put("url", kcUrl);
+					String kcClientId = retInit.getString("resource");
+					retInit.put("clientId", kcClientId);					
+					
+					routingContext.response().end(retInit.toString());
 				} else {
 					routingContext.response().end();
-				}
-			} catch (MalformedURLException e) {
+				}			} catch (MalformedURLException e) {
 				routingContext.response().end();
 			}
 			;

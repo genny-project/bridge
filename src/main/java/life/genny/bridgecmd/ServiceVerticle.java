@@ -329,6 +329,8 @@ public class ServiceVerticle extends AbstractVerticle {
 			logger.info("A websocket was created " + bridgeEvent.socket().remoteAddress());
 		} else if (bridgeEvent.type() == BridgeEventType.PUBLISH || bridgeEvent.type() == BridgeEventType.SEND) {
 			JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
+			String token = bridgeEvent.getRawMessage().getString("token");
+			logger.info("Incoming Frontend Event :" + rawMessage +" token = "+token);
 			rawMessage = rawMessage.getJsonObject("data");
 			logger.info("Incoming Frontend Event :" + rawMessage);
 			eventBus.publish("events", rawMessage);
@@ -414,6 +416,9 @@ public class ServiceVerticle extends AbstractVerticle {
 					JsonObject retInit = new JsonObject(keycloakJsonText);
 					retInit.put("vertx_url", vertxUrl);
 					String kcUrl = retInit.getString("auth-server-url");
+					if (kcUrl.contains("localhost")) {
+						kcUrl = kcUrl.replaceAll("localhost", System.getenv("HOSTIP"));  // fix up localhost
+					}
 					retInit.put("url", kcUrl);
 					String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);					

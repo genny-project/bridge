@@ -361,6 +361,9 @@ public class ServiceVerticle extends AbstractVerticle {
 				// // rawMessage.put("token", tokenAccessed.principal().toString());
 				eventBus.publish("events", j);
 			} else {
+				if (j.getString("msg_type").equals("CMD_MSG")) {
+					eventBus.publish("cmds", j);
+				} 
 				//
 				// try {
 				// System.out.println("Send through to Frontend");

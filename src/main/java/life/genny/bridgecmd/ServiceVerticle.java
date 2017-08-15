@@ -410,6 +410,10 @@ public class ServiceVerticle extends AbstractVerticle {
 					
 					JsonObject retInit = new JsonObject(keycloakJsonText);
 					retInit.put("vertx_url", vertxUrl);
+					String kcUrl = retInit.getString("auth-server-url");
+					retInit.put("url", kcUrl);
+					String kcClientId = retInit.getString("resource");
+					retInit.put("clientId", kcClientId);					
 					
 					routingContext.response().end(retInit.toString());
 				} else {

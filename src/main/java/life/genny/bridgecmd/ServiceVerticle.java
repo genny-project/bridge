@@ -81,6 +81,8 @@ public class ServiceVerticle extends AbstractVerticle {
 	String token;
 
 	Map<String, String> keycloakJsonMap = new HashMap<String, String>();
+	
+	String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
 
 	Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
 		@Override
@@ -405,7 +407,11 @@ public class ServiceVerticle extends AbstractVerticle {
 
 				String keycloakJsonText = keycloakJsonMap.get(url);
 				if (keycloakJsonText != null) {
-					routingContext.response().end(keycloakJsonText);
+					
+					JsonObject retInit = new JsonObject(keycloakJsonText);
+					retInit.put("vertx_url", vertxUrl);
+					
+					routingContext.response().end(retInit.toString());
 				} else {
 					routingContext.response().end();
 				}

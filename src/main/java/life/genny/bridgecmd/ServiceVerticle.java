@@ -74,7 +74,7 @@ public class ServiceVerticle extends AbstractVerticle {
 	Observable<Message<Object>> events;
 	Observable<Message<Object>> cmds;
 	Observable<Message<Object>> data;
-
+	MessageProducer<JsonObject> msgToKieClient ;
 	JsonObject keycloakJson;
 	AccessToken tokenAccessed;
 
@@ -113,6 +113,7 @@ public class ServiceVerticle extends AbstractVerticle {
 	public void setupCluster() {
 		Future<Void> startFuture = Future.future();
 		createCluster().compose(v -> {
+			msgToKieClient = eventBus.publisher("rules.kieclient");
 			eventListeners();
 			registerLocalAddresses();
 			eventsInOutFromCluster();
@@ -363,6 +364,7 @@ public class ServiceVerticle extends AbstractVerticle {
 		// router.get("/event/:id").handler(handler::handleGetAuction);
 		routingContext.request().bodyHandler(body -> {
 			//
+			msgToKieClient.write(body.toJsonObject());
 			JsonObject j = body.toJsonObject();
 			j.put("token", token);
 			this.token = token;
@@ -394,6 +396,7 @@ public class ServiceVerticle extends AbstractVerticle {
 		final String token = routingContext.request().getParam("token");
 		routingContext.request().bodyHandler(body -> {
 			//
+			msgToKieClient.write(body.toJsonObject());
 			JsonObject j = body.toJsonObject();
 			j.put("token", token); // TODO, create Keycloak Service Token
 			logger.info("KEYCLOAK:" + j);
@@ -409,6 +412,7 @@ public class ServiceVerticle extends AbstractVerticle {
 
 		routingContext.request().bodyHandler(body -> {
 			//
+			
 			System.out.println("init json=" + body);
 			JsonObject j = body.toJsonObject();
 			logger.info("url init:" + j);

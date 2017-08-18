@@ -410,7 +410,8 @@ public class ServiceVerticle extends AbstractVerticle {
 		routingContext.request().bodyHandler(body -> {
 			//
 			System.out.println("init json=" + body);
-			JsonObject j = body.toJsonObject();
+			 String bodyString = body.toString();
+			JsonObject j = new JsonObject(bodyString);
 			logger.info("url init:" + j);
 			String fullurl = j.getString("url");
 			URL aURL = null;

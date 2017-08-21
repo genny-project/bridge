@@ -396,13 +396,14 @@ public class ServiceVerticle extends AbstractVerticle {
 		final String token = routingContext.request().getParam("token");
 		routingContext.request().bodyHandler(body -> {
 			//
-			msgToKieClient.write(body.toJsonObject());
+//			msgToKieClient.write(body.toJsonObject());
 			JsonObject j = body.toJsonObject();
 			j.put("token", token); // TODO, create Keycloak Service Token
 			logger.info("KEYCLOAK:" + j);
 			if (j.getString("msg_type").equals("EVT_MSG")) {
 				eventBus.publish("events", j);
-			} else {
+			} else if(j.getString("msg_type").equals("RULES")){
+				msgToKieClient.write(body.toJsonObject().getJsonObject("data"));
 			}
 		});
 		routingContext.response().end();
@@ -471,7 +472,7 @@ public class ServiceVerticle extends AbstractVerticle {
 					String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);					
 					// remove the secret
-					retInit.remove("credentials");
+//					retInit.remove("credentials");
 					routingContext.response().end(retInit.toString());
 				} else {
 					routingContext.response().end();

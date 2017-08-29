@@ -129,7 +129,7 @@ public class ServiceVerticle extends AbstractVerticle {
 
 			if (System.getenv("SWARM") != null) {
 
-				Config conf = new ClasspathXmlConfig("bridge.xml");
+				Config conf = new ClasspathXmlConfig("hazelcast-genny.xml");
 				System.out.println("Starting hazelcast DISCOVERY!!!!!");
 				NodeContext nodeContext = new DefaultNodeContext() {
 					@Override
@@ -138,7 +138,7 @@ public class ServiceVerticle extends AbstractVerticle {
 					}
 				};
 
-				HazelcastInstance hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(conf, "bridge",
+				HazelcastInstance hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(conf, "hazelcast-genny",
 						nodeContext);
 				System.out.println("Done hazelcast DISCOVERY");
 				future.complete(hazelcastInstance);

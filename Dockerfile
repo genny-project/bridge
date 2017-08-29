@@ -2,6 +2,7 @@ FROM openjdk:8u131-jre-alpine
 RUN apk update && apk add jq
 
 ADD target/bridge-0.0.1-SNAPSHOT-fat.jar /service.jar
+#ADD cluster.xml /cluster.xml
 
 RUN mkdir /realm
 ADD realm /opt/realm

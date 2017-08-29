@@ -503,6 +503,9 @@ public class ServiceVerticle extends AbstractVerticle {
 				System.out.println("File " + listOfFiles[i].getName());
 				try {
 					String keycloakJsonText = getFileAsText(listOfFiles[i]);
+					// Handle case where dev is in place with localhost
+					String localIP = System.getenv("HOSTIP");
+					keycloakJsonText = keycloakJsonText.replaceAll("localhost", localIP);
 					keycloakJsonMap.put(listOfFiles[i].getName(), keycloakJsonText);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

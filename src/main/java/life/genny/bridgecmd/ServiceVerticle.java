@@ -202,12 +202,21 @@ public class ServiceVerticle extends AbstractVerticle {
 		router.route(HttpMethod.POST, "/api/events/init").handler(this::apiInitHandler);
 		router.route(HttpMethod.POST, "/api/events").handler(this::apiHandler);
 		router.route(HttpMethod.POST, "/api/service").handler(this::apiServiceHandler);
+		router.route(HttpMethod.POST, "/api/kieserver").handler(this::apiKieHandler);
 
 		vertx.createHttpServer().requestHandler(router::accept).listen(8081);
 		fut.complete();
 		return fut;
 	}
 
+	public void apiKieHandler(RoutingContext routingContext) {
+		routingContext.request().bodyHandler(body -> {
+			System.out.println(body.toJsonObject());
+			msgToFrontEnd.write(body.toJsonObject());
+		});
+		routingContext.response().end();
+	}
+	
 	public Future<Void> securityProviderReader() {
 		System.out.println("Security Provider Reader");
 		Future<Void> fut1 = Future.future();
@@ -403,7 +412,7 @@ public class ServiceVerticle extends AbstractVerticle {
 			if (j.getString("msg_type").equals("EVT_MSG")) {
 				eventBus.publish("events", j);
 			} else if(j.getString("msg_type").equals("RULES")){
-				msgToKieClient.write(body.toJsonObject().getJsonObject("data"));
+				msgToKieClient.write(body.toJsonObject());
 			}
 		});
 		routingContext.response().end();

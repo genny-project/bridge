@@ -2,14 +2,32 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>life.genny</groupId>
-	<artifactId>bridge</artifactId>
+	<artifactId>rulesservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bridge</name>
+	<name>rulesservice</name>
 	<properties>
 		<log4j-core-version>2.5</log4j-core-version>
+      <kie.api.version>7.0.0.Final</kie.api.version>
+        <qwanda.version>0.5.2</qwanda.version>
+        </properties>
+        <dependencies>
+          <dependency>
+                        <groupId>life.genny</groupId>
+                        <artifactId>qwanda</artifactId>
+                        <version>${qwanda.version}</version>
+                        <exclusions>
+                                <exclusion>
+<groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+                                </exclusion>
+                        </exclusions>
+                </dependency>
+                <dependency>
+                        <groupId>org.kie.server</groupId>
+                        <artifactId>kie-server-client</artifactId>
+                        <version>${kie.api.version}</version>
+                </dependency>
 
-	</properties>
-	<dependencies>
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-web</artifactId>
@@ -63,7 +81,7 @@
 		<dependency>
 			<groupId>com.spotify</groupId>
 			<artifactId>docker-client</artifactId>
-			<version>8.8.2</version>
+			<version>8.9.0</version>
 		</dependency>
 
 		<dependency>
@@ -71,6 +89,58 @@
 			<artifactId>hazelcast-docker-swarm-discovery-spi</artifactId>
 			<version>1.0-RC2</version>
 		</dependency>
+            <dependency>
+                        <groupId>org.kie</groupId>
+                        <artifactId>kie-api</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.drools</groupId>
+                        <artifactId>drools-decisiontables</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+                <dependency>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                        <version>2.8.9</version>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+                <dependency>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                        <version>2.8.9</version>
+                </dependency>
+
+
+                <dependency>
+                        <groupId>org.drools</groupId>
+                        <artifactId>drools-core</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
+
+                <dependency>
+                        <groupId>org.drools</groupId>
+                        <artifactId>drools-compiler</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
+
+                <dependency>
+                        <groupId>org.jbpm</groupId>
+                        <artifactId>jbpm-flow</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
+
+                <dependency>
+                        <groupId>org.jbpm</groupId>
+                        <artifactId>jbpm-flow-builder</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.jbpm</groupId>
+                        <artifactId>jbpm-bpmn2</artifactId>
+                        <version>7.0.0.Final</version>
+                </dependency>
 
 	</dependencies>
 	<repositories>
@@ -136,7 +206,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
 										<Main-Class>io.vertx.core.Starter</Main-Class>
-										<Main-Verticle>life.genny.bridgecmd.ServiceVerticle</Main-Verticle>
+										<Main-Verticle>life.genny.rulesservice.ServiceVerticle</Main-Verticle>
 
 									</manifestEntries>
 								</transformer>

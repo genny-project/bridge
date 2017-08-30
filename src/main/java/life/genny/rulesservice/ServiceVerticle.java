@@ -1,23 +1,21 @@
-package life.genny.bridgecmd;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
+package life.genny.rulesservice;
+import io.vertx.rxjava.ext.auth.oauth2.providers.KeycloakAuth;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import java.net.URL;
 import org.bitsofinfo.hazelcast.discovery.docker.swarm.SwarmAddressPicker;
 import org.bitsofinfo.hazelcast.discovery.docker.swarm.SystemPrintLogger;
-
+import org.kie.api.KieServices;
+import org.kie.api.runtime.Globals;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.server.api.exception.KieServicesHttpException;
+import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -34,17 +32,17 @@ import com.hazelcast.instance.DefaultNodeContext;
 import com.hazelcast.instance.HazelcastInstanceFactory;
 import com.hazelcast.instance.Node;
 import com.hazelcast.instance.NodeContext;
-
+import io.vertx.ext.web.handler.ErrorHandler;
 import io.vertx.core.Future;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.cluster.ClusterManager;
-import io.vertx.ext.auth.oauth2.OAuth2FlowType;
-import io.vertx.ext.web.handler.ErrorHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.BridgeEventType;
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
@@ -56,18 +54,33 @@ import io.vertx.rxjava.core.eventbus.Message;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.ext.auth.oauth2.AccessToken;
 import io.vertx.rxjava.ext.auth.oauth2.OAuth2Auth;
-import io.vertx.rxjava.ext.auth.oauth2.providers.KeycloakAuth;
-import io.vertx.rxjava.ext.web.Router;
+import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
-import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
+import io.vertx.rxjava.ext.web.Router;
 import rx.Observable;
+import life.genny.qwanda.Answer;
+import life.genny.qwanda.Ask;
+import life.genny.qwanda.message.QDataAnswerMessage;
+import life.genny.qwanda.message.QDataAskMessage;
+import life.genny.qwanda.message.QEventMessage;
+import life.genny.qwanda.message.QEventProcess;
 
 public class ServiceVerticle extends AbstractVerticle {
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceVerticle.class);
+      final String qwandaApiUrl = System.getenv("REACT_APP_QWANDA_API_URL");
+        final String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
+        final String hostIp = System.getenv("HOSTIP");
+
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks.getKieClasspathContainer();
+
+
+        private Observable<Message<Object>> process;
+
 
 	private EventBus eventBus = null;
 	MessageProducer<JsonObject> msgToFrontEnd;
@@ -99,9 +112,6 @@ public class ServiceVerticle extends AbstractVerticle {
 
 	@Override
 	public void start() {
-		// Load in keycloakJsons
-		readFilenamesFromDirectory("./realm", keycloakJsonMap);
-
 		setupCluster();
 
 		Future<Void> fut = Future.future();
@@ -494,40 +504,71 @@ public class ServiceVerticle extends AbstractVerticle {
 		return StaticHandler.create().setCachingEnabled(false);
 	}
 
-	private void readFilenamesFromDirectory(String rootFilePath, Map<String, String> keycloakJsonMap) {
-		File folder = new File(rootFilePath);
-		File[] listOfFiles = folder.listFiles();
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
-				System.out.println("File " + listOfFiles[i].getName());
-				try {
-					String keycloakJsonText = getFileAsText(listOfFiles[i]);
-					// Handle case where dev is in place with localhost
-					String localIP = System.getenv("HOSTIP");
-					keycloakJsonText = keycloakJsonText.replaceAll("localhost", localIP);
-					keycloakJsonMap.put(listOfFiles[i].getName(), keycloakJsonText);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 
-			} else if (listOfFiles[i].isDirectory()) {
-				System.out.println("Directory " + listOfFiles[i].getName());
-				readFilenamesFromDirectory(listOfFiles[i].getName(), keycloakJsonMap);
-			}
-		}
-	}
+      public KieSession createSession(EventBus bus, final String token) {
+                KieSession kSession = kContainer.newKieSession("ksession-rules");
+                kSession.setGlobal("REACT_APP_QWANDA_API_URL", qwandaApiUrl);
+                kSession.setGlobal("REACT_APP_VERTX_URL", vertxUrl);
+                kSession.setGlobal("KEYCLOAKIP", hostIp);
+                Map<String, String> keyValue = new HashMap<String, String>();
+                keyValue.put("token", token);
+                kSession.insert(keyValue);
+                kSession.insert(bus);
+                return kSession;
+        }
 
-	private String getFileAsText(File file) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader(file));
-		String ret = "";
-		String line = null;
-		while ((line = in.readLine()) != null) {
-			ret += line;
-		}
-		in.close();
+        public void allRules(JsonObject msg, EventBus bus) {
 
-		return ret;
-	}
+                vertx.executeBlocking(future -> {
+                        try {
+                                // load up the knowledge base
+                                KieServices ks = KieServices.Factory.get();
+                                KieContainer kContainer = ks.getKieClasspathContainer();
+
+                                KieSession kSession = kContainer.newKieSession("ksession-rules");
+                                kSession.insert(bus);
+
+                                kSession.setGlobal("REACT_APP_QWANDA_API_URL", System.getenv("REACT_APP_QWANDA_API_URL"));
+                                kSession.setGlobal("REACT_APP_VERTX_URL", System.getenv("REACT_APP_VERTX_URL"));
+                                kSession.setGlobal("KEYCLOAKIP", System.getenv("HOSTIP"));
+                                System.out.println("KieServices globals set: ");
+                                Map<String, String> keyValue = new HashMap<String, String>();
+                                keyValue.put("token", token);
+                                kSession.insert(keyValue);
+
+                                Globals globals = kSession.getGlobals();
+                                System.out.println("Globals:" + globals.getGlobalKeys());
+                                if (msg.getString("msg_type").equalsIgnoreCase("EVT_MSG")) {
+
+                                        kSession.insert(gson.fromJson(msg.toString(), QEventMessage.class));
+                                        kSession.fireAllRules();
+                                        System.out.println("EVNT MSG FIRED: ");
+
+                                } else if (msg.getString("msg_type").equalsIgnoreCase("DATA_MSG")) {
+                                        if (msg.getString("data_type").equals(Answer.class.getSimpleName())) {
+                                                String msgString = msg.toString();
+                                                System.out.println(msgString);
+                                                kSession.insert(gson.fromJson(msg.toString(), QDataAnswerMessage.class));
+                                        } else if (msg.getString("data_type").equals(Ask.class.getSimpleName())) {
+                                                kSession.insert(gson.fromJson(msg.toString(), QDataAskMessage.class));
+                                        }
+                                        kSession.fireAllRules();
+                                        System.out.println("DATA MSG FIRED: ");
+                                }
+
+                                // future.complete(kSession);
+                        } catch (Throwable t) {
+                                t.printStackTrace();
+                        }
+                        future.complete();
+                }, res -> {
+                        if (res.succeeded()) {
+                        }
+                });
+
+        }
+
+
+
 }

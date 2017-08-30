@@ -33,9 +33,13 @@ function change_line2 {
 }
 
 for i in `ls ${KEYCLOAK_JSON_DIR}` ; do
+if grep -r localhost ${KEYCLOAK_JSON_DIR}/${i}
+then
    OLD_LINE_KEY="auth-server-url"
    NEW_LINE="\"auth-server-url\": \"${KEYCLOAKURL}/auth\","
-   change_line "\${OLD_LINE_KEY}" "\${NEW_LINE}" "\${i}"
+   change_line "\${OLD_LINE_KEY}" "\${NEW_LINE}" "\${KEYCLOAK_JSON_DIR}\/\${i}"
+fi
+
 done
 
 

@@ -12,6 +12,7 @@ WORKDIR /
 
 EXPOSE 5701
 EXPOSE 8081
+EXPOSE 15701
 
 #CMD ["java"]
 ENTRYPOINT [ "/docker-entrypoint.sh" ]

@@ -117,6 +117,7 @@ public class ServiceVerticle extends AbstractVerticle {
 			eventListeners();
 			registerLocalAddresses();
 			eventsInOutFromCluster();
+			eventBus.publish("cmds", "test cmd");
 
 			startFuture.complete();
 		}, startFuture);
@@ -138,7 +139,7 @@ public class ServiceVerticle extends AbstractVerticle {
 					}
 				};
 
-				HazelcastInstance hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(conf, "hazelcast-genny",
+				HazelcastInstance hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(conf, "bridge",
 						nodeContext);
 				System.out.println("Done hazelcast DISCOVERY");
 				future.complete(hazelcastInstance);
@@ -168,6 +169,8 @@ public class ServiceVerticle extends AbstractVerticle {
 						options.setMaxEventLoopExecuteTime(Long.MAX_VALUE);
 					}
 
+				} else {
+					options.setClusterPublicHost("localhost").setClusterPublicPort(15701);
 				}
 
 				Vertx.clusteredVertx(options, res2 -> {
@@ -340,10 +343,12 @@ public class ServiceVerticle extends AbstractVerticle {
 		} else if (bridgeEvent.type() == BridgeEventType.PUBLISH || bridgeEvent.type() == BridgeEventType.SEND) {
 			JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
 			String token = bridgeEvent.getRawMessage().getString("token");
-			logger.info("Incoming Frontend Event :" + rawMessage +" token = "+token);
+	//		logger.info("Incoming Frontend Event :" + rawMessage +" token = "+token);
 			rawMessage = rawMessage.getJsonObject("data");
 			logger.info("Incoming Frontend Event :" + rawMessage);
+			logger.info("PUBLISHING to events...");
 			eventBus.publish("events", rawMessage);
+			logger.info("PUBLISHED to events ....");
 		}
 
 		bridgeEvent.complete(true);
@@ -370,7 +375,7 @@ public class ServiceVerticle extends AbstractVerticle {
 			this.token = token;
 			logger.info(j);
 			if (j.getString("msg_type").equals("EVT_MSG")) {
-				// System.out.println("Send through to RulesService");
+				System.out.println("Send msg through to Vertx Bus");
 				// // rawMessage.put("token", tokenAccessed.principal().toString());
 				eventBus.publish("events", j);
 			} else {

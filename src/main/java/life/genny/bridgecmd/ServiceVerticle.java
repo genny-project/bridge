@@ -5,15 +5,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.bitsofinfo.hazelcast.discovery.docker.swarm.SwarmAddressPicker;
 import org.bitsofinfo.hazelcast.discovery.docker.swarm.SystemPrintLogger;
@@ -84,7 +87,8 @@ public class ServiceVerticle extends AbstractVerticle {
 	Map<String, String> keycloakJsonMap = new HashMap<String, String>();
 	
 	String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
-
+	String myip = System.getenv("MYIP");
+	
 	Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
 		@Override
 		public LocalDateTime deserialize(JsonElement json, Type type,
@@ -111,6 +115,25 @@ public class ServiceVerticle extends AbstractVerticle {
 	}
 
 	public void setupCluster() {
+		System.out.println(myip+"jkskfjsdklfjskdjfsdfkjsdlk  000000000000");
+		vertx.executeBlocking(k->{
+			 Enumeration<NetworkInterface> nets = null;
+			try {
+				nets = NetworkInterface.getNetworkInterfaces();
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		        for (NetworkInterface netint : Collections.list(nets))
+					try {
+						displayInterfaceInformation(netint);
+					} catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		}, j->{
+			
+		});
 		Future<Void> startFuture = Future.future();
 		createCluster().compose(v -> {
 			msgToKieClient = eventBus.publisher("rules.kieclient");
@@ -170,7 +193,31 @@ public class ServiceVerticle extends AbstractVerticle {
 					}
 
 				} else {
-					options.setClusterPublicHost("localhost").setClusterPublicPort(15701);
+					options.setClusterPublicHost(myip).setClusterPublicPort(5701);
+					System.out.println("jsfsdkjfkjsdafk;jsdfklja +++++++++++++"+     options.getClusterPublicHost()     +"+++++++++++++++++ dklsjfklsjdkfjdskajfkljdsakljfkljdsakfjksajdkfjfkjaskljf  "
+							+ "fjadskjfkajoptions.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);option"
+							+ "s.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);"
+					);
+					
+					String address = options.getClusterPublicHost();
+					String[] f = address.split("\\.");
+					int k = Integer.parseInt(f[3]);
+					k = k+1;
+					String l = Integer.toString(k);
+					f[3] = l;
+					String newAddress = "";
+					for(int count =0; count < f.length; count++) {
+						if ((count+1)==f.length)
+							newAddress += f[count];
+						else
+							newAddress += f[count]+".";
+					}
+//					options.setClusterPublicHost(newAddress).setClusterPublicPort(5701);
+					
+					System.out.println("jsfsdkjfkjsdafk;jsdfklja +++++++++++++"+    address      +"+++++++++++++++++ dklsjfklsjdkfjdskajfkljdsakljfkljdsakfjksajdkfjfkjaskljf  "
+							+ "fjadskjfkajoptions.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);option"
+							+ "s.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);"
+					);
 				}
 
 				Vertx.clusteredVertx(options, res2 -> {
@@ -455,6 +502,16 @@ public class ServiceVerticle extends AbstractVerticle {
 		});
 
 	}
+	
+	public  void displayInterfaceInformation(NetworkInterface netint) throws SocketException {
+        System.out.printf("Display name: %s\n", netint.getDisplayName());
+        System.out.printf("Name: %s\n", netint.getName());
+        Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+            System.out.printf("InetAddress: %s\n", inetAddress);
+        }
+        System.out.printf("\n");
+     }
 	
 	public void apiGetInitHandler(RoutingContext routingContext) {
 

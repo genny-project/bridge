@@ -16,7 +16,7 @@
     </group>
     <management-center enabled="false">http://localhost:8080/mancenter</management-center>
     <network>
-        <public-address>localhost</public-address>
+        <public-address>bridge</public-address>
         <port auto-increment="true" port-count="1000">5702</port>
         <outbound-ports>
             <!--

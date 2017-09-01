@@ -140,7 +140,6 @@ public class ServiceVerticle extends AbstractVerticle {
 			eventListeners();
 			registerLocalAddresses();
 			eventsInOutFromCluster();
-			eventBus.publish("cmds", "test cmd");
 
 			startFuture.complete();
 		}, startFuture);
@@ -183,6 +182,7 @@ public class ServiceVerticle extends AbstractVerticle {
 				VertxOptions options = new VertxOptions().setClusterManager(mgr);
 
 				if (System.getenv("SWARM") == null) {
+					System.out.println("NOT SWARM");
 					if (System.getenv("GENNYDEV") == null) {
 						System.out.println("setClusterHost etc");
 						options.setClusterHost("bridge").setClusterPublicHost("bridge").setClusterPort(15701);

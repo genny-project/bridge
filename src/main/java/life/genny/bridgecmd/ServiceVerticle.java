@@ -72,6 +72,8 @@ public class ServiceVerticle extends AbstractVerticle {
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceVerticle.class);
 
+	final String hostIp = System.getenv("HOSTIP");
+
 	private EventBus eventBus = null;
 	MessageProducer<JsonObject> msgToFrontEnd;
 	Observable<Message<Object>> events;
@@ -193,7 +195,7 @@ public class ServiceVerticle extends AbstractVerticle {
 					}
 
 				} else {
-					options.setClusterPublicHost(myip).setClusterPublicPort(5701);
+					options.setClusterPublicHost(hostIp).setClusterPublicPort(15701);
 					System.out.println("jsfsdkjfkjsdafk;jsdfklja +++++++++++++"+     options.getClusterPublicHost()     +"+++++++++++++++++ dklsjfklsjdkfjdskajfkljdsakljfkljdsakfjksajdkfjfkjaskljf  "
 							+ "fjadskjfkajoptions.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);option"
 							+ "s.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);"

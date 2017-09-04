@@ -15,7 +15,7 @@
     </properties>
 
     <network>
-        <port auto-increment="true">5701</port>
+        <port auto-increment="true">5702</port>
         
         <interfaces enabled="false">
             <!-- irrelevant when using SwarmAddressPicker, not used currently -->

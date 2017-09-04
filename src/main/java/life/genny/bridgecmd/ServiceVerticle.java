@@ -181,13 +181,13 @@ public class ServiceVerticle extends AbstractVerticle {
 					mgr = new HazelcastClusterManager(); // standard docker
 				}
 				System.out.println("Starting Clustered Vertx");
-				VertxOptions options = new VertxOptions().setClusterManager(mgr);
+				VertxOptions options = new VertxOptions().setClusterManager(mgr).setClustered(true);
 
 				if (System.getenv("SWARM") == null) {
 					System.out.println("NOT SWARM");
 					if (System.getenv("GENNYDEV") == null) {
 						System.out.println("setClusterHost etc");
-						options.setClusterHost("bridge").setClusterPublicHost("bridge").setClusterPort(15701);
+				//		options.setClusterPublicHost("bridge").setClusterPublicPort(15701);
 					} else {
 						logger.info("Running DEV mode, no cluster");
 						options.setBlockedThreadCheckInterval(200000000);
@@ -195,7 +195,7 @@ public class ServiceVerticle extends AbstractVerticle {
 					}
 
 				} else {
-					options.setClusterPublicHost(hostIp).setClusterPublicPort(15701);
+					options.setClusterPublicHost("bridge").setClusterPublicPort(15701);
 					System.out.println("jsfsdkjfkjsdafk;jsdfklja +++++++++++++"+     options.getClusterPublicHost()     +"+++++++++++++++++ dklsjfklsjdkfjdskajfkljdsakljfkljdsakfjksajdkfjfkjaskljf  "
 							+ "fjadskjfkajoptions.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);option"
 							+ "s.setClusterPublicHost(\"bridge\").setClusterPublicPort(5701);"
@@ -395,9 +395,9 @@ public class ServiceVerticle extends AbstractVerticle {
 	//		logger.info("Incoming Frontend Event :" + rawMessage +" token = "+token);
 			rawMessage = rawMessage.getJsonObject("data");
 			logger.info("Incoming Frontend Event :" + rawMessage);
-			logger.info("PUBLISHING to events...");
+			logger.info("PUBLISH to events...");
 			eventBus.publish("events", rawMessage);
-			logger.info("PUBLISHED to events ....");
+			logger.info("PUBLISH to events ....");
 		}
 
 		bridgeEvent.complete(true);

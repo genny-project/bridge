@@ -182,7 +182,9 @@ public class ServiceVerticle extends AbstractVerticle {
 				}
 				System.out.println("Starting Clustered Vertx");
 				VertxOptions options = new VertxOptions().setClusterManager(mgr).setClustered(true);
-
+				options.getEventBusOptions().setReceiveBufferSize(2000);
+				options.getEventBusOptions().setSendBufferSize(2000);
+				
 				if (System.getenv("SWARM") == null) {
 					System.out.println("NOT SWARM");
 					if (System.getenv("GENNYDEV") == null) {

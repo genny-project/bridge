@@ -11,11 +11,12 @@
     <properties>
         <property name="hazelcast.discovery.enabled">true</property>
         <property name="hazelcast.shutdownhook.enabled">true</property> 
-        <property name="hazelcast.socket.bind.any">false</property>
+        <property name="hazelcast.socket.bind.any">true</property>
+        <property name="hazelcast.memcache.enabled">false</property>
     </properties>
 
     <network>
-        <port auto-increment="true">5702</port>
+        <port auto-increment="true">5701</port>
         
         <interfaces enabled="false">
             <!-- irrelevant when using SwarmAddressPicker, not used currently -->

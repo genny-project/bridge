@@ -1,4 +1,4 @@
-package life.genny.ClusterDevOps;
+package life.genny.cluster;
 
 import com.hazelcast.config.Config;
 

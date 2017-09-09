@@ -1,18 +1,19 @@
-package life.genny.ClusterDevOps;
+package life.genny.cluster;
 
 import io.vertx.rxjava.core.Future;
 import io.vertx.rxjava.core.Vertx;
 import rx.functions.Action1;
-import life.genny.Channels.EBProducers;
-import life.genny.Channels.EBConsumers;
-import life.genny.Channels.EBCHandlers;
 import io.vertx.rxjava.core.eventbus.EventBus;
+import life.genny.channels.EBCHandlers;
+import life.genny.channels.EBConsumers;
+import life.genny.channels.EBProducers;
 public class Cluster {
 
 	static Action1<? super Vertx> registerAllChannels = vertx -> {
 		EventBus eb = vertx.eventBus();
-		EBConsumers.getEBConsumers().registerAllConsumer(eb);
-		EBProducers.getEBProducers().registerAllProducers(eb);
+		EBConsumers.registerAllConsumer(eb);
+		EBProducers.registerAllProducers(eb);
+		EBCHandlers.registerHandlers();
 	};
 
 	static Action1<Throwable> clusterError = error -> {

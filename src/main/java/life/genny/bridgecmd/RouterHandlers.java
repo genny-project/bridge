@@ -7,6 +7,7 @@ import java.util.Map;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.Future;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
@@ -111,4 +112,23 @@ public class RouterHandlers {
 		routingContext.response().end();
 	}
 
+	public static void main(String...strings){
+		System.out.println(SecureResources.getKeycloakJsonMap()+"sdf");
+		Future<Void> l = Future.future();
+		Future<Void> o = Future.future();
+//		l.future(p->{
+//			
+//			System.out.println("fdsfsd");
+//			p.complete();
+//			
+//		}).compose(mapper->{
+//			System.out.println(+"sdfd");
+//			o.complete();
+//		},o);
+		SecureResources.setKeycloakJsonMap(Vertx.vertx()).compose(p->{
+			System.out.println(SecureResources.getKeycloakJsonMap());
+			 o.complete();
+		},o);
+	}
+	
 }

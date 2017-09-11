@@ -2,20 +2,16 @@ package life.genny.bridgecmd;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
-import io.vertx.rxjava.core.Future;
-import io.vertx.rxjava.core.Vertx;
+
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.EBCHandlers;
 import life.genny.channels.EBProducers;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.rxjava.core.buffer.Buffer;
 import life.genny.security.SecureResources;;
 
 public class RouterHandlers {
@@ -23,8 +19,6 @@ public class RouterHandlers {
 	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
 	private static String hostIP = System.getenv("HOSTIP")!=null?System.getenv("HOSTIP"):"127.0.0.1";
 
-	
-	private Buffer data = null;
 	private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);
 
 	public static CorsHandler cors() {
@@ -101,6 +95,7 @@ public class RouterHandlers {
 	}
 	
 	public static void apiServiceHandler(RoutingContext routingContext) {
+		System.out.println("yes");
 		final String token = routingContext.request().getParam("token");
 		routingContext.request().bodyHandler(body -> {
 			JsonObject j = body.toJsonObject();
@@ -111,24 +106,4 @@ public class RouterHandlers {
 		});
 		routingContext.response().end();
 	}
-
-	public static void main(String...strings){
-		System.out.println(SecureResources.getKeycloakJsonMap()+"sdf");
-		Future<Void> l = Future.future();
-		Future<Void> o = Future.future();
-//		l.future(p->{
-//			
-//			System.out.println("fdsfsd");
-//			p.complete();
-//			
-//		}).compose(mapper->{
-//			System.out.println(+"sdfd");
-//			o.complete();
-//		},o);
-		SecureResources.setKeycloakJsonMap(Vertx.vertx()).compose(p->{
-			System.out.println(SecureResources.getKeycloakJsonMap());
-			 o.complete();
-		},o);
-	}
-	
 }

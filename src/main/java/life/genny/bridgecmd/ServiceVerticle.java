@@ -9,8 +9,6 @@ import life.genny.cluster.Cluster;
 import life.genny.security.SecureResources;
 
 public class ServiceVerticle extends AbstractVerticle {
-	
-	private static int serverPort = 8081;
 
 	@Override
 	public void start() {
@@ -19,20 +17,10 @@ public class ServiceVerticle extends AbstractVerticle {
 		Cluster.joinCluster(vertx).compose( res -> {
 			Future<Void> fut = Future.future();
 			SecureResources.setKeycloakJsonMap(vertx).compose(p -> {
-				routers();
+				Routers.routers(vertx);
 				fut.complete();
 			},fut);
 			startFuture.complete();
 		},startFuture);
-	}
-
-	public void routers() {
-		Router router = Router.router(vertx);
-		router.route().handler(RouterHandlers.cors());
-		router.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
-		router.route(HttpMethod.GET, "/api/events/init").handler(RouterHandlers::apiGetInitHandler);
-		router.route(HttpMethod.POST, "/api/events/init").handler(RouterHandlers::apiInitHandler);
-		router.route(HttpMethod.POST, "/api/service").handler(RouterHandlers::apiServiceHandler);
-		vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
-	}
+	}	
 }

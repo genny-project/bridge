@@ -14,12 +14,12 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 public class ClusterConfig {
 	
 	
-	private static String hostIP = System.getenv("DOCKER_HOST") != null ? 
-			System.getenv("DOCKER_HOST") : "127.0.0.1";
+	private static String hostIP = System.getenv("HOSTIP") != null ? 
+			System.getenv("HOSTIP") : "127.0.0.1";
 			
 	private static String privateIP = System.getenv("MYIP");
 	private final static int portHazelcastCluster = 5701;
-	private final static int portEBCluster = 15702;
+	private final static int portEBCluster = 15701;
 
 	/**
 	 * @param toClientOutbount the toClientOutbount to set

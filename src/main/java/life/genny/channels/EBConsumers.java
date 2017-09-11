@@ -24,7 +24,7 @@ public class EBConsumers {
 	}
 	
 	public static void registerAllConsumer(EventBus eb){
-		setFromCmds(eb.consumer("events").toObservable());
+		setFromCmds(eb.consumer("cmds").toObservable());
 	}
 
 }

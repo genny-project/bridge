@@ -17,15 +17,16 @@ import life.genny.security.SecureResources;;
 public class RouterHandlers {
 
 	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
-	private static String hostIP = System.getenv("HOSTIP")!=null?System.getenv("HOSTIP"):"127.0.0.1";
+	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 
 	private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);
 
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
-				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type");
+				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type")
+				.allowedHeader("X-Requested-With");
 	}
-	
+
 	public static void apiGetInitHandler(RoutingContext routingContext) {
 		routingContext.request().bodyHandler(body -> {
 			String fullurl = routingContext.request().getParam("url");
@@ -93,15 +94,15 @@ public class RouterHandlers {
 			;
 		});
 	}
-	
+
 	public static void apiServiceHandler(RoutingContext routingContext) {
 		System.out.println("yes");
 		final String token = routingContext.request().getParam("token");
 		routingContext.request().bodyHandler(body -> {
 			JsonObject j = body.toJsonObject();
-			j.put("token", token); 
+			j.put("token", token);
 			logger.info("KEYCLOAK:" + j);
-			if (j.getString("msg_type").equals("EVT_MSG")) 
+			if (j.getString("msg_type").equals("EVT_MSG"))
 				EBProducers.getToEvents().write(j);
 		});
 		routingContext.response().end();

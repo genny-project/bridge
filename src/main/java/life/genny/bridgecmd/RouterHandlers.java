@@ -107,4 +107,12 @@ public class RouterHandlers {
 		});
 		routingContext.response().end();
 	}
+	
+	public static void apikieHandler(RoutingContext routingContext) {
+		routingContext.request().bodyHandler(body -> {
+			logger.info("KEYCLOAK:" + body.toJsonObject());
+			EBProducers.getToClientOutbound().write(body.toJsonObject());
+		});
+		routingContext.response().end();
+	}
 }

@@ -108,10 +108,13 @@ public class RouterHandlers {
 		routingContext.response().end();
 	}
 	
-	public static void apikieHandler(RoutingContext routingContext) {
+	public static void apiHandler(RoutingContext routingContext) {
 		routingContext.request().bodyHandler(body -> {
 			logger.info("KEYCLOAK:" + body.toJsonObject());
-			EBProducers.getToClientOutbound().write(body.toJsonObject());
+			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
+				EBProducers.getToClientOutbound().write(body.toJsonObject());
+			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
+				EBProducers.getToClientOutbound().write(body.toJsonObject());
 		});
 		routingContext.response().end();
 	}

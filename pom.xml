@@ -70,7 +70,7 @@
 			<artifactId>hazelcast-docker-swarm-discovery-spi</artifactId>
 			<version>1.0-RC2</version>
 		</dependency>
-
+				
 	</dependencies>
 	<repositories>
 		<repository>

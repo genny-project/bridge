@@ -15,14 +15,13 @@ public class EBCHandlers {
 			String incomingCmd = arg.body().toString();
 			logger.info(incomingCmd);
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				// ugly, but remove the outer array 
+				// ugly, but remove the outer array
 				if (incomingCmd.startsWith("[")) {
 					incomingCmd = incomingCmd.replaceFirst("\\[", "");
 					incomingCmd = incomingCmd.substring(0, incomingCmd.length()-1);
 				}
-				JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-				DeliveryOptions options = new DeliveryOptions();
-				options.addHeader("Content-Type", "application/json");
+				final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+				final DeliveryOptions options = new DeliveryOptions();
 				EBProducers.getToClientOutbound().deliveryOptions(options);
 				EBProducers.getToClientOutbound().write(json);
 				

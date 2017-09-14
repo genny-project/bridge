@@ -14,7 +14,7 @@ import life.genny.security.SecureResources;;
 
 public class RouterHandlers {
 
-	private static String vertxUrl = System.getenv("REACT_BRIDGE_HOST");
+	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
 	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 
 	private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);

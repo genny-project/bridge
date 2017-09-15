@@ -23,9 +23,7 @@ public class BridgeHandler {
 	protected static void bridgeHandler(final BridgeEvent bridgeEvent) {
 		if (bridgeEvent.type() == BridgeEventType.PUBLISH || bridgeEvent.type() == BridgeEventType.SEND) {
 			JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
-			final String token = bridgeEvent.getRawMessage().getString("token");
 			rawMessage = rawMessage.getJsonObject("data");
-			rawMessage.put("token", token);
 			logger.info("Incoming Frontend Event :" + rawMessage);
 			logger.info("PUBLISH to events...");
 			EBProducers.getToEvents().write(rawMessage);

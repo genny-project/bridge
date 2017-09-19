@@ -24,10 +24,15 @@ public class BridgeHandler {
 		if (bridgeEvent.type() == BridgeEventType.PUBLISH || bridgeEvent.type() == BridgeEventType.SEND) {
 			JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
 			rawMessage = rawMessage.getJsonObject("data");
+			System.out.println("INCOMING TOKEN="+rawMessage.getString("token"));
+			if (rawMessage.getString("token")!=null) {  // do not allow empty tokens
 			logger.info("Incoming Frontend Event :" + rawMessage);
 			logger.info("PUBLISH to events...");
 			EBProducers.getToEvents().write(rawMessage);
 			logger.info("PUBLISH to events ....");
+			} else {
+			  System.out.println("EMPTY TOKEN");
+			}
 		}
 		bridgeEvent.complete(true);
 	}

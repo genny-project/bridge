@@ -19,7 +19,7 @@ TreeView component will send following events for each different actions on its 
   | Right click on the treeview item (Only available for Admin user  |  TV_EDIT |
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format:
-   For click on Expand icon in TreeView
+  **Event Message for click on Expand icon in TreeView**
    
   ```json
     {
@@ -88,6 +88,28 @@ TreeView component will send following events for each different actions on its 
 	 }
 	 ```
 	 
+	**Event Message for click/select on TreeView Item**
+	 ```json
+    {
+      msg_type : "EVT_MSG",
+      evt_type : "TV_SELECT",   -----> Code for the treeview item click
+      data:
+          {
+             code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
+             value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
+           }
+     }
+    ```
+    On Return the back-end will send the following CMD_MSG with code in JSON Format:
+    ```json
+      {
+          msg_type : "CMD_MSG",
+          cmd_type : "TV_SELECT",
+          code    : "GRP_LIVE_VIEW"
+       }
+      ```
+        
+    
 				
 				
 				

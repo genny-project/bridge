@@ -19,6 +19,7 @@ TreeView component will send following events for each different actions on its 
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format:
    For click on Expand icon in TreeView
+  ```json
     {
       msg_type : "EVT_MSG",
       evt_type : "TV_EXPAND",
@@ -28,7 +29,10 @@ TreeView component will send following events for each different actions on its 
              value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
+   ```
+   
      On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
+    ```json
      {
         msg_type : "DATA_MSG",
         data_type : "BaseEntity",
@@ -80,6 +84,7 @@ TreeView component will send following events for each different actions on its 
 		     parentCode: "GERP_LIVE_VIEW",    ------> This is the code of the Parent item to which these child entity belongs to
 		     linkCode: "LNK_CORE"             ------> Here, it is the relationship code between the parent and child
 	 }
+	 ```
 	 
 				
 				

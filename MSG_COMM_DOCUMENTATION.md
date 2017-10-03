@@ -8,6 +8,7 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 
 ### Component: TreeView ###
 TreeView component will send following events for each different actions on its item
+ ---------------------------------- | ----------------------
    Actions  		                    | EVENTS to BackEnd
   --------------------------------- | ----------------------        
    Select/Click on treeview item    |  TV_SELECT
@@ -19,6 +20,7 @@ TreeView component will send following events for each different actions on its 
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format:
    For click on Expand icon in TreeView
+   
   ```json
     {
       msg_type : "EVT_MSG",

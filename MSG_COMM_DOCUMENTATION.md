@@ -8,15 +8,15 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 
 ### Component: TreeView ###
 TreeView component will send following events for each different actions on its item
- ---------------------------------- | ----------------------
-   Actions  		                    | EVENTS to BackEnd
-  --------------------------------- | ----------------------        
-   Select/Click on treeview item    |  TV_SELECT
-   Click on Expand icon             |  TV_EXPAND
-   Click on Contract icon           |  TV_CONTRACT
-   Drag and Drop of the treeview item | TV_DRAG_DROP
-   Multi selection of the treeview item  | TV_MULTI_SELECTION
-   Right click on the treeview item (Only available for Admin user  |  TV_EDIT
+
+  | Actions  		            | EVENTS to BackEnd  |
+  | --------------------------- | ------------------- |       
+  | Select/Click on treeview item    |  TV_SELECT    |
+  | Click on Expand icon             |  TV_EXPAND    |
+  | Click on Contract icon           |  TV_CONTRACT  |
+  | Drag and Drop of the treeview item | TV_DRAG_DROP |
+  | Multi selection of the treeview item  | TV_MULTI_SELECTION |
+  | Right click on the treeview item (Only available for Admin user  |  TV_EDIT |
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format:
    For click on Expand icon in TreeView

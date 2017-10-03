@@ -6,17 +6,17 @@ import io.vertx.rxjava.ext.web.Router;
 
 public class Routers {
 
-	private static int serverPort = 8081;
-	
-	protected static void routers(Vertx vertx) {
-		Router router = Router.router(vertx);
-		router.route().handler(RouterHandlers.cors());
-		router.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
-		router.route(HttpMethod.GET, "/api/events/init").handler(RouterHandlers::apiGetInitHandler);
-		router.route(HttpMethod.POST, "/api/events/init").handler(RouterHandlers::apiInitHandler);
-		router.route(HttpMethod.POST, "/api/service").handler(RouterHandlers::apiServiceHandler);
-		router.route(HttpMethod.POST, "/api/cmds").handler(RouterHandlers::apiHandler);
-		router.route(HttpMethod.POST, "/api/data").handler(RouterHandlers::apiHandler);
-		vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
-	}
+  private static int serverPort = 8088;
+
+  protected static void routers(final Vertx vertx) {
+    final Router router = Router.router(vertx);
+    router.route().handler(RouterHandlers.cors());
+    router.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
+    router.route(HttpMethod.GET, "/api/events/init").handler(RouterHandlers::apiGetInitHandler);
+    router.route(HttpMethod.POST, "/api/events/init").handler(RouterHandlers::apiInitHandler);
+    router.route(HttpMethod.POST, "/api/service").handler(RouterHandlers::apiServiceHandler);
+    router.route(HttpMethod.POST, "/api/cmds").handler(RouterHandlers::apiHandler);
+    router.route(HttpMethod.POST, "/api/data").handler(RouterHandlers::apiHandler);
+    vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
+  }
 }

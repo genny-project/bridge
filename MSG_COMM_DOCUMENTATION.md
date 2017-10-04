@@ -7,7 +7,6 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 
 ### Component: User Login ###
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
-
   **Event Messsage for User login** 
   ```json
      {
@@ -37,7 +36,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
                               ]
                }
        }
-     ```
+    ```
     AND
     **DATA Message with base entities to be displayed in the TreeView**
     ```json
@@ -89,11 +88,11 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 			name: "Settings",
 			code: "GRP_SETTINGS"
 		      }
-		],
-	parentCode: "GRP_ROOT",    --> This part identifies the parent item
-	linkCode: "LNK_CORE" .     --> Provides relationship between parent and child items
-}
-```
+		   ],
+	    parentCode: "GRP_ROOT",    --> This part identifies the parent item
+	   linkCode: "LNK_CORE" .     --> Provides relationship between parent and child items
+         }
+      ```
 	            
 
 ### Component: TreeView ###
@@ -198,7 +197,28 @@ TreeView component will send following events for each different actions on its 
           code    : "GRP_LIVE_VIEW"
        }
       ```
-        
+      
+     **Event Message for click on Contract icon in TreeView**
+   ```json
+    {
+      msg_type : "EVT_MSG",
+      event_type : "TV_CONTRACT",
+      data:
+          {
+             code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
+             value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
+           }
+     }
+   ```  
+       On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
+    ```json
+     {
+        msg_type : "CMD_MSG",
+	cmd_type : "TV_CONTRACT",
+	code : "GRP_LIVE_VIEW"
+      }
+   ```
+
     
 				
 				

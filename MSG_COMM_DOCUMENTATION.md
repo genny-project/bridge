@@ -4,6 +4,7 @@
 #### Basic Message Communication rules  ####
 The Front-End will always send event message (EVT_MSG) for any action to the Backend and backend will in-return send the command message (CMD_MSG) or data message (DATA_MSG) or sometimes both to the front end.
 
+
 ### Component: User Login ###
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
   ** Event Messsage for User login **
@@ -14,11 +15,9 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
         data: 
               { 
     		  code: “AUTH_INIT”
-              }
-        
+              }    
      }
-     ```
-     
+     ```   
      
  The Backend in return sends CMD_MSG with the properties of the layout to be displayed and the DATA_MSG with the base entities to be displayed in the TreeView Component/Layout.
    ** Command Message from BackEnd **
@@ -35,9 +34,8 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
                                  }
                               ]
                }
-      }
-     ```
-     
+       }
+       ``` 
     AND
     ** DATA Message with base entities to be displayed in the TreeView **
     ```json
@@ -99,7 +97,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 ### Component: TreeView ###
 TreeView component will send following events for each different actions on its item
 
-  | Actions  		            | EVENTS to BackEnd  |
+  | Actions  		            | EVENTS to BackEnd  (event_type) |
   | --------------------------- | ------------------- |       
   | Select/Click on treeview item    |  TV_SELECT    |
   | Click on Expand icon             |  TV_EXPAND    |

@@ -9,7 +9,6 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
 
   **Event Messsage for User login** 
-  
   ```json
      {
         msg_type: “EVT_MSG”,
@@ -23,8 +22,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
  
      
  The Backend in return sends CMD_MSG with the properties of the layout to be displayed and the DATA_MSG with the base entities to be displayed in the TreeView Component/Layout.
-   **Command Message from BackEnd**
-   
+   **Command Message from BackEnd**  
    ```json
       {
          msg_type: “CMD_MSG”,

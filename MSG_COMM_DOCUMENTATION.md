@@ -44,8 +44,8 @@ TreeView component will send following events for each different actions on its 
                     created: "2017-10-03T22:59:21",
                     updated: "2017-10-03T22:59:21",
                     id: 8,
-				    name: "Pending",           -----> This is the name to be displayed in the TreeView
-					code: "GRP_PENDING"        ----->  This is the code of this item, which need to be send to the Backend ada a value in the EVT_MSG
+				    name: "Pending",   ---> This is the name to be displayed in the TreeView
+					code: "GRP_PENDING"  --->  This is the code of this item, which is needed to be send to the Backend as a value in the EVT_MSG
                  },
                  {
 					created: "2017-10-03T22:59:22",
@@ -83,8 +83,8 @@ TreeView component will send following events for each different actions on its 
 					code: "GRP_DELIVERED"
 				}
 		     ],
-		     parentCode: "GERP_LIVE_VIEW",    ------> This is the code of the Parent item to which these child entity belongs to
-		     linkCode: "LNK_CORE"             ------> Here, it is the relationship code between the parent and child
+		     parentCode: "GERP_LIVE_VIEW", ---> This is the code of the Parent item to which these child entity belongs to
+		     linkCode: "LNK_CORE"  ---> Here, it is the relationship code between the parent and child
 	 }
 	 ```
 	 

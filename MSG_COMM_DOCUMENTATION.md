@@ -37,8 +37,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
                }
        }
 ```    
-    AND
-    
+ AND   
 **DATA Message with base entities to be displayed in the TreeView**
 ```javascript
        {

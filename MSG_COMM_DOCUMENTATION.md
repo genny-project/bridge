@@ -19,11 +19,10 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
               }    
      }
 ```
- 
      
  The Backend in return sends CMD_MSG with the properties of the layout to be displayed and the DATA_MSG with the base entities to be displayed in the TreeView Component/Layout.
   **Command Message from BackEnd**  
-   ```json
+```json
       {
          msg_type: “CMD_MSG”,
          cmd_type: “CMD_LAYOUT”,
@@ -37,10 +36,11 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
                               ]
                }
        }
-    ```
+```    
     AND
+    
     **DATA Message with base entities to be displayed in the TreeView**
-    ```json
+ ```json
        {
            msg_type: “DATA_MSG”,
            data_type: “BaseEntity”,
@@ -93,10 +93,9 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 	    parentCode: "GRP_ROOT",    --> This part identifies the parent item
 	   linkCode: "LNK_CORE" .     --> Provides relationship between parent and child items
          }
-      ```
+ ```
 	            
-
-### Component: TreeView ###
+## Component: TreeView ##
 TreeView component will send following events for each different actions on its item
 
   | Actions  		            | EVENTS to BackEnd  (event_type) |
@@ -110,7 +109,8 @@ TreeView component will send following events for each different actions on its 
    
    ##Example of the EVENT Message to be sent from Front-End in JSON Format:##
  
- **Event Message for click on Expand icon in TreeView**   
+ **Event Message for click on Expand icon in TreeView** 
+   
 ```json
     {
       msg_type : "EVT_MSG",
@@ -124,6 +124,7 @@ TreeView component will send following events for each different actions on its 
 ```
    
  On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
+ 
   ```json
      {
         msg_type : "DATA_MSG",
@@ -179,7 +180,8 @@ TreeView component will send following events for each different actions on its 
 ```
 
 
-**Event Message for click/select on TreeView Item**
+** Event Message for click/select on TreeView Item **
+
 ```json
     {
       msg_type : "EVT_MSG",
@@ -201,6 +203,7 @@ TreeView component will send following events for each different actions on its 
   ```
       
  **Event Message for click on Contract icon in TreeView**
+ 
  ```json
     {
       msg_type : "EVT_MSG",

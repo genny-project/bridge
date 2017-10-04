@@ -18,6 +18,8 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
         
      }
      ```
+     
+     
  The Backend in return sends CMD_MSG with the properties of the layout to be displayed and the DATA_MSG with the base entities to be displayed in the TreeView Component/Layout.
    ** Command Message from BackEnd **
    ```json
@@ -35,6 +37,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
                }
       }
      ```
+     
     AND
     ** DATA Message with base entities to be displayed in the TreeView **
     ```json

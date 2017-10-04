@@ -39,8 +39,8 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 ```    
     AND
     
-    **DATA Message with base entities to be displayed in the TreeView**
- ```json
+**DATA Message with base entities to be displayed in the TreeView**
+```javascript
        {
            msg_type: “DATA_MSG”,
            data_type: “BaseEntity”,
@@ -93,7 +93,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 	    parentCode: "GRP_ROOT",    --> This part identifies the parent item
 	   linkCode: "LNK_CORE" .     --> Provides relationship between parent and child items
          }
- ```
+```
 	            
 ## Component: TreeView ##
 TreeView component will send following events for each different actions on its item
@@ -111,7 +111,7 @@ TreeView component will send following events for each different actions on its 
  
  **Event Message for click on Expand icon in TreeView** 
    
-```json
+```javascript
     {
       msg_type : "EVT_MSG",
       event_type : "TV_EXPAND",
@@ -125,7 +125,7 @@ TreeView component will send following events for each different actions on its 
    
  On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
  
-  ```json
+```jsvascript
      {
         msg_type : "DATA_MSG",
         data_type : "BaseEntity",
@@ -182,7 +182,7 @@ TreeView component will send following events for each different actions on its 
 
 ** Event Message for click/select on TreeView Item **
 
-```json
+```javascript
     {
       msg_type : "EVT_MSG",
       evt_type : "TV_SELECT",   -----> Code for the treeview item click
@@ -192,19 +192,19 @@ TreeView component will send following events for each different actions on its 
              value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
- ```
+```
     On Return the back-end will send the following CMD_MSG with code in JSON Format:
- ```json
+```javascript
       {
           msg_type : "CMD_MSG",
           cmd_type : "TV_SELECT",
           code    : "GRP_LIVE_VIEW"
        }
-  ```
+```
       
  **Event Message for click on Contract icon in TreeView**
  
- ```json
+```javascript
     {
       msg_type : "EVT_MSG",
       event_type : "TV_CONTRACT",
@@ -214,12 +214,12 @@ TreeView component will send following events for each different actions on its 
              value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
- ```  
+```  
 On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
-```json
+```javascript
      {
         msg_type : "CMD_MSG",
 	cmd_type : "TV_CONTRACT",
 	code : "GRP_LIVE_VIEW"
       }
-   ```
+```

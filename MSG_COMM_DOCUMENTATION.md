@@ -8,7 +8,7 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 ### Component: User Login ###
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
  
- **Event Messsage for User login 
+ **Event Messsage for User login** 
  ```json
      {
         msg_type: “EVT_MSG”,
@@ -108,10 +108,10 @@ TreeView component will send following events for each different actions on its 
   | Multi selection of the treeview item  | TV_MULTI_SELECTION |
   | Right click on the treeview item (Only available for Admin user  |  TV_EDIT |
    
-   ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
+   ##Example of the EVENT Message to be sent from Front-End in JSON Format:##
  
  **Event Message for click on Expand icon in TreeView**   
-  ```json
+```json
     {
       msg_type : "EVT_MSG",
       event_type : "TV_EXPAND",
@@ -121,7 +121,7 @@ TreeView component will send following events for each different actions on its 
              value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
-   ```
+```
    
  On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
   ```json
@@ -176,7 +176,7 @@ TreeView component will send following events for each different actions on its 
 		     parentCode: "GERP_LIVE_VIEW", ---> This is the code of the Parent item to which these child entity belongs to
 		     linkCode: "LNK_CORE"  ---> Here, it is the relationship code between the parent and child
         }
-    ```
+```
 
 
 **Event Message for click/select on TreeView Item**

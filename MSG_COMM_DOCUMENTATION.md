@@ -214,7 +214,7 @@ TreeView component will send following events for each different actions on its 
            }
      }
 ```  
-On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
+On Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRACT" and the code of the TreeView item to be contraceted in code in JSON Format:
 ```javascript
      {
         msg_type : "CMD_MSG",

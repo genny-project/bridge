@@ -7,7 +7,8 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 
 ### Component: User Login ###
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
-  ** Event Messsage for User login **
+
+  **Event Messsage for User login**
   
   ```json
      {

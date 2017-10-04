@@ -122,8 +122,8 @@ TreeView component will send following events for each different actions on its 
      }
    ```
    
-     On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
-    ```json
+ On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
+  ```json
      {
         msg_type : "DATA_MSG",
         data_type : "BaseEntity",
@@ -175,10 +175,11 @@ TreeView component will send following events for each different actions on its 
 		     parentCode: "GERP_LIVE_VIEW", ---> This is the code of the Parent item to which these child entity belongs to
 		     linkCode: "LNK_CORE"  ---> Here, it is the relationship code between the parent and child
         }
-	```
-	 
-	**Event Message for click/select on TreeView Item**
-	 ```json
+    ```
+
+
+**Event Message for click/select on TreeView Item**
+```json
     {
       msg_type : "EVT_MSG",
       evt_type : "TV_SELECT",   -----> Code for the treeview item click
@@ -188,18 +189,18 @@ TreeView component will send following events for each different actions on its 
              value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
-    ```
+ ```
     On Return the back-end will send the following CMD_MSG with code in JSON Format:
-    ```json
+ ```json
       {
           msg_type : "CMD_MSG",
           cmd_type : "TV_SELECT",
           code    : "GRP_LIVE_VIEW"
        }
-      ```
+  ```
       
-     **Event Message for click on Contract icon in TreeView**
-   ```json
+ **Event Message for click on Contract icon in TreeView**
+ ```json
     {
       msg_type : "EVT_MSG",
       event_type : "TV_CONTRACT",
@@ -209,29 +210,12 @@ TreeView component will send following events for each different actions on its 
              value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
-   ```  
-       On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
-    ```json
+ ```  
+On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
+```json
      {
         msg_type : "CMD_MSG",
 	cmd_type : "TV_CONTRACT",
 	code : "GRP_LIVE_VIEW"
       }
    ```
-
-    
-				
-				
-				
-                       
-     
-         
-     
-     
-     
-   
-
-
-
-
-

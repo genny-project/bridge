@@ -18,7 +18,7 @@ TreeView component will send following events for each different actions on its 
   | Multi selection of the treeview item  | TV_MULTI_SELECTION |
   | Right click on the treeview item (Only available for Admin user  |  TV_EDIT |
    
-   ## Example of the EVENT Message to be sent from Front-End in JSON Format:
+   ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
   **Event Message for click on Expand icon in TreeView**
    
   ```json
@@ -44,22 +44,22 @@ TreeView component will send following events for each different actions on its 
                     created: "2017-10-03T22:59:21",
                     updated: "2017-10-03T22:59:21",
                     id: 8,
-				    name: "Pending",   ---> This is the name to be displayed in the TreeView
-					code: "GRP_PENDING"  --->  This is the code of this item, which is needed to be send to the Backend as a value in the EVT_MSG
+                    name: "Pending",   ---> This is the name to be displayed in the TreeView
+		    code: "GRP_PENDING"  --->  This is the code of this item, which is needed to be send to the Backend as a value in the EVT_MSG
                  },
                  {
-					created: "2017-10-03T22:59:22",
-  					updated: "2017-10-03T22:59:22",
-					id: 9,
-					name: "Accepted",
-					code: "GRP_ACCEPTED"
-				},
-				{
-				    created: "2017-10-03T22:59:22",
-					updated: "2017-10-03T22:59:22",
-					id: 10,
-					name: "Dispatched",
-					code: "GRP_DISPATCHED"
+		      created: "2017-10-03T22:59:22",
+         	      updated: "2017-10-03T22:59:22",
+			id: 9,
+			name: "Accepted",
+			 code: "GRP_ACCEPTED"
+		},
+		{
+		        created: "2017-10-03T22:59:22",
+			updated: "2017-10-03T22:59:22",
+			id: 10,
+			name: "Dispatched",
+			code: "GRP_DISPATCHED"
 				},
 				{
 					created: "2017-10-03T22:59:22",

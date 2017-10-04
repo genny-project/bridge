@@ -179,7 +179,7 @@ TreeView component will send following events for each different actions on its 
 ```
 
 
-** Event Message for click/select on TreeView Item **
+**Event Message for click/select on TreeView Item**
 
 ```javascript
     {

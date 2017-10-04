@@ -4,7 +4,94 @@
 #### Basic Message Communication rules  ####
 The Front-End will always send event message (EVT_MSG) for any action to the Backend and backend will in-return send the command message (CMD_MSG) or data message (DATA_MSG) or sometimes both to the front end.
 
-
+### Component: User Login ###
+While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
+  ** Event Messsage for User login **
+  ```json
+     {
+        msg_type: “EVT_MSG”,
+        evt_type: “AUTH_INIT”,
+        data: 
+              { 
+    		  code: “AUTH_INIT”
+              }
+        
+     }
+     ```
+ The Backend in return sends CMD_MSG with the properties of the layout to be displayed and the DATA_MSG with the base entities to be displayed in the TreeView Component/Layout.
+   ** Command Message from BackEnd **
+   ```json
+      {
+         msg_type: “CMD_MSG”,
+         cmd_type: “CMD_LAYOUT”,
+         code: “layout1”,
+         data:{
+                   layout: [{
+		            “Grid”:{
+                           [ Layouts_Properties ]
+                                      }
+                                 }
+                              ]
+               }
+      }
+     ```
+    AND
+    ** DATA Message with base entities to be displayed in the TreeView **
+    ```json
+       {
+           msg_type: “DATA_MSG”,
+           data_type: “BaseEntity”,
+           delete: “false”,
+           items: [
+	       {
+	          {
+		     created: "2017-10-04T02:43:56",
+		     updated: "2017-10-04T02:43:56",
+		     id: 2,
+		     name: "Live-View",    --> This is the string/value to be displayed in the Tree View
+		     code: "GRP_LIVE_VIEW" --> This is the code of this particular treeview item to be send with event to BE
+		   },
+		   {
+		      created: "2017-10-04T02:43:56",
+		      updated: "2017-10-04T02:43:56",
+                      id: 3,
+                      name: "Loads",
+                      code: "GRP_LOADS"
+                   },
+                   {
+                      created: "2017-10-04T02:43:56",
+                      updated: "2017-10-04T02:43:56",
+                      id: 4,
+                      name: "Contacts",
+                      code: "GRP_CONTACTS"
+                    },
+                    {
+                      created: "2017-10-04T02:43:56",
+                      updated: "2017-10-04T02:43:56",
+                      id: 5,
+                      name: "Companies",
+                      code: "GRP_COMPANYS"
+                    },
+                    {
+			created: "2017-10-04T02:43:56",
+			updated: "2017-10-04T02:43:56",
+			id: 6,
+			name: "Users",
+			code: "GRP_USERS"
+		     },
+		     {
+			created: "2017-10-04T02:43:56",
+			updated: "2017-10-04T02:43:56",
+			id: 7,
+			name: "Settings",
+			code: "GRP_SETTINGS"
+		      }
+		],
+	parentCode: "GRP_ROOT",    --> This part identifies the parent item
+	linkCode: "LNK_CORE" .     --> Provides relationship between parent and child items
+}
+```
+	            
 
 ### Component: TreeView ###
 TreeView component will send following events for each different actions on its item
@@ -85,8 +172,8 @@ TreeView component will send following events for each different actions on its 
 		     ],
 		     parentCode: "GERP_LIVE_VIEW", ---> This is the code of the Parent item to which these child entity belongs to
 		     linkCode: "LNK_CORE"  ---> Here, it is the relationship code between the parent and child
-	 }
-	 ```
+        }
+	```
 	 
 	**Event Message for click/select on TreeView Item**
 	 ```json

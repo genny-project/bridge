@@ -114,7 +114,7 @@ TreeView component will send following events for each different actions on its 
   ```json
     {
       msg_type : "EVT_MSG",
-      evt_type : "TV_EXPAND",
+      event_type : "TV_EXPAND",
       data:
           {
              code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components

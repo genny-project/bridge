@@ -106,7 +106,7 @@ TreeView component will send following events for each different actions on its 
   | Multi selection of the treeview item  | TV_MULTI_SELECTION |
   | Right click on the treeview item (Only available for Admin user  |  TV_EDIT |
    
-   ##Example of the EVENT Message to be sent from Front-End in JSON Format:##
+   ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
  
  **Event Message from FrontEnd for click on Expand icon in TreeView** 
  Example for expand icon click of Live-View

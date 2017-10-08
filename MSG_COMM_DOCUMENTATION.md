@@ -8,7 +8,7 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 ### Component: User Login ###
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
  
- **Event Messsage from FrontEnd for User login** 
+ **INIT Event: Event Messsage from FrontEnd for User login** 
 ```javascript
      {
         msg_type: “EVT_MSG”,
@@ -108,7 +108,7 @@ TreeView component will send following events for each different actions on its 
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
  
- **Event Message from FrontEnd for click on Expand icon in TreeView** 
+ **Expand Event: Event Message from FrontEnd for click on Expand icon in TreeView** 
  Example for expand icon click of Live-View
    
 ```javascript
@@ -180,7 +180,7 @@ TreeView component will send following events for each different actions on its 
 ```
 
 
-**Event Message from FrontEnd for click/select on TreeView Item**
+**Select Event: Event Message from FrontEnd for click/select on TreeView Item**
 
 ```javascript
     {
@@ -202,7 +202,7 @@ TreeView component will send following events for each different actions on its 
        }
 ```
       
- **Event Message from FrontEnd for click on Contract icon in TreeView**
+ **Contract Event: Event Message from FrontEnd for click on Contract icon in TreeView**
  
 ```javascript
     {

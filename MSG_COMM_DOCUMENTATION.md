@@ -116,8 +116,8 @@ TreeView component will send following events for each different actions on its 
       event_type : "TV_EXPAND",
       data:
           {
-             code: "TV1"    ---> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
-             value: "GRP_LIVE_VIEW"   ---> This is the actual code of the TreeView item (Treeview ParentNode)
+             code: "TV1"    --> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
+             value: "GRP_LIVE_VIEW"   --> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
 ```
@@ -133,8 +133,8 @@ TreeView component will send following events for each different actions on its 
                     created: "2017-10-03T22:59:21",
                     updated: "2017-10-03T22:59:21",
                     id: 8,
-                    name: "Pending",   ---> This is the name to be displayed in the TreeView
-		    code: "GRP_PENDING"  --->  This is the code of this item, which is needed to be send to the Backend as a value in the EVT_MSG
+                    name: "Pending",   --> This is the name to be displayed in the TreeView
+		    code: "GRP_PENDING"  -->  This is the code of this item, which is needed to be send to the Backend as a value in the EVT_MSG
                  },
                  {
 		      created: "2017-10-03T22:59:22",
@@ -172,8 +172,8 @@ TreeView component will send following events for each different actions on its 
 				code: "GRP_DELIVERED"
 			}
 		     ],
-		     parentCode: "GERP_LIVE_VIEW", ---> This is the code of the Parent item to which these child entity belongs to
-		     linkCode: "LNK_CORE"  ---> Here, it is the relationship code between the parent and child
+		     parentCode: "GERP_LIVE_VIEW", --> This is the code of the Parent item to which these child entity belongs to
+		     linkCode: "LNK_CORE"  --> Here, it is the relationship code between the parent and child
         }
 ```
 
@@ -182,11 +182,11 @@ TreeView component will send following events for each different actions on its 
 ```javascript
     {
       msg_type : "EVT_MSG",
-      event_type : "TV_SELECT",   -----> event_type for the treeview item click/select
+      event_type : "TV_SELECT",   --> event_type for the treeview item click/select
       data:
           {
-             code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
-             value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
+             code: "TV1"    --> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
+             value: "GRP_LIVE_VIEW"   --> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
 ```
@@ -203,19 +203,19 @@ TreeView component will send following events for each different actions on its 
 ```javascript
     {
       msg_type : "EVT_MSG",
-      event_type : "TV_CONTRACT",   ---> event_type for the treeview contract icon click
+      event_type : "TV_CONTRACT",   --> event_type for the treeview contract icon click
       data:
           {
-             code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
-             value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
+             code: "TV1"    --> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
+             value: "GRP_LIVE_VIEW"    --> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
 ```  
-On Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRACT" and the code of the TreeView item to be contraceted in code in JSON Format:
+On Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRACT" and the code of the TreeView item to be contracted in code in JSON Format:
 ```javascript
      {
         msg_type : "CMD_MSG",
 	cmd_type : "TV_CONTRACT",
-	code : "GRP_LIVE_VIEW"
-      }
+	code : "GRP_LIVE_VIEW"  --> The code of the treeview item to be contracted
+     }
 ```

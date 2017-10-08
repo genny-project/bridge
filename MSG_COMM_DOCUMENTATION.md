@@ -1,5 +1,6 @@
-####  This is the documentation file for the message communication between Front End (Alyson) and BackEnd(Bridge)  ####
+
 ## Project name: Genny-Project ##
+####  This is the documentation file for the message communication between Front End (Alyson) and BackEnd(Bridge)  ####
 
 #### Basic Message Communication rules  ####
 The Front-End will always send event message (EVT_MSG) for any action to the Backend and backend will in-return send the command message (CMD_MSG) or data message (DATA_MSG) or sometimes both to the front end.
@@ -115,8 +116,8 @@ TreeView component will send following events for each different actions on its 
       event_type : "TV_EXPAND",
       data:
           {
-             code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
-             value: "GRP_LIVE_VIEW"   -----> This is the actual code of the TreeView item (Treeview ParentNode)
+             code: "TV1"    ---> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
+             value: "GRP_LIVE_VIEW"   ---> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
 ```
@@ -148,28 +149,28 @@ TreeView component will send following events for each different actions on its 
 			id: 10,
 			name: "Dispatched",
 			code: "GRP_DISPATCHED"
-				},
-				{
-					created: "2017-10-03T22:59:22",
-					updated: "2017-10-03T22:59:22",
-					id: 11,
-					name: "In-Transit",
-					code: "GRP_IN-TRANSIT"
-			    },
-			    {
-					created: "2017-10-03T22:59:22",
-					updated: "2017-10-03T22:59:22",
-					id: 12,
-					name: "At-Destination",
-					code: "GRP_AT-DESTINATION"
-				},
-				{
-					created: "2017-10-03T22:59:22",
-				    updated: "2017-10-03T22:59:22",
-					id: 13,
-					name: "Delivered",
-					code: "GRP_DELIVERED"
-				}
+		},
+		{
+			created: "2017-10-03T22:59:22",
+			updated: "2017-10-03T22:59:22",
+			id: 11,
+			name: "In-Transit",
+			code: "GRP_IN-TRANSIT"
+         	   },
+		    {
+			  created: "2017-10-03T22:59:22",
+			  updated: "2017-10-03T22:59:22",
+			  id: 12,
+			  name: "At-Destination",
+			  code: "GRP_AT-DESTINATION"
+			},
+			{
+        			created: "2017-10-03T22:59:22",
+ 				updated: "2017-10-03T22:59:22",
+				id: 13,
+				name: "Delivered",
+				code: "GRP_DELIVERED"
+			}
 		     ],
 		     parentCode: "GERP_LIVE_VIEW", ---> This is the code of the Parent item to which these child entity belongs to
 		     linkCode: "LNK_CORE"  ---> Here, it is the relationship code between the parent and child
@@ -181,7 +182,7 @@ TreeView component will send following events for each different actions on its 
 ```javascript
     {
       msg_type : "EVT_MSG",
-      evt_type : "TV_SELECT",   -----> Code for the treeview item click
+      event_type : "TV_SELECT",   -----> event_type for the treeview item click/select
       data:
           {
              code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
@@ -202,7 +203,7 @@ TreeView component will send following events for each different actions on its 
 ```javascript
     {
       msg_type : "EVT_MSG",
-      event_type : "TV_CONTRACT",
+      event_type : "TV_CONTRACT",   ---> event_type for the treeview contract icon click
       data:
           {
              code: "TV1"    -----> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components

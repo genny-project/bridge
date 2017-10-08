@@ -1,5 +1,5 @@
 
-## Project name: Genny-Project ##
+## Project: Genny-Project ##
 ####  This is the documentation file for the message communication between Front End (Alyson) and BackEnd(Bridge)  ####
 
 #### Basic Message Communication rules  ####

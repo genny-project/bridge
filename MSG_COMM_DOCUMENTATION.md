@@ -100,11 +100,10 @@ When the user clicks the logout button/link, the FE sends following EVT_MSG
 ```javascript
     {
       msg_type : "EVT_MSG",
-      event_type : "USER_LOGOUT",
+      event_type : "LOGOUT",
       data:
           {
-             code:  
-             value:
+             code: "LOGOUT"
            }
      }
 ```
@@ -113,7 +112,7 @@ The backend will than return the cmd_msg
    {
       msg_type: “CMD_MSG”,
       cmd_type: “CMD_LOGOUT”,
-      code:
+      code: "LOGOUT"
     }
 ```
 

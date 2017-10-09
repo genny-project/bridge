@@ -122,13 +122,13 @@ The backend will than return the cmd_msg
 TreeView component will send following events for each different actions on its item
 
   | Actions  		            | EVENTS to BackEnd  (event_type) |
-  | --------------------------- | ------------------- |       
+  | --------------------------- | --------------------------- |       
   | Select/Click on treeview item    |  TV_SELECT    |
   | Click on Expand icon             |  TV_EXPAND    |
   | Click on Contract icon           |  TV_CONTRACT  |
   | Drag and Drop of the treeview item | TV_DRAG_DROP |
   | Multi selection of the treeview item  | TV_MULTI_SELECTION |
-  | Right click on the treeview item (Only available for Admin user  |  TV_EDIT |
+  | Right click on the treeview item (Only available for Admin user)  |  TV_EDIT |
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
  
@@ -146,7 +146,7 @@ TreeView component will send following events for each different actions on its 
 ```
    
  On Return the back-end will send the following DATA_MSG with all the child Base Entity in JSON Format:
-```jsvascript
+```javascript
      {
         msg_type : "DATA_MSG",
         data_type : "BaseEntity",

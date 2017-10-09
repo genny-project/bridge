@@ -94,6 +94,29 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 	   linkCode: "LNK_CORE" .     --> Provides relationship between parent and child items
          }
 ```
+
+## Component: User Logout ##
+When the user clicks the logout button/link, the FE sends following EVT_MSG
+```javascript
+    {
+      msg_type : "EVT_MSG",
+      event_type : "USER_LOGOUT",
+      data:
+          {
+             code:  
+             value:
+           }
+     }
+```
+The backend will than return the cmd_msg
+```javascript
+   {
+      msg_type: “CMD_MSG”,
+      cmd_type: “CMD_LOGOUT”,
+      code:
+    }
+```
+
 	            
 ## Component: TreeView ##
 TreeView component will send following events for each different actions on its item

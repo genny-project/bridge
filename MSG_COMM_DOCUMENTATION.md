@@ -208,19 +208,12 @@ TreeView component will send following events for each different actions on its 
       data:
           {
              code: "TV1"    --> Here, TV1 stands for TreeView1, considering there can be multiple TreeView components
-             value: "GRP_LIVE_VIEW"   --> This is the actual code of the TreeView item (Treeview ParentNode)
+             value: "GRP_DASHBOARD"   --> This is the actual code of the TreeView item (Treeview ParentNode)
            }
      }
 ```
-    On Return the back-end will send the following CMD_MSG with code as BUCKET_VIEW or TABLE_VIEW in JSON Format:
-```javascript
-      {
-          msg_type : "CMD_MSG",
-          cmd_type : "CMD_LAYOUT",
-          code    : "BUCKET_VIEW"  --> This states what view need to be displayed in the fe. It can be TABLE_VIEW for some items.
-       }
-```
-   And the DATA_MSG with BaseEntity  to be displayed as header of BUCKET_VIEW/TABLE_VIEW and the actual data to be displayed in it
+
+   Back-end will send the DATA_MSG first with BaseEntity to be displayed as header of BUCKET_VIEW/TABLE_VIEW
 ```javascript
     {
        msg_type : "DATA_MSG",
@@ -230,8 +223,31 @@ TreeView component will send following events for each different actions on its 
                 {
 	         
                 }
-               ]
+               ],
+	       
     }
+```
+and the actual data to be displayed in it (BUCKET_VIEW/TABLE_VIEW)
+```javascript
+    {
+       msg_type : "DATA_MSG",
+       data_type : "BaseEntity",
+       delete: "false",
+       items : [
+                {
+	         
+                }
+               ],
+	       
+    }
+```
+    Then, the LAYOUT/VIEW CMD_MSG with code as BUCKET_VIEW or TABLE_VIEW to render the view/layout in the UI where the data will be displayed:
+```javascript
+      {
+          msg_type : "CMD_MSG",
+          cmd_type : "CMD_LAYOUT",
+          code    : "BUCKET_VIEW"  --> This states what view need to be displayed in the fe. It can be TABLE_VIEW for some items.
+       }
 ```
    
  **Contract Event: Event Message from FrontEnd for click on Contract icon in TreeView** 

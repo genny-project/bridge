@@ -131,7 +131,7 @@ TreeView component will send following events for each different actions on its 
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
  
- **Expand Event: Event Message from FrontEnd for click on Expand icon in TreeView**   
+ **<u>Expand Event(TV_EXPAND):</u> Event Message from FrontEnd for click on Expand icon in TreeView**   
 ```javascript
     {
       msg_type : "EVT_MSG",
@@ -200,7 +200,7 @@ TreeView component will send following events for each different actions on its 
 ```
 
 
-**Select Event: Event Message from FrontEnd for click/select on TreeView Item**
+**Select Event(TV_SELECT): Event Message from FrontEnd for click/select on TreeView Item**
 ```javascript
     {
       msg_type : "EVT_MSG",
@@ -250,7 +250,7 @@ and the actual data to be displayed in it (BUCKET_VIEW/TABLE_VIEW)
        }
 ```
    
- **Contract Event: Event Message from FrontEnd for click on Contract icon in TreeView** 
+ **Contract Event(TV_CONTRACT): Event Message from FrontEnd for click on Contract icon in TreeView** 
 ```javascript
     {
       msg_type : "EVT_MSG",

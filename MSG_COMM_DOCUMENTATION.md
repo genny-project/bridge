@@ -212,15 +212,28 @@ TreeView component will send following events for each different actions on its 
            }
      }
 ```
-    On Return the back-end will send the following CMD_MSG with code in JSON Format:
+    On Return the back-end will send the following CMD_MSG with code as BUCKET_VIEW or TABLE_VIEW in JSON Format:
 ```javascript
       {
           msg_type : "CMD_MSG",
-          cmd_type : "TV_SELECT",
-          code    : "GRP_LIVE_VIEW"
+          cmd_type : "CMD_LAYOUT",
+          code    : "BUCKET_VIEW"  --> This states what view need to be displayed in the fe. It can be TABLE_VIEW for some items.
        }
 ```
-      
+   And the DATA_MSG with BaseEntity  to be displayed as header of BUCKET_VIEW/TABLE_VIEW and the actual data to be displayed in it
+```javascript
+    {
+       msg_type : "DATA_MSG",
+       data_type : "BaseEntity",
+       delete: "false",
+       items : [
+                {
+	         
+                }
+               ]
+    }
+```
+   
  **Contract Event: Event Message from FrontEnd for click on Contract icon in TreeView** 
 ```javascript
     {

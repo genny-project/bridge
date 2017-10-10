@@ -250,7 +250,7 @@ and the actual data to be displayed in it (BUCKET_VIEW/TABLE_VIEW)
        }
 ```
    
- **___TreeView Contract Event(TV_CONTRACT):___ Event Message from FrontEnd for click on Contract icon in TreeView** 
+ **TreeView Contract Event(TV_CONTRACT): Event Message from FrontEnd for click on Contract icon in TreeView** 
 ```javascript
     {
       msg_type : "EVT_MSG",

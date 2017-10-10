@@ -131,7 +131,8 @@ TreeView component will send following events for each different actions on its 
    
    ## Example of the EVENT Message to be sent from Front-End in JSON Format: ##
  
- **<u>TreeView Expand Event(TV_EXPAND):</u> Event Message from FrontEnd for click on Expand icon in TreeView**   
+ **TreeView Expand Event(TV_EXPAND): Event Message from FrontEnd for click on Expand icon in TreeView**
+ ===================================
 ```javascript
     {
       msg_type : "EVT_MSG",

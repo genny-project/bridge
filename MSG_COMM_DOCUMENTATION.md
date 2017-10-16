@@ -217,7 +217,7 @@ TreeView component will send following events for each different actions on its 
 ```javascript
     {
        msg_type : "DATA_MSG",
-       data_type : "BaseEntity",
+       data_type : "Header",
        delete: "false",
        items : [
                 {
@@ -245,8 +245,11 @@ and the actual data to be displayed in it (BUCKET_VIEW/TABLE_VIEW)
 ```javascript
       {
           msg_type : "CMD_MSG",
-          cmd_type : "CMD_LAYOUT",
-          code    : "BUCKET_VIEW"  --> This states what view need to be displayed in the fe. It can be TABLE_VIEW for some items.
+          cmd_type : "CMD_VIEW",
+          code    : "BUCKET_VIEW"  --> The view-type that needs to be displayed in fe. It can be TABLE_VIEW in some case.
+	  data:[{
+	  
+	      }]
        }
 ```
    

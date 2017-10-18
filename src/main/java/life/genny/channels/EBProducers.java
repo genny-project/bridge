@@ -56,6 +56,6 @@ public class EBProducers {
 		
 	public static void registerAllProducers(EventBus eb){
 		setToEvents(eb.publisher("events"));
-		setToEvents(eb.publisher("data"));
+		setToData(eb.publisher("data"));
 	}
 }

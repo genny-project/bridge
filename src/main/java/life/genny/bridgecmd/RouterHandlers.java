@@ -115,7 +115,7 @@ public class RouterHandlers {
 			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
 				EBProducers.getToClientOutbound().write(body.toJsonObject());
 			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
-				EBProducers.getToClientOutbound().write(body.toJsonObject());
+				EBProducers.getToData().write(body.toJsonObject());
 		});
 		routingContext.response().end();
 	}

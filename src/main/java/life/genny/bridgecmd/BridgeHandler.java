@@ -35,10 +35,10 @@ public class BridgeHandler {
           EBProducers.getToData().write(rawMessage);
           logger.info("PUBLISHED to data...");
         }
-        else if (rawMessage.getString("msg_type").equals("EVENT_MSG")) {
-          logger.info("PUBLISH to data...");
+        else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
+          logger.info("PUBLISH to events...");
           EBProducers.getToEvents().write(rawMessage);
-          logger.info("PUBLISHED to data ....");
+          logger.info("PUBLISHED to events ....");
         }
       } else {
         System.out.println("EMPTY TOKEN");

@@ -46,7 +46,6 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
            data_type: “BaseEntity”,
            delete: “false”,
            items: [
-	       {
 	          {
 		     created: "2017-10-04T02:43:56",
 		     updated: "2017-10-04T02:43:56",

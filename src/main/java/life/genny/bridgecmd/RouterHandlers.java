@@ -14,109 +14,108 @@ import life.genny.security.SecureResources;;
 
 public class RouterHandlers {
 
-	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
-	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
+  private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
+  private static String hostIP =
+      System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 
-	private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);
+  private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);
 
-	public static CorsHandler cors() {
-		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
-				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type")
-				.allowedHeader("X-Requested-With");
-	}
+  public static CorsHandler cors() {
+    return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
+        .allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER")
+        .allowedHeader("Content-Type").allowedHeader("X-Requested-With");
+  }
 
-	public static void apiGetInitHandler(final RoutingContext routingContext) {
-		routingContext.request().bodyHandler(body -> {
-			final String fullurl = routingContext.request().getParam("url");
-			System.out.println("init json=" + fullurl);
-			URL aURL = null;
-			try {
-				aURL = new URL(fullurl);
-				final String url = aURL.getHost();
-				System.out.println("received get url:" + url);
+  public static void apiGetInitHandler(final RoutingContext routingContext) {
+    routingContext.request().bodyHandler(body -> {
+      final String fullurl = routingContext.request().getParam("url");
+      // System.out.println("init json=" + fullurl);
+      URL aURL = null;
+      try {
+        aURL = new URL(fullurl);
+        final String url = aURL.getHost();
+        System.out.println("received get url:" + url);
 
-				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url);
-				if (keycloakJsonText != null) {
-					final JsonObject retInit = new JsonObject(keycloakJsonText);
-					retInit.put("vertx_url", vertxUrl);
-					final String kcUrl = retInit.getString("auth-server-url");
-					retInit.put("url", kcUrl);
-					final String kcClientId = retInit.getString("resource");
-					retInit.put("clientId", kcClientId);
-					routingContext.response().putHeader("Content-Type", "application/json");
-					routingContext.response().end(retInit.toString());
-				} else {
-					routingContext.response().end();
-				}
-			} catch (final MalformedURLException e) {
-				routingContext.response().end();
-			}
-			;
-		});
-	}
+        final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url);
+        if (keycloakJsonText != null) {
+          final JsonObject retInit = new JsonObject(keycloakJsonText);
+          retInit.put("vertx_url", vertxUrl);
+          final String kcUrl = retInit.getString("auth-server-url");
+          retInit.put("url", kcUrl);
+          final String kcClientId = retInit.getString("resource");
+          retInit.put("clientId", kcClientId);
+          routingContext.response().putHeader("Content-Type", "application/json");
+          routingContext.response().end(retInit.toString());
+        } else {
+          routingContext.response().end();
+        }
+      } catch (final MalformedURLException e) {
+        routingContext.response().end();
+      } ;
+    });
+  }
 
-	public static void apiInitHandler(final RoutingContext routingContext) {
+  public static void apiInitHandler(final RoutingContext routingContext) {
 
-		routingContext.request().bodyHandler(body -> {
+    routingContext.request().bodyHandler(body -> {
 
-			System.out.println("init json=" + body);
-			final String bodyString = body.toString();
-			final JsonObject j = new JsonObject(bodyString);
-			logger.info("url init:" + j);
-			final String fullurl = j.getString("url");
-			URL aURL = null;
-			try {
-				aURL = new URL(fullurl);
-				final String url = aURL.getHost();
-				System.out.println("received post url:" + url);
+      System.out.println("init json=" + body);
+      final String bodyString = body.toString();
+      final JsonObject j = new JsonObject(bodyString);
+      logger.info("url init:" + j);
+      final String fullurl = j.getString("url");
+      URL aURL = null;
+      try {
+        aURL = new URL(fullurl);
+        final String url = aURL.getHost();
+        System.out.println("received post url:" + url);
 
-				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url);
-				if (keycloakJsonText != null) {
+        final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url);
+        if (keycloakJsonText != null) {
 
-					final JsonObject retInit = new JsonObject(keycloakJsonText);
-					retInit.put("vertx_url", vertxUrl);
-					String kcUrl = retInit.getString("auth-server-url");
-					if (kcUrl.contains("localhost")) {
-						kcUrl = kcUrl.replaceAll("localhost", hostIP);
-					}
-					retInit.put("url", kcUrl);
-					final String kcClientId = retInit.getString("resource");
-					retInit.put("clientId", kcClientId);
-					System.out.println("Sending back :" + retInit.toString());
-	                   routingContext.response().putHeader("Content-Type", "application/json");
+          final JsonObject retInit = new JsonObject(keycloakJsonText);
+          retInit.put("vertx_url", vertxUrl);
+          String kcUrl = retInit.getString("auth-server-url");
+          if (kcUrl.contains("localhost")) {
+            kcUrl = kcUrl.replaceAll("localhost", hostIP);
+          }
+          retInit.put("url", kcUrl);
+          final String kcClientId = retInit.getString("resource");
+          retInit.put("clientId", kcClientId);
+          System.out.println("Sending back :" + retInit.toString());
+          routingContext.response().putHeader("Content-Type", "application/json");
 
-					routingContext.response().end(retInit.toString());
-				} else {
-					routingContext.response().end();
-				}
-			} catch (final MalformedURLException e) {
-				routingContext.response().end();
-			}
-			;
-		});
-	}
+          routingContext.response().end(retInit.toString());
+        } else {
+          routingContext.response().end();
+        }
+      } catch (final MalformedURLException e) {
+        routingContext.response().end();
+      } ;
+    });
+  }
 
-	public static void apiServiceHandler(final RoutingContext routingContext) {
-		System.out.println("yes");
-		final String token = routingContext.request().getParam("token");
-		routingContext.request().bodyHandler(body -> {
-			final JsonObject j = body.toJsonObject();
-			j.put("token", token);
-			logger.info("KEYCLOAK:" + j);
-			if (j.getString("msg_type").equals("EVT_MSG"))
-				EBProducers.getToEvents().write(j);
-		});
-		routingContext.response().end();
-	}
-	
-	public static void apiHandler(final RoutingContext routingContext) {
-		routingContext.request().bodyHandler(body -> {
-			logger.info("KEYCLOAK:" + body.toJsonObject());
-			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
-				EBProducers.getToClientOutbound().write(body.toJsonObject());
-			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
-				EBProducers.getToData().write(body.toJsonObject());
-		});
-		routingContext.response().end();
-	}
+  public static void apiServiceHandler(final RoutingContext routingContext) {
+    System.out.println("yes");
+    final String token = routingContext.request().getParam("token");
+    routingContext.request().bodyHandler(body -> {
+      final JsonObject j = body.toJsonObject();
+      j.put("token", token);
+      logger.info("KEYCLOAK:" + j);
+      if (j.getString("msg_type").equals("EVT_MSG"))
+        EBProducers.getToEvents().write(j);
+    });
+    routingContext.response().end();
+  }
+
+  public static void apiHandler(final RoutingContext routingContext) {
+    routingContext.request().bodyHandler(body -> {
+      logger.info("KEYCLOAK:" + body.toJsonObject());
+      if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
+        EBProducers.getToClientOutbound().write(body.toJsonObject());
+      if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
+        EBProducers.getToData().write(body.toJsonObject());
+    });
+    routingContext.response().end();
+  }
 }

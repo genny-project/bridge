@@ -9,7 +9,7 @@ The Front-End will always send event message (EVT_MSG) for any action to the Bac
 ### Component: User Login ###
 While user logs in, the front-end sends event message (EVT_MSG) with the code "AUTH_INIT".
  
- **INIT Event: Event Messsage from FrontEnd for User login** 
+ **Login (AUTH_INIT) Event: Event Messsage from FrontEnd for User login** 
 ```javascript
      {
         msg_type: “EVT_MSG”,
@@ -214,1101 +214,527 @@ TreeView component will send following events for each different actions on its 
      }
 ```
 
-   Back-end will send the DATA_MSG first with BaseEntity to be displayed as header of BUCKET_VIEW/TABLE_VIEW
+   Back-end will send the DATA_MSG first with all BaseEntity to be displayed in TABLE_VIEW, all the BaseEntity attributes are to be set as the header of the  TABLE
+
 ```javascript
-    {
-       msg_type : "DATA_MSG",
-       data_type : "Header",
-       delete: "false",
-       items : [
-                {
-	         
-                }
-               ],
-	       
-    }
-```
-and the actual data to be displayed in it (BUCKET_VIEW/TABLE_VIEW)
-```javascript
-   { 
-     "msg_type":"DATA_MSG",
-     "data_type":"Data",
-     "delete":"false",
-     "items":[  
-       [  
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+{  
+   msg_type:"DATA_MSG",
+   data_type:"BaseEntity",
+   delete:false,
+   aliasCode:null,
+   items:[  
+      {  
+         created:"2017-10-25T01:31:43",
+         updated:"2017-10-25T01:31:50",
+         id:39,
+         name:"James Bond",
+         code:"PER_USER1",   --> This indicates the user
+         baseEntityAttributes:[ --> The array of data inside are the attributes with data for the same user
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_LASTNAME",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":3,
-                  "name":"FirstName",
-                  "code":"PRI_FIRSTNAME",
-                  "dataType":{  
-                     "className":"Text",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"Bond",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:4,
+                  name:"LastName",
+                  code:"PRI_LASTNAME",
+                  dataType:{  
+                     className:"Text",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.798",
-                           "updated":null,
-                           "id":null,
-                           "name":"Anything",
-                           "code":"VLD_ANYTHING",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.028",
+                           updated:null,
+                           id:null,
+                           name:"Anything",
+                           code:"VLD_ANYTHING",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"James",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":3,
-               "name":"FirstName",
-               "code":"PRI_FIRSTNAME",
-               "dataType":{  
-                  "className":"Text",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.798",
-                        "updated":null,
-                        "id":null,
-                        "name":"Anything",
-                        "code":"VLD_ANYTHING",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_DOB",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":4,
-                  "name":"LastName",
-                  "code":"PRI_LASTNAME",
-                  "dataType":{  
-                     "className":"Text",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"22/01/1980",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:5,
+                  name:"DateOfBirth",
+                  code:"PRI_DOB",
+                  dataType:{  
+                     className:"LocalDate ",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.806",
-                           "updated":null,
-                           "id":null,
-                           "name":"Anything",
-                           "code":"VLD_ANYTHING",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.028",
+                           updated:null,
+                           id:null,
+                           name:"Past Date",
+                           code:"VLD_PAST_DATE",
+                           regex:"^([12]\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\d|3[01]))$"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"Bond",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":4,
-               "name":"LastName",
-               "code":"PRI_LASTNAME",
-               "dataType":{  
-                  "className":"Text",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.806",
-                        "updated":null,
-                        "id":null,
-                        "name":"Anything",
-                        "code":"VLD_ANYTHING",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_MOBILE",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":5,
-                  "name":"DateOfBirth",
-                  "code":"PRI_DOB",
-                  "dataType":{  
-                     "className":"LocalDate ",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"61412345678",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:7,
+                  name:"Mobile",
+                  code:"PRI_MOBILE",
+                  dataType:{  
+                     className:"Mobile",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.807",
-                           "updated":null,
-                           "id":null,
-                           "name":"PastDate",
-                           "code":"VLD_PAST_DATE",
-                           "regex":"^([12]\\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\\d|3[01]))$"
+                           created:"2017-10-25T01:42:48.03",
+                           updated:null,
+                           id:null,
+                           name:"Mobile",
+                           code:"VLD_MOBILE",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"22/01/1980",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":5,
-               "name":"DateOfBirth",
-               "code":"PRI_DOB",
-               "dataType":{  
-                  "className":"LocalDate ",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.807",
-                        "updated":null,
-                        "id":null,
-                        "name":"PastDate",
-                        "code":"VLD_PAST_DATE",
-                        "regex":"^([12]\\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\\d|3[01]))$"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_UUID",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":6,
-                  "name":"EmailId",
-                  "code":"PRI_EMAIL",
-                  "dataType":{  
-                     "className":"Email",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"c415fe7a-c6a2-4b40-a3f0-2a8e2390dd56",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:43",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:10,
+                  name:"UUID",
+                  code:"PRI_UUID",
+                  dataType:{  
+                     className:"UUID",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.81",
-                           "updated":null,
-                           "id":null,
-                           "name":"Email",
-                           "code":"VLD_EMAIL",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.034",
+                           updated:null,
+                           id:null,
+                           name:"UUID",
+                           code:"VLD_UUID",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"james@gmail.com",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":6,
-               "name":"EmailId",
-               "code":"PRI_EMAIL",
-               "dataType":{  
-                  "className":"Email",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.81",
-                        "updated":null,
-                        "id":null,
-                        "name":"Email",
-                        "code":"VLD_EMAIL",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_EMAIL",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":7,
-                  "name":"Mobile",
-                  "code":"PRI_MOBILE",
-                  "dataType":{  
-                     "className":"Mobile",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"james@gmail.com",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:6,
+                  name:"EmailId",
+                  code:"PRI_EMAIL",
+                  dataType:{  
+                     className:"Email",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.812",
-                           "updated":null,
-                           "id":null,
-                           "name":"Mobile",
-                           "code":"VLD_MOBILE",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.029",
+                           updated:null,
+                           id:null,
+                           name:"Email",
+                           code:"VLD_EMAIL",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"61412345678",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":7,
-               "name":"Mobile",
-               "code":"PRI_MOBILE",
-               "dataType":{  
-                  "className":"Mobile",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.812",
-                        "updated":null,
-                        "id":null,
-                        "name":"Mobile",
-                        "code":"VLD_MOBILE",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_FIRSTNAME",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":9,
-                  "name":"Username",
-                  "code":"PRI_USERNAME",
-                  "dataType":{  
-                     "className":"Username",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"James",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:3,
+                  name:"FirstName",
+                  code:"PRI_FIRSTNAME",
+                  dataType:{  
+                     className:"Text",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.814",
-                           "updated":null,
-                           "id":null,
-                           "name":"Username",
-                           "code":"VLD_USERNAME",
-                           "regex":"^[a-z\\_\\.]{1,100}$"
+                           created:"2017-10-25T01:42:48.028",
+                           updated:null,
+                           id:null,
+                           name:"Anything",
+                           code:"VLD_ANYTHING",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"user1",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":9,
-               "name":"Username",
-               "code":"PRI_USERNAME",
-               "dataType":{  
-                  "className":"Username",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.814",
-                        "updated":null,
-                        "id":null,
-                        "name":"Username",
-                        "code":"VLD_USERNAME",
-                        "regex":"^[a-z\\_\\.]{1,100}$"
-                     }
-                  ]
+            {  
+               baseEntityCode:"PER_USER1",
+               attributeCode:"PRI_USERNAME",
+               pk:{  
+
+               },
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"user1",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:9,
+                  name:"Username",
+                  code:"PRI_USERNAME",
+                  dataType:{  
+                     className:"Username",
+                     validationList:[  
+                        {  
+                           created:"2017-10-25T01:42:48.034",
+                           updated:null,
+                           id:null,
+                           name:"User Name",
+                           code:"VLD_USERNAME",
+                           regex:"^[a-z\_\.]{1,100}$"
+                        }
+                     ]
+                  }
                }
             }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:37",
-                  "id":39,
-                  "name":"James Bond",
-                  "code":"PER_USER1"
+         ]
+      },
+      {  
+         created:"2017-10-25T01:31:43",
+         updated:"2017-10-25T01:31:50",
+         id:40,
+         name:"Adam Crow",
+         code:"PER_USER2",
+         baseEntityAttributes:[  
+            {  
+               baseEntityCode:"PER_USER2",
+               attributeCode:"PRI_EMAIL",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:32.817",
-                  "id":10,
-                  "name":"UUID",
-                  "code":"PRI_UUID",
-                  "dataType":{  
-                     "className":"UUID",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"adam@gmail.com",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:6,
+                  name:"EmailId",
+                  code:"PRI_EMAIL",
+                  dataType:{  
+                     className:"Email",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.816",
-                           "updated":null,
-                           "id":null,
-                           "name":"UUID",
-                           "code":"VLD_UUID",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.029",
+                           updated:null,
+                           id:null,
+                           name:"Email",
+                           code:"VLD_EMAIL",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"c415fe7a-c6a2-4b40-a3f0-2a8e2390dd56",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:32.817",
-               "id":10,
-               "name":"UUID",
-               "code":"PRI_UUID",
-               "dataType":{  
-                  "className":"UUID",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.816",
-                        "updated":null,
-                        "id":null,
-                        "name":"UUID",
-                        "code":"VLD_UUID",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         }
-      ],
-      [  
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":40,
-                  "name":"Adam Crow",
-                  "code":"PER_USER2"
+            {  
+               baseEntityCode:"PER_USER2",
+               attributeCode:"PRI_DOB",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.005",
-                  "id":3,
-                  "name":"FirstName",
-                  "code":"PRI_FIRSTNAME",
-                  "dataType":{  
-                     "className":"Text",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"01/01/1901",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:5,
+                  name:"DateOfBirth",
+                  code:"PRI_DOB",
+                  dataType:{  
+                     className:"LocalDate ",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.991",
-                           "updated":null,
-                           "id":null,
-                           "name":"Anything",
-                           "code":"VLD_ANYTHING",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.028",
+                           updated:null,
+                           id:null,
+                           name:"Past Date",
+                           code:"VLD_PAST_DATE",
+                           regex:"^([12]\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\d|3[01]))$"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"Adam",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.005",
-               "id":3,
-               "name":"FirstName",
-               "code":"PRI_FIRSTNAME",
-               "dataType":{  
-                  "className":"Text",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.991",
-                        "updated":null,
-                        "id":null,
-                        "name":"Anything",
-                        "code":"VLD_ANYTHING",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":40,
-                  "name":"Adam Crow",
-                  "code":"PER_USER2"
+            {  
+               baseEntityCode:"PER_USER2",
+               attributeCode:"PRI_FIRSTNAME",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.005",
-                  "id":4,
-                  "name":"LastName",
-                  "code":"PRI_LASTNAME",
-                  "dataType":{  
-                     "className":"Text",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"Adam",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:3,
+                  name:"FirstName",
+                  code:"PRI_FIRSTNAME",
+                  dataType:{  
+                     className:"Text",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:32.999",
-                           "updated":null,
-                           "id":null,
-                           "name":"Anything",
-                           "code":"VLD_ANYTHING",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.028",
+                           updated:null,
+                           id:null,
+                           name:"Anything",
+                           code:"VLD_ANYTHING",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"Crow",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.005",
-               "id":4,
-               "name":"LastName",
-               "code":"PRI_LASTNAME",
-               "dataType":{  
-                  "className":"Text",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:32.999",
-                        "updated":null,
-                        "id":null,
-                        "name":"Anything",
-                        "code":"VLD_ANYTHING",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":40,
-                  "name":"Adam Crow",
-                  "code":"PER_USER2"
+            {  
+               baseEntityCode:"PER_USER2",
+               attributeCode:"PRI_LASTNAME",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.005",
-                  "id":5,
-                  "name":"DateOfBirth",
-                  "code":"PRI_DOB",
-                  "dataType":{  
-                     "className":"LocalDate ",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"Crow",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:4,
+                  name:"LastName",
+                  code:"PRI_LASTNAME",
+                  dataType:{  
+                     className:"Text",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:33.001",
-                           "updated":null,
-                           "id":null,
-                           "name":"PastDate",
-                           "code":"VLD_PAST_DATE",
-                           "regex":"^([12]\\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\\d|3[01]))$"
+                           created:"2017-10-25T01:42:48.028",
+                           updated:null,
+                           id:null,
+                           name:"Anything",
+                           code:"VLD_ANYTHING",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"01/01/1901",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.005",
-               "id":5,
-               "name":"DateOfBirth",
-               "code":"PRI_DOB",
-               "dataType":{  
-                  "className":"LocalDate ",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.001",
-                        "updated":null,
-                        "id":null,
-                        "name":"PastDate",
-                        "code":"VLD_PAST_DATE",
-                        "regex":"^([12]\\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\\d|3[01]))$"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":40,
-                  "name":"Adam Crow",
-                  "code":"PER_USER2"
+            {  
+               baseEntityCode:"PER_USER2",
+               attributeCode:"PRI_MOBILE",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.005",
-                  "id":6,
-                  "name":"EmailId",
-                  "code":"PRI_EMAIL",
-                  "dataType":{  
-                     "className":"Email",
-                     "validationList":[  
+               created:"2017-10-25T01:31:47",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"61412345678",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:7,
+                  name:"Mobile",
+                  code:"PRI_MOBILE",
+                  dataType:{  
+                     className:"Mobile",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:33.002",
-                           "updated":null,
-                           "id":null,
-                           "name":"Email",
-                           "code":"VLD_EMAIL",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.03",
+                           updated:null,
+                           id:null,
+                           name:"Mobile",
+                           code:"VLD_MOBILE",
+                           regex:".*"
                         }
                      ]
                   }
                }
             },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"adam@gmail.com",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.005",
-               "id":6,
-               "name":"EmailId",
-               "code":"PRI_EMAIL",
-               "dataType":{  
-                  "className":"Email",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.002",
-                        "updated":null,
-                        "id":null,
-                        "name":"Email",
-                        "code":"VLD_EMAIL",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":40,
-                  "name":"Adam Crow",
-                  "code":"PER_USER2"
+            {  
+               baseEntityCode:"PER_USER2",
+               attributeCode:"PRI_USERNAME",
+               pk:{  
+
                },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.005",
-                  "id":7,
-                  "name":"Mobile",
-                  "code":"PRI_MOBILE",
-                  "dataType":{  
-                     "className":"Mobile",
-                     "validationList":[  
+               created:"2017-10-25T01:31:46",
+               updated:null,
+               valueDouble:null,
+               valueInteger:null,
+               valueLong:null,
+               valueDateTime:null,
+               valueString:"user2",
+               weight:1,
+               version:1,
+               attribute:{  
+                  created:"2017-10-25T01:31:42",
+                  updated:"2017-10-25T01:42:48.051",
+                  id:9,
+                  name:"Username",
+                  code:"PRI_USERNAME",
+                  dataType:{  
+                     className:"Username",
+                     validationList:[  
                         {  
-                           "created":"2017-10-16T01:04:33.004",
-                           "updated":null,
-                           "id":null,
-                           "name":"Mobile",
-                           "code":"VLD_MOBILE",
-                           "regex":".*"
+                           created:"2017-10-25T01:42:48.034",
+                           updated:null,
+                           id:null,
+                           name:"User Name",
+                           code:"VLD_USERNAME",
+                           regex:"^[a-z\_\.]{1,100}$"
                         }
                      ]
                   }
                }
-            },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"61412345678",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.005",
-               "id":7,
-               "name":"Mobile",
-               "code":"PRI_MOBILE",
-               "dataType":{  
-                  "className":"Mobile",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.004",
-                        "updated":null,
-                        "id":null,
-                        "name":"Mobile",
-                        "code":"VLD_MOBILE",
-                        "regex":".*"
-                     }
-                  ]
-               }
             }
-         }
-      ],
-      [  
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":41,
-                  "name":"Don Byron",
-                  "code":"PER_USER3"
-               },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.118",
-                  "id":3,
-                  "name":"FirstName",
-                  "code":"PRI_FIRSTNAME",
-                  "dataType":{  
-                     "className":"Text",
-                     "validationList":[  
-                        {  
-                           "created":"2017-10-16T01:04:33.099",
-                           "updated":null,
-                           "id":null,
-                           "name":"Anything",
-                           "code":"VLD_ANYTHING",
-                           "regex":".*"
-                        }
-                     ]
-                  }
-               }
-            },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"Don",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.118",
-               "id":3,
-               "name":"FirstName",
-               "code":"PRI_FIRSTNAME",
-               "dataType":{  
-                  "className":"Text",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.099",
-                        "updated":null,
-                        "id":null,
-                        "name":"Anything",
-                        "code":"VLD_ANYTHING",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":41,
-                  "name":"Don Byron",
-                  "code":"PER_USER3"
-               },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.118",
-                  "id":4,
-                  "name":"LastName",
-                  "code":"PRI_LASTNAME",
-                  "dataType":{  
-                     "className":"Text",
-                     "validationList":[  
-                        {  
-                           "created":"2017-10-16T01:04:33.104",
-                           "updated":null,
-                           "id":null,
-                           "name":"Anything",
-                           "code":"VLD_ANYTHING",
-                           "regex":".*"
-                        }
-                     ]
-                  }
-               }
-            },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"Byron",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.118",
-               "id":4,
-               "name":"LastName",
-               "code":"PRI_LASTNAME",
-               "dataType":{  
-                  "className":"Text",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.104",
-                        "updated":null,
-                        "id":null,
-                        "name":"Anything",
-                        "code":"VLD_ANYTHING",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":41,
-                  "name":"Don Byron",
-                  "code":"PER_USER3"
-               },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.118",
-                  "id":5,
-                  "name":"DateOfBirth",
-                  "code":"PRI_DOB",
-                  "dataType":{  
-                     "className":"LocalDate ",
-                     "validationList":[  
-                        {  
-                           "created":"2017-10-16T01:04:33.107",
-                           "updated":null,
-                           "id":null,
-                           "name":"PastDate",
-                           "code":"VLD_PAST_DATE",
-                           "regex":"^([12]\\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\\d|3[01]))$"
-                        }
-                     ]
-                  }
-               }
-            },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"22/01/1980",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.118",
-               "id":5,
-               "name":"DateOfBirth",
-               "code":"PRI_DOB",
-               "dataType":{  
-                  "className":"LocalDate ",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.107",
-                        "updated":null,
-                        "id":null,
-                        "name":"PastDate",
-                        "code":"VLD_PAST_DATE",
-                        "regex":"^([12]\\d{3}[- /.](0[1-9]|1[0-2])[- /.](0[1-9]|[12]\\d|3[01]))$"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":41,
-                  "name":"Don Byron",
-                  "code":"PER_USER3"
-               },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.118",
-                  "id":6,
-                  "name":"EmailId",
-                  "code":"PRI_EMAIL",
-                  "dataType":{  
-                     "className":"Email",
-                     "validationList":[  
-                        {  
-                           "created":"2017-10-16T01:04:33.115",
-                           "updated":null,
-                           "id":null,
-                           "name":"Email",
-                           "code":"VLD_EMAIL",
-                           "regex":".*"
-                        }
-                     ]
-                  }
-               }
-            },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"byron@gmail.com",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.118",
-               "id":6,
-               "name":"EmailId",
-               "code":"PRI_EMAIL",
-               "dataType":{  
-                  "className":"Email",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.115",
-                        "updated":null,
-                        "id":null,
-                        "name":"Email",
-                        "code":"VLD_EMAIL",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         },
-         {  
-            "baseEntityCode":null,
-            "attributeCode":null,
-            "pk":{  
-               "baseEntity":{  
-                  "created":"2017-10-16T01:00:32",
-                  "updated":"2017-10-16T01:00:34",
-                  "id":41,
-                  "name":"Don Byron",
-                  "code":"PER_USER3"
-               },
-               "attribute":{  
-                  "created":"2017-10-16T01:00:31",
-                  "updated":"2017-10-16T01:04:33.118",
-                  "id":7,
-                  "name":"Mobile",
-                  "code":"PRI_MOBILE",
-                  "dataType":{  
-                     "className":"Mobile",
-                     "validationList":[  
-                        {  
-                           "created":"2017-10-16T01:04:33.117",
-                           "updated":null,
-                           "id":null,
-                           "name":"Mobile",
-                           "code":"VLD_MOBILE",
-                           "regex":".*"
-                        }
-                     ]
-                  }
-               }
-            },
-            "created":"2017-10-16T01:00:34",
-            "updated":null,
-            "valueDouble":null,
-            "valueInteger":null,
-            "valueLong":null,
-            "valueDateTime":null,
-            "valueString":"61412345678",
-            "weight":1.0,
-            "version":1,
-            "attribute":{  
-               "created":"2017-10-16T01:00:31",
-               "updated":"2017-10-16T01:04:33.118",
-               "id":7,
-               "name":"Mobile",
-               "code":"PRI_MOBILE",
-               "dataType":{  
-                  "className":"Mobile",
-                  "validationList":[  
-                     {  
-                        "created":"2017-10-16T01:04:33.117",
-                        "updated":null,
-                        "id":null,
-                        "name":"Mobile",
-                        "code":"VLD_MOBILE",
-                        "regex":".*"
-                     }
-                  ]
-               }
-            }
-         }
-      ]
-   ]
-}
-	       
-    }
+         ]
+      },
+      {  
+         created:"2017-10-25T01:31:43",
+         updated:"2017-10-25T01:31:50",
+         id:41,
+         name:"Don Byron",
+         code:"PER_USER3",
+         baseEntityAttributes:[  
+            {  
+             ......All the attributes and their values in here....
+            }          
+         ]
+      }
+   ],
+   parentCode:"GRP_USERS",
+   linkCode:"LNK_CORE",
+   total:-1,
+   returnCount:3,
+   alias:null
+} 
 ```
     Then, the LAYOUT/VIEW CMD_MSG with code as BUCKET_VIEW or TABLE_VIEW to render the view/layout in the UI where the data will be displayed:
 ```javascript
       {
           msg_type : "CMD_MSG",
           cmd_type : "CMD_VIEW",
-          code    : "BUCKET_VIEW"  --> The view-type that needs to be displayed in fe. It can be TABLE_VIEW in some case.
-	  data:[{
-	  
-	      }]
+          code    : "TABLE_VIEW"  --> The view-type that needs to be displayed in fe. It can be BUCKET_VIEW in some case.
        }
 ```
    

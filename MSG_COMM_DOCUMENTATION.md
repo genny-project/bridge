@@ -13,7 +13,7 @@ While user logs in, the front-end sends event message (EVT_MSG) with the code "A
 ```javascript
      {
         msg_type: “EVT_MSG”,
-        evt_type: “AUTH_INIT”,
+        event_type: “AUTH_INIT”,
         data: 
               { 
     		  code: “AUTH_INIT”

@@ -1,7 +1,13 @@
 package life.genny.bridgecmd;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -10,7 +16,8 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.EBCHandlers;
 import life.genny.channels.EBProducers;
-import life.genny.security.SecureResources;;
+import life.genny.security.SecureResources;
+import life.genny.utils.PropertiesJsonDeserializer;;
 
 public class RouterHandlers {
 
@@ -19,6 +26,8 @@ public class RouterHandlers {
       System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 
   private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);
+  
+
 
   public static CorsHandler cors() {
     return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
@@ -118,4 +127,6 @@ public class RouterHandlers {
     });
     routingContext.response().end();
   }
+  
+ 
 }

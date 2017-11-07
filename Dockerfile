@@ -19,6 +19,8 @@ EXPOSE 5706
 EXPOSE 8088
 EXPOSE 15701
 
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD curl -f / http://localhost:8088/version || exit 1
+
 #CMD ["java"]
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 

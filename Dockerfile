@@ -1,5 +1,5 @@
 FROM openjdk:8u131-jre-alpine
-RUN apk update && apk add jq && apk add bash
+RUN apk update && apk add jq && apk add curl && apk add bash
 
 ADD target/bridge-0.0.1-SNAPSHOT-fat.jar /service.jar
 #ADD cluster.xml /cluster.xml
@@ -19,7 +19,7 @@ EXPOSE 5706
 EXPOSE 8088
 EXPOSE 15701
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD curl -f / http://localhost:8088/version || exit 1
+HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD curl -f / http://localhost:8088/version || exit 1
 
 #CMD ["java"]
 ENTRYPOINT [ "/docker-entrypoint.sh" ]

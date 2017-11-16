@@ -113,6 +113,8 @@ public class RouterHandlers {
       logger.info("KEYCLOAK:" + j);
       if (j.getString("msg_type").equals("EVT_MSG"))
         EBProducers.getToEvents().write(j);
+      if (j.getString("msg_type").equals("MSG_MESSAGE"))
+          EBProducers.getToMessages().write(j);
     });
     routingContext.response().end();
   }

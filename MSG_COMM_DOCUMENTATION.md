@@ -126,7 +126,7 @@ TreeView component will send following events for each different actions on its 
   | Select/Click on treeview item    |  TV_SELECT    |
   | Click on Expand icon             |  TV_EXPAND    |
   | Click on Contract icon           |  TV_CONTRACT  |
-  | Drag and Drop of the treeview item | EVT_LINK_CHANGE |
+  | Drag and Drop of the treeview item | TV_DRAG_AND_DROP |
   | Multi selection of the treeview item  | TV_MULTI_SELECTION |
   | Right click on the treeview item (Only available for Admin user)  |  TV_EDIT |
    
@@ -761,7 +761,7 @@ In Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRA
 
 
 ## Component: BucketView ##
-** BucketView Drag and Drop Event(EVT_LINK_CHANGE): Event Message from FrontEnd for drag and drop of the card in BucketView** 
+**BucketView Drag and Drop Event(EVT_LINK_CHANGE): Event Message from FrontEnd for drag and drop of the card in BucketView** 
 ```javascript
 {
    "event_type:"EVT_LINK_CHANGE",

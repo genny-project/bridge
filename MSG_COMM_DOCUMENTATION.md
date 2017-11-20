@@ -126,7 +126,7 @@ TreeView component will send following events for each different actions on its 
   | Select/Click on treeview item    |  TV_SELECT    |
   | Click on Expand icon             |  TV_EXPAND    |
   | Click on Contract icon           |  TV_CONTRACT  |
-  | Drag and Drop of the treeview item | TV_DRAG_DROP |
+  | Drag and Drop of the treeview item | EVT_LINK_CHANGE |
   | Multi selection of the treeview item  | TV_MULTI_SELECTION |
   | Right click on the treeview item (Only available for Admin user)  |  TV_EDIT |
    
@@ -750,7 +750,7 @@ TreeView component will send following events for each different actions on its 
            }
      }
 ```  
-On Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRACT" and the code of the TreeView item to be contracted in code in JSON Format:
+In Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRACT" and the code of the TreeView item to be contracted in code in JSON Format:
 ```javascript
      {
         msg_type : "CMD_MSG",
@@ -758,6 +758,37 @@ On Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRA
 	code : "GRP_LIVE_VIEW"  --> The code of the treeview item to be contracted
      }
 ```
+
+
+## Component: BucketView ##
+** BucketView Drag and Drop Event(EVT_LINK_CHANGE): Event Message from FrontEnd for drag and drop of the card in BucketView** 
+```javascript
+{
+   "event_type:"EVT_LINK_CHANGE",
+   "msg_type":"EVT_MSG",
+   "sourceBaseEntityCode":"GRP_QUOTES",
+   "targetBaseEntityCode":"GRP_PAID",
+   "linkCode":"LNK_CORE",
+   "data":{
+            "code":"BEG_0000003",
+	    "value":"LOD_LOAD5"
+	    }
+}
+```
+In return, for the invalid move, the back-end will send the following CMD_MSG with cmd_type, "BV_MOVE" along with target and the code of the TreeView item to be contracted in code in JSON Format:
+```javascript
+{
+   "msg_type": "CMD_MSG",
+   "cmd_type": "BV_MOVE",
+   "code": "ABORT",
+   "data":
+          {
+            "dataCode": "BEG_0000003",
+            "targetCode": "GRP_QUOTES"
+            }
+}
+```
+
 
 ## Component: User ACCOUNT ##
 When the user clicks the logout button/link, the FE sends following EVT_MSG

@@ -1,5 +1,7 @@
 package life.genny.bridgecmd;
 
+import org.apache.commons.lang.StringUtils;
+
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -27,7 +29,7 @@ public class BridgeHandler {
         || bridgeEvent.type() == BridgeEventType.SEND) {
       JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
       rawMessage = rawMessage.getJsonObject("data");
-      System.out.println("INCOMING TOKEN=" + rawMessage.getString("token"));
+      System.out.println("INCOMING TOKEN=" + StringUtils.abbreviateMiddle(rawMessage.getString("token"),"...",40));
       if (rawMessage.getString("token") != null) { // do not allow empty tokens
         logger.info("Incoming Frontend Event :" + rawMessage);
         if (rawMessage.getString("msg_type").equals("DATA_MSG")) {

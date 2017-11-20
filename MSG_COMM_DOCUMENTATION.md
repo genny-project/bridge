@@ -764,8 +764,8 @@ In Return the back-end will send the following CMD_MSG with cmd_type, "TV_CONTRA
 **BucketView Drag and Drop Event(EVT_LINK_CHANGE): Event Message from FrontEnd for drag and drop of the card in BucketView** 
 ```javascript
 {
-   "event_type:"EVT_LINK_CHANGE",
    "msg_type":"EVT_MSG",
+   "event_type":"EVT_LINK_CHANGE",
    "sourceBaseEntityCode":"GRP_QUOTES",
    "targetBaseEntityCode":"GRP_PAID",
    "linkCode":"LNK_CORE",

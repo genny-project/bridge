@@ -105,12 +105,11 @@ public class RouterHandlers {
   }
 
   public static void apiServiceHandler(final RoutingContext routingContext) {
-    System.out.println("yes");
-    final String token = routingContext.request().getParam("token");
+//    final String token = routingContext.request().getParam("token");
     routingContext.request().bodyHandler(body -> {
       final JsonObject j = body.toJsonObject();
-      j.put("token", token);
-      logger.info("KEYCLOAK:" + j);
+//      j.put("token", token);
+      logger.info("API Service Handler:" + j);
       if (j.getString("msg_type").equals("EVT_MSG"))
         EBProducers.getToEvents().write(j);
       if (j.getString("msg_type").equals("MSG_MESSAGE"))

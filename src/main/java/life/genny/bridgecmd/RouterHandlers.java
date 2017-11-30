@@ -112,8 +112,12 @@ public class RouterHandlers {
       logger.info("API Service Handler:" + j);
       if (j.getString("msg_type").equals("EVT_MSG"))
         EBProducers.getToEvents().write(j);
-      if (j.getString("msg_type").equals("MSG_MESSAGE"))
-          EBProducers.getToMessages().write(j);
+      if (j.getString("msg_type").equals("MSG_MESSAGE")) {
+    	  final String token = routingContext.request().getParam("token");
+    	  j.put("token", token);
+    	  EBProducers.getToMessages().write(j);
+      }
+          
     });
     routingContext.response().end();
   }

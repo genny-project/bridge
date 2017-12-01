@@ -44,8 +44,8 @@ public class RouterHandlers {
         aURL = new URL(fullurl);
         final String url = aURL.getHost();
         System.out.println("received get url:" + url);
-
-        final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url);
+        String key = url+".json";
+        final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
         if (keycloakJsonText != null) {
           final JsonObject retInit = new JsonObject(keycloakJsonText);
           retInit.put("vertx_url", vertxUrl);

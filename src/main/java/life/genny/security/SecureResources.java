@@ -46,7 +46,7 @@ public class SecureResources {
                 final String keycloakJsonText =
                     d.result().toString().replaceAll("localhost", hostIP);
                 keycloakJsonMap.put(fileStr, keycloakJsonText);
-                System.out.println(keycloakJsonText);
+                System.out.println("Keycloak json file:"+fileStr+":"+keycloakJsonText);
 
               } catch (final DecodeException dE) {
 

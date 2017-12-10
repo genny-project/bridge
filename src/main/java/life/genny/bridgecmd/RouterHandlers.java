@@ -43,8 +43,7 @@ public class RouterHandlers {
       try {
         aURL = new URL(fullurl);
         final String url = aURL.getHost();
-        System.out.println("received get url:" + url);
-        String key = url+".json";
+         String key = url+".json";
         final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
         if (keycloakJsonText != null) {
           final JsonObject retInit = new JsonObject(keycloakJsonText);
@@ -53,9 +52,12 @@ public class RouterHandlers {
           retInit.put("url", kcUrl);
           final String kcClientId = retInit.getString("resource");
           retInit.put("clientId", kcClientId);
+          System.out.println("received get url:" + url+" sending : "+kcUrl+" "+kcClientId);
+
           routingContext.response().putHeader("Content-Type", "application/json");
           routingContext.response().end(retInit.toString());
         } else {
+        	  System.out.println(key+ " NOT FOUND IN KEYCLOAK-JSON-MAP");
           routingContext.response().end();
         }
       } catch (final MalformedURLException e) {

@@ -13,7 +13,8 @@ public class Routers {
     router.route().handler(RouterHandlers.cors());
     router.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
     router.route(HttpMethod.GET, "/api/events/init").handler(RouterHandlers::apiGetInitHandler);
-    router.route(HttpMethod.POST, "/api/events/init").handler(RouterHandlers::apiInitHandler);
+//    router.route(HttpMethod.POST, "/api/events/init").handler(RouterHandlers::apiInitHandler);
+    router.route(HttpMethod.GET, "/api/session").handler(RouterHandlers::apiSession);
     router.route(HttpMethod.POST, "/api/service").handler(RouterHandlers::apiServiceHandler);
     router.route(HttpMethod.POST, "/api/cmds").handler(RouterHandlers::apiHandler);
     router.route(HttpMethod.POST, "/api/data").handler(RouterHandlers::apiHandler);
@@ -21,4 +22,5 @@ public class Routers {
 
     vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
   }
+  
 }

@@ -114,6 +114,8 @@ public class RouterHandlers {
       logger.info("API Service Handler:" + j);
       if (j.getString("msg_type").equals("EVT_MSG"))
         EBProducers.getToEvents().write(j);
+      if (j.getString("msg_type").equals("CMD_MSG"))
+          EBProducers.getToCmds().write(j);
       if (j.getString("msg_type").equals("MSG_MESSAGE")) {
     	  final String token = routingContext.request().getParam("token");
     	  j.put("token", token);

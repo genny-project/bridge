@@ -11,8 +11,22 @@ public class EBProducers {
 	private static MessageProducer<JsonObject> toEvents;
 	private static MessageProducer<JsonObject> toData;
 	private static MessageProducer<JsonObject> toMessages;
-
+	private static MessageProducer<JsonObject> toSession;
 	/**
+   * @return the toSession
+   */
+  public static MessageProducer<JsonObject> getToSession() {
+    return toSession;
+  }
+
+  /**
+   * @param toSession the toSession to set
+   */
+  public static void setToSession(MessageProducer<JsonObject> toSession) {
+    EBProducers.toSession = toSession;
+  }
+
+  /**
 	 * @return the toClientOutbount
 	 */
 	public static MessageProducer<JsonObject> getToClientOutbound() {

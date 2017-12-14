@@ -11,12 +11,14 @@ public class BridgeConfig {
 	private static List<PermittedOptions> setInbounds(){
 		List<PermittedOptions> inbounds = new ArrayList<PermittedOptions>();
 		inbounds.add(new PermittedOptions().setAddress("address.inbound"));
+		inbounds.add(new PermittedOptions().setAddressRegex(".*"));
 		return inbounds;
 	}
 	
 	private static List<PermittedOptions> setOutbounds(){
 		List<PermittedOptions> inbounds = new ArrayList<PermittedOptions>();
 		inbounds.add(new PermittedOptions().setAddressRegex("address.outbound"));
+		inbounds.add(new PermittedOptions().setAddressRegex(".*"));
 		return inbounds;
 	}
 

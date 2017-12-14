@@ -11,6 +11,7 @@ public class EBProducers {
 	private static MessageProducer<JsonObject> toEvents;
 	private static MessageProducer<JsonObject> toData;
 	private static MessageProducer<JsonObject> toMessages;
+	private static MessageProducer<JsonObject> toCmds;
 
 	/**
 	 * @return the toClientOutbount
@@ -64,10 +65,19 @@ public class EBProducers {
 	public static void setToMessages(MessageProducer<JsonObject> toMessages) {
 		EBProducers.toMessages = toMessages;
 	}
+	
+	public static MessageProducer<JsonObject> getToCmds() {
+		return toCmds;
+	}
+
+	public static void setToCmds(MessageProducer<JsonObject> toCmds) {
+		EBProducers.toCmds = toCmds;
+	}
 
 	public static void registerAllProducers(EventBus eb) {
 		setToEvents(eb.publisher("events"));
 		setToData(eb.publisher("data"));
+		setToCmds(eb.publisher("cmds"));
 		setToMessages(eb.publisher("messages"));
 	}
 }

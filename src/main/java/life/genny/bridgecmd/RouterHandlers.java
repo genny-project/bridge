@@ -43,14 +43,15 @@ public class RouterHandlers {
   public static void apiGetInitHandler(final RoutingContext routingContext) {
     routingContext.request().bodyHandler(bodyy -> {
       final String fullurl = routingContext.request().getParam("url");
-
       
       final String token = routingContext.request().getParam("token");
       final String tokenAuth = routingContext.request().getParam("Authorization");
       final String tokenAuthorize = routingContext.request().getParam("Authorize");
+      
       System.out.println("sdfsdfsdf"+token);
       System.out.println("sdfsdfsdf"+tokenAuthorize);
       System.out.println("sdfsdfsdf"+tokenAuth);
+      
       routingContext.request().params().names().stream().forEach(params -> System.out.println(params));
 //      System.out.println(routingContext.get);
       final RoutingContext test = routingContext;
@@ -58,6 +59,7 @@ public class RouterHandlers {
 //      System.out.println(bodyy.toString()+"fdfdfdf"+token);
 //      System.out.println("dklflsdfsdjflkjdsfjds "+body);
       // System.out.println("init json=" + fullurl);
+     
       
       
 //      JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
@@ -95,10 +97,10 @@ public class RouterHandlers {
     });
   }
 
-//  public static void apiInitHandler(final RoutingContext routingContext) {
-//    
+  public static void apiInitHandler(final RoutingContext routingContext) {
+    
 //   
-//    routingContext.request().bodyHandler(body -> {
+    routingContext.request().bodyHandler(body -> {
 //      
 //    final String bodyString = body.toString();
 //    final JsonObject rawMessage = new JsonObject(bodyString);
@@ -124,43 +126,43 @@ public class RouterHandlers {
 //      } else {
 //        System.out.println("EMPTY TOKEN");
 //      }
-//    
-////      System.out.println("init json=" + body);
-////      final String bodyString = body.toString();
-////      final JsonObject j = new JsonObject(bodyString);
-////      logger.info("url init:" + j);
-////      //final String fullurl = j.getString("url");
-////      final String fullurl = routingContext.request().getParam("url");
-////      URL aURL = null;
-////      try {
-////        aURL = new URL(fullurl);
-////        final String url = aURL.getHost();
-////        System.out.println("received post url:" + url);
-////
-////        final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url+".json");
-////        if (keycloakJsonText != null) {
-////          System.out.println(keycloakJsonText+"sdfklsnflsdnflsdnf");
-////          final JsonObject retInit = new JsonObject(keycloakJsonText);
-////          retInit.put("vertx_url", vertxUrl);
-////          String kcUrl = retInit.getString("auth-server-url");
-////          if (kcUrl.contains("localhost")) {
-////            kcUrl = kcUrl.replaceAll("localhost", hostIP);
-////          }
-////          retInit.put("url", kcUrl);
-////          final String kcClientId = retInit.getString("resource");
-////          retInit.put("clientId", kcClientId);
-////          System.out.println("Sending back :" + retInit.toString());
-////          routingContext.response().putHeader("Content-Type", "application/json");
-////
-////          routingContext.response().end(retInit.toString());
-////        } else {
-////          routingContext.response().end();
-////        }
-////      } catch (final MalformedURLException e) {
-////        routingContext.response().end();
-////      } ;
-//    });
-//  }
+    
+      System.out.println("init json=" + body);
+      final String bodyString = body.toString();
+      final JsonObject j = new JsonObject(bodyString);
+      logger.info("url init:" + j);
+      //final String fullurl = j.getString("url");
+      final String fullurl = routingContext.request().getParam("url");
+      URL aURL = null;
+      try {
+        aURL = new URL(fullurl);
+        final String url = aURL.getHost();
+        System.out.println("received post url:" + url);
+
+        final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(url+".json");
+        if (keycloakJsonText != null) {
+          System.out.println(keycloakJsonText+"sdfklsnflsdnflsdnf");
+          final JsonObject retInit = new JsonObject(keycloakJsonText);
+          retInit.put("vertx_url", vertxUrl);
+          String kcUrl = retInit.getString("auth-server-url");
+          if (kcUrl.contains("localhost")) {
+            kcUrl = kcUrl.replaceAll("localhost", hostIP);
+          }
+          retInit.put("url", kcUrl);
+          final String kcClientId = retInit.getString("resource");
+          retInit.put("clientId", kcClientId);
+          System.out.println("Sending back :" + retInit.toString());
+          routingContext.response().putHeader("Content-Type", "application/json");
+
+          routingContext.response().end(retInit.toString());
+        } else {
+          routingContext.response().end();
+        }
+      } catch (final MalformedURLException e) {
+        routingContext.response().end();
+      } ;
+    });
+  }
 
   public static void apiSession(final RoutingContext routingContext) {
     final String token = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiWWQ0SzNtcW4yeHpGenZsRG12dUNJdjVwNjlfTFZyd0c2bFFkUEpSTkU0In0.eyJqdGkiOiJjMDk1Mzg0NC0zNDZjLTRiNTQtOGYwNy04ZjFmYzYyNDU1OWYiLCJleHAiOjE1MTMxNDcwMDEsIm5iZiI6MCwiaWF0IjoxNTEzMTQ2NzAxLCJpc3MiOiJodHRwOi8vMTAuMS4xMjAuNjA6ODE4MC9hdXRoL3JlYWxtcy9nZW5ueSIsImF1ZCI6Imdlbm55Iiwic3ViIjoiMjYxM2FiM2MtNzI3OS00N2MxLWIzZGYtMzQxYWZiMmMwZWNiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZ2VubnkiLCJub25jZSI6IjM1MjczN2E1LTc2YTUtNDcxMS1iMGM3LTg4NzJmMzdmYjA1YSIsImF1dGhfdGltZSI6MTUxMzE0NTMxNiwic2Vzc2lvbl9zdGF0ZSI6IjgwMTBmMmFkLWExMGUtNGNmMi1hNjA5LWQ2NWY0NTU2YzJiYyIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9odHRwOi8vMTAuMS4xMjAuNjA6ODE4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6ODI4MCIsImh0dHA6Ly9odHRwOi8vMTAuMS4xMjAuNjA6ODE4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCIsImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwibmFtZSI6IkFseXNvbiBHZW5ueSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwiZ2l2ZW5fbmFtZSI6IkFseXNvbiIsImZhbWlseV9uYW1lIjoiR2VubnkiLCJlbWFpbCI6Imdlbm55QGdlbm55LmxpdmUifQ.yBTTlZuRn7Fb-yEzelxAYvboye8txY0mUHLB7kJgJ3KhfSfGeoxXxoPoteQTqqfNdUv5YcaCMa7psMLKCYl4xdCPEjSJFAXykEdlAhMDRcPyHY5bRhhW0PC_sWX_FkZwnmQeq9WJkq6giLjFFMoYvYjH48XNtUud8lx86lDememHn2xBnAz7t1YhC16ZPDR7AYQFZ0IDwhwPpBi-ePpjttXIE97XlHsGWNdOtPUUobYhFHHZAAqtet4D-IEMIFaPi7NAxW4QdvnTWi9Kk4Hx4BqxKstHtENlkhZpGS2oEY7imYd-IOIe964nVFbVN1Pb5AGVVrc6XpXd7OITFrA33w";

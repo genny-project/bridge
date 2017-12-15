@@ -102,10 +102,10 @@ public class RouterHandlers {
       System.out.println(tokenJSON.get("email"));
       String sessionState =tokenJSON.getString("session_state");
       String email = (String) tokenJSON.get("email");
-      
+      System.out.println("\n\n\n\n\n\n\n\n\n"+sessionState +"   "+email+"n\n\n\n\n\n\n");
       final MessageProducer<JsonObject> toSessionChannel =
           Vertx.currentContext().owner().eventBus().publisher(sessionState);
-      EBProducers.getChannelSessionList().put(email, toSessionChannel);
+      EBProducers.getChannelSessionList().put(email+sessionState, toSessionChannel);
       routingContext.response().end();
       
     });

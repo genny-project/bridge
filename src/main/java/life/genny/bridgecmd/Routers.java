@@ -8,6 +8,7 @@ public class Routers {
 
   private static int serverPort = 8088;
 
+ 
   protected static void routers(final Vertx vertx) {
     final Router router = Router.router(vertx);
     router.route().handler(RouterHandlers.cors());

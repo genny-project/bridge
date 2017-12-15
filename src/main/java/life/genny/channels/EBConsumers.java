@@ -7,6 +7,7 @@ import rx.Observable;
 public class EBConsumers {
 	
 	private static Observable<Message<Object>> fromCmds;
+	private static Observable<Message<Object>> fromData;
 
 	/**
 	 * @return the fromCmds
@@ -23,8 +24,27 @@ public class EBConsumers {
 		EBConsumers.fromCmds = fromCmds;
 	}
 	
+	
+	
+	/**
+	 * @return the fromData
+	 */
+	public static Observable<Message<Object>> getFromData() {
+		return fromData;
+	}
+
+
+	/**
+	 * @param fromData the fromData to set
+	 */
+	public static void setFromData(Observable<Message<Object>> fromData) {
+		EBConsumers.fromData = fromData;
+	}
+
+
 	public static void registerAllConsumer(EventBus eb){
 		setFromCmds(eb.consumer("cmds").toObservable());
+		setFromData(eb.consumer("data").toObservable());
 	}
 
 }

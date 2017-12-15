@@ -32,22 +32,18 @@ public class BridgeHandler {
         || bridgeEvent.type() == BridgeEventType.SEND) {
       JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
       rawMessage = rawMessage.getJsonObject("data");
-      System.out.println("INCOMING TOKEN=" + StringUtils.abbreviateMiddle(rawMessage.getString("token"),"...",40));
       if (rawMessage.getString("token") != null) { // do not allow empty tokens
-        logger.info("Incoming Frontend Event :" + rawMessage);
-
         String token = rawMessage.getString("token");
-        JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
+ //       System.out.println("INCOMING TOKEN FROM WEB BROWSER VERTX =" + StringUtils.abbreviateMiddle(rawMessage.getString("token"),"...",40));
+  //      JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
 //        System.out.println(tokenJSON.str);
         if (rawMessage.getString("msg_type").equals("DATA_MSG")) {
-          logger.info("PUBLISH to data...");
           EBProducers.getToData().write(rawMessage);
-          logger.info("PUBLISHED to data...");
+          logger.info("PUBLISHED to data..."+rawMessage.getString("data_type")+":"+StringUtils.abbreviateMiddle(rawMessage.getString("token"),"...",40));
         }
         else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
-          logger.info("PUBLISH to events...");
           EBProducers.getToEvents().write(rawMessage);
-          logger.info("PUBLISHED to events ....");
+          logger.info("PUBLISHED to events "+rawMessage.getString("event_type")+":"+rawMessage.getString("code")+":"+StringUtils.abbreviateMiddle(rawMessage.getString("token"),"...",40));
         }
       } else {
         System.out.println("EMPTY TOKEN");

@@ -1,5 +1,7 @@
 package life.genny.channels;
 
+import java.util.HashMap;
+import java.util.Map;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.EventBus;
@@ -12,8 +14,23 @@ public class EBProducers {
 	private static MessageProducer<JsonObject> toData;
 	private static MessageProducer<JsonObject> toMessages;
 	private static MessageProducer<JsonObject> toCmds;
-
+	private static Map<String, MessageProducer<JsonObject>> channelSessionList = new HashMap<String, MessageProducer<JsonObject>>(); 
 	/**
+   * @return the channelSessionList
+   */
+  public static Map<String, MessageProducer<JsonObject>> getChannelSessionList() {
+    return channelSessionList;
+  }
+
+  /**
+   * @param channelSessionList the channelSessionList to set
+   */
+  public static void setChannelSessionList(
+      Map<String, MessageProducer<JsonObject>> channelSessionList) {
+    EBProducers.channelSessionList = channelSessionList;
+  }
+
+  /**
 	 * @return the toClientOutbount
 	 */
 	public static MessageProducer<JsonObject> getToClientOutbound() {

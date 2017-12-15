@@ -17,6 +17,7 @@ public class BridgeHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(ServiceVerticle.class);
 
+  
   protected static SockJSHandler eventBusHandler(final Vertx vertx) {
 //    final MessageProducer<JsonObject> toAddressOutbound =
 //        vertx.eventBus().publisher("address.outbound");

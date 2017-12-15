@@ -29,8 +29,9 @@ public class EBCHandlers {
 				final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 				final DeliveryOptions options = new DeliveryOptions();
 				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
-				tokenJSON.getString("session_state");
-				EBProducers.getChannelSessionList().get(tokenJSON.getString("email")).write(json);
+				String sessionState = tokenJSON.getString("session_state");
+				String email = tokenJSON.getString("email");
+				EBProducers.getChannelSessionList().get(email+sessionState).write(json);
 //				EBProducers.getToClientOutbound().deliveryOptions(options);
 //				EBProducers.getToClientOutbound().write(json);
 //				

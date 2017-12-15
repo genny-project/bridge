@@ -110,6 +110,9 @@ public class RouterHandlers {
 //    final String token = routingContext.request().getParam("token");
     routingContext.request().bodyHandler(body -> {
       final JsonObject j = body.toJsonObject();
+   	  final String token = routingContext.request().getParam("token");
+	  j.put("token", token);
+
 //      j.put("token", token);
       logger.info("API Service Handler:" + j);
       if (j.getString("msg_type").equals("EVT_MSG"))
@@ -117,8 +120,6 @@ public class RouterHandlers {
       if (j.getString("msg_type").equals("CMD_MSG"))
           EBProducers.getToCmds().write(j);
       if (j.getString("msg_type").equals("MSG_MESSAGE")) {
-    	  final String token = routingContext.request().getParam("token");
-    	  j.put("token", token);
     	  EBProducers.getToMessages().write(j);
       }
           

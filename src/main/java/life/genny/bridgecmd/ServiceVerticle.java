@@ -20,5 +20,6 @@ public class ServiceVerticle extends AbstractVerticle {
       }, fut);
       startFuture.complete();
     }, startFuture);
+    
   }
 }

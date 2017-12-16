@@ -1,4 +1,4 @@
-package life.genny.bridgecmd;
+package life.genny.bridge;
 
 
 import io.vertx.rxjava.core.AbstractVerticle;

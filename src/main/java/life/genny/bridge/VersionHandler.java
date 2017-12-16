@@ -1,4 +1,4 @@
-package life.genny.bridgecmd;
+package life.genny.bridge;
 
 import java.io.IOException;
 import java.util.Properties;

@@ -1,23 +1,25 @@
 package life.genny.channels;
 
+import java.lang.invoke.MethodHandles;
+
 import org.json.JSONObject;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+import org.apache.logging.log4j.Logger;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.qwandautils.KeycloakUtils;
 
 public class EBCHandlers {
 
-	private static final Logger logger = LoggerFactory.getLogger(EBCHandlers.class);
+	protected static final Logger log = org.apache.logging.log4j.LogManager
+			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
 	public static void registerHandlers() {
 
 		EBConsumers.getFromCmds().subscribe(arg -> {
 			String incomingCmd = arg.body().toString();
-			logger.info(incomingCmd);
+			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array
 				if (incomingCmd.startsWith("[")) {
@@ -38,13 +40,13 @@ public class EBCHandlers {
 				// EBProducers.getToClientOutbound().write(json);
 				//
 			} else {
-				logger.error("Cmd with Unauthorised cmd recieved");
+				log.error("Cmd with Unauthorised cmd recieved");
 			}
 		});
 
 		EBConsumers.getFromData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
-			logger.info(incomingData);
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA:"+incomingData);
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array
 				if (incomingData.startsWith("[")) {
@@ -61,7 +63,7 @@ public class EBCHandlers {
 				}
 				// }
 			} else {
-				logger.error("Cmd with Unauthorised data recieved");
+				log.error("Cmd with Unauthorised data recieved");
 			}
 		});
 	}

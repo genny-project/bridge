@@ -1,4 +1,4 @@
-package life.genny.bridgecmd;
+package life.genny.bridge;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.rxjava.core.Vertx;

@@ -59,8 +59,10 @@ public class EBCHandlers {
 				// if (json.getString("token")!=null) {
 				for (MessageProducer<JsonObject> msgProducer : EBProducers.getChannelSessionList().values()) {
 					String channel = msgProducer.address();
+					msgProducer.write(json);
 					Vertx.currentContext().owner().eventBus().publish(channel, json);
 				}
+				//Vertx.currentContext().owner().eventBus().publish("address.inbound", json);
 				// }
 			} else {
 				log.error("Cmd with Unauthorised data recieved");

@@ -41,9 +41,9 @@ public class EBCHandlers {
 				if (json.getString("token") != null) {
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 					String sessionState = tokenJSON.getString("session_state");
-					String email = tokenJSON.getString("email");
+					String email = ""; //tokenJSON.getString("email");
 					EBProducers.getChannelSessionList().get(email + sessionState).write(json);
-					Vertx.currentContext().owner().eventBus().publish(tokenJSON.getString("session_state"), json);
+					Vertx.currentContext().owner().eventBus().publish(sessionState, json);
 				}
 				// EBProducers.getToClientOutbound().deliveryOptions(options);
 				// EBProducers.getToClientOutbound().write(json);
@@ -76,6 +76,14 @@ public class EBCHandlers {
 				final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 				final DeliveryOptions options = new DeliveryOptions();
 				// if (json.getString("token")!=null) {
+				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
+				String sessionState = tokenJSON.getString("session_state");
+				String email = ""; //tokenJSON.getString("email");
+				json.put("token", "Removed");
+
+				EBProducers.getChannelSessionList().get(email + sessionState).write(json);
+				Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+
 				for (MessageProducer<JsonObject> msgProducer : EBProducers.getChannelSessionList().values()) {
 					String channel = msgProducer.address();
 					msgProducer.write(json);

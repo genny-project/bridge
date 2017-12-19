@@ -25,23 +25,9 @@ public class EBCHandlers {
 	public static void registerHandlers() {
 
 		EBConsumers.getFromCmds().subscribe(arg -> {
-			//String incomingCmd = arg.body().toString();
 			//log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
 			String incomingCmd = arg.body().toString();
-			JSONParser parser = new JSONParser();
-			org.json.simple.JSONObject obj = null;
-			try {
-				obj = (org.json.simple.JSONObject) parser.parse(incomingCmd);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + obj.get("data_type").toString() + ":"
-					+ StringUtils.abbreviateMiddle(obj.get("token").toString(), "...", 40));
-			
-			
-			
-			
+			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :");
 			
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array

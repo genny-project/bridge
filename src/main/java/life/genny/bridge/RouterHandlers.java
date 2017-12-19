@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.core.http.HttpServerResponse;
@@ -92,7 +93,7 @@ public class RouterHandlers {
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(tokenSt);
 			System.out.println(tokenJSON.get("email"));
 			String sessionState = tokenJSON.getString("session_state");
-			String email = (String) tokenJSON.get("email");
+			String email = "";//(String) tokenJSON.get("email");
 			log.info(sessionState + "   " + email);
 			final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
 					.publisher(sessionState);
@@ -113,34 +114,42 @@ public class RouterHandlers {
 	}
 
 	public static void apiServiceHandler(final RoutingContext routingContext) {
-		// final String token = routingContext.request().getParam("token");
+		String token = routingContext.request().getParam("token");
 		routingContext.request().bodyHandler(body -> {
+			String localToken = null;
 			final JsonObject j = body.toJsonObject();
-			final String token = routingContext.request().getParam("token");
-
+			if (token == null) {
+				MultiMap headerMap = routingContext.request().headers();
+				localToken = headerMap.get("Authorization");
+				if (localToken == null) {
+					log.error("NULL TOKEN!");
+				} else {
+					localToken = localToken.substring(7); // To remove initial [Bearer ]
+				}
+			} else {
+				localToken = token;
+			}
 			// j.put("token", token);
 			if (j.getString("msg_type").equals("EVT_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS EVENT:" + j);
-				j.put("token", token);
+				j.put("token", localToken);
 				final DeliveryOptions options = new DeliveryOptions();
-				options.addHeader("Authorization", "Bearer " + token);
-//				EBProducers.getToEvents().deliveryOptions(options);
+				options.addHeader("Authorization", "Bearer " + localToken);
+				EBProducers.getToEvents().deliveryOptions(options);
 				EBProducers.getToEvents().write(j);
-			}
+			} else
 
 			if (j.getString("msg_type").equals("CMD_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
-				j.put("token", token);
+				j.put("token", localToken);
 				EBProducers.getToCmds().write(j);
-			}
-			if (j.getString("msg_type").equals("MSG_MESSAGE")) {
+			} else if (j.getString("msg_type").equals("MSG_MESSAGE")) {
 				log.info("CMD API POST   >> EVENT-BUS MSG DATA :" + j);
-				j.put("token", token);
+				j.put("token", localToken);
 				EBProducers.getToMessages().write(j);
-			}
-			if (j.getString("msg_type").equals("DATA_MSG")) {
+			} else if (j.getString("msg_type").equals("DATA_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
-				j.put("token", token);
+				j.put("token", localToken);
 				EBProducers.getToData().write(j);
 			}
 

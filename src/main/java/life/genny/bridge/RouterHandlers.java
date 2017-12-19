@@ -124,7 +124,7 @@ public class RouterHandlers {
 				j.put("token", token);
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + token);
-				EBProducers.getToEvents().deliveryOptions(options);
+//				EBProducers.getToEvents().deliveryOptions(options);
 				EBProducers.getToEvents().write(j);
 			}
 
@@ -134,9 +134,14 @@ public class RouterHandlers {
 				EBProducers.getToCmds().write(j);
 			}
 			if (j.getString("msg_type").equals("MSG_MESSAGE")) {
-				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
+				log.info("CMD API POST   >> EVENT-BUS MSG DATA :" + j);
 				j.put("token", token);
 				EBProducers.getToMessages().write(j);
+			}
+			if (j.getString("msg_type").equals("DATA_MSG")) {
+				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
+				j.put("token", token);
+				EBProducers.getToData().write(j);
 			}
 
 		});

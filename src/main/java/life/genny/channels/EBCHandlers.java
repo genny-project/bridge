@@ -3,8 +3,15 @@ package life.genny.channels;
 import java.lang.invoke.MethodHandles;
 
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
+
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
@@ -18,8 +25,24 @@ public class EBCHandlers {
 	public static void registerHandlers() {
 
 		EBConsumers.getFromCmds().subscribe(arg -> {
+			//String incomingCmd = arg.body().toString();
+			//log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
 			String incomingCmd = arg.body().toString();
-			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
+			JSONParser parser = new JSONParser();
+			org.json.simple.JSONObject obj = null;
+			try {
+				obj = (org.json.simple.JSONObject) parser.parse(incomingCmd);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + obj.get("data_type").toString() + ":"
+					+ StringUtils.abbreviateMiddle(obj.get("token").toString(), "...", 40));
+			
+			
+			
+			
+			
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array
 				if (incomingCmd.startsWith("[")) {
@@ -46,7 +69,17 @@ public class EBCHandlers {
 
 		EBConsumers.getFromData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA:"+incomingData);
+			JSONParser parser = new JSONParser();
+			org.json.simple.JSONObject obj = null;
+			try {
+				obj = (org.json.simple.JSONObject) parser.parse(incomingData);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + obj.get("data_type").toString() + ":"
+					+ StringUtils.abbreviateMiddle(obj.get("token").toString(), "...", 40));
+			
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array
 				if (incomingData.startsWith("[")) {

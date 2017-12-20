@@ -37,7 +37,7 @@ public class BridgeHandler {
 					EBProducers.getToData().write(rawMessage);
 				} else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
 					log.info("WEBSOCKET EVNT >> EVENT-BUS EVNT:" + rawMessage.getString("event_type") + ":"
-							+ rawMessage.getString("code") + ":"
+							+ rawMessage.getJsonObject("data").getString("code") + ":"
 							+ StringUtils.abbreviateMiddle(rawMessage.getString("token"), "...", 40));
 					EBProducers.getToEvents().write(rawMessage);
 				}

@@ -27,7 +27,6 @@ public class EBCHandlers {
 		EBConsumers.getFromCmds().subscribe(arg -> {
 			//log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
 			String incomingCmd = arg.body().toString();
-			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :");
 			
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array
@@ -37,6 +36,7 @@ public class EBCHandlers {
 				}
 
 				final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+json.getString("code"));
 				final DeliveryOptions options = new DeliveryOptions();
 				if (json.getString("token") != null) {
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));

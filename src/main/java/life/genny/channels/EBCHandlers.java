@@ -36,7 +36,7 @@ public class EBCHandlers {
 				}
 
 				final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+json.getString("code"));
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
 				final DeliveryOptions options = new DeliveryOptions();
 				if (json.getString("token") != null) {
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));

@@ -14,6 +14,7 @@ public class EBProducers {
 	private static MessageProducer<JsonObject> toData;
 	private static MessageProducer<JsonObject> toMessages;
 	private static MessageProducer<JsonObject> toCmds;
+	private static MessageProducer<JsonObject> toServices;
 	private static Map<String, MessageProducer<JsonObject>> channelSessionList = new HashMap<String, MessageProducer<JsonObject>>(); 
 	/**
    * @return the channelSessionList
@@ -91,10 +92,27 @@ public class EBProducers {
 		EBProducers.toCmds = toCmds;
 	}
 
+	
+	
+	/**
+	 * @return the toServices
+	 */
+	public static MessageProducer<JsonObject> getToServices() {
+		return toServices;
+	}
+
+	/**
+	 * @param toServices the toServices to set
+	 */
+	public static void setToServices(MessageProducer<JsonObject> toServices) {
+		EBProducers.toServices = toServices;
+	}
+
 	public static void registerAllProducers(EventBus eb) {
 		setToEvents(eb.publisher("events"));
 		setToData(eb.publisher("data"));
 		setToCmds(eb.publisher("cmds"));
+		setToServices(eb.publisher("services"));
 		setToMessages(eb.publisher("messages"));
 	}
 }

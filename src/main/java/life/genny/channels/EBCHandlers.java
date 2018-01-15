@@ -42,11 +42,13 @@ public class EBCHandlers {
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 					String sessionState = tokenJSON.getString("session_state");
 					String email = ""; //tokenJSON.getString("email");
-					EBProducers.getChannelSessionList().get(email + sessionState).write(json);
-					Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+					
+					MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList().get(email + sessionState);
+					if (msgProducer != null) {
+						msgProducer.write(json);
+						Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+					}
 				}
-				// EBProducers.getToClientOutbound().deliveryOptions(options);
-				// EBProducers.getToClientOutbound().write(json);
 				//
 			} else {
 				log.error("Cmd with Unauthorised cmd recieved");

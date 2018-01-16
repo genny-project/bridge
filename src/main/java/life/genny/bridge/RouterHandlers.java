@@ -1,11 +1,23 @@
 package life.genny.bridge;
 
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
@@ -17,6 +29,7 @@ import io.vertx.rxjava.core.http.HttpServerResponse;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.EBProducers;
+import life.genny.qwanda.message.QEventMessage;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.security.SecureResources;;
 
@@ -33,6 +46,22 @@ public class RouterHandlers {
 				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type")
 				.allowedHeader("X-Requested-With");
 	}
+	
+	static Gson gson = new GsonBuilder()
+			.registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+				@Override
+				public LocalDateTime deserialize(final JsonElement json, final Type type,
+						final JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+					return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString(),
+							DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+				}
+
+				public JsonElement serialize(final LocalDateTime date, final Type typeOfSrc,
+						final JsonSerializationContext context) {
+					return new JsonPrimitive(date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)); // "yyyy-mm-dd"
+				}
+			}).create();
+
 
 	public static void apiGetInitHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(bodyy -> {
@@ -72,6 +101,19 @@ public class RouterHandlers {
 					routingContext.response().end(retInit.toString());
 				} else {
 					System.out.println(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
+					
+					// Treat Inbound api call as a WEB SITE!!
+					
+					// Send request through to rules!
+					final DeliveryOptions options = new DeliveryOptions();
+					QEventMessage msg = new QEventMessage("EVT_WWW",fullurl);
+					String json = gson.toJson(msg);
+					JsonObject jsonObject = new JsonObject(json);
+					
+					options.addHeader("Authorization", "Bearer " + "WWW");
+					EBProducers.getToEvents().deliveryOptions(options);
+					EBProducers.getToEvents().write(jsonObject);
+					
 					routingContext.response().end();
 				}
 			} catch (final MalformedURLException e) {

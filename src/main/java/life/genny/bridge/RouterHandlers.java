@@ -104,17 +104,12 @@ public class RouterHandlers {
 					
 					// Treat Inbound api call as a WEB SITE!!
 					
-					// Send request through to rules!
-					final DeliveryOptions options = new DeliveryOptions();
-					QEventMessage msg = new QEventMessage("EVT_WWW",fullurl);
-					String json = gson.toJson(msg);
-					JsonObject jsonObject = new JsonObject(json);
-					
-					options.addHeader("Authorization", "Bearer " + "WWW");
-					EBProducers.getToEvents().deliveryOptions(options);
-					EBProducers.getToEvents().write(jsonObject);
-					
-					routingContext.response().end();
+					final JsonObject retInit = new JsonObject();
+					retInit.put("realm", "www");
+					retInit.put("vertx_url", vertxUrl);
+					log.info("WEB API GETWWW >> SETUP REQ:" + url + " sending : WWW");
+					routingContext.response().putHeader("Content-Type", "application/json");
+					routingContext.response().end(retInit.toString());
 				}
 			} catch (final MalformedURLException e) {
 				routingContext.response().end();

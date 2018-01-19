@@ -54,7 +54,7 @@ public class ClusterConfig {
   public static VertxOptions configCluster() {
     final VertxOptions options = new VertxOptions();
 
-    if (System.getenv("GENNYDEV") == null) {
+    if (System.getenv("GENNY_DEV") == null) {
       final ClusterManager mgr = new HazelcastClusterManager();
 //      final ClusterManager mgr = new HazelcastClusterManager();
       options.setClusterManager(mgr);

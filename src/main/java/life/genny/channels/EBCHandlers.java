@@ -1,6 +1,8 @@
 package life.genny.channels;
 
 import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,6 +23,8 @@ public class EBCHandlers {
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+	
+
 
 	public static void registerHandlers() {
 
@@ -36,7 +40,7 @@ public class EBCHandlers {
 				}
 
 				final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+incomingCmd);
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :"+json.getString("cmd_type")+":"+json.getString("code"));
 				final DeliveryOptions options = new DeliveryOptions();
 				if (json.getString("token") != null) {
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
@@ -66,7 +70,7 @@ public class EBCHandlers {
 				e.printStackTrace();
 			}			
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + obj.get("data_type").toString() + ":"
-					+ StringUtils.abbreviateMiddle(obj.get("token").toString(), "...", 40));
+					+ obj.get("recipientCodeArray"));
 			
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array

@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>life.genny</groupId>
 			<artifactId>qwanda-utils</artifactId>
-			<version>0.9.11</version>
+			<version>${qwanda-utils.version}</version>
 		</dependency>
 	</dependencies>
 

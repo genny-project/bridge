@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.qwandautils.KeycloakUtils;
+import life.genny.qwandautils.QwandaUtils;
 
 public class EBCHandlers {
 
@@ -81,13 +82,27 @@ public class EBCHandlers {
 
 				final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 
-				for (MessageProducer<JsonObject> msgProducer : EBProducers.getChannelSessionList().values()) {
-					String channel = msgProducer.address();
-					msgProducer.write(json);
-					Vertx.currentContext().owner().eventBus().publish(channel, json);
+				// Loop through the recipientCode Array to send this data
+				String[] userCodeArray = (String[])obj.get("recipientCodeArray");
+				
+				if (userCodeArray == null) {
+					userCodeArray = new String[1]; // create the array
+					String token = json.getString("token");
+					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
+					String username = tokenJSON.getString("preferred_username");
+					String code = "PER_"+QwandaUtils.getNormalisedUsername(username).toUpperCase();
+					userCodeArray[0] = code;
+
 				}
-				//Vertx.currentContext().owner().eventBus().publish("address.inbound", json);
-				// }
+				
+				for (String userCode : userCodeArray) {
+					// Find all user sessions
+					for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(userCode)) {
+						String channel = msgProducer.address();
+						msgProducer.write(json);
+						Vertx.currentContext().owner().eventBus().publish(channel, json);						
+					}					
+				}
 			} else {
 				log.error("Cmd with Unauthorised data recieved");
 			}

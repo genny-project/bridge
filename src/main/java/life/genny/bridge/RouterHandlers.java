@@ -6,6 +6,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -31,6 +34,7 @@ import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.EBProducers;
 import life.genny.qwanda.message.QEventMessage;
 import life.genny.qwandautils.KeycloakUtils;
+import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;;
 
 public class RouterHandlers {
@@ -130,10 +134,24 @@ public class RouterHandlers {
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(tokenSt);
 			System.out.println(tokenJSON.get("email"));
 			String sessionState = tokenJSON.getString("session_state");
+			String username = tokenJSON.getString("preferred_username");
 			String email = "";//(String) tokenJSON.get("email");
 			log.info(sessionState + "   " + email);
 			final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
 					.publisher(sessionState);
+			// TODO hack
+			// Add all new (assume these are all new) to a hashMap mapped by user Code
+			String code = "PER_"+QwandaUtils.getNormalisedUsername(username).toUpperCase();
+			Set<MessageProducer<JsonObject>> msgProducerList  = null;
+			if (EBProducers.getUserSessionMap().containsKey(code)) {
+				 msgProducerList= EBProducers.getUserSessionMap().get(code);
+				EBProducers.getUserSessionMap().put(code, msgProducerList);
+			} else {
+				 msgProducerList = new HashSet<MessageProducer<JsonObject>>();
+				 EBProducers.getUserSessionMap().put(code, msgProducerList);
+			}
+			msgProducerList.add(toSessionChannel);
+
 			EBProducers.getChannelSessionList().put(email + sessionState, toSessionChannel);
 			routingContext.response().end();
 

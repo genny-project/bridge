@@ -59,6 +59,7 @@ public class ClusterConfig {
 //      final ClusterManager mgr = new HazelcastClusterManager();
       options.setClusterManager(mgr);
       options.setEventBusOptions(configEBCluster());
+      options.setClustered(true);
     } else {
       logger.info("Running DEV mode, no cluster");
       ClusterManager mgr = null;
@@ -69,6 +70,7 @@ public class ClusterConfig {
       options.setClusterManager(mgr);
       options.setBlockedThreadCheckInterval(200000000);
       options.setMaxEventLoopExecuteTime(Long.MAX_VALUE);
+      options.setClustered(true);
     }
     return options;
   }

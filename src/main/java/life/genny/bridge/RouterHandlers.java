@@ -22,13 +22,17 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
+import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
+import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.core.http.HttpServerResponse;
+import io.vertx.rxjava.core.shareddata.AsyncMap;
+import io.vertx.rxjava.core.shareddata.SharedData;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.EBProducers;
@@ -41,6 +45,8 @@ public class RouterHandlers {
 
 	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
 	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
+	
+	static public Vertx vertx;
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
@@ -222,6 +228,69 @@ public class RouterHandlers {
 			EBProducers.getToData().write(body.toJsonObject());
 		});
 		routingContext.response().end();
+	}
+
+	public static void apiMapPutHandler(final RoutingContext context) {
+        final HttpServerRequest req = context.request();
+        String param1 = req.getParam("param1");
+        String param2 = req.getParam("param2");
+
+        SharedData sd = vertx.sharedData();
+        sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String,String>> res) -> {
+            if (res.failed()) {
+                JsonObject err = new JsonObject().put("status", "error");
+                req.response().headers().set("Content-Type", "application/json");
+                req.response().end(err.encode());
+            } else {
+                AsyncMap<String,String> amap = res.result();
+                amap.put(param1, param2, (AsyncResult<Void> comp) -> {
+                    if (comp.failed()) {
+                        JsonObject err = new JsonObject()
+                            .put("status", "error")
+                            .put("description", "write failed");
+                        req.response().headers().set("Content-Type", "application/json");
+                        req.response().end(err.encode());
+                    }else {
+                        JsonObject err = new JsonObject().put("status", "ok");
+                        req.response().headers().set("Content-Type", "application/json");
+                        req.response().end(err.encode());
+                    }
+                });
+            }
+        });
+ 
+	}
+
+	public static void apiMapGetHandler(final RoutingContext context) {
+        final HttpServerRequest req = context.request();
+        String param1 = req.getParam("param1");
+
+        SharedData sd = vertx.sharedData();
+        sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String,String>> res) -> {
+            if (res.failed()) {
+                JsonObject err = new JsonObject().put("status", "error");
+                req.response().headers().set("Content-Type", "application/json");
+                req.response().end(err.encode());
+            } else {
+                AsyncMap<String,String> amap = res.result();
+                amap.get(param1, (AsyncResult<String> comp) -> {
+                    if (comp.failed()) {
+                        JsonObject err = new JsonObject()
+                            .put("status", "error")
+                            .put("description", "write failed");
+                        req.response().headers().set("Content-Type", "application/json");
+                        req.response().end(err.encode());
+                    }else{
+                        JsonObject err = new JsonObject()
+                            .put("status", "ok")
+                            .put("value", comp.result());
+                        req.response().headers().set("Content-Type", "application/json");
+                        req.response().end(err.encode());
+                    }
+                });
+            }
+        });
+
 	}
 
 }

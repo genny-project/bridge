@@ -8,7 +8,7 @@ import io.vertx.rxjava.ext.web.Router;
 
 public class Routers {
 
-  private static int serverPort = 8088;
+	  private static int serverPort =  System.getenv("API_PORT") != null ? (Integer.parseInt(System.getenv("API_PORT"))) : 8088;
 
  
   protected static void routers(final Vertx vertx) {

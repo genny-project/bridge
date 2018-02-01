@@ -47,7 +47,11 @@ public class EBCHandlers {
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":"
 						+ json.getString("code"));
 
+				if (json.getString("token") != null) {
+					// check token
 				if (json.containsKey("recipientCodeArray")) {
+					json.remove("token");
+
 
 					JsonArray recipientJsonArray = json.getJsonArray("recipientCodeArray");
 					for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -70,10 +74,10 @@ public class EBCHandlers {
 				} else {
 
 					final DeliveryOptions options = new DeliveryOptions();
-					if (json.getString("token") != null) {
 						JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 						String sessionState = tokenJSON.getString("session_state");
 						String email = ""; // tokenJSON.getString("email");
+						json.remove("token");
 
 						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
 								.get(email + sessionState);
@@ -81,11 +85,12 @@ public class EBCHandlers {
 							msgProducer.write(json);
 							Vertx.currentContext().owner().eventBus().publish(sessionState, json);
 						}
-					}
+					
 				}
 				//
 			} else {
 				log.error("Cmd with Unauthorised cmd recieved");
+			}
 			}
 		});
 

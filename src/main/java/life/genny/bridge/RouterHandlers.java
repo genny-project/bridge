@@ -143,9 +143,10 @@ public class RouterHandlers {
 				 msgProducerList = new HashSet<MessageProducer<JsonObject>>();
 				 EBProducers.getUserSessionMap().put(code, msgProducerList);
 			}
+			System.out.println("RECEIVING FROM SESSION:"+toSessionChannel+ " for user "+code);;
 			msgProducerList.add(toSessionChannel);
 
-			EBProducers.getChannelSessionList().put(email + sessionState, toSessionChannel);
+			EBProducers.getChannelSessionList().put(sessionState, toSessionChannel);
 			routingContext.response().end();
 
 		});

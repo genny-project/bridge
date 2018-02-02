@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonPrimitive;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonArray;
@@ -49,11 +50,31 @@ public class EBCHandlers {
 
 				if (json.getString("token") != null) {
 					// check token
-				if (json.containsKey("recipientCodeArray")) {
+					JsonArray recipientJsonArray  = null;
+					String payload = json.toString();
+					
+				if (!json.containsKey("recipientCodeArray")) {
+					recipientJsonArray = new JsonArray();
+					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
+					String username = tokenJSON.getString("preferred_username");
+					String sessionState = tokenJSON.getString("session_state");
+					String code = "PER_" + QwandaUtils.getNormalisedUsername(username).toUpperCase();
+
 					json.remove("token");
 
+					MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
+							.get(sessionState);
+					if (msgProducer != null) {
+						msgProducer.write(json);
+						Vertx.currentContext().owner().eventBus().publish(sessionState, arg.body());
+					}
+					recipientJsonArray.add(code);
+				} else {
+					recipientJsonArray = json.getJsonArray("recipientCodeArray");
+				
+					json.remove("token");
 
-					JsonArray recipientJsonArray = json.getJsonArray("recipientCodeArray");
+					
 					for (int i = 0; i < recipientJsonArray.size(); i++) {
 						String recipientCode = recipientJsonArray.getString(i);
 						Set<MessageProducer<JsonObject>> msgProducerList = EBProducers.getUserSessionMap()
@@ -65,28 +86,30 @@ public class EBCHandlers {
 									msgProducer.write(json);
 									String address = msgProducer.address();
 									System.out.println("SENDING TO SESSION:"+address+ " for user "+recipientCode+":"+msgProducer.hashCode());;
-									Vertx.currentContext().owner().eventBus().publish(address, json);
+									Vertx.currentContext().owner().eventBus().publish(address, arg.body());
+									
+									
 								}
 							}
 						}
 					}
-
-				} else {
-
-					final DeliveryOptions options = new DeliveryOptions();
-						JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
-						String sessionState = tokenJSON.getString("session_state");
-						String email = ""; // tokenJSON.getString("email");
-						json.remove("token");
-
-						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
-								.get(email + sessionState);
-						if (msgProducer != null) {
-							msgProducer.write(json);
-							Vertx.currentContext().owner().eventBus().publish(sessionState, json);
-						}
-					
 				}
+//				} else {
+//
+//					final DeliveryOptions options = new DeliveryOptions();
+//						JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
+//						String sessionState = tokenJSON.getString("session_state");
+//						String email = ""; // tokenJSON.getString("email");
+//						json.remove("token");
+//
+//						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
+//								.get(email + sessionState);
+//						if (msgProducer != null) {
+//							msgProducer.write(json);
+//							Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+//						}
+//					
+//				}
 				//
 			} else {
 				log.error("Cmd with Unauthorised cmd recieved");
@@ -129,13 +152,14 @@ public class EBCHandlers {
 
 				}
 
+				String payload = json.toString();
 				for (String userCode : userCodeArray) {
 					// Find all user sessions
 					if ( EBProducers.getUserSessionMap().get(userCode)!=null) {
 					for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(userCode)) {
 						String channel = msgProducer.address();
 						msgProducer.write(json);
-						Vertx.currentContext().owner().eventBus().publish(channel, json);
+						Vertx.currentContext().owner().eventBus().publish(channel, payload);
 					}
 					}
 				}

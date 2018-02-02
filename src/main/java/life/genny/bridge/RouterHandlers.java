@@ -135,16 +135,16 @@ public class RouterHandlers {
 			// TODO hack
 			// Add all new (assume these are all new) to a hashMap mapped by user Code
 			String code = "PER_"+QwandaUtils.getNormalisedUsername(username).toUpperCase();
-			Set<MessageProducer<JsonObject>> msgProducerList  = null;
+			Set<MessageProducer<JsonObject>> msgProducerSet  = null;
 			if (EBProducers.getUserSessionMap().containsKey(code)) {
-				 msgProducerList= EBProducers.getUserSessionMap().get(code);
-				EBProducers.getUserSessionMap().put(code, msgProducerList);
+				 msgProducerSet= EBProducers.getUserSessionMap().get(code);
+				EBProducers.getUserSessionMap().put(code, msgProducerSet);
 			} else {
-				 msgProducerList = new HashSet<MessageProducer<JsonObject>>();
-				 EBProducers.getUserSessionMap().put(code, msgProducerList);
+				 msgProducerSet= new HashSet<MessageProducer<JsonObject>>();
+				 EBProducers.getUserSessionMap().put(code, msgProducerSet);
 			}
 			System.out.println("RECEIVING FROM SESSION:"+sessionState+ " for user "+code);;
-			msgProducerList.add(toSessionChannel);
+			msgProducerSet.add(toSessionChannel);
 
 			EBProducers.getChannelSessionList().put(sessionState, toSessionChannel);
 			routingContext.response().end();

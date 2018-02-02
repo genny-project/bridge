@@ -64,7 +64,7 @@ public class EBCHandlers {
 								if (msgProducer != null) {
 									msgProducer.write(json);
 									String address = msgProducer.address();
-									System.out.println("SENDING TO SESSION:"+address+ " for user "+recipientCode);;
+									System.out.println("SENDING TO SESSION:"+address+ " for user "+recipientCode+":"+msgProducer.hashCode());;
 									Vertx.currentContext().owner().eventBus().publish(address, json);
 								}
 							}
@@ -131,10 +131,12 @@ public class EBCHandlers {
 
 				for (String userCode : userCodeArray) {
 					// Find all user sessions
+					if ( EBProducers.getUserSessionMap().get(userCode)!=null) {
 					for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(userCode)) {
 						String channel = msgProducer.address();
 						msgProducer.write(json);
 						Vertx.currentContext().owner().eventBus().publish(channel, json);
+					}
 					}
 				}
 			} else {

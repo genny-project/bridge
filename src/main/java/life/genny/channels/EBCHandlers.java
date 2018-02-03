@@ -51,72 +51,72 @@ public class EBCHandlers {
 
 				if (json.getString("token") != null) {
 					// check token
-					JsonArray recipientJsonArray  = null;
+					JsonArray recipientJsonArray = null;
 					String payload = json.toString();
-					
-				if (!json.containsKey("recipientCodeArray")) {
-					recipientJsonArray = new JsonArray();
-					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
-					String username = tokenJSON.getString("preferred_username");
-					String sessionState = tokenJSON.getString("session_state");
-					String userCode = QwandaUtils.getUserCode(json.getString("token"));
 
-					json.remove("token");
-					removePrivates(json);
-					MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
-							.get(sessionState);
-					if (msgProducer != null) {
-						msgProducer.write(json);
-						Vertx.currentContext().owner().eventBus().publish(sessionState, json);
-					}
-					recipientJsonArray.add(userCode);
-				} else {
-					recipientJsonArray = json.getJsonArray("recipientCodeArray");
-				
-					json.remove("token");
-					
-					removePrivates(json);
+					if (!json.containsKey("recipientCodeArray")) {
+						recipientJsonArray = new JsonArray();
+						JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
+						String username = tokenJSON.getString("preferred_username");
+						String sessionState = tokenJSON.getString("session_state");
+						String userCode = QwandaUtils.getUserCode(json.getString("token"));
 
-					
-					for (int i = 0; i < recipientJsonArray.size(); i++) {
-						String recipientCode = recipientJsonArray.getString(i);
-						Set<MessageProducer<JsonObject>> msgProducerList = EBProducers.getUserSessionMap()
-								.get(recipientCode);
-						if (msgProducerList != null) {
-							// Send out to all the sessions for this userCode
-							for (MessageProducer<JsonObject> msgProducer : msgProducerList) {
-								if (msgProducer != null) {
-									msgProducer.write(json);
-									String address = msgProducer.address();
-									System.out.println("SENDING TO SESSION:"+address+ " for user "+recipientCode+":"+msgProducer.hashCode());;
-									Vertx.currentContext().owner().eventBus().publish(address, arg.body());
-									
-									
+						json.remove("token");
+						removePrivates(json);
+						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList().get(sessionState);
+						if (msgProducer != null) {
+							msgProducer.write(json);
+							Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+						}
+						recipientJsonArray.add(userCode);
+					} else {
+						recipientJsonArray = json.getJsonArray("recipientCodeArray");
+
+						json.remove("token");
+
+						removePrivates(json);
+
+						for (int i = 0; i < recipientJsonArray.size(); i++) {
+							String recipientCode = recipientJsonArray.getString(i);
+							Set<MessageProducer<JsonObject>> msgProducerList = EBProducers.getUserSessionMap()
+									.get(recipientCode);
+							if (msgProducerList != null) {
+								// Send out to all the sessions for this userCode
+								for (MessageProducer<JsonObject> msgProducer : msgProducerList) {
+									if (msgProducer != null) {
+										msgProducer.write(json);
+										String address = msgProducer.address();
+										System.out.println("SENDING TO SESSION:" + address + " for user "
+												+ recipientCode + ":" + msgProducer.hashCode());
+										;
+										Vertx.currentContext().owner().eventBus().publish(address, arg.body());
+
+									}
 								}
 							}
 						}
 					}
+					// } else {
+					//
+					// final DeliveryOptions options = new DeliveryOptions();
+					// JSONObject tokenJSON =
+					// KeycloakUtils.getDecodedToken(json.getString("token"));
+					// String sessionState = tokenJSON.getString("session_state");
+					// String email = ""; // tokenJSON.getString("email");
+					// json.remove("token");
+					//
+					// MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
+					// .get(email + sessionState);
+					// if (msgProducer != null) {
+					// msgProducer.write(json);
+					// Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+					// }
+					//
+					// }
+					//
+				} else {
+					log.error("Cmd with Unauthorised cmd recieved");
 				}
-//				} else {
-//
-//					final DeliveryOptions options = new DeliveryOptions();
-//						JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
-//						String sessionState = tokenJSON.getString("session_state");
-//						String email = ""; // tokenJSON.getString("email");
-//						json.remove("token");
-//
-//						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
-//								.get(email + sessionState);
-//						if (msgProducer != null) {
-//							msgProducer.write(json);
-//							Vertx.currentContext().owner().eventBus().publish(sessionState, json);
-//						}
-//					
-//				}
-				//
-			} else {
-				log.error("Cmd with Unauthorised cmd recieved");
-			}
 			}
 		});
 
@@ -156,12 +156,12 @@ public class EBCHandlers {
 				String payload = json.toString();
 				for (String userCode : userCodeArray) {
 					// Find all user sessions
-					if ( EBProducers.getUserSessionMap().get(userCode)!=null) {
-					for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(userCode)) {
-						String channel = msgProducer.address();
-						msgProducer.write(json);
-						Vertx.currentContext().owner().eventBus().publish(channel, payload);
-					}
+					if (EBProducers.getUserSessionMap().get(userCode) != null) {
+						for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(userCode)) {
+							String channel = msgProducer.address();
+							msgProducer.write(json);
+							Vertx.currentContext().owner().eventBus().publish(channel, payload);
+						}
 					}
 				}
 			} else {
@@ -174,35 +174,34 @@ public class EBCHandlers {
 	/**
 	 * @param json
 	 */
-	private static void removePrivates(final JsonObject json) {
+	private static JsonObject removePrivates(JsonObject json) {
 		// TODO: Very ugly, but remove any Attributes with privateFlag
 		if (json.containsKey("data_type")) {
 			if ("BaseEntity".equals(json.getString("data_type"))) {
-		if (json.containsKey("items")) {
-			JsonArray items = json.getJsonArray("items");
+				if (json.containsKey("items")) {
+					JsonArray items = json.getJsonArray("items");
 
-			for (int i = 0; i < items.size() ; i++)
-			{
-			    JsonObject mJsonObject = (JsonObject)items.getJsonObject(i);
-			    // Now go through the attributes
-			    JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
-			    JsonObject mAttribute = new JsonObject();
-			    JsonArray non_privates = new JsonArray();
-				for (Integer j = 0; j < attributes.size() ; j++)
-				{
-				    mJsonObject = (JsonObject)attributes.getJsonObject(j);
-				    Boolean privacyFlag = mJsonObject.getBoolean("privacyFlag");
-				    if (privacyFlag!=null) {
-				    if (!privacyFlag) {
-				    		non_privates.add(mJsonObject);
-				    }
-				    }
+					for (int i = 0; i < items.size(); i++) {
+						JsonObject mJsonObject = (JsonObject) items.getJsonObject(i);
+						// Now go through the attributes
+						JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
+						JsonObject mAttribute = new JsonObject();
+						JsonArray non_privates = new JsonArray();
+						for (Integer j = 0; j < attributes.size(); j++) {
+							mJsonObject = (JsonObject) attributes.getJsonObject(j);
+							Boolean privacyFlag = mJsonObject.getBoolean("privacyFlag");
+							if (privacyFlag != null) {
+								if (!privacyFlag) {
+									non_privates.add(mJsonObject);
+								}
+							}
+						}
+						mJsonObject.put("baseEntityAttributes", non_privates);
+					}
 				}
-				mJsonObject.put("baseEntityAttributes", non_privates);							
 			}
 		}
-		}
-		}
+		return json;
 	}
 
 }

@@ -53,7 +53,7 @@ public class EBCHandlers {
 					// check token
 					JsonArray recipientJsonArray  = null;
 					String payload = json.toString();
-					removePrivates(json);
+					
 				if (!json.containsKey("recipientCodeArray")) {
 					recipientJsonArray = new JsonArray();
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
@@ -62,12 +62,12 @@ public class EBCHandlers {
 					String userCode = QwandaUtils.getUserCode(json.getString("token"));
 
 					json.remove("token");
-
+					removePrivates(json);
 					MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
 							.get(sessionState);
 					if (msgProducer != null) {
 						msgProducer.write(json);
-						Vertx.currentContext().owner().eventBus().publish(sessionState, json.toString());
+						Vertx.currentContext().owner().eventBus().publish(sessionState, json);
 					}
 					recipientJsonArray.add(userCode);
 				} else {
@@ -191,9 +191,11 @@ public class EBCHandlers {
 				for (Integer j = 0; j < attributes.size() ; j++)
 				{
 				    mJsonObject = (JsonObject)attributes.getJsonObject(j);
-				    boolean privacyFlag = mAttribute.getBoolean("privacyFlag");
+				    Boolean privacyFlag = mJsonObject.getBoolean("privacyFlag");
+				    if (privacyFlag!=null) {
 				    if (!privacyFlag) {
 				    		non_privates.add(mJsonObject);
+				    }
 				    }
 				}
 				mJsonObject.put("baseEntityAttributes", non_privates);							

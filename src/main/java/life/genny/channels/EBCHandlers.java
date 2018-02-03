@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -73,6 +74,8 @@ public class EBCHandlers {
 					recipientJsonArray = json.getJsonArray("recipientCodeArray");
 				
 					json.remove("token");
+					
+					removePrivates(json);
 
 					
 					for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -138,7 +141,7 @@ public class EBCHandlers {
 				}
 
 				final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-
+				removePrivates(json);
 				// Loop through the recipientCode Array to send this data
 				String[] userCodeArray = (String[]) obj.get("recipientCodeArray");
 
@@ -166,6 +169,38 @@ public class EBCHandlers {
 			}
 
 		});
+	}
+
+	/**
+	 * @param json
+	 */
+	private static void removePrivates(final JsonObject json) {
+		// TODO: Very ugly, but remove any Attributes with privateFlag
+		if (json.containsKey("data_type")) {
+			if ("BaseEntity".equals(json.getString("data_type"))) {
+		if (json.containsKey("items")) {
+			JsonArray items = json.getJsonArray("items");
+
+			for (int i = 0; i < items.size() ; i++)
+			{
+			    JsonObject mJsonObject = (JsonObject)items.getJsonObject(i);
+			    // Now go through the attributes
+			    JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
+			    JsonObject mAttribute = new JsonObject();
+			    JsonArray non_privates = new JsonArray();
+				for (Integer j = 0; j < attributes.size() ; j++)
+				{
+				    mJsonObject = (JsonObject)attributes.getJsonObject(j);
+				    boolean privacyFlag = mAttribute.getBoolean("privacyFlag");
+				    if (!privacyFlag) {
+				    		non_privates.add(mJsonObject);
+				    }
+				}
+				mJsonObject.put("baseEntityAttributes", non_privates);							
+			}
+		}
+		}
+		}
 	}
 
 }

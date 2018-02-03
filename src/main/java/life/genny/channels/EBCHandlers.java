@@ -53,7 +53,7 @@ public class EBCHandlers {
 					// check token
 					JsonArray recipientJsonArray  = null;
 					String payload = json.toString();
-					
+					removePrivates(json);
 				if (!json.containsKey("recipientCodeArray")) {
 					recipientJsonArray = new JsonArray();
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
@@ -67,7 +67,7 @@ public class EBCHandlers {
 							.get(sessionState);
 					if (msgProducer != null) {
 						msgProducer.write(json);
-						Vertx.currentContext().owner().eventBus().publish(sessionState, json);
+						Vertx.currentContext().owner().eventBus().publish(sessionState, json.toString());
 					}
 					recipientJsonArray.add(userCode);
 				} else {

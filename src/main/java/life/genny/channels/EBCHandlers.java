@@ -62,7 +62,7 @@ public class EBCHandlers {
 						String userCode = QwandaUtils.getUserCode(json.getString("token"));
 
 						json.remove("token");
-						removePrivates(json);
+					//	removePrivates(json);
 						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList().get(sessionState);
 						if (msgProducer != null) {
 							msgProducer.write(json);
@@ -74,7 +74,7 @@ public class EBCHandlers {
 
 						json.remove("token");
 
-						removePrivates(json);
+					//	removePrivates(json);
 
 						for (int i = 0; i < recipientJsonArray.size(); i++) {
 							String recipientCode = recipientJsonArray.getString(i);

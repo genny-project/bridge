@@ -58,7 +58,7 @@ public class EBCHandlers {
 					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 					String username = tokenJSON.getString("preferred_username");
 					String sessionState = tokenJSON.getString("session_state");
-					String code = "PER_" + QwandaUtils.getNormalisedUsername(username).toUpperCase();
+					String userCode = QwandaUtils.getUserCode(json.getString("token"));
 
 					json.remove("token");
 
@@ -66,9 +66,9 @@ public class EBCHandlers {
 							.get(sessionState);
 					if (msgProducer != null) {
 						msgProducer.write(json);
-						Vertx.currentContext().owner().eventBus().publish(sessionState, arg.body());
+						Vertx.currentContext().owner().eventBus().publish(sessionState, json);
 					}
-					recipientJsonArray.add(code);
+					recipientJsonArray.add(userCode);
 				} else {
 					recipientJsonArray = json.getJsonArray("recipientCodeArray");
 				
@@ -145,10 +145,8 @@ public class EBCHandlers {
 				if (userCodeArray == null) {
 					userCodeArray = new String[1]; // create the array
 					String token = json.getString("token");
-					JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
-					String username = tokenJSON.getString("preferred_username");
-					String code = "PER_" + QwandaUtils.getNormalisedUsername(username).toUpperCase();
-					userCodeArray[0] = code;
+					String userCode = QwandaUtils.getUserCode(json.getString("token"));
+					userCodeArray[0] = userCode;
 
 				}
 

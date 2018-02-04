@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
+import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 
@@ -52,7 +53,6 @@ public class EBCHandlers {
 				if (json.getString("token") != null) {
 					// check token
 					JsonArray recipientJsonArray = null;
-					String payload = json.toString();
 
 					if (!json.containsKey("recipientCodeArray")) {
 						recipientJsonArray = new JsonArray();
@@ -62,7 +62,10 @@ public class EBCHandlers {
 						String userCode = QwandaUtils.getUserCode(json.getString("token"));
 
 						json.remove("token");
-					//	removePrivates(json);
+						
+					//	JsonObject cleanJson = removePrivates(json);
+					//	String rawJson = removePrivates2(json); //JsonUtils.toJson(cleanJson);
+					//	JsonObject outJson = JsonObject.mapFrom(rawJson);
 						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList().get(sessionState);
 						if (msgProducer != null) {
 							msgProducer.write(json);
@@ -73,7 +76,7 @@ public class EBCHandlers {
 						recipientJsonArray = json.getJsonArray("recipientCodeArray");
 
 						json.remove("token");
-
+						String payload = json.toString();
 					//	removePrivates(json);
 
 						for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -89,31 +92,13 @@ public class EBCHandlers {
 										System.out.println("SENDING TO SESSION:" + address + " for user "
 												+ recipientCode + ":" + msgProducer.hashCode());
 										;
-										Vertx.currentContext().owner().eventBus().publish(address, arg.body());
+										Vertx.currentContext().owner().eventBus().publish(address, payload);
 
 									}
 								}
 							}
 						}
 					}
-					// } else {
-					//
-					// final DeliveryOptions options = new DeliveryOptions();
-					// JSONObject tokenJSON =
-					// KeycloakUtils.getDecodedToken(json.getString("token"));
-					// String sessionState = tokenJSON.getString("session_state");
-					// String email = ""; // tokenJSON.getString("email");
-					// json.remove("token");
-					//
-					// MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList()
-					// .get(email + sessionState);
-					// if (msgProducer != null) {
-					// msgProducer.write(json);
-					// Vertx.currentContext().owner().eventBus().publish(sessionState, json);
-					// }
-					//
-					// }
-					//
 				} else {
 					log.error("Cmd with Unauthorised cmd recieved");
 				}
@@ -122,16 +107,9 @@ public class EBCHandlers {
 
 		EBConsumers.getFromData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
-			JSONParser parser = new JSONParser();
-			org.json.simple.JSONObject obj = null;
-			try {
-				obj = (org.json.simple.JSONObject) parser.parse(incomingData);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + obj.get("data_type").toString() + ":"
-					+ obj.get("recipientCodeArray"));
+			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":"
+					);
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				// ugly, but remove the outer array
@@ -140,24 +118,33 @@ public class EBCHandlers {
 					incomingData = incomingData.substring(0, incomingData.length() - 1);
 				}
 
-				final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-				removePrivates(json);
+				//removePrivates(json);
 				// Loop through the recipientCode Array to send this data
-				String[] userCodeArray = (String[]) obj.get("recipientCodeArray");
-
-				if (userCodeArray == null) {
-					userCodeArray = new String[1]; // create the array
+				String[] userCodeArray = null;
+				JsonArray recipientJsonArray = json.getJsonArray("recipientCodeArray");
+				
+				if (recipientJsonArray == null) {
+					recipientJsonArray = new JsonArray();
 					String token = json.getString("token");
-					String userCode = QwandaUtils.getUserCode(json.getString("token"));
-					userCodeArray[0] = userCode;
-
+					String userCode = QwandaUtils.getUserCode(token);
+					userCodeArray = new String[1];
+					userCodeArray [0] = userCode;
+				} else {
+					userCodeArray = new String[recipientJsonArray.size()];
+					int i=0;
+					for (Object jo : recipientJsonArray.getList()) {
+						userCodeArray[i] = (String)jo;
+						i++;
+					}
 				}
 
+				json.remove("token");
 				String payload = json.toString();
-				for (String userCode : userCodeArray) {
+				for (int i = 0; i < userCodeArray.length; i++) {
+					String recipientCode = userCodeArray[i];
 					// Find all user sessions
-					if (EBProducers.getUserSessionMap().get(userCode) != null) {
-						for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(userCode)) {
+					if (EBProducers.getUserSessionMap().get(recipientCode) != null) {
+						for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(recipientCode)) {
 							String channel = msgProducer.address();
 							msgProducer.write(json);
 							Vertx.currentContext().owner().eventBus().publish(channel, payload);
@@ -204,4 +191,38 @@ public class EBCHandlers {
 		return json;
 	}
 
+	/**
+	 * @param json
+	 */
+	private static String removePrivates2(JsonObject jsonVertx) {
+		// TODO: Very ugly, but remove any Attributes with privateFlag
+		com.google.gson.JsonObject json = JsonUtils.fromJson(jsonVertx.toString(), com.google.gson.JsonObject.class);
+		if (json.has("data_type")) {
+			if ("BaseEntity".equals(json.get("data_type").getAsString())) {
+				if (json.has("items")) {
+					com.google.gson.JsonArray items = json.getAsJsonArray("items");
+
+					for (int i = 0; i < items.size(); i++) {
+						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i).getAsJsonObject();
+						// Now go through the attributes
+						com.google.gson.JsonArray attributes = mJsonObject.getAsJsonArray("baseEntityAttributes");
+						com.google.gson.JsonArray non_privates = new com.google.gson.JsonArray();
+						for (Integer j = 0; j < attributes.size(); j++) {
+							mJsonObject = (com.google.gson.JsonObject) attributes.get(j).getAsJsonObject();
+							Boolean privacyFlag = mJsonObject.get("privacyFlag").getAsBoolean();
+							if (privacyFlag != null) {
+								if (!privacyFlag) {
+									non_privates.add(mJsonObject);
+								}
+							}
+						}
+						mJsonObject.remove("baseEntityAttributes");
+						mJsonObject.add("baseEntityAttributes", non_privates);
+						
+					}
+				}
+			}
+		}
+		return json.toString();
+	}
 }

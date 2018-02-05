@@ -25,6 +25,7 @@ import com.google.gson.JsonSerializationContext;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
@@ -220,9 +221,16 @@ public class RouterHandlers {
 
 	public static void apiMapPutHandler(final RoutingContext context) {
         final HttpServerRequest req = context.request();
-        String param1 = req.getParam("param1");
-        String param2 = req.getParam("param2");
-
+        JsonObject body = context.getBodyAsJson();
+        if (body == null) {
+        	req.response().headers().set("Content-Type", "application/json");
+        	 JsonObject err = new JsonObject().put("status", "error");
+             req.response().headers().set("Content-Type", "application/json");
+             req.response().end(err.encode());
+        }
+        // a JsonObject wraps a map and it exposes type-aware getters
+        String param1 = body.getString("key");
+        String param2 = body.getString("json");
         SharedData sd = vertx.sharedData();
         sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String,String>> res) -> {
             if (res.failed()) {

@@ -23,6 +23,7 @@ public class Routers {
     router.route(HttpMethod.POST, "/api/cmds").handler(RouterHandlers::apiHandler);
     router.route(HttpMethod.POST, "/api/data").handler(RouterHandlers::apiHandler);
     router.route(HttpMethod.POST, "/write/:param1/:param2").handler(RouterHandlers::apiMapPutHandler);
+    router.route(HttpMethod.GET, "/write/:param1/:param2").handler(RouterHandlers::apiMapPutHandler);  //TODO -> Manual HAck!!!
     router.route(HttpMethod.GET, "/read/:param1").handler(RouterHandlers::apiMapGetHandler);
  
     router.route(HttpMethod.GET, "/version").handler(VersionHandler::apiGetVersionHandler);

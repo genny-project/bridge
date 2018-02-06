@@ -227,7 +227,7 @@ public class RouterHandlers {
         	 JsonObject err = new JsonObject().put("status", "error");
              req.response().headers().set("Content-Type", "application/json");
              req.response().end(err.encode());
-        }
+        } else {
         // a JsonObject wraps a map and it exposes type-aware getters
         String param1 = body.getString("key");
         String param2 = body.getString("json");
@@ -254,6 +254,7 @@ public class RouterHandlers {
                 });
             }
         });
+        }
  
 	}
 

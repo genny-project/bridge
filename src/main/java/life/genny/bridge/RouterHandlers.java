@@ -240,12 +240,13 @@ public class RouterHandlers {
       String param2 = wifiPayload.getString("json");
       SharedData sd = vertx.sharedData();
       sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
-        if (res.failed()) {
+        if (res.failed() || param1 == null || param2 == null) {
           JsonObject err = new JsonObject().put("status", "error");
           req.response().headers().set("Content-Type", "application/json");
           req.response().end(err.encode());
         } else {
           AsyncMap<String, String> amap = res.result();
+          
           amap.put(param1, param2, (AsyncResult<Void> comp) -> {
             if (comp.failed()) {
               JsonObject err =

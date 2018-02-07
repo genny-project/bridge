@@ -13,7 +13,7 @@ public class Routers {
  
   protected static void routers(final Vertx vertx) {
     final Router router = Router.router(vertx);
-    RouterHandlers.vertx = vertx;
+
     router.route().handler(RouterHandlers.cors());
     router.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
     router.route(HttpMethod.GET, "/api/events/init").handler(RouterHandlers::apiGetInitHandler);

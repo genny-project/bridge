@@ -1,28 +1,17 @@
 package life.genny.bridge;
 
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
@@ -34,7 +23,6 @@ import io.vertx.rxjava.core.shareddata.SharedData;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.EBProducers;
-import life.genny.qwanda.message.QEventMessage;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;;
@@ -45,8 +33,7 @@ public class RouterHandlers {
   private static String hostIP =
       System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
   
-  
-  static public Vertx vertx;
+
 
   protected static final Logger log = org.apache.logging.log4j.LogManager
       .getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
@@ -236,7 +223,9 @@ public class RouterHandlers {
           String param1 = wifiPayload.getString("key");
           System.out.println("CACHE KEY:"+param1);
           String param2 = wifiPayload.getString("json");
-          SharedData sd = vertx.sharedData();
+          SharedData sd =  Vertx.currentContext().owner().sharedData();
+   	   if (System.getenv("GENNY_DEV") == null) {
+
           sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
             if (res.failed() || param1 == null || param2 == null) {
               JsonObject err = new JsonObject().put("status", "error");
@@ -259,6 +248,13 @@ public class RouterHandlers {
               });
             }
           });
+   	   } else {
+   		   sd.getLocalMap("shared_data").put(param1, param2);
+           JsonObject err = new JsonObject().put("status", "ok");
+           context.request().response().headers().set("Content-Type", "application/json");
+           context.request().response().end(err.encode());
+
+   	   }
         }
     });
 
@@ -271,7 +267,10 @@ public class RouterHandlers {
     final HttpServerRequest req = context.request();
     String param1 = req.getParam("param1");
 
-    SharedData sd = vertx.sharedData();
+    SharedData sd =  Vertx.currentContext().owner().sharedData();
+
+	   if (System.getenv("GENNY_DEV") == null) {
+
     sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
       if (res.failed()) {
         JsonObject err = new JsonObject().put("status", "error");
@@ -293,6 +292,12 @@ public class RouterHandlers {
         });
       }
     });
+	   } else {
+		   String result = (String) sd.getLocalMap("shared_data").get(param1);
+		   JsonObject err = new JsonObject().put("status", "ok").put("value", result);
+           req.response().headers().set("Content-Type", "application/json");
+           req.response().end(err.encode());
+	   }
 
   }
 

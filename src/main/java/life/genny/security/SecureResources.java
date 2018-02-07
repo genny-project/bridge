@@ -28,18 +28,18 @@ public class SecureResources {
    * @param keycloakJsonMap the keycloakJsonMap to set
    * @return
    */
-  public static Future<Void> setKeycloakJsonMap(final Vertx vertx) {
+  public static Future<Void> setKeycloakJsonMap() {
     final Future<Void> fut = Future.future();
-    vertx.executeBlocking(exec -> {
+    Vertx.currentContext().owner().executeBlocking(exec -> {
       // Load in keycloakJsons
       // readFilenamesFromDirectory("./realm", keycloakJsonMap);
       // update afterwrads
-      final List<String> filesList = vertx.fileSystem().readDirBlocking("./realm");
+      final List<String> filesList = Vertx.currentContext().owner().fileSystem().readDirBlocking("./realm");
 
       for (final String dirFileStr : filesList) {
         final String fileStr = new File(dirFileStr).getName();;
         if (!"keycloak-data.json".equalsIgnoreCase(fileStr)) {
-          vertx.fileSystem().readFile(dirFileStr, d -> {
+        	Vertx.currentContext().owner().fileSystem().readFile(dirFileStr, d -> {
             if (!d.failed()) {
               try {
                 System.out.println("Loading in [" + fileStr + "]");

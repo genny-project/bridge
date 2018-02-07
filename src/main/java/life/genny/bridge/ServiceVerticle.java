@@ -12,9 +12,9 @@ public class ServiceVerticle extends AbstractVerticle {
   public void start() {
     System.out.println("Setting up routes");
     final Future<Void> startFuture = Future.future();
-    Cluster.joinCluster(vertx).compose(res -> {
+    Cluster.joinCluster().compose(res -> {
       final Future<Void> fut = Future.future();
-      SecureResources.setKeycloakJsonMap(vertx).compose(p -> {
+      SecureResources.setKeycloakJsonMap().compose(p -> {
         Routers.routers(vertx);
         fut.complete();
       }, fut);

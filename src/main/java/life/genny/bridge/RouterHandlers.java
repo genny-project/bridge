@@ -45,7 +45,6 @@ public class RouterHandlers {
   private static String hostIP =
       System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
   
-  private static JsonObject wifiPayload;
   
   static public Vertx vertx;
 
@@ -224,44 +223,47 @@ public class RouterHandlers {
     
     //handle the body here and assign it to wifiPayload to process the data 
     final HttpServerRequest req = context.request().bodyHandler(boddy -> {
-      System.out.println(boddy.toJsonObject());
-      wifiPayload = boddy.toJsonObject();
-    });
-
-    
-    if (wifiPayload == null) {
-      req.response().headers().set("Content-Type", "application/json");
-      JsonObject err = new JsonObject().put("status", "error");
-      req.response().headers().set("Content-Type", "application/json");
-      req.response().end(err.encode());
-    } else {
-      // a JsonObject wraps a map and it exposes type-aware getters
-      String param1 = wifiPayload.getString("key");
-      String param2 = wifiPayload.getString("json");
-      SharedData sd = vertx.sharedData();
-      sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
-        if (res.failed() || param1 == null || param2 == null) {
+   //   System.out.println(boddy.toJsonObject());
+    	  JsonObject wifiPayload = boddy.toJsonObject();
+      if (wifiPayload == null) {
+    	  context.request().response().headers().set("Content-Type", "application/json");
           JsonObject err = new JsonObject().put("status", "error");
-          req.response().headers().set("Content-Type", "application/json");
-          req.response().end(err.encode());
-        } else {
-          AsyncMap<String, String> amap = res.result();
-          
-          amap.put(param1, param2, (AsyncResult<Void> comp) -> {
-            if (comp.failed()) {
-              JsonObject err =
-                  new JsonObject().put("status", "error").put("description", "write failed");
-              req.response().headers().set("Content-Type", "application/json");
-              req.response().end(err.encode());
+          context.request().response().headers().set("Content-Type", "application/json");
+          context.request().response().end(err.encode());
+        } 
+      else {
+          // a JsonObject wraps a map and it exposes type-aware getters
+          String param1 = wifiPayload.getString("key");
+          System.out.println("CACHE KEY:"+param1);
+          String param2 = wifiPayload.getString("json");
+          SharedData sd = vertx.sharedData();
+          sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
+            if (res.failed() || param1 == null || param2 == null) {
+              JsonObject err = new JsonObject().put("status", "error");
+              context.request().response().headers().set("Content-Type", "application/json");
+              context.request().response().end(err.encode());
             } else {
-              JsonObject err = new JsonObject().put("status", "ok");
-              req.response().headers().set("Content-Type", "application/json");
-              req.response().end(err.encode());
+              AsyncMap<String, String> amap = res.result();
+              
+              amap.put(param1, param2, (AsyncResult<Void> comp) -> {
+                if (comp.failed()) {
+                  JsonObject err =
+                      new JsonObject().put("status", "error").put("description", "write failed");
+                  context.request().response().headers().set("Content-Type", "application/json");
+                  context.request().response().end(err.encode());
+                } else {
+                  JsonObject err = new JsonObject().put("status", "ok");
+                  context.request().response().headers().set("Content-Type", "application/json");
+                  context.request().response().end(err.encode());
+                }
+              });
             }
           });
         }
-      });
-    }
+    });
+
+    
+    
 
   }
 

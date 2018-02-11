@@ -22,6 +22,7 @@ import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
+import life.genny.channels.ClusterMap;
 import life.genny.channels.EBProducers;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
@@ -137,16 +138,16 @@ public class RouterHandlers {
     });
   }
 
-  public static void apiSession(final RoutingContext routingContext) {
-    final String token =
-        "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiWWQ0SzNtcW4yeHpGenZsRG12dUNJdjVwNjlfTFZyd0c2bFFkUEpSTkU0In0.eyJqdGkiOiJjMDk1Mzg0NC0zNDZjLTRiNTQtOGYwNy04ZjFmYzYyNDU1OWYiLCJleHAiOjE1MTMxNDcwMDEsIm5iZiI6MCwiaWF0IjoxNTEzMTQ2NzAxLCJpc3MiOiJodHRwOi8vMTAuMS4xMjAuNjA6ODE4MC9hdXRoL3JlYWxtcy9nZW5ueSIsImF1ZCI6Imdlbm55Iiwic3ViIjoiMjYxM2FiM2MtNzI3OS00N2MxLWIzZGYtMzQxYWZiMmMwZWNiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZ2VubnkiLCJub25jZSI6IjM1MjczN2E1LTc2YTUtNDcxMS1iMGM3LTg4NzJmMzdmYjA1YSIsImF1dGhfdGltZSI6MTUxMzE0NTMxNiwic2Vzc2lvbl9zdGF0ZSI6IjgwMTBmMmFkLWExMGUtNGNmMi1hNjA5LWQ2NWY0NTU2YzJiYyIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9odHRwOi8vMTAuMS4xMjAuNjA6ODE4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6ODI4MCIsImh0dHA6Ly9odHRwOi8vMTAuMS4xMjAuNjA6ODE4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCIsImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwibmFtZSI6IkFseXNvbiBHZW5ueSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwiZ2l2ZW5fbmFtZSI6IkFseXNvbiIsImZhbWlseV9uYW1lIjoiR2VubnkiLCJlbWFpbCI6Imdlbm55QGdlbm55LmxpdmUifQ.yBTTlZuRn7Fb-yEzelxAYvboye8txY0mUHLB7kJgJ3KhfSfGeoxXxoPoteQTqqfNdUv5YcaCMa7psMLKCYl4xdCPEjSJFAXykEdlAhMDRcPyHY5bRhhW0PC_sWX_FkZwnmQeq9WJkq6giLjFFMoYvYjH48XNtUud8lx86lDememHn2xBnAz7t1YhC16ZPDR7AYQFZ0IDwhwPpBi-ePpjttXIE97XlHsGWNdOtPUUobYhFHHZAAqtet4D-IEMIFaPi7NAxW4QdvnTWi9Kk4Hx4BqxKstHtENlkhZpGS2oEY7imYd-IOIe964nVFbVN1Pb5AGVVrc6XpXd7OITFrA33w";
-    JSONObject decodedToken = KeycloakUtils.getDecodedToken(token);
-    JsonObject session = new JsonObject().put("session", decodedToken.get("session_state"));
-    HttpServerResponse response = routingContext.response();
-    response.setChunked(true);
-    response.putHeader("content-type", "application/json");
-    response.write(session.encodePrettily()).end();
-  }
+//  public static void apiSession(final RoutingContext routingContext) {
+//    final String token =
+//        "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiWWQ0SzNtcW4yeHpGenZsRG12dUNJdjVwNjlfTFZyd0c2bFFkUEpSTkU0In0.eyJqdGkiOiJjMDk1Mzg0NC0zNDZjLTRiNTQtOGYwNy04ZjFmYzYyNDU1OWYiLCJleHAiOjE1MTMxNDcwMDEsIm5iZiI6MCwiaWF0IjoxNTEzMTQ2NzAxLCJpc3MiOiJodHRwOi8vMTAuMS4xMjAuNjA6ODE4MC9hdXRoL3JlYWxtcy9nZW5ueSIsImF1ZCI6Imdlbm55Iiwic3ViIjoiMjYxM2FiM2MtNzI3OS00N2MxLWIzZGYtMzQxYWZiMmMwZWNiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZ2VubnkiLCJub25jZSI6IjM1MjczN2E1LTc2YTUtNDcxMS1iMGM3LTg4NzJmMzdmYjA1YSIsImF1dGhfdGltZSI6MTUxMzE0NTMxNiwic2Vzc2lvbl9zdGF0ZSI6IjgwMTBmMmFkLWExMGUtNGNmMi1hNjA5LWQ2NWY0NTU2YzJiYyIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9odHRwOi8vMTAuMS4xMjAuNjA6ODE4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6ODI4MCIsImh0dHA6Ly9odHRwOi8vMTAuMS4xMjAuNjA6ODE4MCIsImh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCIsImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwibmFtZSI6IkFseXNvbiBHZW5ueSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwiZ2l2ZW5fbmFtZSI6IkFseXNvbiIsImZhbWlseV9uYW1lIjoiR2VubnkiLCJlbWFpbCI6Imdlbm55QGdlbm55LmxpdmUifQ.yBTTlZuRn7Fb-yEzelxAYvboye8txY0mUHLB7kJgJ3KhfSfGeoxXxoPoteQTqqfNdUv5YcaCMa7psMLKCYl4xdCPEjSJFAXykEdlAhMDRcPyHY5bRhhW0PC_sWX_FkZwnmQeq9WJkq6giLjFFMoYvYjH48XNtUud8lx86lDememHn2xBnAz7t1YhC16ZPDR7AYQFZ0IDwhwPpBi-ePpjttXIE97XlHsGWNdOtPUUobYhFHHZAAqtet4D-IEMIFaPi7NAxW4QdvnTWi9Kk4Hx4BqxKstHtENlkhZpGS2oEY7imYd-IOIe964nVFbVN1Pb5AGVVrc6XpXd7OITFrA33w";
+//    JSONObject decodedToken = KeycloakUtils.getDecodedToken(token);
+//    JsonObject session = new JsonObject().put("session", decodedToken.get("session_state"));
+//    HttpServerResponse response = routingContext.response();
+//    response.setChunked(true);
+//    response.putHeader("content-type", "application/json");
+//    response.write(session.encodePrettily()).end();
+//  }
 
   public static void apiServiceHandler(final RoutingContext routingContext) {
     String token = routingContext.request().getParam("token");
@@ -206,61 +207,7 @@ public class RouterHandlers {
 
 
   public static void apiMapPutHandler(final RoutingContext context) {
-    
-    
-    //handle the body here and assign it to wifiPayload to process the data 
-    final HttpServerRequest req = context.request().bodyHandler(boddy -> {
-   //   System.out.println(boddy.toJsonObject());
-    	  JsonObject wifiPayload = boddy.toJsonObject();
-      if (wifiPayload == null) {
-    	  context.request().response().headers().set("Content-Type", "application/json");
-          JsonObject err = new JsonObject().put("status", "error");
-          context.request().response().headers().set("Content-Type", "application/json");
-          context.request().response().end(err.encode());
-        } 
-      else {
-          // a JsonObject wraps a map and it exposes type-aware getters
-          String param1 = wifiPayload.getString("key");
-          System.out.println("CACHE KEY:"+param1);
-          String param2 = wifiPayload.getString("json");
-          SharedData sd =  Vertx.currentContext().owner().sharedData();
-   	   if (System.getenv("GENNY_DEV") == null) {
-
-          sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
-            if (res.failed() || param1 == null || param2 == null) {
-              JsonObject err = new JsonObject().put("status", "error");
-              context.request().response().headers().set("Content-Type", "application/json");
-              context.request().response().end(err.encode());
-            } else {
-              AsyncMap<String, String> amap = res.result();
-              
-              amap.put(param1, param2, (AsyncResult<Void> comp) -> {
-                if (comp.failed()) {
-                  JsonObject err =
-                      new JsonObject().put("status", "error").put("description", "write failed");
-                  context.request().response().headers().set("Content-Type", "application/json");
-                  context.request().response().end(err.encode());
-                } else {
-                  JsonObject err = new JsonObject().put("status", "ok");
-                  context.request().response().headers().set("Content-Type", "application/json");
-                  context.request().response().end(err.encode());
-                }
-              });
-            }
-          });
-   	   } else {
-   		   sd.getLocalMap("shared_data").put(param1, param2);
-           JsonObject err = new JsonObject().put("status", "ok");
-           context.request().response().headers().set("Content-Type", "application/json");
-           context.request().response().end(err.encode());
-
-   	   }
-        }
-    });
-
-    
-    
-
+    ClusterMap.mapDTT(context);
   }
 
   public static void apiMapGetHandler(final RoutingContext context) {

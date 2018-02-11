@@ -4,7 +4,7 @@ import io.vertx.rxjava.core.Future;
 import io.vertx.rxjava.core.Vertx;
 import rx.functions.Action1;
 import io.vertx.rxjava.core.eventbus.EventBus;
-
+import life.genny.channels.ClusterMap;
 import life.genny.channels.EBCHandlers;
 import life.genny.channels.EBConsumers;
 import life.genny.channels.EBProducers;
@@ -16,6 +16,7 @@ public class Cluster {
 		EBConsumers.registerAllConsumer(eb);
 		EBProducers.registerAllProducers(eb);
 		EBCHandlers.registerHandlers();
+		ClusterMap.setVertxContext(vertx);
 	};
 
 	static Action1<Throwable> clusterError = error -> {

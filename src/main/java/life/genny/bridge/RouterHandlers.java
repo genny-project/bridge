@@ -25,6 +25,7 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channels.ClusterMap;
 import life.genny.channels.EBProducers;
+import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;
@@ -112,14 +113,9 @@ public class RouterHandlers {
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
 
-			String sessionStates = VertxUtils.getObject("","SessionStates", userCode, String.class);
-			if (sessionStates == null) {
-				sessionStates = "";
-			}
-			sessionStates += sessionState+",";
-			VertxUtils.putObject("","SessionStates", userCode, sessionStates);
-		
-			log.info("RECEIVING FROM SESSION:" + sessionState + " for user " + userCode);
+			Set<String> sessionStates = VertxUtils.getSet("","SessionStates", userCode);
+			sessionStates.add(sessionState);
+			VertxUtils.putSet("","SessionStates", userCode, sessionStates);
 	
 			routingContext.response().end();
 

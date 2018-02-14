@@ -9,6 +9,10 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
@@ -165,40 +169,38 @@ public class VertxUtils {
 		return null;
 	}
 
-	
 	public void subscribe(final String realm, final String subscriptionCode, final String userCode)
 	{
 		final String SUB = "SUB";
-		Set set = new HashSet<String>() { }; // create a specific sub-class
-		final Class<? extends Set> setClass = set.getClass();
-		final ParameterizedType genericSuperclass = (ParameterizedType) setClass.getGenericSuperclass();
-		Class elementType = (Class) genericSuperclass.getActualTypeArguments()[0];
 		// Subscribe to a code
-		Set<String> subscriberSet = getObject(realm,SUB,subscriptionCode,elementType);
-		if (subscriberSet == null) {
-			// create 
-			subscriberSet = new HashSet<String>();
-		}
+		Set<String> subscriberSet = getSetString(realm,SUB,subscriptionCode);
 		subscriberSet.add(userCode);
-		putObject(realm,SUB,subscriptionCode,subscriberSet);
+		putSetString(realm,SUB,subscriptionCode,subscriberSet);
 	}
 	
 	public void subscribeEvent(final String realm, final String subscriptionCode, final QEventMessage msg)
 	{
 		final String SUBEVT = "SUBEVT";
-		Set set = new HashSet<QEventMessage>() { }; // create a specific sub-class
-		final Class<? extends Set> setClass = set.getClass();
-		final ParameterizedType genericSuperclass = (ParameterizedType) setClass.getGenericSuperclass();
-		Class elementType = (Class) genericSuperclass.getActualTypeArguments()[0];
 		// Subscribe to a code
-		Set<QEventMessage> subscriberSet = getObject(realm,SUBEVT,subscriptionCode,elementType);
-		if (subscriberSet == null) {
-			// create 
-			subscriberSet = new HashSet<QEventMessage>();
-		}
-		subscriberSet.add(msg);
-		putObject(realm,SUBEVT,subscriptionCode,subscriberSet);
+		Set<String> subscriberSet = getSetString(realm,SUBEVT,subscriptionCode);
+		subscriberSet.add(JsonUtils.toJson(msg));
+		putSetString(realm,SUBEVT,subscriptionCode,subscriberSet);
 	}
 	
+	static public Set<String> getSetString(final String realm, final String keyPrefix, final String key)
+	{
+		String[] resultArray = getObject(realm,keyPrefix,key,String[].class);
+		if (resultArray == null) {
+			return new HashSet<String>();
+		}
+		return Sets.newHashSet(resultArray);
+	}
+	
+	  static public  void  putSetString(final String realm, final String keyPrefix, final String key, final Set set) {
+		  String[] strArray = (String[]) FluentIterable.from(set).toArray(String.class);
+		  putObject(realm, keyPrefix, key, strArray);
+
+	  }
+	  
 }
 

@@ -113,9 +113,9 @@ public class RouterHandlers {
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
 
-			Set<String> sessionStates = VertxUtils.getSet("","SessionStates", userCode);
+			Set<String> sessionStates = VertxUtils.getSetString("","SessionStates", userCode);
 			sessionStates.add(sessionState);
-			VertxUtils.putSet("","SessionStates", userCode, sessionStates);
+			VertxUtils.putSetString("","SessionStates", userCode, sessionStates);
 	
 			routingContext.response().end();
 

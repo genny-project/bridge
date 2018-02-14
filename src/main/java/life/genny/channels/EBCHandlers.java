@@ -74,10 +74,10 @@ public class EBCHandlers {
 		if (json.getString("token") != null) {
 			// check token
 			JsonArray recipientJsonArray = null;
+			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 
 			if (!json.containsKey("recipientCodeArray")) {
 				recipientJsonArray = new JsonArray();
-				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 				String userCode = "PER_" + uname.toUpperCase();
 
@@ -92,9 +92,21 @@ public class EBCHandlers {
 			for (int i = 0; i < recipientJsonArray.size(); i++) {
 				String recipientCode = recipientJsonArray.getString(i);
 				// Get all the sessionStates for this user
-				String sessionStates = VertxUtils.getObject("","SessionStates", recipientCode, String.class);
-				for (String sessionState : sessionStates.split(",")) {
+				Set set = new HashSet<String>() { }; // create a specific sub-class
+				final Class<? extends Set> setClass = set.getClass();
+				final ParameterizedType genericSuperclass = (ParameterizedType) setClass.getGenericSuperclass();
+				Class elementType = (Class) genericSuperclass.getActualTypeArguments()[0];
 
+				Set<String> sessionStates = VertxUtils.getObject("","SessionStates", recipientCode, elementType);
+				if (sessionStates != null) {
+				for (String sessionState : sessionStates) {
+
+					final MessageProducer<JsonObject> toSession = Vertx.currentContext().owner().eventBus()
+							.publisher(sessionState);
+					toSession.write(json);
+				}
+				} else {
+					String sessionState = tokenJSON.getString("session_state");
 					final MessageProducer<JsonObject> toSession = Vertx.currentContext().owner().eventBus()
 							.publisher(sessionState);
 					toSession.write(json);

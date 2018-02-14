@@ -112,12 +112,12 @@ public class RouterHandlers {
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
 
-			String sessionStates = VertxUtils.getObject("SessionStates", userCode, String.class);
+			String sessionStates = VertxUtils.getObject("","SessionStates", userCode, String.class);
 			if (sessionStates == null) {
 				sessionStates = "";
 			}
 			sessionStates += sessionState+",";
-			VertxUtils.putObject("SessionStates", userCode, sessionStates);
+			VertxUtils.putObject("","SessionStates", userCode, sessionStates);
 		
 			log.info("RECEIVING FROM SESSION:" + sessionState + " for user " + userCode);
 	

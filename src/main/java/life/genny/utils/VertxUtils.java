@@ -1,6 +1,9 @@
 package life.genny.utils;
 
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.ParameterizedType;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -22,12 +25,18 @@ public class VertxUtils {
 
 
 	static boolean cachedEnabled = false;
+	
+	public enum ESubscriptionType {
+	    DIRECT,
+	    TRIGGER;
+
+	}
 
 
-  static public  <T>  T  getObject(final String keyPrefix, final String key, final Class clazz)
+  static public  <T>  T  getObject(final String realm, final String keyPrefix, final String key, final Class clazz)
   {
 	  T item = null;
-	  JsonObject json = readCachedJson(keyPrefix+":"+key);
+	  JsonObject json = readCachedJson(realm+":"+keyPrefix+":"+key);
 	  if (json.getString("status").equalsIgnoreCase("ok")) {
 	  String data = json.getString("value");
 	  	item = (T) JsonUtils.fromJson(data, clazz);
@@ -38,10 +47,10 @@ public class VertxUtils {
 	  }
   }
   
-  static public  void  putObject(final String keyPrefix, final String key, final Object obj)
+  static public  void  putObject(final String realm, final String keyPrefix, final String key, final Object obj)
   {
 	String data = JsonUtils.toJson(obj);
-	writeCachedJson(keyPrefix+":"+key,data);
+	writeCachedJson(realm+":"+keyPrefix+":"+key,data);
   }
 	
   static public JsonObject readCachedJson(final String key) {
@@ -155,4 +164,23 @@ public class VertxUtils {
 		return null;
 	}
 
+	
+	
+	public void subscribe(final String realm, final String subscriptionCode, final String userCode)
+	{
+		Set set = new HashSet<String>() { }; // create a specific sub-class
+		final Class<? extends Set> setClass = set.getClass();
+		final ParameterizedType genericSuperclass = (ParameterizedType) setClass.getGenericSuperclass();
+		Class elementType = (Class) genericSuperclass.getActualTypeArguments()[0];
+		// Subscribe to a code
+		Set<String> subscriberSet = getObject(realm,"SUB",subscriptionCode,elementType);
+		if (subscriberSet == null) {
+			// create 
+			subscriberSet = new HashSet<String>();
+		}
+		subscriberSet.add(userCode);
+		putObject(realm,"SUB",subscriptionCode,subscriberSet);
+	}
+	
 }
+

@@ -92,7 +92,7 @@ public class EBCHandlers {
 			for (int i = 0; i < recipientJsonArray.size(); i++) {
 				String recipientCode = recipientJsonArray.getString(i);
 				// Get all the sessionStates for this user
-				String sessionStates = VertxUtils.getObject("MSG", recipientCode, String.class);
+				String sessionStates = VertxUtils.getObject("","SessionStates", recipientCode, String.class);
 				for (String sessionState : sessionStates.split(",")) {
 
 					final MessageProducer<JsonObject> toSession = Vertx.currentContext().owner().eventBus()

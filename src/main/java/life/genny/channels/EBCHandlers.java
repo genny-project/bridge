@@ -1,6 +1,7 @@
 package life.genny.channels;
 
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
+import life.genny.utils.VertxUtils;
 
 public class EBCHandlers {
 
@@ -40,122 +42,68 @@ public class EBCHandlers {
 			String incomingCmd = arg.body().toString();
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				// ugly, but remove the outer array
-				if (incomingCmd.startsWith("[")) {
-					incomingCmd = incomingCmd.replaceFirst("\\[", "");
-					incomingCmd = incomingCmd.substring(0, incomingCmd.length() - 1);
-				}
-
-				final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":"
-						+ json.getString("code"));
-
-				if (json.getString("token") != null) {
-					// check token
-					JsonArray recipientJsonArray = null;
-
-					if (!json.containsKey("recipientCodeArray")) {
-						recipientJsonArray = new JsonArray();
-						JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
-						String username = tokenJSON.getString("preferred_username");
-						String sessionState = tokenJSON.getString("session_state");
-						String userCode = QwandaUtils.getUserCode(json.getString("token"));
-
-						json.remove("token");
-						
-					//	JsonObject cleanJson = removePrivates(json);
-					//	String rawJson = removePrivates2(json); //JsonUtils.toJson(cleanJson);
-					//	JsonObject outJson = JsonObject.mapFrom(rawJson);
-						MessageProducer<JsonObject> msgProducer = EBProducers.getChannelSessionList().get(sessionState);
-						if (msgProducer != null) {
-							msgProducer.write(json);
-							Vertx.currentContext().owner().eventBus().publish(sessionState, json);
-						}
-						recipientJsonArray.add(userCode);
-					} else {
-						recipientJsonArray = json.getJsonArray("recipientCodeArray");
-
-						json.remove("token");
-						String payload = json.toString();
-					//	removePrivates(json);
-
-						for (int i = 0; i < recipientJsonArray.size(); i++) {
-							String recipientCode = recipientJsonArray.getString(i);
-							Set<MessageProducer<JsonObject>> msgProducerList = EBProducers.getUserSessionMap()
-									.get(recipientCode);
-							if (msgProducerList != null) {
-								// Send out to all the sessions for this userCode
-								for (MessageProducer<JsonObject> msgProducer : msgProducerList) {
-									if (msgProducer != null) {
-										msgProducer.write(json);
-										String address = msgProducer.address();
-										System.out.println("SENDING TO SESSION:" + address + " for user "
-												+ recipientCode + ":" + msgProducer.hashCode());
-										;
-										Vertx.currentContext().owner().eventBus().publish(address, payload);
-
-									}
-								}
-							}
-						}
-					}
-				} else {
-					log.error("Cmd with Unauthorised cmd recieved");
-				}
+				sendToClientSessions(incomingCmd);
 			}
 		});
 
 		EBConsumers.getFromData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":"
-					);
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":");
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
-				// ugly, but remove the outer array
-				if (incomingData.startsWith("[")) {
-					incomingData = incomingData.replaceFirst("\\[", "");
-					incomingData = incomingData.substring(0, incomingData.length() - 1);
-				}
+				sendToClientSessions(incomingData);
+			}
+		});	
+	}
 
-				//removePrivates(json);
-				// Loop through the recipientCode Array to send this data
-				String[] userCodeArray = null;
-				JsonArray recipientJsonArray = json.getJsonArray("recipientCodeArray");
-				
-				if (recipientJsonArray == null) {
-					recipientJsonArray = new JsonArray();
-					String token = json.getString("token");
-					String userCode = QwandaUtils.getUserCode(token);
-					userCodeArray = new String[1];
-					userCodeArray [0] = userCode;
-				} else {
-					userCodeArray = new String[recipientJsonArray.size()];
-					int i=0;
-					for (Object jo : recipientJsonArray.getList()) {
-						userCodeArray[i] = (String)jo;
-						i++;
-					}
-				}
+	/**
+	 * @param incomingCmd
+	 */
+	private static void sendToClientSessions(String incomingCmd) {
+		// ugly, but remove the outer array
+		if (incomingCmd.startsWith("[")) {
+			incomingCmd = incomingCmd.replaceFirst("\\[", "");
+			incomingCmd = incomingCmd.substring(0, incomingCmd.length() - 1);
+		}
 
-				json.remove("token");
-				String payload = json.toString();
-				for (int i = 0; i < userCodeArray.length; i++) {
-					String recipientCode = userCodeArray[i];
-					// Find all user sessions
-					if (EBProducers.getUserSessionMap().get(recipientCode) != null) {
-						for (MessageProducer<JsonObject> msgProducer : EBProducers.getUserSessionMap().get(recipientCode)) {
-							String channel = msgProducer.address();
-							msgProducer.write(json);
-							Vertx.currentContext().owner().eventBus().publish(channel, payload);
-						}
-					}
-				}
+		final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":"
+				+ json.getString("code"));
+
+		if (json.getString("token") != null) {
+			// check token
+			JsonArray recipientJsonArray = null;
+
+			if (!json.containsKey("recipientCodeArray")) {
+				recipientJsonArray = new JsonArray();
+				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
+				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
+				String userCode = "PER_" + uname.toUpperCase();
+
+				recipientJsonArray.add(userCode);
 			} else {
-				log.error("Cmd with Unauthorised data recieved");
+				recipientJsonArray = json.getJsonArray("recipientCodeArray");
 			}
 
-		});
+			json.remove("token");
+			// removePrivates(json);
+
+			for (int i = 0; i < recipientJsonArray.size(); i++) {
+				String recipientCode = recipientJsonArray.getString(i);
+				// Get all the sessionStates for this user
+				String sessionStates = VertxUtils.getObject("MSG", recipientCode, String.class);
+				for (String sessionState : sessionStates.split(",")) {
+
+					final MessageProducer<JsonObject> toSession = Vertx.currentContext().owner().eventBus()
+							.publisher(sessionState);
+					toSession.write(json);
+				}
+			}
+
+		} else {
+			log.error("Cmd with Unauthorised cmd recieved");
+		}
 	}
 
 	/**
@@ -203,7 +151,8 @@ public class EBCHandlers {
 					com.google.gson.JsonArray items = json.getAsJsonArray("items");
 
 					for (int i = 0; i < items.size(); i++) {
-						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i).getAsJsonObject();
+						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i)
+								.getAsJsonObject();
 						// Now go through the attributes
 						com.google.gson.JsonArray attributes = mJsonObject.getAsJsonArray("baseEntityAttributes");
 						com.google.gson.JsonArray non_privates = new com.google.gson.JsonArray();
@@ -218,7 +167,7 @@ public class EBCHandlers {
 						}
 						mJsonObject.remove("baseEntityAttributes");
 						mJsonObject.add("baseEntityAttributes", non_privates);
-						
+
 					}
 				}
 			}

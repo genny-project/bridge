@@ -2,9 +2,12 @@ package life.genny.utils;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.Logger;
@@ -16,6 +19,7 @@ import com.google.common.collect.Sets;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
+import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
 import life.genny.qwanda.entity.BaseEntity;
@@ -36,6 +40,9 @@ public class VertxUtils {
 	    TRIGGER;
 
 	}
+	
+	static Map<String,String> localCache = new ConcurrentHashMap<String,String>();
+	static Map<String,MessageProducer<JsonObject>> localMessageProducerCache = new ConcurrentHashMap<String,MessageProducer<JsonObject>>();
 
 
   static public  <T>  T  getObject(final String realm, final String keyPrefix, final String key, final Class clazz)
@@ -95,7 +102,8 @@ public class VertxUtils {
 				e.printStackTrace();
 			}
 		} else {
-			String ret = (String) sd.getLocalMap("shared_data").get(key);
+			String ret = (String) localCache.get(key);
+		//	String ret = (String) sd.getLocalMap("shared_data").get(key);
 			JsonObject result = null;
 			if (ret != null) {
 				result = new JsonObject().put("status", "ok").put("value", ret);
@@ -162,6 +170,7 @@ public class VertxUtils {
 			}
 
 		} else {
+			localCache.put(key, value);
 			sd.getLocalMap("shared_data").put(key, value);
 			JsonObject ok = new JsonObject().put("status", "ok");
 			return ok;
@@ -201,6 +210,18 @@ public class VertxUtils {
 		  putObject(realm, keyPrefix, key, strArray);
 
 	  }
+
+	public static void putMessageProducer(String sessionState, MessageProducer<JsonObject> toSessionChannel) {
+		
+		localMessageProducerCache.put(sessionState, toSessionChannel);
+		
+	}
+	
+	public static  MessageProducer<JsonObject> getMessageProducer(String sessionState) {
+		
+		return localMessageProducerCache.get(sessionState);
+		
+	}
 	  
 }
 

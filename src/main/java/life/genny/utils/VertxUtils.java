@@ -169,7 +169,7 @@ public class VertxUtils {
 			}
 
 		} else {
-			localCache.put(key, value);
+			//localCache.put(key, value);
 			sd.getLocalMap("shared_data").put(key, value);
 			JsonObject ok = new JsonObject().put("status", "ok");
 			return ok;

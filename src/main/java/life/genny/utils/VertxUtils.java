@@ -20,6 +20,7 @@ import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
+import life.genny.channels.ClusterMap;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.message.QEventMessage;
 import life.genny.qwandautils.JsonUtils;
@@ -68,7 +69,7 @@ public class VertxUtils {
 
 		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
 
-		SharedData sd =  Vertx.currentContext().owner().sharedData();
+		SharedData sd =  ClusterMap.getVertxContext().sharedData();
 
 		if (System.getenv("GENNY_DEV") == null) {
 			if (!cachedEnabled) {
@@ -140,7 +141,7 @@ public class VertxUtils {
 	static public JsonObject writeCachedJson(final String key, final String value) {
 		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
 
-		SharedData sd = Vertx.currentContext().owner().sharedData();
+		SharedData sd = ClusterMap.getVertxContext().sharedData();
 		if (System.getenv("GENNY_DEV") == null) {
 
 			sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {

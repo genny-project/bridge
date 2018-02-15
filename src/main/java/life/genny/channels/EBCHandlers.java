@@ -95,13 +95,17 @@ public class EBCHandlers {
 				if (sessionStates != null) {
 					for (String sessionState : sessionStates) {
 
-						final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
-						toSession.write(json);
+//						final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
+//						toSession.write(json);
+					  System.out.println("12345678"+sessionState);
+					  VertxUtils.getMessageProducer(sessionState).write(json);
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
-					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
-					toSession.write(json);
+//					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
+//					toSession.write(json);
+					System.out.println("12345"+sessionState);
+					VertxUtils.getMessageProducer(sessionState).write(json);
 				}
 			}
 

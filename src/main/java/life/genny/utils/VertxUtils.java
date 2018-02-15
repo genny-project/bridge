@@ -35,10 +35,10 @@ public class VertxUtils {
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
+	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 
 	static boolean cachedEnabled = true;
 	
-	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 	public enum ESubscriptionType {
 	    DIRECT,
 	    TRIGGER;
@@ -48,16 +48,15 @@ public class VertxUtils {
 	static Map<String,String> localCache = new ConcurrentHashMap<String,String>();
 	static Map<String,MessageProducer<JsonObject>> localMessageProducerCache = new ConcurrentHashMap<String,MessageProducer<JsonObject>>();
 
-
-	static RedisOptions config = null;
-	static RedisClient redis;
-	
-	static public void init() {
-	config = new RedisOptions()
-			  .setHost(hostIP);
-	
-	redis = RedisClient.create(ClusterMap.getVertxContext(), config);
-	}
+//	static RedisOptions config = null;
+//	static RedisClient redis;
+//	
+//	static public void init() {
+//	config = new RedisOptions()
+//			  .setHost(hostIP);
+//	
+//	redis = RedisClient.create(ClusterMap.getVertxContext(), config);
+//	}
 	
   static public  <T>  T  getObject(final String realm, final String keyPrefix, final String key, final Class clazz)
   {
@@ -81,15 +80,15 @@ public class VertxUtils {
 	
   static public JsonObject readCachedJson(final String key) {
 	  
-	  CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
-	  redis.get(key, res -> {
-		  if (res.succeeded()) {
-			  JsonObject ok = new JsonObject().put("status", "ok").put("value", res.result());
-				fut.complete(ok);
-		  }  else {
-		        System.out.println("Connection or Operation Failed " + res.cause());
-	      }
-		});
+//	  CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
+//	  redis.get(key, res -> {
+//		  if (res.succeeded()) {
+//			  JsonObject ok = new JsonObject().put("status", "ok").put("value", res.result());
+//				fut.complete(ok);
+//		  }  else {
+//		        System.out.println("Connection or Operation Failed " + res.cause());
+//	      }
+//		});
 
 		
 
@@ -118,41 +117,41 @@ public class VertxUtils {
 //					}
 //				});
 //			}
-			try {
-				return fut.get();
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				return fut.get();
+//			} catch (InterruptedException | ExecutionException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 //		} else {
 //			String ret = (String) sd.getLocalMap("shared_data").get(key);
 //			if (ret == null) {
-//				ret = (String) localCache.get(key);
+			String	ret = (String) localCache.get(key);
 //			}
-//			JsonObject result = null;
-//			if (ret != null) {
-//				result = new JsonObject().put("status", "ok").put("value", ret);
-//			} else {
-//				result = new JsonObject().put("status", "error").put("value", ret);
-//			}
-//			return result;
+			JsonObject result = null;
+			if (ret != null) {
+				result = new JsonObject().put("status", "ok").put("value", ret);
+			} else {
+				result = new JsonObject().put("status", "error").put("value", ret);
+			}
+			return result;
 //		}
-		return null;
+//		return null;
 	}
   
 	static public JsonObject writeCachedJson(final String key, final String value) {
-		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
-		
-	    redis.set(key, value, r -> {
-	        if (r.succeeded()) {
-//	          System.out.println("key stored");
-//	          client.get("key", s -> {
-//	            System.out.println("Retrieved value: " + s.result());
-//	          });
-	        } else {
-	          System.out.println("Connection or Operation Failed " + r.cause());
-	        }
-	      });
+//		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
+//		
+//	    redis.set(key, value, r -> {
+//	        if (r.succeeded()) {
+////	          System.out.println("key stored");
+////	          client.get("key", s -> {
+////	            System.out.println("Retrieved value: " + s.result());
+////	          });
+//	        } else {
+//	          System.out.println("Connection or Operation Failed " + r.cause());
+//	        }
+//	      });
 
 //		SharedData sd = ClusterMap.getVertxContext().sharedData();
 //	//	if (System.getenv("GENNY_DEV") == null) {
@@ -174,20 +173,20 @@ public class VertxUtils {
 //					});
 //				}
 //			});
-			try {
-				return fut.get();
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				return fut.get();
+//			} catch (InterruptedException | ExecutionException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 //		} else {
-//			localCache.put(key, value);
+			localCache.put(key, value);
 //			sd.getLocalMap("shared_data").put(key, value);
-//			JsonObject ok = new JsonObject().put("status", "ok");
-//			return ok;
+			JsonObject ok = new JsonObject().put("status", "ok");
+			return ok;
 //		}
-		return null;
+//		return null;
 	}
 
 
@@ -245,6 +244,7 @@ public class VertxUtils {
 			putSetString(realm,SUB,be.getCode(),subscriberSet);
 
 	}
+	
 	static public String[] getSubscribers(final String realm, final String subscriptionCode)
 	{
 		final String SUB = "SUB";
@@ -306,5 +306,3 @@ public class VertxUtils {
 	  
 
 }
-
-   

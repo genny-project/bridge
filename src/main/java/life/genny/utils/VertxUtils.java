@@ -101,8 +101,10 @@ public class VertxUtils {
 				e.printStackTrace();
 			}
 		} else {
-			String ret = (String) localCache.get(key);
-		//	String ret = (String) sd.getLocalMap("shared_data").get(key);
+			String ret = (String) sd.getLocalMap("shared_data").get(key);
+			if (ret == null) {
+				ret = (String) localCache.get(key);
+			}
 			JsonObject result = null;
 			if (ret != null) {
 				result = new JsonObject().put("status", "ok").put("value", ret);
@@ -169,7 +171,7 @@ public class VertxUtils {
 			}
 
 		} else {
-			//localCache.put(key, value);
+			localCache.put(key, value);
 			sd.getLocalMap("shared_data").put(key, value);
 			JsonObject ok = new JsonObject().put("status", "ok");
 			return ok;

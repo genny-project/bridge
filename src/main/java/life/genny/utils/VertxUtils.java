@@ -176,7 +176,7 @@ public class VertxUtils {
 		return null;
 	}
 
-	public void subscribe(final String realm, final String subscriptionCode, final String userCode)
+	static public void subscribe(final String realm, final String subscriptionCode, final String userCode)
 	{
 		final String SUB = "SUB";
 		// Subscribe to a code
@@ -185,7 +185,7 @@ public class VertxUtils {
 		putSetString(realm,SUB,subscriptionCode,subscriberSet);
 	}
 	
-	public String[] getSubscribers(final String realm, final String subscriptionCode)
+	static public String[] getSubscribers(final String realm, final String subscriptionCode)
 	{
 		final String SUB = "SUB";
 		// Subscribe to a code
@@ -194,7 +194,7 @@ public class VertxUtils {
 		
 	}
 	
-	public void subscribeEvent(final String realm, final String subscriptionCode, final QEventMessage msg)
+	static public void subscribeEvent(final String realm, final String subscriptionCode, final QEventMessage msg)
 	{
 		final String SUBEVT = "SUBEVT";
 		// Subscribe to a code
@@ -203,7 +203,7 @@ public class VertxUtils {
 		putSetString(realm,SUBEVT,subscriptionCode,subscriberSet);
 	}
 	
-	public QEventMessage[] getSubscribedEvents(final String realm, final String subscriptionCode)
+	static public QEventMessage[] getSubscribedEvents(final String realm, final String subscriptionCode)
 	{
 		final String SUBEVT = "SUBEVT";
 		// Subscribe to a code

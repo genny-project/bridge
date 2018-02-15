@@ -1,6 +1,7 @@
 package life.genny.utils;
 
 
+
 import java.lang.invoke.MethodHandles;
 import java.util.HashSet;
 import java.util.List;
@@ -17,10 +18,12 @@ import com.google.common.collect.Sets;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonObject;
+import io.vertx.redis.RedisOptions;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
+import io.vertx.rxjava.redis.RedisClient;
 import life.genny.channels.ClusterMap;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.message.QEventMessage;
@@ -35,6 +38,7 @@ public class VertxUtils {
 
 	static boolean cachedEnabled = true;
 	
+	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 	public enum ESubscriptionType {
 	    DIRECT,
 	    TRIGGER;
@@ -45,6 +49,16 @@ public class VertxUtils {
 	static Map<String,MessageProducer<JsonObject>> localMessageProducerCache = new ConcurrentHashMap<String,MessageProducer<JsonObject>>();
 
 
+	static RedisOptions config = null;
+	static RedisClient redis;
+	
+	static public void init() {
+	config = new RedisOptions()
+			  .setHost(hostIP);
+	
+	redis = RedisClient.create(ClusterMap.getVertxContext(), config);
+	}
+	
   static public  <T>  T  getObject(final String realm, final String keyPrefix, final String key, final Class clazz)
   {
 	  T item = null;
@@ -67,55 +81,115 @@ public class VertxUtils {
 	
   static public JsonObject readCachedJson(final String key) {
 	  
+	  CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
+	  redis.get(key, res -> {
+		  if (res.succeeded()) {
+			  JsonObject ok = new JsonObject().put("status", "ok").put("value", res.result());
+				fut.complete(ok);
+		  }  else {
+		        System.out.println("Connection or Operation Failed " + res.cause());
+	      }
+		});
 
-		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
+		
 
-		SharedData sd = ClusterMap.getVertxContext().sharedData();
-
-		if (System.getenv("GENNY_DEV") == null) {
-			if (!cachedEnabled) {
-				fut.complete(new JsonObject().put("status", "error").put("value", "Cache Disabled"));
-			} else {
-				sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
-					if (res.failed()) {
-						fut.complete(new JsonObject().put("status", "error"));
-						;
-					} else {
-						AsyncMap<String, String> amap = res.result();
-						amap.get(key, (AsyncResult<String> comp) -> {
-							if (comp.failed()) {
-								JsonObject err = new JsonObject().put("status", "error").put("description",
-										"write failed");
-								fut.complete(err);
-							} else {
-								JsonObject ok = new JsonObject().put("status", "ok").put("value", comp.result());
-								fut.complete(ok);
-							}
-						});
-					}
-				});
-			}
+//		SharedData sd = ClusterMap.getVertxContext().sharedData();
+//
+//	//	if (System.getenv("GENNY_DEV") == null) {
+//			if (!cachedEnabled) {
+//				fut.complete(new JsonObject().put("status", "error").put("value", "Cache Disabled"));
+//			} else {
+//				sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
+//					if (res.failed()) {
+//						fut.complete(new JsonObject().put("status", "error"));
+//						;
+//					} else {
+//						AsyncMap<String, String> amap = res.result();
+//						amap.get(key, (AsyncResult<String> comp) -> {
+//							if (comp.failed()) {
+//								JsonObject err = new JsonObject().put("status", "error").put("description",
+//										"write failed");
+//								fut.complete(err);
+//							} else {
+//								JsonObject ok = new JsonObject().put("status", "ok").put("value", comp.result());
+//								fut.complete(ok);
+//							}
+//						});
+//					}
+//				});
+//			}
 			try {
 				return fut.get();
 			} catch (InterruptedException | ExecutionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			String ret = (String) sd.getLocalMap("shared_data").get(key);
-			if (ret == null) {
-				ret = (String) localCache.get(key);
-			}
-			JsonObject result = null;
-			if (ret != null) {
-				result = new JsonObject().put("status", "ok").put("value", ret);
-			} else {
-				result = new JsonObject().put("status", "error").put("value", ret);
-			}
-			return result;
-		}
+//		} else {
+//			String ret = (String) sd.getLocalMap("shared_data").get(key);
+//			if (ret == null) {
+//				ret = (String) localCache.get(key);
+//			}
+//			JsonObject result = null;
+//			if (ret != null) {
+//				result = new JsonObject().put("status", "ok").put("value", ret);
+//			} else {
+//				result = new JsonObject().put("status", "error").put("value", ret);
+//			}
+//			return result;
+//		}
 		return null;
 	}
+  
+	static public JsonObject writeCachedJson(final String key, final String value) {
+		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
+		
+	    redis.set(key, value, r -> {
+	        if (r.succeeded()) {
+//	          System.out.println("key stored");
+//	          client.get("key", s -> {
+//	            System.out.println("Retrieved value: " + s.result());
+//	          });
+	        } else {
+	          System.out.println("Connection or Operation Failed " + r.cause());
+	        }
+	      });
+
+//		SharedData sd = ClusterMap.getVertxContext().sharedData();
+//	//	if (System.getenv("GENNY_DEV") == null) {
+//
+//			sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
+//				if (res.failed() || key == null || value == null) {
+//					fut.complete(new JsonObject().put("status", "error"));
+//
+//				} else {
+//					AsyncMap<String, String> amap = res.result();
+//
+//					amap.put(key, value, (AsyncResult<Void> comp) -> {
+//						if (comp.failed()) {
+//							fut.complete(new JsonObject().put("status", "error").put("description", "write failed"));
+//						} else {
+//							JsonObject ok = new JsonObject().put("status", "ok");
+//							fut.complete(ok);
+//						}
+//					});
+//				}
+//			});
+			try {
+				return fut.get();
+			} catch (InterruptedException | ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+//		} else {
+//			localCache.put(key, value);
+//			sd.getLocalMap("shared_data").put(key, value);
+//			JsonObject ok = new JsonObject().put("status", "ok");
+//			return ok;
+//		}
+		return null;
+	}
+
 
 	static public BaseEntity readFromDDT(final String code, final String token) {
 		BaseEntity be = null;
@@ -141,44 +215,6 @@ public class VertxUtils {
 		return be;
 	}
 
-	static public JsonObject writeCachedJson(final String key, final String value) {
-		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
-
-		SharedData sd = ClusterMap.getVertxContext().sharedData();
-		if (System.getenv("GENNY_DEV") == null) {
-
-			sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
-				if (res.failed() || key == null || value == null) {
-					fut.complete(new JsonObject().put("status", "error"));
-
-				} else {
-					AsyncMap<String, String> amap = res.result();
-
-					amap.put(key, value, (AsyncResult<Void> comp) -> {
-						if (comp.failed()) {
-							fut.complete(new JsonObject().put("status", "error").put("description", "write failed"));
-						} else {
-							JsonObject ok = new JsonObject().put("status", "ok");
-							fut.complete(ok);
-						}
-					});
-				}
-			});
-			try {
-				return fut.get();
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		} else {
-			localCache.put(key, value);
-			sd.getLocalMap("shared_data").put(key, value);
-			JsonObject ok = new JsonObject().put("status", "ok");
-			return ok;
-		}
-		return null;
-	}
 
 	static public void subscribe(final String realm, final String subscriptionCode, final String userCode)
 	{
@@ -200,6 +236,15 @@ public class VertxUtils {
 		}
 	}
 	
+	static public void subscribe(final String realm, final BaseEntity be, final String userCode)
+	{
+		final String SUB = "SUB";
+		// Subscribe to a code
+			Set<String> subscriberSet = getSetString(realm,SUB,be.getCode());
+			subscriberSet.add(userCode);
+			putSetString(realm,SUB,be.getCode(),subscriberSet);
+
+	}
 	static public String[] getSubscribers(final String realm, final String subscriptionCode)
 	{
 		final String SUB = "SUB";
@@ -262,3 +307,4 @@ public class VertxUtils {
 
 }
 
+   

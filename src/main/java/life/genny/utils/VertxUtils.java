@@ -1,8 +1,7 @@
 package life.genny.utils;
 
+
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +11,6 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 
@@ -187,6 +185,15 @@ public class VertxUtils {
 		putSetString(realm,SUB,subscriptionCode,subscriberSet);
 	}
 	
+	public String[] getSubscribers(final String realm, final String subscriptionCode)
+	{
+		final String SUB = "SUB";
+		// Subscribe to a code
+		String[] resultArray = getObject(realm,SUB,subscriptionCode,String[].class);
+		return resultArray;
+		
+	}
+	
 	public void subscribeEvent(final String realm, final String subscriptionCode, final QEventMessage msg)
 	{
 		final String SUBEVT = "SUBEVT";
@@ -194,6 +201,20 @@ public class VertxUtils {
 		Set<String> subscriberSet = getSetString(realm,SUBEVT,subscriptionCode);
 		subscriberSet.add(JsonUtils.toJson(msg));
 		putSetString(realm,SUBEVT,subscriptionCode,subscriberSet);
+	}
+	
+	public QEventMessage[] getSubscribedEvents(final String realm, final String subscriptionCode)
+	{
+		final String SUBEVT = "SUBEVT";
+		// Subscribe to a code
+		String[] resultArray = getObject(realm,SUBEVT,subscriptionCode,String[].class);
+		QEventMessage[] msgs = new QEventMessage[resultArray.length];
+		int i=0;
+		for (String result : resultArray) {
+			msgs[i] = JsonUtils.fromJson(result, QEventMessage.class);
+			i++;
+		}
+		return msgs;
 	}
 	
 	static public Set<String> getSetString(final String realm, final String keyPrefix, final String key)
@@ -223,5 +244,6 @@ public class VertxUtils {
 		
 	}
 	  
+
 }
 

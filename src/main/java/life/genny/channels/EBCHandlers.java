@@ -53,7 +53,7 @@ public class EBCHandlers {
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(incomingData);
 			}
-		});	
+		});
 	}
 
 	/**
@@ -67,8 +67,7 @@ public class EBCHandlers {
 		}
 
 		final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":"
-				+ json.getString("code"));
+		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code"));
 
 		if (json.getString("token") != null) {
 			// check token
@@ -92,13 +91,13 @@ public class EBCHandlers {
 				String recipientCode = recipientJsonArray.getString(i);
 				// Get all the sessionStates for this user
 
-				Set<String> sessionStates = VertxUtils.getSetString("","SessionStates", recipientCode);
+				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
 				if (sessionStates != null) {
-				for (String sessionState : sessionStates) {
+					for (String sessionState : sessionStates) {
 
-					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
-					toSession.write(json);
-				}
+						final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
+						toSession.write(json);
+					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
 					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
@@ -156,7 +155,8 @@ public class EBCHandlers {
 					com.google.gson.JsonArray items = json.getAsJsonArray("items");
 
 					for (int i = 0; i < items.size(); i++) {
-						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i).getAsJsonObject();
+						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i)
+								.getAsJsonObject();
 						// Now go through the attributes
 						com.google.gson.JsonArray attributes = mJsonObject.getAsJsonArray("baseEntityAttributes");
 						com.google.gson.JsonArray non_privates = new com.google.gson.JsonArray();
@@ -171,7 +171,7 @@ public class EBCHandlers {
 						}
 						mJsonObject.remove("baseEntityAttributes");
 						mJsonObject.add("baseEntityAttributes", non_privates);
-						
+
 					}
 				}
 			}

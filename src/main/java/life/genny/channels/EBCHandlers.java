@@ -1,7 +1,6 @@
 package life.genny.channels;
 
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -92,23 +91,17 @@ public class EBCHandlers {
 			for (int i = 0; i < recipientJsonArray.size(); i++) {
 				String recipientCode = recipientJsonArray.getString(i);
 				// Get all the sessionStates for this user
-				Set set = new HashSet<String>() { }; // create a specific sub-class
-				final Class<? extends Set> setClass = set.getClass();
-				final ParameterizedType genericSuperclass = (ParameterizedType) setClass.getGenericSuperclass();
-				Class elementType = (Class) genericSuperclass.getActualTypeArguments()[0];
 
-				Set<String> sessionStates = VertxUtils.getObject("","SessionStates", recipientCode, elementType);
+				Set<String> sessionStates = VertxUtils.getSetString("","SessionStates", recipientCode);
 				if (sessionStates != null) {
 				for (String sessionState : sessionStates) {
 
-					final MessageProducer<JsonObject> toSession = Vertx.currentContext().owner().eventBus()
-							.publisher(sessionState);
+					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
 					toSession.write(json);
 				}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
-					final MessageProducer<JsonObject> toSession = Vertx.currentContext().owner().eventBus()
-							.publisher(sessionState);
+					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
 					toSession.write(json);
 				}
 			}
@@ -163,8 +156,7 @@ public class EBCHandlers {
 					com.google.gson.JsonArray items = json.getAsJsonArray("items");
 
 					for (int i = 0; i < items.size(); i++) {
-						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i)
-								.getAsJsonObject();
+						com.google.gson.JsonObject mJsonObject = (com.google.gson.JsonObject) items.get(i).getAsJsonObject();
 						// Now go through the attributes
 						com.google.gson.JsonArray attributes = mJsonObject.getAsJsonArray("baseEntityAttributes");
 						com.google.gson.JsonArray non_privates = new com.google.gson.JsonArray();
@@ -179,7 +171,7 @@ public class EBCHandlers {
 						}
 						mJsonObject.remove("baseEntityAttributes");
 						mJsonObject.add("baseEntityAttributes", non_privates);
-
+						
 					}
 				}
 			}

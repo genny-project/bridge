@@ -3,6 +3,7 @@ package life.genny.utils;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -20,7 +21,6 @@ import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
-import life.genny.channels.ClusterMap;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.message.QEventMessage;
 import life.genny.qwandautils.JsonUtils;
@@ -69,7 +69,7 @@ public class VertxUtils {
 
 		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
 
-		SharedData sd =  ClusterMap.getVertxContext().sharedData();
+		SharedData sd =  Vertx.currentContext().owner().sharedData();
 
 		if (System.getenv("GENNY_DEV") == null) {
 			if (!cachedEnabled) {
@@ -141,7 +141,7 @@ public class VertxUtils {
 	static public JsonObject writeCachedJson(final String key, final String value) {
 		CompletableFuture<JsonObject> fut = new CompletableFuture<JsonObject>();
 
-		SharedData sd = ClusterMap.getVertxContext().sharedData();
+		SharedData sd = Vertx.currentContext().owner().sharedData();
 		if (System.getenv("GENNY_DEV") == null) {
 
 			sd.getClusterWideMap("shared_data", (AsyncResult<AsyncMap<String, String>> res) -> {
@@ -184,6 +184,17 @@ public class VertxUtils {
 		Set<String> subscriberSet = getSetString(realm,SUB,subscriptionCode);
 		subscriberSet.add(userCode);
 		putSetString(realm,SUB,subscriptionCode,subscriberSet);
+	}
+	
+	static public void subscribe(final String realm, final List<BaseEntity> watchList, final String userCode)
+	{
+		final String SUB = "SUB";
+		// Subscribe to a code
+		for (BaseEntity be : watchList) {
+			Set<String> subscriberSet = getSetString(realm,SUB,be.getCode());
+			subscriberSet.add(userCode);
+			putSetString(realm,SUB,be.getCode(),subscriberSet);
+		}
 	}
 	
 	static public String[] getSubscribers(final String realm, final String subscriptionCode)

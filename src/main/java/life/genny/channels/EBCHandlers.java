@@ -41,7 +41,7 @@ public class EBCHandlers {
 			String incomingCmd = arg.body().toString();
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(incomingCmd);
+				sendToClientSessions(incomingCmd, true);
 			}
 		});
 
@@ -51,7 +51,7 @@ public class EBCHandlers {
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":");
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(incomingData);
+				sendToClientSessions(incomingData,false);
 			}
 		});
 	}
@@ -59,7 +59,7 @@ public class EBCHandlers {
 	/**
 	 * @param incomingCmd
 	 */
-	private static void sendToClientSessions(String incomingCmd) {
+	private static void sendToClientSessions(String incomingCmd, boolean sessionOnly) {
 		// ugly, but remove the outer array
 		if (incomingCmd.startsWith("[")) {
 			incomingCmd = incomingCmd.replaceFirst("\\[", "");
@@ -92,12 +92,12 @@ public class EBCHandlers {
 				// Get all the sessionStates for this user
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
-				if (sessionStates != null) {
+				if ((sessionStates != null)&&(!sessionOnly)) {
 					for (String sessionState : sessionStates) {
 
 //						final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
 //						toSession.write(json);
-					  System.out.println("12345678"+sessionState);
+//					  System.out.println("12345678"+sessionState);
 					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 					  msgProducer.write(json);
 					}
@@ -105,7 +105,7 @@ public class EBCHandlers {
 					String sessionState = tokenJSON.getString("session_state");
 //					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
 //					toSession.write(json);
-					System.out.println("12345"+sessionState);
+//					System.out.println("12345"+sessionState);
 					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 					msgProducer.write(json);
 				}

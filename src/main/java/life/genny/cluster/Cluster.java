@@ -8,6 +8,7 @@ import life.genny.channels.ClusterMap;
 import life.genny.channels.EBCHandlers;
 import life.genny.channels.EBConsumers;
 import life.genny.channels.EBProducers;
+import life.genny.utils.VertxUtils;
 
 public class Cluster {
 
@@ -17,6 +18,7 @@ public class Cluster {
 		EBProducers.registerAllProducers(eb);
 		EBCHandlers.registerHandlers();
 		ClusterMap.setVertxContext(vertx);
+		
 	};
 
 	static Action1<Throwable> clusterError = error -> {

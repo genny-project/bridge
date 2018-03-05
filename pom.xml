@@ -84,10 +84,6 @@
 
 	<repositories>
 		<repository>
-			<id>life.genny</id>
-			<url>https://nexus.outcome-hub.com/nexus/content/repositories/life.genny</url>
-		</repository>
-		<repository>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -95,6 +91,10 @@
 			<name>bintray</name>
 			<url>http://jcenter.bintray.com</url>
 		</repository>
+		<repository>
+			<id>life.genny</id>
+			<url>https://nexus.outcome-hub.com/nexus/content/repositories/life.genny</url>
+		</repository> 
 	</repositories>
 	<build>
 		<resources>

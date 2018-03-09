@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.vertx.rxjava.ext.web.RoutingContext;
+import life.genny.channel.DistMap;
+import life.genny.cluster.ClusterConfig;
 import life.genny.utils.PropertiesJsonDeserializer;
 
 public class VersionHandler {
@@ -17,6 +19,7 @@ public class VersionHandler {
 	  public static void apiGetVersionHandler(final RoutingContext routingContext) {
 		    routingContext.request().bodyHandler(body -> {
 		            Properties properties = new Properties();
+		            System.out.println("Here it is: "+DistMap.getDistBE().size());
 		            try {
 		              properties.load(Thread.currentThread().getContextClassLoader().getResource("git.properties")
 		                  .openStream());
@@ -25,6 +28,7 @@ public class VersionHandler {
 		              e.printStackTrace();
 		            }
 
+		            
 		          routingContext.response().putHeader("Content-Type", "application/json");
 		          routingContext.response().end(gson.toJson(properties));
 

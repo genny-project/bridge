@@ -1,4 +1,4 @@
-package life.genny.channels;
+package life.genny.bridge;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
+import life.genny.channel.Consumer;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
@@ -36,7 +37,7 @@ public class EBCHandlers {
 
 	public static void registerHandlers() {
 
-		EBConsumers.getFromCmds().subscribe(arg -> {
+		Consumer.getFromCmds().subscribe(arg -> {
 			// log.info("EVENT-BUS CMD >> WEBSOCKET CMD :"+incomingCmd);
 			String incomingCmd = arg.body().toString();
 
@@ -45,7 +46,7 @@ public class EBCHandlers {
 			}
 		});
 
-		EBConsumers.getFromData().subscribe(arg -> {
+		Consumer.getFromData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":");

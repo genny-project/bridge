@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>life.genny</groupId>
 			<artifactId>genny-verticle</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${qwanda-utils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

@@ -23,8 +23,7 @@ import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
-import life.genny.channels.ClusterMap;
-import life.genny.channels.EBProducers;
+import life.genny.channel.Producer;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
@@ -148,22 +147,22 @@ public class RouterHandlers {
 				j.put("token", localToken);
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
-				EBProducers.getToEvents().deliveryOptions(options);
-				EBProducers.getToEvents().write(j);
+				Producer.getToEvents().deliveryOptions(options);
+				Producer.getToEvents().write(j);
 			} else
 
 			if (j.getString("msg_type").equals("CMD_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 				j.put("token", localToken);
-				EBProducers.getToCmds().write(j);
+				Producer.getToCmds().write(j);
 			} else if (j.getString("msg_type").equals("MSG_MESSAGE")) {
 				log.info("CMD API POST   >> EVENT-BUS MSG DATA :" + j);
 				j.put("token", localToken);
-				EBProducers.getToMessages().write(j);
+				Producer.getToMessages().write(j);
 			} else if (j.getString("msg_type").equals("DATA_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
 				j.put("token", localToken);
-				EBProducers.getToData().write(j);
+				Producer.getToData().write(j);
 			}
 
 		});
@@ -174,17 +173,17 @@ public class RouterHandlers {
 		routingContext.request().bodyHandler(body -> {
 			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + body.toJsonObject());
-			EBProducers.getToClientOutbound().write(body.toJsonObject());
+			Producer.getToClientOutbound().write(body.toJsonObject());
 			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
 				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:" + body.toJsonObject());
-			EBProducers.getToData().write(body.toJsonObject());
+			Producer.getToData().write(body.toJsonObject());
 		});
 		routingContext.response().end();
 	}
 
-	public static void apiMapPutHandler(final RoutingContext context) {
-		ClusterMap.mapDTT(context);
-	}
+//	public static void apiMapPutHandler(final RoutingContext context) {
+//		ClusterMap.mapDTT(context);
+//	}
 
 	public static void apiMapGetHandler(final RoutingContext context) {
 		final HttpServerRequest req = context.request();

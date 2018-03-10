@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
-import io.vertx.ext.web.handler.sockjs.PermittedOptions;
+import io.vertx.ext.bridge.PermittedOptions;
 
 public class BridgeConfig {
 

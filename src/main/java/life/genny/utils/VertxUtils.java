@@ -24,7 +24,6 @@ import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.core.shareddata.AsyncMap;
 import io.vertx.rxjava.core.shareddata.SharedData;
 import io.vertx.rxjava.redis.RedisClient;
-import life.genny.channels.ClusterMap;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.message.QEventMessage;
 import life.genny.qwandautils.JsonUtils;

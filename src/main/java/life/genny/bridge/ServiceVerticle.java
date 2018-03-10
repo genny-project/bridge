@@ -18,6 +18,7 @@ public class ServiceVerticle extends AbstractVerticle {
         Routers.routers(vertx);
         fut.complete();
       }, fut);
+      EBCHandlers.registerHandlers();
       startFuture.complete();
     }, startFuture);
     

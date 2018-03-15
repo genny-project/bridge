@@ -60,7 +60,7 @@ public class EBCHandlers {
 			JsonArray recipientJsonArray = null;
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 
-			if (!json.containsKey("recipientCodeArray")) {
+			if ((!json.containsKey("recipientCodeArray"))||(json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
 				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 				String userCode = "PER_" + uname.toUpperCase();

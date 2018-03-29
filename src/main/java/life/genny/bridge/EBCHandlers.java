@@ -72,7 +72,7 @@ public class EBCHandlers {
 
 			json.remove("token");  // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
-			// removePrivates(json);
+			JsonObject cleanJson = removePrivates(json);
 
 			for (int i = 0; i < recipientJsonArray.size(); i++) {
 				String recipientCode = recipientJsonArray.getString(i);
@@ -86,7 +86,7 @@ public class EBCHandlers {
 //						toSession.write(json);
 //					  System.out.println("12345678"+sessionState);
 					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					  msgProducer.write(json);
+					  msgProducer.write(cleanJson);
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
@@ -94,7 +94,7 @@ public class EBCHandlers {
 //					toSession.write(json);
 //					System.out.println("12345"+sessionState);
 					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					msgProducer.write(json);
+					msgProducer.write(cleanJson);
 				}
 			}
 
@@ -108,31 +108,49 @@ public class EBCHandlers {
 	 */
 	private static JsonObject removePrivates(JsonObject json) {
 		// TODO: Very ugly, but remove any Attributes with privateFlag
+		
 		if (json.containsKey("data_type")) {
 			if ("BaseEntity".equals(json.getString("data_type"))) {
 				if (json.containsKey("items")) {
+					JsonArray newItems = new JsonArray();
+					
 					JsonArray items = json.getJsonArray("items");
-
+					
+					// For every BaseEntity
 					for (int i = 0; i < items.size(); i++) {
 						JsonObject mJsonObject = (JsonObject) items.getJsonObject(i);
+						if (mJsonObject == null) continue;
+						JsonObject newJson = new JsonObject();
+						newJson.put("code", mJsonObject.getString("code"));
+						newJson.put("index", mJsonObject.getInteger("index"));
+						newJson.put("name", mJsonObject.getString("name"));
+						newJson.put("links", mJsonObject.getJsonArray("links"));
+						newJson.put("weight", mJsonObject.getDouble("weight"));
+						JsonArray non_privateAttributes = new JsonArray();
+
 						// Now go through the attributes
 						JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
-						JsonObject mAttribute = new JsonObject();
-						JsonArray non_privates = new JsonArray();
 						for (Integer j = 0; j < attributes.size(); j++) {
 							mJsonObject = (JsonObject) attributes.getJsonObject(j);
 							Boolean privacyFlag = mJsonObject.getBoolean("privacyFlag");
 							if (privacyFlag != null) {
 								if (!privacyFlag) {
-									non_privates.add(mJsonObject);
+									non_privateAttributes.add(mJsonObject);
 								}
+							} else {
+								non_privateAttributes.add(mJsonObject);
 							}
 						}
-						mJsonObject.put("baseEntityAttributes", non_privates);
+						newJson.put("baseEntityAttributes", non_privateAttributes);
+						newItems.add(newJson);
 					}
-				}
-			}
-		}
+					json.put("items", newItems);
+					return json;
+				} else
+					return json;
+			} else
+				return json;
+		} else 
 		return json;
 	}
 

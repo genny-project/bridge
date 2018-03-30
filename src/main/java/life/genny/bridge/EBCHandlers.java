@@ -126,6 +126,8 @@ public class EBCHandlers {
 						newJson.put("name", mJsonObject.getString("name"));
 						newJson.put("links", mJsonObject.getJsonArray("links"));
 						newJson.put("weight", mJsonObject.getDouble("weight"));
+						newJson.put("id", mJsonObject.getLong("id"));
+						newJson.put("created", mJsonObject.getString("created"));
 						JsonArray non_privateAttributes = new JsonArray();
 
 						// Now go through the attributes

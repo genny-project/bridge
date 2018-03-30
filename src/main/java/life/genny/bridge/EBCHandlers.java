@@ -132,6 +132,9 @@ public class EBCHandlers {
 
 						// Now go through the attributes
 						JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
+						if (attributes == null) {
+							return json;
+						}
 						for (Integer j = 0; j < attributes.size(); j++) {
 							mJsonObject = (JsonObject) attributes.getJsonObject(j);
 							Boolean privacyFlag = mJsonObject.getBoolean("privacyFlag");

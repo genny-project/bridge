@@ -72,8 +72,11 @@ public class EBCHandlers {
 
 			json.remove("token");  // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
-			JsonObject cleanJson = json; // TODOremovePrivates(json);
-
+			JsonObject cleanJson = removePrivates(json);
+			if (cleanJson == null) {
+				System.out.println("null json");
+				JsonObject cleanJson2 = removePrivates(json);
+			}
 			for (int i = 0; i < recipientJsonArray.size(); i++) {
 				String recipientCode = recipientJsonArray.getString(i);
 				// Get all the sessionStates for this user
@@ -86,7 +89,10 @@ public class EBCHandlers {
 //						toSession.write(json);
 //					  System.out.println("12345678"+sessionState);
 					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					  msgProducer.write(cleanJson);
+					  if (msgProducer != null) {
+						msgProducer.write(cleanJson);
+					  }
+	
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
@@ -94,7 +100,9 @@ public class EBCHandlers {
 //					toSession.write(json);
 //					System.out.println("12345"+sessionState);
 					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					msgProducer.write(cleanJson);
+					if (msgProducer != null) {
+						msgProducer.write(cleanJson);
+					  }
 				}
 			}
 

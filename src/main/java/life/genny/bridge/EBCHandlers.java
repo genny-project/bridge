@@ -22,7 +22,7 @@ public class EBCHandlers {
 
 	public static void registerHandlers() {
 
-		Consumer.getFromCmds().subscribe(arg -> {
+		Consumer.getFromWebCmds().subscribe(arg -> {
 			// log.info("EVENT-BUS CMD >> WEBSOCKET CMD :"+incomingCmd);
 			String incomingCmd = arg.body().toString();
 
@@ -31,7 +31,7 @@ public class EBCHandlers {
 			}
 		});
 
-		Consumer.getFromData().subscribe(arg -> {
+		Consumer.getFromWebData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":");
@@ -85,9 +85,6 @@ public class EBCHandlers {
 				if ((sessionStates != null)&&(!sessionOnly)) {
 					for (String sessionState : sessionStates) {
 
-//						final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
-//						toSession.write(json);
-//					  System.out.println("12345678"+sessionState);
 					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 					  if (msgProducer != null) {
 						msgProducer.write(cleanJson);
@@ -96,9 +93,6 @@ public class EBCHandlers {
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
-//					final MessageProducer<JsonObject> toSession = VertxUtils.getMessageProducer(sessionState);
-//					toSession.write(json);
-//					System.out.println("12345"+sessionState);
 					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 					if (msgProducer != null) {
 						msgProducer.write(cleanJson);

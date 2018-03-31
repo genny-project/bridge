@@ -18,9 +18,6 @@ public class BridgeHandler {
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
 	protected static SockJSHandler eventBusHandler(final Vertx vertx) {
-		// final MessageProducer<JsonObject> toAddressOutbound =
-		// vertx.eventBus().publisher("address.outbound");
-		// EBProducers.setToClientOutbound(toAddressOutbound);
 		final SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 		return sockJSHandler.bridge(BridgeConfig.setBridgeOptions(), BridgeHandler::bridgeHandler);
 
@@ -34,12 +31,12 @@ public class BridgeHandler {
 				if (rawMessage.getString("msg_type").equals("DATA_MSG")) {
 					log.info("WEBSOCKET DATA >> EVENT-BUS DATA:" + rawMessage.getString("data_type") + ":"
 							+ StringUtils.abbreviateMiddle(rawMessage.getString("token"), "...", 40));
-					Producer.getToData().write(rawMessage);
+					Producer.getToData().send(rawMessage);
 				} else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
 					log.info("WEBSOCKET EVNT >> EVENT-BUS EVNT:" + rawMessage.getString("event_type") + ":"
 							+ rawMessage.getJsonObject("data").getString("code") + ":"
 							+ StringUtils.abbreviateMiddle(rawMessage.getString("token"), "...", 40));
-					Producer.getToEvents().write(rawMessage);
+					Producer.getToEvents().send(rawMessage);
 				}
 			} else {
 				System.out.println("EMPTY TOKEN");

@@ -47,23 +47,9 @@ public class RouterHandlers {
 	public static void apiGetInitHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(bodyy -> {
 			final String fullurl = routingContext.request().getParam("url");
-			final String token = routingContext.request().getParam("token");
-			final String tokenAuth = routingContext.request().getParam("Authorization");
-			final String tokenAuthorize = routingContext.request().getParam("Authorize");
-			// routingContext.request().params().names().stream().forEach(params ->
-			// System.out.println(params));
-			// System.out.println(routingContext.get);
-			// final RoutingContext test = routingContext;
-			// routingContext.request().headers().names().forEach(param
-			// ->System.out.println(routingContext.request().headers().get(param)));
-			// System.out.println(bodyy.toString()+"fdfdfdf"+token);
-			// System.out.println("dklflsdfsdjflkjdsfjds "+body);
-			// System.out.println("init json=" + fullurl);
-			// JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
-			//
-			// final MessageProducer<JsonObject> toSession =
-			// Vertx.currentContext().owner().eventBus().publisher(tokenJSON.get("session_state").toString());
-			// EBProducers.setToSession(toSession);
+//			final String token = routingContext.request().getParam("token");
+//			final String tokenAuth = routingContext.request().getParam("Authorization");
+//			final String tokenAuthorize = routingContext.request().getParam("Authorize");
 			URL aURL = null;
 			try {
 				aURL = new URL(fullurl);
@@ -148,21 +134,21 @@ public class RouterHandlers {
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
 				Producer.getToEvents().deliveryOptions(options);
-				Producer.getToEvents().write(j);
+				Producer.getToEvents().send(j);
 			} else
 
 			if (j.getString("msg_type").equals("CMD_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 				j.put("token", localToken);
-				Producer.getToCmds().write(j);
+				Producer.getToCmds().send(j);
 			} else if (j.getString("msg_type").equals("MSG_MESSAGE")) {
 				log.info("CMD API POST   >> EVENT-BUS MSG DATA :" + j);
 				j.put("token", localToken);
-				Producer.getToMessages().write(j);
+				Producer.getToMessages().send(j);
 			} else if (j.getString("msg_type").equals("DATA_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
 				j.put("token", localToken);
-				Producer.getToData().write(j);
+				Producer.getToData().send(j);
 			}
 
 		});
@@ -173,10 +159,10 @@ public class RouterHandlers {
 		routingContext.request().bodyHandler(body -> {
 			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + body.toJsonObject());
-			Producer.getToClientOutbound().write(body.toJsonObject());
+			Producer.getToClientOutbound().send(body.toJsonObject());
 			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
 				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:" + body.toJsonObject());
-			Producer.getToData().write(body.toJsonObject());
+			Producer.getToData().send(body.toJsonObject());
 		});
 		routingContext.response().end();
 	}

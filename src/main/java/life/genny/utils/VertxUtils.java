@@ -44,7 +44,6 @@ public class VertxUtils {
 
 	}
 
-	static Map<String, String> localCache = new ConcurrentHashMap<String, String>();
 	static Map<String, MessageProducer<JsonObject>> localMessageProducerCache = new ConcurrentHashMap<String, MessageProducer<JsonObject>>();
 
 

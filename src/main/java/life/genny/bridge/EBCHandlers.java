@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.channel.Consumer;
 import life.genny.qwandautils.JsonUtils;
@@ -72,7 +73,7 @@ public class EBCHandlers {
 
 			json.remove("token");  // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
-			JsonObject cleanJson = removePrivates(json);
+			JsonObject cleanJson = json; //removePrivates(json);
 			if (cleanJson == null) {
 				System.out.println("null json");
 				JsonObject cleanJson2 = removePrivates(json);
@@ -85,18 +86,18 @@ public class EBCHandlers {
 				if ((sessionStates != null)&&(!sessionOnly)) {
 					for (String sessionState : sessionStates) {
 
-					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					  if (msgProducer != null) {
+				//	  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+				//	  if (msgProducer != null) {
+						final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus().publisher(sessionState);
 						msgProducer.write(cleanJson);
-					  }
+				//	  }
 	
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
-					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					if (msgProducer != null) {
-						msgProducer.write(cleanJson);
-					  }
+		//			MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+					final MessageProducer<JsonObject> msgProducer =  Vertx.currentContext().owner().eventBus().publisher(sessionState);
+					msgProducer.write(cleanJson);
 				}
 			}
 

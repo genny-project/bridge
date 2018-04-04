@@ -84,20 +84,27 @@ public class EBCHandlers {
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
 				if ((sessionStates != null)&&(!sessionOnly)) {
+					sessionStates.add(tokenJSON.getString("session_state")); // force current one
 					for (String sessionState : sessionStates) {
 
-				//	  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-				//	  if (msgProducer != null) {
-						final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus().publisher(sessionState);
-						msgProducer.write(cleanJson);
-				//	  }
+					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+					//  final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus().publisher(sessionState);
+					  if (msgProducer != null) {
+						System.out.println("Sending to "+sessionState);
+						
+						msgProducer.send(cleanJson);
+					  }
 	
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
-		//			MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					final MessageProducer<JsonObject> msgProducer =  Vertx.currentContext().owner().eventBus().publisher(sessionState);
-					msgProducer.write(cleanJson);
+					System.out.println("Sending to single "+sessionState);
+					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+				//	final MessageProducer<JsonObject> msgProducer =  Vertx.currentContext().owner().eventBus().publisher(sessionState);
+					if (msgProducer != null) {
+	//					System.out.println("MsgProducer not null");				
+						msgProducer.send(cleanJson);
+					}
 				}
 			}
 

@@ -90,7 +90,7 @@ public class EBCHandlers {
 					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 					//  final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus().publisher(sessionState);
 					  if (msgProducer != null) {
-						System.out.println("Sending to "+sessionState);
+			//			System.out.println("Sending to "+sessionState);
 						
 						msgProducer.send(cleanJson);
 					  }
@@ -98,7 +98,7 @@ public class EBCHandlers {
 					}
 				} else {
 					String sessionState = tokenJSON.getString("session_state");
-					System.out.println("Sending to single "+sessionState);
+			//		System.out.println("Sending to single "+sessionState);
 					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				//	final MessageProducer<JsonObject> msgProducer =  Vertx.currentContext().owner().eventBus().publisher(sessionState);
 					if (msgProducer != null) {

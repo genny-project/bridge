@@ -101,9 +101,9 @@ public class RouterHandlers {
 			Set<String> sessionStates = VertxUtils.getSetString("","SessionStates", userCode);
 			sessionStates.add(sessionState);
 			VertxUtils.putSetString("","SessionStates", userCode, sessionStates);
-//			final MessageProducer<JsonObject> toSessionChannel =
-//				          Vertx.currentContext().owner().eventBus().publisher(sessionState);
-//			VertxUtils.putMessageProducer(sessionState,toSessionChannel);
+			final MessageProducer<JsonObject> toSessionChannel =
+				          Vertx.currentContext().owner().eventBus().publisher(sessionState);
+			VertxUtils.putMessageProducer(sessionState,toSessionChannel);
 			routingContext.response().end();
 
 		});

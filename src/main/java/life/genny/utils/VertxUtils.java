@@ -3,28 +3,23 @@ package life.genny.utils;
 
 
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
+import com.google.gson.reflect.TypeToken;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.json.JsonObject;
-import io.vertx.redis.RedisOptions;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
-import io.vertx.rxjava.core.shareddata.AsyncMap;
-import io.vertx.rxjava.core.shareddata.SharedData;
-import io.vertx.rxjava.redis.RedisClient;
 import life.genny.channel.DistMap;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.message.QEventMessage;
@@ -62,6 +57,17 @@ public class VertxUtils {
 		}
 	}
 
+	static public <T> T getObject(final String realm, final String keyPrefix, final String key, final Type clazz) {
+		T item = null;
+		JsonObject json = readCachedJson(realm + ":" + keyPrefix + ":" + key);
+		if (json.getString("status").equalsIgnoreCase("ok")) {
+			String data = json.getString("value");
+			item = (T) JsonUtils.fromJson(data, clazz);
+			return item;
+		} else {
+			return null;
+		}
+	}
 	static public void putObject(final String realm, final String keyPrefix, final String key, final Object obj) {
 		String data = JsonUtils.toJson(obj);
 		writeCachedJson(realm + ":" + keyPrefix + ":" + key, data);
@@ -239,14 +245,19 @@ public class VertxUtils {
 	}
 
 	public static void putMessageProducer(String sessionState, MessageProducer<JsonObject> toSessionChannel) {
-
+		final String key = "MP_" +sessionState;
+//		DistMap.getDistBE().put(key, toSessionChannel);
+//		putObject("genny","MP",sessionState,toSessionChannel);
 		localMessageProducerCache.put(sessionState, toSessionChannel);
 
 	}
 
 	public static MessageProducer<JsonObject> getMessageProducer(String sessionState) {
+		final String key = "MP_" +sessionState;
 
-		return localMessageProducerCache.get(sessionState);
+	return localMessageProducerCache.get(sessionState);
+	//return Vertx.currentContext().owner().eventBus().publisher(sessionState);
+
 
 	}
 

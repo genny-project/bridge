@@ -94,7 +94,6 @@ public class EBCHandlers {
 					//  final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus().publisher(sessionState);
 					  if (msgProducer != null) {
 			//			System.out.println("Sending to "+sessionState);
-						
 						msgProducer.send(cleanJson);
 					  }
 	

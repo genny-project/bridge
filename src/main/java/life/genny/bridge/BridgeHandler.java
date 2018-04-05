@@ -4,8 +4,11 @@ import java.lang.invoke.MethodHandles;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.streams.impl.PumpImpl;
 import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.rxjava.core.Vertx;
+import io.vertx.rxjava.core.streams.Pump;
+import io.vertx.rxjava.core.streams.ReadStream;
 import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
 import life.genny.channel.Producer;
@@ -34,7 +37,14 @@ public class BridgeHandler {
             log.error("WEBSOCKET EVNT >> PRODUCER GETTODATA IS FULL: #####################################");
           } else {
             log.info("WEBSOCKET EVNT >> PRODUCER GETTODATA NOT FULL:");
-            Producer.getToData().send(rawMessage);
+//            Producer.getToData().send(rawMessage);
+            Producer.getToData().send(rawMessage).end();
+
+//            Producer.getToData().send(rawMessage, hlr->{
+//              FlowableHelper
+//              hlr.result().rxReply("got it");
+//              Pump.pump(hlr.result().rxReply("got it").toObservable(), null).start();
+//            });
           }
           
         } else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
@@ -44,9 +54,17 @@ public class BridgeHandler {
               + StringUtils.abbreviateMiddle(rawMessage.getString("token"), "...", 40));
           if (Producer.getToEvents().writeQueueFull()) {
             log.error("WEBSOCKET EVNT >> PRODUCER GETTOEVENTS IS FULL: ###################################");
+//            Producer.getToEvents().send(rawMessage).end();
+            Producer.getToEvents().send(rawMessage);
           } else {
             log.info("WEBSOCKET EVNT >> PRODUCER GETTOEVENTS NOT FULL:");
-            Producer.getToEvents().send(rawMessage);
+//            Pump.pump(rs, ws);
+            Producer.getToEvents().send(rawMessage).end();
+//            Producer.getToEvents().send(rawMessage).end();
+//            Producer.getToEvents().send(rawMessage, hd->{
+//              
+//              hd.result().replyObservable(message)
+//            });
           }
           
         }

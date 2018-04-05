@@ -23,7 +23,8 @@ public class BridgeHandler {
     return sockJSHandler.bridge(BridgeConfig.setBridgeOptions(), BridgeHandler::bridgeHandler);
 
   }
-
+  public static JsonObject msgTmp = null;
+  
   protected static void bridgeHandler(final BridgeEvent bridgeEvent) {
     if (bridgeEvent.type() == BridgeEventType.PUBLISH
         || bridgeEvent.type() == BridgeEventType.SEND) {
@@ -34,39 +35,40 @@ public class BridgeHandler {
           log.info("WEBSOCKET DATA >> EVENT-BUS DATA:" + rawMessage.getString("data_type") + ":"
               + StringUtils.abbreviateMiddle(rawMessage.getString("token"), "...", 40));
           if (Producer.getToData().writeQueueFull()) {
-            log.error("WEBSOCKET EVNT >> PRODUCER GETTODATA IS FULL: #####################################");
+            log.error(
+                "WEBSOCKET EVNT >> PRODUCER GETTODATA IS FULL: #####################################");
+            msgTmp = rawMessage;
+            Producer.getToData().drainHandler(handler -> {
+              Producer.getToData().send(msgTmp);
+            });
+            msgTmp.clear();
           } else {
             log.info("WEBSOCKET EVNT >> PRODUCER GETTODATA NOT FULL:");
-//            Producer.getToData().send(rawMessage);
             Producer.getToData().send(rawMessage).end();
-
-//            Producer.getToData().send(rawMessage, hlr->{
-//              FlowableHelper
-//              hlr.result().rxReply("got it");
-//              Pump.pump(hlr.result().rxReply("got it").toObservable(), null).start();
-//            });
+            // Producer.getToData().send(rawMessage, hlr->{
+            // FlowableHelper
+            // hlr.result().rxReply("got it");
+            // Pump.pump(hlr.result().rxReply("got it").toObservable(), null).start();
+            // });
           }
-          
-        } else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
 
+        } else if (rawMessage.getString("msg_type").equals("EVT_MSG")) {
           log.info("WEBSOCKET EVNT >> EVENT-BUS EVNT:" + rawMessage.getString("event_type") + ":"
               + rawMessage.getJsonObject("data").getString("code") + ":"
               + StringUtils.abbreviateMiddle(rawMessage.getString("token"), "...", 40));
           if (Producer.getToEvents().writeQueueFull()) {
-            log.error("WEBSOCKET EVNT >> PRODUCER GETTOEVENTS IS FULL: ###################################");
-//            Producer.getToEvents().send(rawMessage).end();
-            Producer.getToEvents().send(rawMessage);
+            log.error(
+                "WEBSOCKET EVNT >> PRODUCER GETTOEVENTS IS FULL: ###################################");
+            msgTmp = rawMessage;
+            Producer.getToEvents().drainHandler(handler -> {
+              Producer.getToEvents().send(msgTmp);
+            });
+            msgTmp.clear();
           } else {
             log.info("WEBSOCKET EVNT >> PRODUCER GETTOEVENTS NOT FULL:");
-//            Pump.pump(rs, ws);
             Producer.getToEvents().send(rawMessage).end();
-//            Producer.getToEvents().send(rawMessage).end();
-//            Producer.getToEvents().send(rawMessage, hd->{
-//              
-//              hd.result().replyObservable(message)
-//            });
           }
-          
+
         }
       } else {
         System.out.println("EMPTY TOKEN");

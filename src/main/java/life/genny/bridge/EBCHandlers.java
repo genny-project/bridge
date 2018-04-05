@@ -60,11 +60,11 @@ public class EBCHandlers {
 			// check token
 			JsonArray recipientJsonArray = null;
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
+			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
+			String userCode = "PER_" + uname.toUpperCase();
 
 			if ((!json.containsKey("recipientCodeArray"))||(json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
-				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
-				String userCode = "PER_" + uname.toUpperCase();
 
 				recipientJsonArray.add(userCode);
 			} else {
@@ -83,8 +83,11 @@ public class EBCHandlers {
 				// Get all the sessionStates for this user
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
+				
 				if ((sessionStates != null)&&(!sessionOnly)) {
+				
 					sessionStates.add(tokenJSON.getString("session_state")); // force current one
+					System.out.println("User:"+userCode+" with "+sessionStates.size()+" sessions");
 					for (String sessionState : sessionStates) {
 
 					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);

@@ -90,8 +90,8 @@ public class RouterHandlers {
 			routingContext.request().bodyHandler(body -> {
 			final String bodyString = body.toString();
 			final JsonObject j = new JsonObject(bodyString);
-			log.info("WEB API POST   >> SESSION_INIT:"
-					+ j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+			log.info("WEB API POST   >> SESSION_INIT:");
+			//		+ j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 			String tokenSt = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(tokenSt);
 			String sessionState = tokenJSON.getString("session_state");

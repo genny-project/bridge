@@ -4,6 +4,7 @@ package life.genny.bridge;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.Router;
+import life.genny.metrics.Metrics;
 
 
 
@@ -30,7 +31,8 @@ public class Routers {
     router.route(HttpMethod.GET, "/read/:param1").handler(RouterHandlers::apiMapGetHandler);
 
     router.route(HttpMethod.GET, "/version").handler(VersionHandler::apiGetVersionHandler);
-
+    
+    router.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 
     vertx.createHttpServer().requestHandler(router::accept).listen(serverPort);
   }

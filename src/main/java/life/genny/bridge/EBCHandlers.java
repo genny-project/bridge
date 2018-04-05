@@ -73,7 +73,7 @@ public class EBCHandlers {
 
 			json.remove("token");  // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
-			JsonObject cleanJson = json; //removePrivates(json);
+			JsonObject cleanJson = removePrivates(json);
 			if (cleanJson == null) {
 				System.out.println("null json");
 				JsonObject cleanJson2 = removePrivates(json);

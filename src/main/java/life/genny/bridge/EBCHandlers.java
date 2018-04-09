@@ -86,7 +86,7 @@ public class EBCHandlers {
 				
 				if ((sessionStates != null)&&(!sessionOnly)) {
 				
-					sessionStates.add(tokenJSON.getString("session_state")); // force current one
+					//sessionStates.add(tokenJSON.getString("session_state")); //commenting this one, since current user was getting added to the toast recipients
 					System.out.println("User:"+userCode+" with "+sessionStates.size()+" sessions");
 					for (String sessionState : sessionStates) {
 

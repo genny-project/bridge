@@ -128,6 +128,7 @@ public class RouterHandlers {
 				localToken = token;
 			}
 			// j.put("token", token);
+			System.out.println("Incoming Service:"+j);
 			if (j.getString("msg_type").equals("EVT_MSG")) {
 				log.info("CMD API POST   >> EVENT-BUS EVENT:" + j);
 				j.put("token", localToken);

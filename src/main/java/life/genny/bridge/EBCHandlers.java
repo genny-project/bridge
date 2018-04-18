@@ -84,7 +84,7 @@ public class EBCHandlers {
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
 				
-				if (((sessionStates != null)&&(!sessionStates.isEmpty()))&&(!sessionOnly)) {
+				if (  ( (sessionStates != null) || (!sessionStates.isEmpty()) )  &&  (!sessionOnly)  ) {
 				
 					//sessionStates.add(tokenJSON.getString("session_state")); //commenting this one, since current user was getting added to the toast recipients
 					System.out.println("User:"+userCode+" with "+sessionStates.size()+" sessions");

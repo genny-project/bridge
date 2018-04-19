@@ -38,7 +38,7 @@ public class EBCHandlers {
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":");
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(incomingData,false);
+				sendToClientSessions(incomingData, false);
 			}
 		});
 	}
@@ -63,7 +63,7 @@ public class EBCHandlers {
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
 
-			if ((!json.containsKey("recipientCodeArray"))||(json.getJsonArray("recipientCodeArray").isEmpty())) {
+			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
 
 				recipientJsonArray.add(userCode);
@@ -71,41 +71,47 @@ public class EBCHandlers {
 				recipientJsonArray = json.getJsonArray("recipientCodeArray");
 			}
 
-			json.remove("token");  // do not show the token
+			json.remove("token"); // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
 			JsonObject cleanJson = removePrivates(json);
 			if (cleanJson == null) {
-				System.out.println("null json");
-				JsonObject cleanJson2 = removePrivates(json);
+				log.error("null json");
 			}
-			for (int i = 0; i < recipientJsonArray.size(); i++) {
-				String recipientCode = recipientJsonArray.getString(i);
-				// Get all the sessionStates for this user
 
-				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
-				
-				if (  ( (sessionStates != null) || (!sessionStates.isEmpty()) )  &&  (!sessionOnly)  ) {
-				
-					//sessionStates.add(tokenJSON.getString("session_state")); //commenting this one, since current user was getting added to the toast recipients
-					System.out.println("User:"+userCode+" with "+sessionStates.size()+" sessions");
-					for (String sessionState : sessionStates) {
+			if (sessionOnly) {
+				String sessionState = tokenJSON.getString("session_state");
+				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+				if (msgProducer != null) {
+					msgProducer.send(cleanJson);
+				}
+			} else {
+				for (int i = 0; i < recipientJsonArray.size(); i++) {
+					String recipientCode = recipientJsonArray.getString(i);
+					// Get all the sessionStates for this user
 
-					  MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-					//  final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus().publisher(sessionState);
-					  if (msgProducer != null) {
-			//			System.out.println("Sending to "+sessionState);
-						msgProducer.send(cleanJson);
-					  }
-	
-					}
-				} else {
-					String sessionState = tokenJSON.getString("session_state");
-			//		System.out.println("Sending to single "+sessionState);
-					MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-				//	final MessageProducer<JsonObject> msgProducer =  Vertx.currentContext().owner().eventBus().publisher(sessionState);
-					if (msgProducer != null) {
-	//					System.out.println("MsgProducer not null");				
-						msgProducer.send(cleanJson);
+					Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
+
+					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
+
+					//	sessionStates.add(tokenJSON.getString("session_state")); // commenting this one, since current
+																					// user was getting added to the
+																					// toast recipients
+						System.out.println("User:" + userCode + " with " + sessionStates.size() + " sessions");
+						for (String sessionState : sessionStates) {
+
+							MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+							// final MessageProducer<JsonObject> msgProducer =
+							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
+							if (msgProducer != null) {
+								// System.out.println("Sending to "+sessionState);
+								msgProducer.send(cleanJson);
+							}
+
+						}
+					} else {
+						// no sessions for this user!
+						// need to remove them from subscriptions ...
+						log.error("Remove "+recipientCode+" from subscriptions , they have no sessions");
 					}
 				}
 			}
@@ -120,18 +126,19 @@ public class EBCHandlers {
 	 */
 	private static JsonObject removePrivates(JsonObject json) {
 		// TODO: Very ugly, but remove any Attributes with privateFlag
-		
+
 		if (json.containsKey("data_type")) {
 			if ("BaseEntity".equals(json.getString("data_type"))) {
 				if (json.containsKey("items")) {
 					JsonArray newItems = new JsonArray();
-					
+
 					JsonArray items = json.getJsonArray("items");
-					
+
 					// For every BaseEntity
 					for (int i = 0; i < items.size(); i++) {
 						JsonObject mJsonObject = (JsonObject) items.getJsonObject(i);
-						if (mJsonObject == null) continue;
+						if (mJsonObject == null)
+							continue;
 						JsonObject newJson = new JsonObject();
 						newJson.put("code", mJsonObject.getString("code"));
 						newJson.put("index", mJsonObject.getInteger("index"));
@@ -167,8 +174,8 @@ public class EBCHandlers {
 					return json;
 			} else
 				return json;
-		} else 
-		return json;
+		} else
+			return json;
 	}
 
 	/**

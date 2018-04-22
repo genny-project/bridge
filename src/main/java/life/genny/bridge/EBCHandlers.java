@@ -73,7 +73,7 @@ public class EBCHandlers {
 
 			json.remove("token"); // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
-			JsonObject cleanJson = removePrivates(json);
+			JsonObject cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
 			if (cleanJson == null) {
 				log.error("null json");
 			}
@@ -124,7 +124,7 @@ public class EBCHandlers {
 	/**
 	 * @param json
 	 */
-	private static JsonObject removePrivates(JsonObject json) {
+	private static JsonObject removePrivates(JsonObject json, JSONObject tokenJSON, boolean sessionOnly, String userCode) {
 		// TODO: Very ugly, but remove any Attributes with privateFlag
 
 		if (json.containsKey("data_type")) {
@@ -156,7 +156,8 @@ public class EBCHandlers {
 						}
 						for (Integer j = 0; j < attributes.size(); j++) {
 							mJsonObject = (JsonObject) attributes.getJsonObject(j);
-							Boolean privacyFlag = mJsonObject.getBoolean("privacyFlag");
+							
+							Boolean privacyFlag = determinePrivacy(mJsonObject, tokenJSON, sessionOnly, userCode); //mJsonObject.getBoolean("privacyFlag");
 							if (privacyFlag != null) {
 								if (!privacyFlag) {
 									non_privateAttributes.add(mJsonObject);
@@ -178,6 +179,57 @@ public class EBCHandlers {
 			return json;
 	}
 
+	
+	private static Boolean determinePrivacy(JsonObject entityAttribute, JSONObject tokenJSON, boolean sessionOnly, String userCode) 
+	{
+		Boolean ret = entityAttribute.getBoolean("privacyFlag");
+		if (ret) {
+			return true;
+		}
+		
+		// Now do a brutal hack on the attribute data 
+//		if (sessionOnly) {  // This is for only the user themselves so they are allowed to see their data
+//			return false;
+//		}
+		
+		String baseEntityCode = entityAttribute.getString("baseEntityCode");
+		if (baseEntityCode.equals(userCode))  // if this is the actual user themselves then send everything through
+			return false;
+		
+		// Check for specific attributes that are not sensitive that other users should be allowed to see.
+	if (baseEntityCode.startsWith("PER_")) {
+			String attributeCode = entityAttribute.getString("attributeCode");
+			switch(attributeCode) {
+			case "PRI_FIRSTNAME":
+			case "PRI_LASTNAME":
+			case "PRI_EMAIL":
+			case "PRI_MOBILE":
+			case "PRI_ADMIN":
+			case "PRI_DRIVER":
+			case "PRI_OWNER":
+			case "PRI_IMAGE_URL":
+			case "PRI_CODE":
+			case "PRI_NAME":			
+				return false;
+			default:
+				return true;  // assume all other fields for a person are not to go out
+			}
+		}
+		// The offer should not show a driver the owner price or an owner the driver price. This needs an extra field that the frontend can filter for now
+//		else if (baseEntityCode.startsWith("OFR_")) {
+//			// If the recipient is a driver then don't show the owner price
+//			String attributeCode = entityAttribute.getString("attributeCode");
+//			switch(attributeCode) {
+//			case "PRI_OFFER_OWNER_PRICE_EXC_GST":
+//			case "PRI_OFFER_OWNER_PRICE_INC_GST":			
+//				return true;  // NOTE THIS IS REVERSED TO PREVIOUS SWITCH
+//			default:
+//				return false;  // assume all other fields for a person are not to go out
+//			}
+//		}		
+		return ret;
+	}
+	
 	/**
 	 * @param json
 	 */

@@ -8,13 +8,12 @@ import org.json.JSONObject;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.channel.Consumer;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
-import life.genny.verticle.utils.VertxUtils;
+import life.genny.utils.VertxUtils;
 
 
 

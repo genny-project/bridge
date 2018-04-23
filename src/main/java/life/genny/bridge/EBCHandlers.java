@@ -14,7 +14,9 @@ import life.genny.channel.Consumer;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
-import life.genny.utils.VertxUtils;
+import life.genny.verticle.utils.VertxUtils;
+
+
 
 public class EBCHandlers {
 

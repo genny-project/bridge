@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -74,7 +75,20 @@ public class EBCHandlers {
 
 			json.remove("token"); // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
-			JsonObject cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
+			JsonObject cleanJson = null; //
+			if (json.containsKey("data_type")) {
+				String dt = json.getString("data_type");
+				if ("QBulkMessage".equals(dt)) {
+					JsonArray ja = json.getJsonArray("messages");
+					for (Object jo : ja.getList()) {
+						cleanJson = removePrivates((JsonObject)jo, tokenJSON, sessionOnly, userCode);
+					}
+				} else {
+					cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
+				}
+			} else {
+				cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
+			}
 			if (cleanJson == null) {
 				log.error("null json");
 			}
@@ -150,6 +164,9 @@ public class EBCHandlers {
 						newJson.put("id", mJsonObject.getLong("id"));
 						newJson.put("created", mJsonObject.getString("created"));
 						JsonArray non_privateAttributes = new JsonArray();
+						if ("BEG_TOCAD79753DCC0214BCE87A8863F74F4BAEE".equals( mJsonObject.getString("code"))) {
+							System.out.println("test");
+						}
 
 						// Now go through the attributes
 						JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
@@ -198,6 +215,13 @@ public class EBCHandlers {
 		if (baseEntityCode.equals(userCode))  // if this is the actual user themselves then send everything through
 			return false;
 		
+		JSONObject realmRoles = tokenJSON.getJSONObject("realm_access");
+		JSONArray roles = realmRoles.getJSONArray("roles");
+		if (roles.toList().stream().anyMatch(item -> "admin".equals(item.toString())))
+		{
+			return false;
+		}
+		
 		// Check for specific attributes that are not sensitive that other users should be allowed to see.
 	if (baseEntityCode.startsWith("PER_")) {
 			String attributeCode = entityAttribute.getString("attributeCode");
@@ -211,7 +235,8 @@ public class EBCHandlers {
 			case "PRI_OWNER":
 			case "PRI_IMAGE_URL":
 			case "PRI_CODE":
-			case "PRI_NAME":			
+			case "PRI_NAME":	
+			case "PRI_USERNAME":
 				return false;
 			default:
 				return true;  // assume all other fields for a person are not to go out

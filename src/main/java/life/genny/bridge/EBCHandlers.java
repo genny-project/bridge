@@ -225,9 +225,8 @@ public class EBCHandlers {
 		{
 			return false;
 		}
-		
 		// Check for specific attributes that are not sensitive that other users should be allowed to see.
-	if (baseEntityCode.startsWith("PER_")) {
+	   else if (baseEntityCode.startsWith("PER_")) {		
 			String attributeCode = entityAttribute.getString("attributeCode");
 			switch(attributeCode) {
 			case "PRI_FIRSTNAME":

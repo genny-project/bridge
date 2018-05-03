@@ -167,6 +167,10 @@ public class EBCHandlers {
 						if ("BEG_TOCAD79753DCC0214BCE87A8863F74F4BAEE".equals( mJsonObject.getString("code"))) {
 							System.out.println("test");
 						}
+						
+						if ("GRP_APPROVED".equals( mJsonObject.getString("code"))) {
+							System.out.println("test");
+						}
 
 						// Now go through the attributes
 						JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");

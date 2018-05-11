@@ -79,10 +79,15 @@ public class EBCHandlers {
 			if (json.containsKey("data_type")) {
 				String dt = json.getString("data_type");
 				if ("QBulkMessage".equals(dt)) {
+					JsonArray newJsonArray = new JsonArray();
 					JsonArray ja = json.getJsonArray("messages");
 					for (Object jo : ja.getList()) {
 						cleanJson = removePrivates((JsonObject)jo, tokenJSON, sessionOnly, userCode);
+						newJsonArray.add(cleanJson);
 					}
+					json.put("messages", newJsonArray);
+					// convert clean json to a QBulkMessage
+					cleanJson = json;
 				} else {
 					cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
 				}

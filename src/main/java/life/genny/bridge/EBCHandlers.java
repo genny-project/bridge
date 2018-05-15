@@ -169,9 +169,7 @@ public class EBCHandlers {
 						newJson.put("id", mJsonObject.getLong("id"));
 						newJson.put("created", mJsonObject.getString("created"));
 						JsonArray non_privateAttributes = new JsonArray();
-						if ("BEG_TOCAD79753DCC0214BCE87A8863F74F4BAEE".equals( mJsonObject.getString("code"))) {
-							System.out.println("test");
-						}
+						
 						
 						if ("GRP_APPROVED".equals( mJsonObject.getString("code"))) {
 							System.out.println("test");
@@ -183,15 +181,21 @@ public class EBCHandlers {
 							return json;
 						}
 						for (Integer j = 0; j < attributes.size(); j++) {
-							mJsonObject = (JsonObject) attributes.getJsonObject(j);
+							JsonObject attribute = (JsonObject) attributes.getJsonObject(j);
+							if ("PRI_IS_SELLER".equalsIgnoreCase(attribute.getString("attributeCode"))) {
+								if ("BPER_SHARONCROW66_AT_GMAILCOM".equals( mJsonObject.getString("code"))) {
+									System.out.println("test");
+								}
+								System.out.println("I AM A DEBUG LINE!!!!");
+							}
 							
-							Boolean privacyFlag = determinePrivacy(mJsonObject, tokenJSON, sessionOnly, userCode); //mJsonObject.getBoolean("privacyFlag");
+							Boolean privacyFlag = determinePrivacy(attribute, tokenJSON, sessionOnly, userCode); //mJsonObject.getBoolean("privacyFlag");
 							if (privacyFlag != null) {
 								if (!privacyFlag) {
-									non_privateAttributes.add(mJsonObject);
+									non_privateAttributes.add(attribute);
 								}
 							} else {
-								non_privateAttributes.add(mJsonObject);
+								non_privateAttributes.add(attribute);
 							}
 						}
 						newJson.put("baseEntityAttributes", non_privateAttributes);

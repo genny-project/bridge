@@ -27,6 +27,7 @@ public class Routers {
     router.route(HttpMethod.POST, "/api/data").handler(RouterHandlers::apiHandler);
     if (System.getenv("GENNYDEV")!=null) {
     	router.route(HttpMethod.POST, "/write").handler(RouterHandlers::apiMapPutHandler);
+    	router.route(HttpMethod.POST, "/writearray").handler(RouterHandlers::apiMapPutHandlerArray);
     }
     // router.route(HttpMethod.GET,
     // "/write/:param1/:param2").handler(RouterHandlers::apiMapPutHandler); //TODO -> Manual HAck!!!

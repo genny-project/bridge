@@ -3,6 +3,8 @@ package life.genny.bridge;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,9 @@ import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
+import life.genny.qwanda.entity.BaseEntity;
+import life.genny.qwanda.message.QDataBaseEntityMessage;
+import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;
@@ -183,6 +188,43 @@ public class RouterHandlers {
 		          String param2 = wifiPayload.getString("json");
 		          VertxUtils.writeCachedJson(param1, param2);
 		         
+		                  JsonObject ret = new JsonObject().put("status", "ok");
+		                  context.request().response().headers().set("Content-Type", "application/json");
+		                  context.request().response().end(ret.encode());
+
+		        }
+		    });
+
+		    
+		    
+
+		  }
+	 
+	 public static void apiMapPutHandlerArray(final RoutingContext context) {
+		    
+		    
+		    //handle the body here and assign it to wifiPayload to process the data 
+		    final HttpServerRequest req = context.request().bodyHandler(boddy -> {
+		   //   System.out.println(boddy.toJsonObject());
+		    	  JsonObject wifiPayload = boddy.toJsonObject();
+		      if (wifiPayload == null) {
+		    	  context.request().response().headers().set("Content-Type", "application/json");
+		          JsonObject err = new JsonObject().put("status", "error");
+		          context.request().response().headers().set("Content-Type", "application/json");
+		          context.request().response().end(err.encode());
+		        } 
+		      else {
+		          // a JsonObject wraps a map and it exposes type-aware getters
+		          String param2 = wifiPayload.getString("json");
+		          QDataBaseEntityMessage msg = JsonUtils.fromJson(param2,QDataBaseEntityMessage.class);
+		          System.out.println("Writing a batch of "+msg.getItems().length+" to cache");
+		          long start = System.nanoTime();
+		          for (BaseEntity be : msg.getItems()) {
+		        	  VertxUtils.writeCachedJson(be.getCode(), JsonUtils.toJson(be));
+		          }
+		          long end = System.nanoTime();
+		          double dif = (end - start)/1e6;
+		          System.out.println("Finished writing to cache in "+dif+"ms");
 		                  JsonObject ret = new JsonObject().put("status", "ok");
 		                  context.request().response().headers().set("Content-Type", "application/json");
 		                  context.request().response().end(ret.encode());

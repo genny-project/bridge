@@ -16,6 +16,7 @@ public class ServiceVerticle extends AbstractVerticle {
       final Future<Void> fut = Future.future();
       SecureResources.setKeycloakJsonMap().compose(p -> {
         Routers.routers(vertx);
+        System.out.println("Bridge now ready");
         fut.complete();
       }, fut);
       EBCHandlers.registerHandlers();

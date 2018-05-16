@@ -171,9 +171,9 @@ public class EBCHandlers {
 						JsonArray non_privateAttributes = new JsonArray();
 						
 						
-						if ("GRP_APPROVED".equals( mJsonObject.getString("code"))) {
-							System.out.println("test");
-						}
+//						if ("GRP_APPROVED".equals( mJsonObject.getString("code"))) {
+//							System.out.println("test");
+//						}
 
 						// Now go through the attributes
 						JsonArray attributes = mJsonObject.getJsonArray("baseEntityAttributes");
@@ -183,7 +183,7 @@ public class EBCHandlers {
 						for (Integer j = 0; j < attributes.size(); j++) {
 							JsonObject attribute = (JsonObject) attributes.getJsonObject(j);
 							if ("PRI_IS_SELLER".equalsIgnoreCase(attribute.getString("attributeCode"))) {
-								if ("BPER_SHARONCROW66_AT_GMAILCOM".equals( mJsonObject.getString("code"))) {
+								if ("PER_SHARONCROW66_AT_GMAILCOM".equals( mJsonObject.getString("code"))) {
 									System.out.println("test");
 								}
 								System.out.println("I AM A DEBUG LINE!!!!");

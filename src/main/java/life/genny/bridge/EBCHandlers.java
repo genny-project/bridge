@@ -77,8 +77,10 @@ public class EBCHandlers {
 			json.remove("recipientCodeArray"); // do not show the other recipients
 			JsonObject cleanJson = null; //
 			if (json.containsKey("data_type")) {
-				String dt = json.getString("data_type");
-				if ("QBulkMessage".equals(dt)) {
+
+        String dt = json.getString("data_type");
+        cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
+        /*if ("QBulkMessage".equals(dt)) {
 					JsonArray newJsonArray = new JsonArray();
 					JsonArray ja = json.getJsonArray("messages");
 					for (Object jo : ja.getList()) {
@@ -90,7 +92,7 @@ public class EBCHandlers {
 					cleanJson = json;
 				} else {
 					cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
-				}
+				} */
 			} else {
 				cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
 			}
@@ -102,6 +104,8 @@ public class EBCHandlers {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
+
+
 					msgProducer.write(cleanJson).end();
 				}
 			} else {
@@ -124,7 +128,7 @@ public class EBCHandlers {
 							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
 							if (msgProducer != null) {
 								System.out.println("Sending to "+sessionState);
-								
+
 								msgProducer.write(cleanJson).end();
 							}
 
@@ -169,8 +173,8 @@ public class EBCHandlers {
 						newJson.put("id", mJsonObject.getLong("id"));
 						newJson.put("created", mJsonObject.getString("created"));
 						JsonArray non_privateAttributes = new JsonArray();
-						
-						
+
+
 //						if ("GRP_APPROVED".equals( mJsonObject.getString("code"))) {
 //							System.out.println("test");
 //						}
@@ -188,7 +192,7 @@ public class EBCHandlers {
 								}
 								System.out.println("I AM A DEBUG LINE!!!!");
 							}
-							
+
 							Boolean privacyFlag = determinePrivacy(attribute, tokenJSON, sessionOnly, userCode); //mJsonObject.getBoolean("privacyFlag");
 							if (privacyFlag != null) {
 								if (!privacyFlag) {
@@ -211,23 +215,23 @@ public class EBCHandlers {
 			return json;
 	}
 
-	
-	private static Boolean determinePrivacy(JsonObject entityAttribute, JSONObject tokenJSON, boolean sessionOnly, String userCode) 
+
+	private static Boolean determinePrivacy(JsonObject entityAttribute, JSONObject tokenJSON, boolean sessionOnly, String userCode)
 	{
 		Boolean ret = entityAttribute.getBoolean("privacyFlag");
 		if (ret) {
 			return true;
 		}
-		
-		// Now do a brutal hack on the attribute data 
+
+		// Now do a brutal hack on the attribute data
 //		if (sessionOnly) {  // This is for only the user themselves so they are allowed to see their data
 //			return false;
 //		}
-		
+
 		String baseEntityCode = entityAttribute.getString("baseEntityCode");
 		if (baseEntityCode.equals(userCode))  // if this is the actual user themselves then send everything through
 			return false;
-		
+
 		JSONObject realmRoles = tokenJSON.getJSONObject("realm_access");
 		JSONArray roles = realmRoles.getJSONArray("roles");
 		if (roles.toList().stream().anyMatch(item -> "admin".equals(item.toString())))
@@ -235,7 +239,7 @@ public class EBCHandlers {
 			return false;
 		}
 		// Check for specific attributes that are not sensitive that other users should be allowed to see.
-	   else if (baseEntityCode.startsWith("PER_")) {		
+	   else if (baseEntityCode.startsWith("PER_")) {
 			String attributeCode = entityAttribute.getString("attributeCode");
 			switch(attributeCode) {
 			case "PRI_FIRSTNAME":
@@ -247,7 +251,7 @@ public class EBCHandlers {
 			case "PRI_OWNER":
 			case "PRI_IMAGE_URL":
 			case "PRI_CODE":
-			case "PRI_NAME":	
+			case "PRI_NAME":
 			case "PRI_USERNAME":
 				return false;
 			default:
@@ -260,15 +264,15 @@ public class EBCHandlers {
 //			String attributeCode = entityAttribute.getString("attributeCode");
 //			switch(attributeCode) {
 //			case "PRI_OFFER_OWNER_PRICE_EXC_GST":
-//			case "PRI_OFFER_OWNER_PRICE_INC_GST":			
+//			case "PRI_OFFER_OWNER_PRICE_INC_GST":
 //				return true;  // NOTE THIS IS REVERSED TO PREVIOUS SWITCH
 //			default:
 //				return false;  // assume all other fields for a person are not to go out
 //			}
-//		}		
+//		}
 		return ret;
 	}
-	
+
 	/**
 	 * @param json
 	 */

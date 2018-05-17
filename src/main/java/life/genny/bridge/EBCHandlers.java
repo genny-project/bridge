@@ -76,13 +76,7 @@ public class EBCHandlers {
 			json.remove("token"); // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
 			JsonObject cleanJson = null; //
-			if (json.containsKey("data_type")) {
-
-        String dt = json.getString("data_type");
-        cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
-			} else {
-				cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
-			}
+      cleanJson = removePrivates(json, tokenJSON, sessionOnly, userCode);
 			if (cleanJson == null) {
 				log.error("null json");
 			}

@@ -1,0 +1,370 @@
+30-05-2018 11:47:15 1527644835166 BuildInfo[
+                          Build=20180216
+                          BuildNumber=20180216
+                          Revision=539b124
+                          Version=3.9.3
+                          SerialVersion=1
+                          Enterprise=false]
+30-05-2018 11:47:15 1527644835167 SystemProperties[
+                          hazelcast.diagnostics.enabled=true
+                          hazelcast.shutdownhook.enabled=false
+                          java.class.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/System/Library/Java/Extensions/MRJToolkit.jar:/Users/acrow/projects/genny/bridge/target/classes:/Users/acrow/.m2/repository/javax/money/money-api/1.0/money-api-1.0.jar:/Users/acrow/.m2/repository/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar:/Users/acrow/.m2/repository/javax/xml/bind/jaxb-api/2.3.0/jaxb-api-2.3.0.jar:/Users/acrow/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/Users/acrow/.m2/repository/javax/xml/bind/jsr173_api/1.0/jsr173_api-1.0.jar:/Users/acrow/.m2/repository/javax/mail/mail/1.4.4/mail-1.4.4.jar:/Users/acrow/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar:/Users/acrow/.m2/repository/life/genny/genny-verticle/1.0.34/genny-verticle-1.0.34.jar:/Users/acrow/.m2/repository/com/hazelcast/hazelcast/3.9.3/hazelcast-3.9.3.jar:/Users/acrow/.m2/repository/com/hazelcast/hazelcast-client/3.9.3/hazelcast-client-3.9.3.jar:/Users/acrow/.m2/repository/io/vertx/vertx-redis-client/3.5.1/vertx-redis-client-3.5.1.jar:/Users/acrow/.m2/repository/io/vertx/vertx-core/3.5.1/vertx-core-3.5.1.jar:/Users/acrow/.m2/repository/io/netty/netty-common/4.1.19.Final/netty-common-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-buffer/4.1.19.Final/netty-buffer-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-transport/4.1.19.Final/netty-transport-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver/4.1.19.Final/netty-resolver-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler/4.1.19.Final/netty-handler-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec/4.1.19.Final/netty-codec-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler-proxy/4.1.19.Final/netty-handler-proxy-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-socks/4.1.19.Final/netty-codec-socks-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http/4.1.19.Final/netty-codec-http-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http2/4.1.19.Final/netty-codec-http2-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver-dns/4.1.19.Final/netty-resolver-dns-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-dns/4.1.19.Final/netty-codec-dns-4.1.19.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.3/jackson-core-2.9.3.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.1/jackson-databind-2.9.1.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.0/jackson-annotations-2.9.0.jar:/Users/acrow/.m2/repository/io/vertx/vertx-web/3.5.1/vertx-web-3.5.1.jar:/Users/acrow/.m2/repository/io/vertx/vertx-auth-common/3.5.1/vertx-auth-common-3.5.1.jar:/Users/acrow/.m2/repository/io/vertx/vertx-bridge-common/3.5.1/vertx-bridge-common-3.5.1.jar:/Users/acrow/.m2/repository/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar:/Users/acrow/.m2/repository/io/vertx/vertx-reactive-streams/3.5.1/vertx-reactive-streams-3.5.1.jar:/Users/acrow/.m2/repository/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.jar:/Users/acrow/.m2/repository/io/vertx/vertx-rx-java/3.5.1/vertx-rx-java-3.5.1.jar:/Users/acrow/.m2/repository/io/reactivex/rxjava/1.3.5/rxjava-1.3.5.jar:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-core/2.5/log4j-core-2.5.jar:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-api/2.5/log4j-api-2.5.jar:/Users/acrow/.m2/repository/io/vertx/vertx-hazelcast/3.5.1/vertx-hazelcast-3.5.1.jar:/Users/acrow/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/Users/acrow/.m2/repository/io/vertx/vertx-dropwizard-metrics/3.5.1/vertx-dropwizard-metrics-3.5.1.jar:/Users/acrow/.m2/repository/io/dropwizard/metrics/metrics-core/4.0.2/metrics-core-4.0.2.jar:/Users/acrow/.m2/repository/life/genny/qwanda-utils/1.0.34/qwanda-utils-1.0.34.jar:/Users/acrow/.m2/repository/org/javamoney/moneta/1.1/moneta-1.1.jar:/Users/acrow/.m2/repository/commons-io/commons-io/2.5/commons-io-2.5.jar:/Users/acrow/.m2/repository/org/eclipse/jgit/org.eclipse.jgit/4.8.0.201706111038-r/org.eclipse.jgit-4.8.0.201706111038-r.jar:/Users/acrow/.m2/repository/com/jcraft/jsch/0.1.54/jsch-0.1.54.jar:/Users/acrow/.m2/repository/com/googlecode/javaewah/JavaEWAH/1.1.6/JavaEWAH-1.1.6.jar:/Users/acrow/.m2/repository/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar:/Users/acrow/.m2/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.jar:/Users/acrow/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/acrow/.m2/repository/commons-codec/commons-codec/1.10/commons-codec-1.10.jar:/Users/acrow/.m2/repository/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar:/Users/acrow/.m2/repository/life/genny/qwanda/1.0.34/qwanda-1.0.34.jar:/Users/acrow/.m2/repository/org/zalando/jackson-datatype-money/1.0.0/jackson-datatype-money-1.0.0.jar:/Users/acrow/.m2/repository/org/hsqldb/hsqldb/2.4.0/hsqldb-2.4.0.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-envers/5.2.13.Final/hibernate-envers-5.2.13.Final.jar:/Users/acrow/.m2/repository/org/jboss/logging/jboss-logging/3.3.1.Final/jboss-logging-3.3.1.Final.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-core/5.2.13.Final/hibernate-core-5.2.13.Final.jar:/Users/acrow/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar:/Users/acrow/.m2/repository/org/javassist/javassist/3.22.0-GA/javassist-3.22.0-GA.jar:/Users/acrow/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/Users/acrow/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.0.1.Final/jboss-transaction-api_1.2_spec-1.0.1.Final.jar:/Users/acrow/.m2/repository/org/jboss/jandex/2.0.3.Final/jandex-2.0.3.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/classmate/1.3.0/classmate-1.3.0.jar:/Users/acrow/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar:/Users/acrow/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:/Users/acrow/.m2/repository/org/hibernate/common/hibernate-commons-annotations/5.0.1.Final/hibernate-commons-annotations-5.0.1.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.8.7/jackson-datatype-jsr310-2.8.7.jar:/Users/acrow/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar:/Users/acrow/.m2/repository/com/google/guava/guava/24.0-jre/guava-24.0-jre.jar:/Users/acrow/.m2/repository/com/google/code/findbugs/jsr305/1.3.7/jsr305-1.3.7.jar:/Users/acrow/.m2/repository/org/checkerframework/checker-compat-qual/2.0.0/checker-compat-qual-2.0.0.jar:/Users/acrow/.m2/repository/com/google/errorprone/error_prone_annotations/2.1.3/error_prone_annotations-2.1.3.jar:/Users/acrow/.m2/repository/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar:/Users/acrow/.m2/repository/org/codehaus/mojo/animal-sniffer-annotations/1.14/animal-sniffer-annotations-1.14.jar:/Users/acrow/.m2/repository/org/json/json/20170516/json-20170516.jar:/Users/acrow/.m2/repository/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar:/Users/acrow/.m2/repository/commons-beanutils/commons-beanutils/1.9.3/commons-beanutils-1.9.3.jar:/Users/acrow/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-admin-client/3.4.0.Final/keycloak-admin-client-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-core/3.4.0.Final/keycloak-core-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-common/3.4.0.Final/keycloak-common-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.56/bcprov-jdk15on-1.56.jar:/Users/acrow/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.56/bcpkix-jdk15on-1.56.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/resteasy-multipart-provider/3.0.4.Final/resteasy-multipart-provider-3.0.4.Final.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/resteasy-jaxrs/3.0.4.Final/resteasy-jaxrs-3.0.4.Final.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/jaxrs-api/3.0.4.Final/jaxrs-api-3.0.4.Final.jar:/Users/acrow/.m2/repository/org/scannotation/scannotation/1.0.3/scannotation-1.0.3.jar:/Users/acrow/.m2/repository/javassist/javassist/3.12.1.GA/javassist-3.12.1.GA.jar:/Users/acrow/.m2/repository/org/jboss/spec/javax/annotation/jboss-annotations-api_1.1_spec/1.0.1.Final/jboss-annotations-api_1.1_spec-1.0.1.Final.jar:/Users/acrow/.m2/repository/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/resteasy-jaxb-provider/3.0.4.Final/resteasy-jaxb-provider-3.0.4.Final.jar:/Users/acrow/.m2/repository/com/sun/xml/bind/jaxb-impl/2.2.7/jaxb-impl-2.2.7.jar:/Users/acrow/.m2/repository/com/sun/xml/bind/jaxb-core/2.2.7/jaxb-core-2.2.7.jar:/Users/acrow/.m2/repository/com/sun/istack/istack-commons-runtime/2.16/istack-commons-runtime-2.16.jar:/Users/acrow/.m2/repository/com/sun/xml/fastinfoset/FastInfoset/1.2.12/FastInfoset-1.2.12.jar:/Users/acrow/.m2/repository/org/apache/james/apache-mime4j/0.6/apache-mime4j-0.6.jar:/Users/acrow/.m2/repository/org/codehaus/jackson/jackson-jaxrs/1.9.13/jackson-jaxrs-1.9.13.jar:/Users/acrow/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar:/Users/acrow/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar:/Users/acrow/.m2/repository/com/google/gdata/core/1.47.1/core-1.47.1.jar:/Users/acrow/.m2/repository/com/google/oauth-client/google-oauth-client-jetty/1.11.0-beta/google-oauth-client-jetty-1.11.0-beta.jar:/Users/acrow/.m2/repository/com/google/oauth-client/google-oauth-client-java6/1.11.0-beta/google-oauth-client-java6-1.11.0-beta.jar:/Users/acrow/.m2/repository/com/google/oauth-client/google-oauth-client/1.23.0/google-oauth-client-1.23.0.jar:/Users/acrow/.m2/repository/com/google/http-client/google-http-client/1.23.0/google-http-client-1.23.0.jar:/Users/acrow/.m2/repository/org/mortbay/jetty/jetty/6.1.26/jetty-6.1.26.jar:/Users/acrow/.m2/repository/org/mortbay/jetty/jetty-util/6.1.26/jetty-util-6.1.26.jar:/Users/acrow/.m2/repository/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211.jar:/Users/acrow/.m2/repository/com/google/apis/google-api-services-sheets/v4-rev483-1.22.0/google-api-services-sheets-v4-rev483-1.22.0.jar:/Users/acrow/.m2/repository/com/google/apis/google-api-services-drive/v3-rev90-1.23.0/google-api-services-drive-v3-rev90-1.23.0.jar:/Users/acrow/.m2/repository/com/google/api-client/google-api-client/1.23.0/google-api-client-1.23.0.jar:/Users/acrow/.m2/repository/com/google/http-client/google-http-client-jackson2/1.23.0/google-http-client-jackson2-1.23.0.jar:/Users/acrow/.m2/repository/com/google/guava/guava-jdk5/17.0/guava-jdk5-17.0.jar:/Users/acrow/projects/genny/genny-verticle/target/classes:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.3/jackson-databind-2.9.3.jar:/Users/acrow/projects/genny/qwanda-utils/target/classes:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-api/2.9.1/log4j-api-2.9.1.jar:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-core/2.9.1/log4j-core-2.9.1.jar:/Users/acrow/.m2/repository/junit/junit/4.12/junit-4.12.jar:/Users/acrow/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/acrow/.m2/repository/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.1/jackson-core-2.9.1.jar:/Users/acrow/.m2/repository/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-adapter-core/3.4.0.Final/keycloak-adapter-core-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-adapter-spi/3.4.0.Final/keycloak-adapter-spi-3.4.0.Final.jar:/Users/acrow/.m2/repository/io/vertx/vertx-core/3.4.2/vertx-core-3.4.2.jar:/Users/acrow/.m2/repository/io/netty/netty-common/4.1.8.Final/netty-common-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-buffer/4.1.8.Final/netty-buffer-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-transport/4.1.8.Final/netty-transport-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver/4.1.8.Final/netty-resolver-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler/4.1.8.Final/netty-handler-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec/4.1.8.Final/netty-codec-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler-proxy/4.1.8.Final/netty-handler-proxy-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-socks/4.1.8.Final/netty-codec-socks-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http/4.1.8.Final/netty-codec-http-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http2/4.1.8.Final/netty-codec-http2-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver-dns/4.1.8.Final/netty-resolver-dns-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-dns/4.1.8.Final/netty-codec-dns-4.1.8.Final.jar:/Users/acrow/projects/genny/qwanda/target/classes:/Users/acrow/.m2/repository/javax/validation/validation-api/2.0.1.Final/validation-api-2.0.1.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.7/jackson-databind-2.8.7.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.7/jackson-annotations-2.8.7.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.7/jackson-core-2.8.7.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-core/5.2.16.Final/hibernate-core-5.2.16.Final.jar:/Users/acrow/.m2/repository/org/hibernate/validator/hibernate-validator/6.0.7.Final/hibernate-validator-6.0.7.Final.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-annotations/3.5.6-Final/hibernate-annotations-3.5.6-Final.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-commons-annotations/3.2.0.Final/hibernate-commons-annotations-3.2.0.Final.jar:/Users/acrow/.m2/repository/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8.jar:/Users/acrow/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final.jar:/Users/acrow/.m2/repository/com/h2database/h2/1.4.193/h2-1.4.193.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-spatial/5.2.16.Final/hibernate-spatial-5.2.16.Final.jar:/Users/acrow/.m2/repository/org/postgresql/postgresql/42.1.4/postgresql-42.1.4.jar:/Users/acrow/.m2/repository/org/geolatte/geolatte-geom/1.2.0/geolatte-geom-1.2.0.jar:/Users/acrow/.m2/repository/com/vividsolutions/jts/1.13/jts-1.13.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-java8/5.2.16.Final/hibernate-java8-5.2.16.Final.jar:/Users/acrow/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar
+                          java.class.version=52.0
+                          java.endorsed.dirs=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/endorsed
+                          java.ext.dirs=/Users/acrow/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+                          java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre
+                          java.io.tmpdir=/var/folders/jj/pnzvw3wj0632fcdzg5ldyk500000gn/T/
+                          java.library.path=/Users/acrow/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+                          java.runtime.name=Java(TM) SE Runtime Environment
+                          java.runtime.version=1.8.0_152-b16
+                          java.specification.name=Java Platform API Specification
+                          java.specification.vendor=Oracle Corporation
+                          java.specification.version=1.8
+                          java.vendor=Oracle Corporation
+                          java.vendor.url=http://java.oracle.com/
+                          java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+                          java.version=1.8.0_152
+                          java.vm.args=-agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:49945 -Drebel.base=/Users/acrow/.jrebel -Drebel.env.ide.plugin.version=7.1.5 -Drebel.env.ide.version=4.7.3 -Drebel.env.ide.product=Eclipse -Drebel.env.ide=eclipse -Drebel.notification.url=http://localhost:17434 -Drebel.workspace.path=/Users/acrow/eclipse-workspace -Drebel.properties=/Users/acrow/.jrebel/jrebel.properties -agentpath:/Users/acrow/eclipse/java-oxygen/Eclipse.app/Contents/MacOS/../../../../../.p2/pool/plugins/org.zeroturnaround.eclipse.embedder_7.1.5.RELEASE/jrebel/lib/libjrebel64.dylib -Dvertx.options.blockedThreadCheckInterval=2147483647 -Dhazelcast.diagnostics.enabled=true -Dfile.encoding=UTF-8 
+                          java.vm.info=mixed mode
+                          java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+                          java.vm.specification.name=Java Virtual Machine Specification
+                          java.vm.specification.vendor=Oracle Corporation
+                          java.vm.specification.version=1.8
+                          java.vm.vendor=Oracle Corporation
+                          java.vm.version=25.152-b16
+                          os.arch=x86_64
+                          os.name=Mac OS X
+                          os.version=10.13.4
+                          sun.arch.data.model=64
+                          sun.boot.class.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/classes:/Users/acrow/.p2/pool/plugins/org.zeroturnaround.eclipse.embedder_7.1.5.RELEASE/jrebel/jrebel.jar
+                          sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib
+                          sun.cpu.endian=little
+                          sun.cpu.isalist=
+                          sun.io.unicode.encoding=UnicodeBig
+                          sun.java.command=io.vertx.core.Launcher run life.genny.bridge.ServiceVerticle —redeploy=**/*.java —launcher-class=io.vertx.core.Launcher -cluster
+                          sun.java.launcher=SUN_STANDARD
+                          sun.jnu.encoding=UTF-8
+                          sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+                          sun.nio.ch.bugLevel=
+                          sun.os.patch.level=unknown]
+30-05-2018 11:47:15 1527644835167 ConfigProperties[
+                          hazelcast.mancenter.enabled=false
+                          hazelcast.memcache.enabled=false
+                          hazelcast.rest.enabled=false
+                          hazelcast.wait.seconds.before.join=0]
+30-05-2018 11:47:15 1527644835168 Metric[classloading.loadedClassesCount=9088]
+30-05-2018 11:47:15 1527644835168 Metric[classloading.totalLoadedClassesCount=9088]
+30-05-2018 11:47:15 1527644835168 Metric[classloading.unloadedClassCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[client.endpoint.count=0]
+30-05-2018 11:47:15 1527644835168 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 11:47:15 1527644835168 Metric[cluster.clock.clusterTimeDiff=0]
+30-05-2018 11:47:15 1527644835168 Metric[cluster.clock.maxClusterTimeDiff=0]
+30-05-2018 11:47:15 1527644835168 Metric[event.eventQueueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[event.eventsProcessed=5]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:scheduled:cqc:7ed5daa9-97e4-42f6-842b-e55811a9151a].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[file.partition[user.home].freeSpace=379422437376]
+30-05-2018 11:47:15 1527644835168 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 11:47:15 1527644835168 Metric[file.partition[user.home].usableSpace=364716105728]
+30-05-2018 11:47:15 1527644835168 Metric[gc.majorCount=2]
+30-05-2018 11:47:15 1527644835168 Metric[gc.majorTime=129]
+30-05-2018 11:47:15 1527644835168 Metric[gc.minorCount=5]
+30-05-2018 11:47:15 1527644835168 Metric[gc.minorTime=45]
+30-05-2018 11:47:15 1527644835168 Metric[gc.unknownCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[gc.unknownTime=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.callTimeoutCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.completedCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.failedBackups=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.normalTimeouts=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.pending=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.responses[backup]=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.responses[error]=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.responses[missing]=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.responses[normal]=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.operationTimeoutCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.priorityQueueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.queueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.responseQueueSize=0]
+30-05-2018 11:47:15 1527644835168 Metric[operation.retryCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[os.committedVirtualMemorySize=10551906304]
+30-05-2018 11:47:15 1527644835168 Metric[os.freePhysicalMemorySize=211881984]
+30-05-2018 11:47:15 1527644835168 Metric[os.freeSwapSpaceSize=835452928]
+30-05-2018 11:47:15 1527644835168 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 11:47:15 1527644835168 Metric[os.openFileDescriptorCount=401]
+30-05-2018 11:47:15 1527644835168 Metric[os.processCpuLoad=0.0]
+30-05-2018 11:47:15 1527644835168 Metric[os.processCpuTime=14474167000]
+30-05-2018 11:47:15 1527644835168 Metric[os.systemCpuLoad=0.0]
+30-05-2018 11:47:15 1527644835168 Metric[os.systemLoadAverage=3.95751953125]
+30-05-2018 11:47:15 1527644835168 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 11:47:15 1527644835168 Metric[os.totalSwapSpaceSize=12884901888]
+30-05-2018 11:47:15 1527644835168 Metric[proxy.createdCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[proxy.destroyedCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[runtime.availableProcessors=8]
+30-05-2018 11:47:15 1527644835168 Metric[runtime.freeMemory=176037376]
+30-05-2018 11:47:15 1527644835168 Metric[runtime.maxMemory=3817865216]
+30-05-2018 11:47:15 1527644835168 Metric[runtime.totalMemory=422576128]
+30-05-2018 11:47:15 1527644835168 Metric[runtime.uptime=8145]
+30-05-2018 11:47:15 1527644835168 Metric[runtime.usedMemory=246538752]
+30-05-2018 11:47:15 1527644835168 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[tcp.connection.activeCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[tcp.connection.clientCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[tcp.connection.count=0]
+30-05-2018 11:47:15 1527644835168 Metric[tcp.connection.textCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[thread.daemonThreadCount=25]
+30-05-2018 11:47:15 1527644835168 Metric[thread.peakThreadCount=66]
+30-05-2018 11:47:15 1527644835168 Metric[thread.threadCount=66]
+30-05-2018 11:47:15 1527644835168 Metric[thread.totalStartedThreadCount=87]
+30-05-2018 11:47:15 1527644835168 Metric[transactions.commitCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[transactions.rollbackCount=0]
+30-05-2018 11:47:15 1527644835168 Metric[transactions.startCount=0]
+30-05-2018 11:47:15 1527644835242 SlowOperations[]
+30-05-2018 11:47:15 1527644835242 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=false
+                          nodeState=ACTIVE
+                          clusterId=null
+                          clusterSize=1
+                          isMaster=false
+                          masterAddress=null
+                          Members[
+                                  [10.1.120.104]:5701]]
+30-05-2018 11:47:15 1527644835244 ClusterVersionChanged[
+                          3.9]
+30-05-2018 11:47:15 1527644835244 Lifecycle[
+                          STARTING]
+30-05-2018 11:47:15 1527644835245 MemberAdded[
+                          member=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master]]
+30-05-2018 11:47:16 1527644836182 ConnectionAdded[
+                          Connection[id=1, /10.1.120.104:49958->/10.1.120.150:5701, endpoint=[10.1.120.150]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 11:47:21 1527644841181 ClusterVersionChanged[
+                          3.9]
+30-05-2018 11:47:21 1527644841181 ConnectionAdded[
+                          Connection[id=2, /10.1.120.104:5701->/10.1.120.150:53772, endpoint=[10.1.120.150]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 11:47:21 1527644841181 MemberAdded[
+                          member=[10.1.120.150]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.150]:5701]]
+30-05-2018 11:47:21 1527644841181 MemberAdded[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.150]:5701
+                                  [10.1.120.150]:5703]]
+30-05-2018 11:47:23 1527644843182 Lifecycle[
+                          STARTED]
+30-05-2018 11:47:25 1527644845184 MemberHeartbeats[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=288.8599853515625
+                                  noHeartbeat(ms)=19,443
+                                  lastHeartbeat(ms)=1,527,644,825,741
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:05
+                                  now(ms)=1,527,644,845,184
+                                  now(date-time)=30-05-2018 11:47:25]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=196.17999267578125
+                                  noHeartbeat(ms)=14,809
+                                  lastHeartbeat(ms)=1,527,644,830,375
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:10
+                                  now(ms)=1,527,644,845,184
+                                  now(date-time)=30-05-2018 11:47:25]]
+30-05-2018 11:47:28 1527644848181 ConnectionAdded[
+                          Connection[id=3, /10.1.120.104:5701->/10.1.120.89:65084, endpoint=[10.1.120.89]:5702, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 11:47:35 1527644855184 MemberHeartbeats[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=303.260009765625
+                                  noHeartbeat(ms)=20,163
+                                  lastHeartbeat(ms)=1,527,644,835,021
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:15
+                                  now(ms)=1,527,644,855,184
+                                  now(date-time)=30-05-2018 11:47:35]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=289.4800109863281
+                                  noHeartbeat(ms)=19,474
+                                  lastHeartbeat(ms)=1,527,644,835,710
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:15
+                                  now(ms)=1,527,644,855,184
+                                  now(date-time)=30-05-2018 11:47:35]]
+30-05-2018 11:47:45 1527644865185 MemberHeartbeats[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=403.260009765625
+                                  noHeartbeat(ms)=25,163
+                                  lastHeartbeat(ms)=1,527,644,840,022
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:20
+                                  now(ms)=1,527,644,865,185
+                                  now(date-time)=30-05-2018 11:47:45]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=296.6000061035156
+                                  noHeartbeat(ms)=19,830
+                                  lastHeartbeat(ms)=1,527,644,845,355
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:25
+                                  now(ms)=1,527,644,865,185
+                                  now(date-time)=30-05-2018 11:47:45]]
+30-05-2018 11:47:55 1527644875184 MemberHeartbeats[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=303.239990234375
+                                  noHeartbeat(ms)=20,162
+                                  lastHeartbeat(ms)=1,527,644,855,022
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:35
+                                  now(ms)=1,527,644,875,184
+                                  now(date-time)=30-05-2018 11:47:55]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=322.9200134277344
+                                  noHeartbeat(ms)=21,146
+                                  lastHeartbeat(ms)=1,527,644,854,038
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:34
+                                  now(ms)=1,527,644,875,184
+                                  now(date-time)=30-05-2018 11:47:55]]
+30-05-2018 11:48:05 1527644885184 MemberHeartbeats[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=503.239990234375
+                                  noHeartbeat(ms)=30,162
+                                  lastHeartbeat(ms)=1,527,644,855,022
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:35
+                                  now(ms)=1,527,644,885,184
+                                  now(date-time)=30-05-2018 11:48:05]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=250.9199981689453
+                                  noHeartbeat(ms)=17,546
+                                  lastHeartbeat(ms)=1,527,644,867,638
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:47
+                                  now(ms)=1,527,644,885,184
+                                  now(date-time)=30-05-2018 11:48:05]]
+30-05-2018 11:48:15 1527644895168 Metric[classloading.loadedClassesCount=12067]
+30-05-2018 11:48:15 1527644895168 Metric[classloading.totalLoadedClassesCount=12067]
+30-05-2018 11:48:15 1527644895168 Metric[classloading.unloadedClassCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[client.endpoint.count=0]
+30-05-2018 11:48:15 1527644895168 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 11:48:15 1527644895168 Metric[cluster.clock.clusterTimeDiff=-17082]
+30-05-2018 11:48:15 1527644895168 Metric[cluster.clock.maxClusterTimeDiff=-27059]
+30-05-2018 11:48:15 1527644895168 Metric[event.eventQueueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[event.eventsProcessed=27]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:scheduled:cqc:7ed5daa9-97e4-42f6-842b-e55811a9151a].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[file.partition[user.home].freeSpace=379321675776]
+30-05-2018 11:48:15 1527644895168 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 11:48:15 1527644895168 Metric[file.partition[user.home].usableSpace=363541602304]
+30-05-2018 11:48:15 1527644895168 Metric[gc.majorCount=3]
+30-05-2018 11:48:15 1527644895168 Metric[gc.majorTime=242]
+30-05-2018 11:48:15 1527644895168 Metric[gc.minorCount=7]
+30-05-2018 11:48:15 1527644895168 Metric[gc.minorTime=82]
+30-05-2018 11:48:15 1527644895168 Metric[gc.unknownCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[gc.unknownTime=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.callTimeoutCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.completedCount=748]
+30-05-2018 11:48:15 1527644895168 Metric[operation.failedBackups=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.backupTimeouts=1]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.normalTimeouts=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.pending=1]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.responses[backup]=4]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.responses[error]=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.responses[missing]=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.responses[normal]=11]
+30-05-2018 11:48:15 1527644895168 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.operationTimeoutCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.priorityQueueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.queueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.responseQueueSize=0]
+30-05-2018 11:48:15 1527644895168 Metric[operation.retryCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[os.committedVirtualMemorySize=10683871232]
+30-05-2018 11:48:15 1527644895168 Metric[os.freePhysicalMemorySize=192458752]
+30-05-2018 11:48:15 1527644895168 Metric[os.freeSwapSpaceSize=1476395008]
+30-05-2018 11:48:15 1527644895168 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 11:48:15 1527644895168 Metric[os.openFileDescriptorCount=493]
+30-05-2018 11:48:15 1527644895168 Metric[os.processCpuLoad=0.6828944733922521]
+30-05-2018 11:48:15 1527644895168 Metric[os.processCpuTime=29953900000]
+30-05-2018 11:48:15 1527644895168 Metric[os.systemCpuLoad=9.83009708737864]
+30-05-2018 11:48:15 1527644895168 Metric[os.systemLoadAverage=3.8720703125]
+30-05-2018 11:48:15 1527644895168 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 11:48:15 1527644895168 Metric[os.totalSwapSpaceSize=13958643712]
+30-05-2018 11:48:15 1527644895168 Metric[proxy.createdCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[proxy.destroyedCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[runtime.availableProcessors=8]
+30-05-2018 11:48:15 1527644895168 Metric[runtime.freeMemory=222518376]
+30-05-2018 11:48:15 1527644895168 Metric[runtime.maxMemory=3817865216]
+30-05-2018 11:48:15 1527644895168 Metric[runtime.totalMemory=606601216]
+30-05-2018 11:48:15 1527644895168 Metric[runtime.uptime=68074]
+30-05-2018 11:48:15 1527644895168 Metric[runtime.usedMemory=384082840]
+30-05-2018 11:48:15 1527644895168 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[tcp.connection.activeCount=3]
+30-05-2018 11:48:15 1527644895168 Metric[tcp.connection.clientCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[tcp.connection.count=3]
+30-05-2018 11:48:15 1527644895168 Metric[tcp.connection.textCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[thread.daemonThreadCount=27]
+30-05-2018 11:48:15 1527644895168 Metric[thread.peakThreadCount=133]
+30-05-2018 11:48:15 1527644895168 Metric[thread.threadCount=132]
+30-05-2018 11:48:15 1527644895168 Metric[thread.totalStartedThreadCount=157]
+30-05-2018 11:48:15 1527644895168 Metric[transactions.commitCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[transactions.rollbackCount=0]
+30-05-2018 11:48:15 1527644895168 Metric[transactions.startCount=0]
+30-05-2018 11:48:15 1527644895171 SlowOperations[]
+30-05-2018 11:48:15 1527644895171 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=d8f83a6c-8f92-4fb2-8c34-ad67112a8029
+                          clusterSize=3
+                          isMaster=false
+                          masterAddress=[10.1.120.150]:5701
+                          Members[
+                                  [10.1.120.150]:5701
+                                  [10.1.120.150]:5703
+                                  [10.1.120.104]:5701]]
+30-05-2018 11:48:15 1527644895185 MemberHeartbeats[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=703.260009765625
+                                  noHeartbeat(ms)=40,163
+                                  lastHeartbeat(ms)=1,527,644,855,022
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:35
+                                  now(ms)=1,527,644,895,185
+                                  now(date-time)=30-05-2018 11:48:15]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=450.94000244140625
+                                  noHeartbeat(ms)=27,547
+                                  lastHeartbeat(ms)=1,527,644,867,638
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:47
+                                  now(ms)=1,527,644,895,185
+                                  now(date-time)=30-05-2018 11:48:15]]
+30-05-2018 11:48:15 1527644895186 OperationHeartbeat[
+                          member[10.1.120.150]:5701[
+                                  deviation(%)=53.880001068115234
+                                  noHeartbeat(ms)=23,082
+                                  lastHeartbeat(ms)=1,527,644,872,104
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:52
+                                  now(ms)=1,527,644,895,186
+                                  now(date-time)=30-05-2018 11:48:15]
+                          member[10.1.120.150]:5703[
+                                  deviation(%)=58.97999954223633
+                                  noHeartbeat(ms)=23,847
+                                  lastHeartbeat(ms)=1,527,644,871,339
+                                  lastHeartbeat(date-time)=30-05-2018 11:47:51
+                                  now(ms)=1,527,644,895,186
+                                  now(date-time)=30-05-2018 11:48:15]]

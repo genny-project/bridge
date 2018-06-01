@@ -21639,3 +21639,1739 @@
                                   [10.1.120.89]:5703
                                   [10.1.120.89]:5707
                                   [10.1.120.150]:5703]]
+30-05-2018 14:02:50 1527652970778 Metric[classloading.loadedClassesCount=12530]
+30-05-2018 14:02:50 1527652970778 Metric[classloading.totalLoadedClassesCount=12530]
+30-05-2018 14:02:50 1527652970778 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[client.endpoint.count=0]
+30-05-2018 14:02:50 1527652970778 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:02:50 1527652970778 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:02:50 1527652970778 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:02:50 1527652970778 Metric[event.eventQueueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[event.eventsProcessed=1793]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[file.partition[user.home].freeSpace=380484833280]
+30-05-2018 14:02:50 1527652970778 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:02:50 1527652970778 Metric[file.partition[user.home].usableSpace=365778497536]
+30-05-2018 14:02:50 1527652970778 Metric[gc.majorCount=3]
+30-05-2018 14:02:50 1527652970778 Metric[gc.majorTime=242]
+30-05-2018 14:02:50 1527652970778 Metric[gc.minorCount=14]
+30-05-2018 14:02:50 1527652970778 Metric[gc.minorTime=427]
+30-05-2018 14:02:50 1527652970778 Metric[gc.unknownCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[gc.unknownTime=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.completedCount=65687]
+30-05-2018 14:02:50 1527652970778 Metric[operation.failedBackups=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.pending=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.responses[normal]=62968]
+30-05-2018 14:02:50 1527652970778 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.queueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.responseQueueSize=0]
+30-05-2018 14:02:50 1527652970778 Metric[operation.retryCount=1209]
+30-05-2018 14:02:50 1527652970778 Metric[os.committedVirtualMemorySize=10837553152]
+30-05-2018 14:02:50 1527652970778 Metric[os.freePhysicalMemorySize=544731136]
+30-05-2018 14:02:50 1527652970778 Metric[os.freeSwapSpaceSize=1078984704]
+30-05-2018 14:02:50 1527652970778 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:02:50 1527652970778 Metric[os.openFileDescriptorCount=519]
+30-05-2018 14:02:50 1527652970778 Metric[os.processCpuLoad=2.7068993435032906]
+30-05-2018 14:02:50 1527652970778 Metric[os.processCpuTime=319901286000]
+30-05-2018 14:02:50 1527652970778 Metric[os.systemCpuLoad=31.358447488584474]
+30-05-2018 14:02:50 1527652970778 Metric[os.systemLoadAverage=4.41943359375]
+30-05-2018 14:02:50 1527652970778 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:02:50 1527652970778 Metric[os.totalSwapSpaceSize=12884901888]
+30-05-2018 14:02:50 1527652970778 Metric[proxy.createdCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[proxy.destroyedCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[runtime.availableProcessors=8]
+30-05-2018 14:02:50 1527652970778 Metric[runtime.freeMemory=371310768]
+30-05-2018 14:02:50 1527652970778 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:02:50 1527652970778 Metric[runtime.totalMemory=656932864]
+30-05-2018 14:02:50 1527652970778 Metric[runtime.uptime=7326349]
+30-05-2018 14:02:50 1527652970778 Metric[runtime.usedMemory=285622096]
+30-05-2018 14:02:50 1527652970778 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[tcp.connection.activeCount=20]
+30-05-2018 14:02:50 1527652970778 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[tcp.connection.count=12]
+30-05-2018 14:02:50 1527652970778 Metric[tcp.connection.textCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:02:50 1527652970778 Metric[thread.peakThreadCount=218]
+30-05-2018 14:02:50 1527652970778 Metric[thread.threadCount=206]
+30-05-2018 14:02:50 1527652970778 Metric[thread.totalStartedThreadCount=450]
+30-05-2018 14:02:50 1527652970778 Metric[transactions.commitCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[transactions.rollbackCount=0]
+30-05-2018 14:02:50 1527652970778 Metric[transactions.startCount=0]
+30-05-2018 14:02:50 1527652970779 SlowOperations[]
+30-05-2018 14:02:50 1527652970780 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=8
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.89]:5707
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:02:51 1527652971790 ConnectionAdded[
+                          Connection[id=77, /10.1.120.104:5701->/10.1.120.40:64601, endpoint=[10.1.120.40]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:02:52 1527652972790 MemberAdded[
+                          member=[10.1.120.40]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.89]:5707
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701]]
+30-05-2018 14:03:48 1527653028788 ConnectionRemoved[
+                          Connection[id=74, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.89]:5707, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:03:48 1527653028789 MemberRemoved[
+                          member=[10.1.120.89]:5707
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701]]
+30-05-2018 14:03:50 1527653030779 Metric[classloading.loadedClassesCount=12531]
+30-05-2018 14:03:50 1527653030779 Metric[classloading.totalLoadedClassesCount=12531]
+30-05-2018 14:03:50 1527653030779 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[client.endpoint.count=0]
+30-05-2018 14:03:50 1527653030779 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:03:50 1527653030779 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:03:50 1527653030779 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:03:50 1527653030779 Metric[event.eventQueueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[event.eventsProcessed=1843]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[file.partition[user.home].freeSpace=380168130560]
+30-05-2018 14:03:50 1527653030779 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:03:50 1527653030779 Metric[file.partition[user.home].usableSpace=363314307072]
+30-05-2018 14:03:50 1527653030779 Metric[gc.majorCount=3]
+30-05-2018 14:03:50 1527653030779 Metric[gc.majorTime=242]
+30-05-2018 14:03:50 1527653030779 Metric[gc.minorCount=14]
+30-05-2018 14:03:50 1527653030779 Metric[gc.minorTime=427]
+30-05-2018 14:03:50 1527653030779 Metric[gc.unknownCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[gc.unknownTime=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.completedCount=66386]
+30-05-2018 14:03:50 1527653030779 Metric[operation.failedBackups=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.pending=6]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.responses[normal]=65606]
+30-05-2018 14:03:50 1527653030779 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.queueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.responseQueueSize=0]
+30-05-2018 14:03:50 1527653030779 Metric[operation.retryCount=1562]
+30-05-2018 14:03:50 1527653030779 Metric[os.committedVirtualMemorySize=10846040064]
+30-05-2018 14:03:50 1527653030779 Metric[os.freePhysicalMemorySize=2624503808]
+30-05-2018 14:03:50 1527653030779 Metric[os.freeSwapSpaceSize=1041498112]
+30-05-2018 14:03:50 1527653030779 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:03:50 1527653030779 Metric[os.openFileDescriptorCount=519]
+30-05-2018 14:03:50 1527653030779 Metric[os.processCpuLoad=0.7526032355197166]
+30-05-2018 14:03:50 1527653030779 Metric[os.processCpuTime=322588408000]
+30-05-2018 14:03:50 1527653030779 Metric[os.systemCpuLoad=19.533927347498288]
+30-05-2018 14:03:50 1527653030779 Metric[os.systemLoadAverage=3.09130859375]
+30-05-2018 14:03:50 1527653030779 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:03:50 1527653030779 Metric[os.totalSwapSpaceSize=15032385536]
+30-05-2018 14:03:50 1527653030779 Metric[proxy.createdCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[proxy.destroyedCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[runtime.availableProcessors=8]
+30-05-2018 14:03:50 1527653030779 Metric[runtime.freeMemory=301483248]
+30-05-2018 14:03:50 1527653030779 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:03:50 1527653030779 Metric[runtime.totalMemory=656932864]
+30-05-2018 14:03:50 1527653030779 Metric[runtime.uptime=7386349]
+30-05-2018 14:03:50 1527653030779 Metric[runtime.usedMemory=355449616]
+30-05-2018 14:03:50 1527653030779 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[tcp.connection.activeCount=20]
+30-05-2018 14:03:50 1527653030779 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[tcp.connection.count=12]
+30-05-2018 14:03:50 1527653030779 Metric[tcp.connection.textCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:03:50 1527653030779 Metric[thread.peakThreadCount=218]
+30-05-2018 14:03:50 1527653030779 Metric[thread.threadCount=214]
+30-05-2018 14:03:50 1527653030779 Metric[thread.totalStartedThreadCount=458]
+30-05-2018 14:03:50 1527653030779 Metric[transactions.commitCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[transactions.rollbackCount=0]
+30-05-2018 14:03:50 1527653030779 Metric[transactions.startCount=0]
+30-05-2018 14:03:50 1527653030779 SlowOperations[]
+30-05-2018 14:03:50 1527653030781 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=8
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701]]
+30-05-2018 14:04:04 1527653044787 ConnectionAdded[
+                          Connection[id=78, /10.1.120.104:5701->/10.1.120.194:60229, endpoint=[10.1.120.194]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:04:05 1527653045792 MemberAdded[
+                          member=[10.1.120.194]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701]]
+30-05-2018 14:04:06 1527653046789 ConnectionAdded[
+                          Connection[id=79, /10.1.120.104:5701->/10.1.120.194:60236, endpoint=[10.1.120.194]:5702, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:04:07 1527653047791 MemberAdded[
+                          member=[10.1.120.194]:5702
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702]]
+30-05-2018 14:04:14 1527653054791 ConnectionAdded[
+                          Connection[id=80, /10.1.120.104:5701->/10.1.120.89:52297, endpoint=[10.1.120.89]:5707, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:04:15 1527653055791 MemberAdded[
+                          member=[10.1.120.89]:5707
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707]]
+30-05-2018 14:04:50 1527653090779 Metric[classloading.loadedClassesCount=12531]
+30-05-2018 14:04:50 1527653090779 Metric[classloading.totalLoadedClassesCount=12531]
+30-05-2018 14:04:50 1527653090779 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[client.endpoint.count=0]
+30-05-2018 14:04:50 1527653090779 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:04:50 1527653090779 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:04:50 1527653090779 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:04:50 1527653090779 Metric[event.eventQueueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[event.eventsProcessed=1865]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[file.partition[user.home].freeSpace=380192481280]
+30-05-2018 14:04:50 1527653090779 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:04:50 1527653090779 Metric[file.partition[user.home].usableSpace=364412403712]
+30-05-2018 14:04:50 1527653090779 Metric[gc.majorCount=3]
+30-05-2018 14:04:50 1527653090779 Metric[gc.majorTime=242]
+30-05-2018 14:04:50 1527653090779 Metric[gc.minorCount=15]
+30-05-2018 14:04:50 1527653090779 Metric[gc.minorTime=468]
+30-05-2018 14:04:50 1527653090779 Metric[gc.unknownCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[gc.unknownTime=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.completedCount=67321]
+30-05-2018 14:04:50 1527653090779 Metric[operation.failedBackups=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.pending=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.responses[normal]=74738]
+30-05-2018 14:04:50 1527653090779 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.queueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.responseQueueSize=0]
+30-05-2018 14:04:50 1527653090779 Metric[operation.retryCount=1562]
+30-05-2018 14:04:50 1527653090779 Metric[os.committedVirtualMemorySize=10850623488]
+30-05-2018 14:04:50 1527653090779 Metric[os.freePhysicalMemorySize=823767040]
+30-05-2018 14:04:50 1527653090779 Metric[os.freeSwapSpaceSize=1444937728]
+30-05-2018 14:04:50 1527653090779 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:04:50 1527653090779 Metric[os.openFileDescriptorCount=522]
+30-05-2018 14:04:50 1527653090779 Metric[os.processCpuLoad=0.3491115138212264]
+30-05-2018 14:04:50 1527653090779 Metric[os.processCpuTime=327824232000]
+30-05-2018 14:04:50 1527653090779 Metric[os.systemCpuLoad=16.24371284865112]
+30-05-2018 14:04:50 1527653090779 Metric[os.systemLoadAverage=2.75048828125]
+30-05-2018 14:04:50 1527653090779 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:04:50 1527653090779 Metric[os.totalSwapSpaceSize=13958643712]
+30-05-2018 14:04:50 1527653090779 Metric[proxy.createdCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[proxy.destroyedCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[runtime.availableProcessors=8]
+30-05-2018 14:04:50 1527653090779 Metric[runtime.freeMemory=469699072]
+30-05-2018 14:04:50 1527653090779 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:04:50 1527653090779 Metric[runtime.totalMemory=648544256]
+30-05-2018 14:04:50 1527653090779 Metric[runtime.uptime=7446349]
+30-05-2018 14:04:50 1527653090779 Metric[runtime.usedMemory=178845184]
+30-05-2018 14:04:50 1527653090779 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[tcp.connection.activeCount=23]
+30-05-2018 14:04:50 1527653090779 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[tcp.connection.count=15]
+30-05-2018 14:04:50 1527653090779 Metric[tcp.connection.textCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:04:50 1527653090779 Metric[thread.peakThreadCount=218]
+30-05-2018 14:04:50 1527653090779 Metric[thread.threadCount=214]
+30-05-2018 14:04:50 1527653090779 Metric[thread.totalStartedThreadCount=458]
+30-05-2018 14:04:50 1527653090779 Metric[transactions.commitCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[transactions.rollbackCount=0]
+30-05-2018 14:04:50 1527653090779 Metric[transactions.startCount=0]
+30-05-2018 14:04:50 1527653090780 SlowOperations[]
+30-05-2018 14:04:50 1527653090781 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=11
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707]]
+30-05-2018 14:05:50 1527653150780 Metric[classloading.loadedClassesCount=12531]
+30-05-2018 14:05:50 1527653150780 Metric[classloading.totalLoadedClassesCount=12531]
+30-05-2018 14:05:50 1527653150780 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[client.endpoint.count=0]
+30-05-2018 14:05:50 1527653150780 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:05:50 1527653150780 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:05:50 1527653150780 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:05:50 1527653150780 Metric[event.eventQueueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[event.eventsProcessed=1876]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[file.partition[user.home].freeSpace=380181491712]
+30-05-2018 14:05:50 1527653150780 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:05:50 1527653150780 Metric[file.partition[user.home].usableSpace=365475155968]
+30-05-2018 14:05:50 1527653150780 Metric[gc.majorCount=3]
+30-05-2018 14:05:50 1527653150780 Metric[gc.majorTime=242]
+30-05-2018 14:05:50 1527653150780 Metric[gc.minorCount=15]
+30-05-2018 14:05:50 1527653150780 Metric[gc.minorTime=468]
+30-05-2018 14:05:50 1527653150780 Metric[gc.unknownCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[gc.unknownTime=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.completedCount=67765]
+30-05-2018 14:05:50 1527653150780 Metric[operation.failedBackups=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.pending=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.responses[normal]=74741]
+30-05-2018 14:05:50 1527653150780 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.queueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.responseQueueSize=0]
+30-05-2018 14:05:50 1527653150780 Metric[operation.retryCount=1562]
+30-05-2018 14:05:50 1527653150780 Metric[os.committedVirtualMemorySize=10842136576]
+30-05-2018 14:05:50 1527653150780 Metric[os.freePhysicalMemorySize=23187456]
+30-05-2018 14:05:50 1527653150780 Metric[os.freeSwapSpaceSize=824705024]
+30-05-2018 14:05:50 1527653150780 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:05:50 1527653150780 Metric[os.openFileDescriptorCount=522]
+30-05-2018 14:05:50 1527653150780 Metric[os.processCpuLoad=0.3484109101890784]
+30-05-2018 14:05:50 1527653150780 Metric[os.processCpuTime=329445216000]
+30-05-2018 14:05:50 1527653150780 Metric[os.systemCpuLoad=15.575646601052872]
+30-05-2018 14:05:50 1527653150780 Metric[os.systemLoadAverage=3.1572265625]
+30-05-2018 14:05:50 1527653150780 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:05:50 1527653150780 Metric[os.totalSwapSpaceSize=12884901888]
+30-05-2018 14:05:50 1527653150780 Metric[proxy.createdCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[proxy.destroyedCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[runtime.availableProcessors=8]
+30-05-2018 14:05:50 1527653150780 Metric[runtime.freeMemory=466207896]
+30-05-2018 14:05:50 1527653150780 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:05:50 1527653150780 Metric[runtime.totalMemory=648544256]
+30-05-2018 14:05:50 1527653150780 Metric[runtime.uptime=7506349]
+30-05-2018 14:05:50 1527653150780 Metric[runtime.usedMemory=182336360]
+30-05-2018 14:05:50 1527653150780 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[tcp.connection.activeCount=23]
+30-05-2018 14:05:50 1527653150780 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[tcp.connection.count=15]
+30-05-2018 14:05:50 1527653150780 Metric[tcp.connection.textCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:05:50 1527653150780 Metric[thread.peakThreadCount=218]
+30-05-2018 14:05:50 1527653150780 Metric[thread.threadCount=206]
+30-05-2018 14:05:50 1527653150780 Metric[thread.totalStartedThreadCount=458]
+30-05-2018 14:05:50 1527653150780 Metric[transactions.commitCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[transactions.rollbackCount=0]
+30-05-2018 14:05:50 1527653150780 Metric[transactions.startCount=0]
+30-05-2018 14:05:50 1527653150781 SlowOperations[]
+30-05-2018 14:05:50 1527653150782 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=11
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707]]
+30-05-2018 14:06:09 1527653169792 ConnectionRemoved[
+                          Connection[id=76, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.150]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:06:09 1527653169793 MemberRemoved[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707]]
+30-05-2018 14:06:24 1527653184792 ConnectionAdded[
+                          Connection[id=81, /10.1.120.104:5701->/10.1.120.150:56866, endpoint=[10.1.120.150]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:06:25 1527653185792 MemberAdded[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:06:50 1527653210780 Metric[classloading.loadedClassesCount=12531]
+30-05-2018 14:06:50 1527653210780 Metric[classloading.totalLoadedClassesCount=12531]
+30-05-2018 14:06:50 1527653210780 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[client.endpoint.count=0]
+30-05-2018 14:06:50 1527653210780 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:06:50 1527653210780 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:06:50 1527653210780 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:06:50 1527653210780 Metric[event.eventQueueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[event.eventsProcessed=1918]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[file.partition[user.home].freeSpace=380178907136]
+30-05-2018 14:06:50 1527653210780 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:06:50 1527653210780 Metric[file.partition[user.home].usableSpace=363325087744]
+30-05-2018 14:06:50 1527653210780 Metric[gc.majorCount=3]
+30-05-2018 14:06:50 1527653210780 Metric[gc.majorTime=242]
+30-05-2018 14:06:50 1527653210780 Metric[gc.minorCount=15]
+30-05-2018 14:06:50 1527653210780 Metric[gc.minorTime=468]
+30-05-2018 14:06:50 1527653210780 Metric[gc.unknownCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[gc.unknownTime=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.completedCount=68457]
+30-05-2018 14:06:50 1527653210780 Metric[operation.failedBackups=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.pending=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.responses[normal]=80638]
+30-05-2018 14:06:50 1527653210780 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.queueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.responseQueueSize=0]
+30-05-2018 14:06:50 1527653210780 Metric[operation.retryCount=1572]
+30-05-2018 14:06:50 1527653210780 Metric[os.committedVirtualMemorySize=10848714752]
+30-05-2018 14:06:50 1527653210780 Metric[os.freePhysicalMemorySize=2801356800]
+30-05-2018 14:06:50 1527653210780 Metric[os.freeSwapSpaceSize=1109131264]
+30-05-2018 14:06:50 1527653210780 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:06:50 1527653210780 Metric[os.openFileDescriptorCount=522]
+30-05-2018 14:06:50 1527653210780 Metric[os.processCpuLoad=0.4117652932560938]
+30-05-2018 14:06:50 1527653210780 Metric[os.processCpuTime=332837245000]
+30-05-2018 14:06:50 1527653210780 Metric[os.systemCpuLoad=17.370892018779344]
+30-05-2018 14:06:50 1527653210780 Metric[os.systemLoadAverage=3.69140625]
+30-05-2018 14:06:50 1527653210780 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:06:50 1527653210780 Metric[os.totalSwapSpaceSize=15032385536]
+30-05-2018 14:06:50 1527653210780 Metric[proxy.createdCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[proxy.destroyedCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[runtime.availableProcessors=8]
+30-05-2018 14:06:50 1527653210780 Metric[runtime.freeMemory=353947496]
+30-05-2018 14:06:50 1527653210780 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:06:50 1527653210780 Metric[runtime.totalMemory=648544256]
+30-05-2018 14:06:50 1527653210780 Metric[runtime.uptime=7566349]
+30-05-2018 14:06:50 1527653210780 Metric[runtime.usedMemory=294596760]
+30-05-2018 14:06:50 1527653210780 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[tcp.connection.activeCount=23]
+30-05-2018 14:06:50 1527653210780 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[tcp.connection.count=15]
+30-05-2018 14:06:50 1527653210780 Metric[tcp.connection.textCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:06:50 1527653210780 Metric[thread.peakThreadCount=218]
+30-05-2018 14:06:50 1527653210780 Metric[thread.threadCount=215]
+30-05-2018 14:06:50 1527653210780 Metric[thread.totalStartedThreadCount=467]
+30-05-2018 14:06:50 1527653210780 Metric[transactions.commitCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[transactions.rollbackCount=0]
+30-05-2018 14:06:50 1527653210780 Metric[transactions.startCount=0]
+30-05-2018 14:06:50 1527653210781 SlowOperations[]
+30-05-2018 14:06:50 1527653210783 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=11
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:07:33 1527653253789 ConnectionRemoved[
+                          Connection[id=81, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.150]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:07:33 1527653253791 MemberRemoved[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.89]:5707]]
+30-05-2018 14:07:37 1527653257794 ConnectionRemoved[
+                          Connection[id=80, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.89]:5707, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Exception in Connection[id=80, /10.1.120.104:5701->/10.1.120.89:52297, endpoint=[10.1.120.89]:5707, alive=true, type=MEMBER], thread=hz._hzInstance_1_dev.IO.thread-in-1
+                          CloseCause[
+                                  java.io.IOException: Connection reset by peer
+                                  sun.nio.ch.FileDispatcherImpl.read0(Native Method)
+                                  sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+                                  sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+                                  sun.nio.ch.IOUtil.read(IOUtil.java:197)
+                                  sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+                                  com.hazelcast.internal.networking.AbstractChannel.read(AbstractChannel.java:94)
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:127)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:07:42 1527653262795 ConnectionAdded[
+                          Connection[id=82, /10.1.120.104:5701->/10.1.120.194:49937, endpoint=[10.1.120.194]:5705, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:07:47 1527653267790 MemberRemoved[
+                          member=[10.1.120.89]:5707
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702]]
+30-05-2018 14:07:47 1527653267790 MemberAdded[
+                          member=[10.1.120.194]:5705
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705]]
+30-05-2018 14:07:50 1527653270781 Metric[classloading.loadedClassesCount=12531]
+30-05-2018 14:07:50 1527653270781 Metric[classloading.totalLoadedClassesCount=12531]
+30-05-2018 14:07:50 1527653270781 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[client.endpoint.count=0]
+30-05-2018 14:07:50 1527653270781 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:07:50 1527653270781 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:07:50 1527653270781 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:07:50 1527653270781 Metric[event.eventQueueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[event.eventsProcessed=2002]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[file.partition[user.home].freeSpace=380052144128]
+30-05-2018 14:07:50 1527653270781 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:07:50 1527653270781 Metric[file.partition[user.home].usableSpace=364272066560]
+30-05-2018 14:07:50 1527653270781 Metric[gc.majorCount=3]
+30-05-2018 14:07:50 1527653270781 Metric[gc.majorTime=242]
+30-05-2018 14:07:50 1527653270781 Metric[gc.minorCount=15]
+30-05-2018 14:07:50 1527653270781 Metric[gc.minorTime=468]
+30-05-2018 14:07:50 1527653270781 Metric[gc.unknownCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[gc.unknownTime=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.completedCount=69141]
+30-05-2018 14:07:50 1527653270781 Metric[operation.failedBackups=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.pending=4]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.responses[normal]=82343]
+30-05-2018 14:07:50 1527653270781 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.queueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.responseQueueSize=0]
+30-05-2018 14:07:50 1527653270781 Metric[operation.retryCount=1722]
+30-05-2018 14:07:50 1527653270781 Metric[os.committedVirtualMemorySize=10845532160]
+30-05-2018 14:07:50 1527653270781 Metric[os.freePhysicalMemorySize=1947934720]
+30-05-2018 14:07:50 1527653270781 Metric[os.freeSwapSpaceSize=747896832]
+30-05-2018 14:07:50 1527653270781 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:07:50 1527653270781 Metric[os.openFileDescriptorCount=522]
+30-05-2018 14:07:50 1527653270781 Metric[os.processCpuLoad=0.9132786855183291]
+30-05-2018 14:07:50 1527653270781 Metric[os.processCpuTime=335037122000]
+30-05-2018 14:07:50 1527653270781 Metric[os.systemCpuLoad=12.641833810888253]
+30-05-2018 14:07:50 1527653270781 Metric[os.systemLoadAverage=3.423828125]
+30-05-2018 14:07:50 1527653270781 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:07:50 1527653270781 Metric[os.totalSwapSpaceSize=13958643712]
+30-05-2018 14:07:50 1527653270781 Metric[proxy.createdCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[proxy.destroyedCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[runtime.availableProcessors=8]
+30-05-2018 14:07:50 1527653270781 Metric[runtime.freeMemory=301668336]
+30-05-2018 14:07:50 1527653270781 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:07:50 1527653270781 Metric[runtime.totalMemory=648544256]
+30-05-2018 14:07:50 1527653270781 Metric[runtime.uptime=7626349]
+30-05-2018 14:07:50 1527653270781 Metric[runtime.usedMemory=346875920]
+30-05-2018 14:07:50 1527653270781 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[tcp.connection.activeCount=23]
+30-05-2018 14:07:50 1527653270781 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[tcp.connection.count=15]
+30-05-2018 14:07:50 1527653270781 Metric[tcp.connection.textCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:07:50 1527653270781 Metric[thread.peakThreadCount=218]
+30-05-2018 14:07:50 1527653270781 Metric[thread.threadCount=212]
+30-05-2018 14:07:50 1527653270781 Metric[thread.totalStartedThreadCount=473]
+30-05-2018 14:07:50 1527653270781 Metric[transactions.commitCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[transactions.rollbackCount=0]
+30-05-2018 14:07:50 1527653270781 Metric[transactions.startCount=0]
+30-05-2018 14:07:50 1527653270781 SlowOperations[]
+30-05-2018 14:07:50 1527653270783 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=10
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705]]
+30-05-2018 14:07:50 1527653270790 ConnectionAdded[
+                          Connection[id=83, /10.1.120.104:5701->/10.1.120.150:57193, endpoint=[10.1.120.150]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:07:51 1527653271793 ConnectionRemoved[
+                          Connection[id=58, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.89]:5702, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Exception in Connection[id=58, /10.1.120.104:5701->/10.1.120.89:55458, endpoint=[10.1.120.89]:5702, alive=true, type=MEMBER], thread=hz._hzInstance_1_dev.IO.thread-in-2
+                          CloseCause[
+                                  java.io.IOException: Connection reset by peer
+                                  sun.nio.ch.FileDispatcherImpl.read0(Native Method)
+                                  sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+                                  sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+                                  sun.nio.ch.IOUtil.read(IOUtil.java:197)
+                                  sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+                                  com.hazelcast.internal.networking.AbstractChannel.read(AbstractChannel.java:94)
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:127)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:07:51 1527653271793 ConnectionRemoved[
+                          Connection[id=60, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.89]:5701, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Exception in Connection[id=60, /10.1.120.104:5701->/10.1.120.89:51518, endpoint=[10.1.120.89]:5701, alive=true, type=MEMBER], thread=hz._hzInstance_1_dev.IO.thread-in-1
+                          CloseCause[
+                                  java.io.IOException: Connection reset by peer
+                                  sun.nio.ch.FileDispatcherImpl.read0(Native Method)
+                                  sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+                                  sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+                                  sun.nio.ch.IOUtil.read(IOUtil.java:197)
+                                  sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+                                  com.hazelcast.internal.networking.AbstractChannel.read(AbstractChannel.java:94)
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:127)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:07:55 1527653275795 ConnectionAdded[
+                          Connection[id=84, /10.1.120.104:5701->/10.1.120.40:64709, endpoint=[10.1.120.40]:5702, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:08:00 1527653280792 MemberRemoved[
+                          member=[10.1.120.89]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705]]
+30-05-2018 14:08:00 1527653280792 MemberAdded[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:08:32 1527653312794 ConnectionAdded[
+                          Connection[id=85, /10.1.120.104:5701->/10.1.120.194:50237, endpoint=[10.1.120.194]:5707, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:08:33 1527653313792 MemberAdded[
+                          member=[10.1.120.194]:5707
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703
+                                  [10.1.120.194]:5707]]
+30-05-2018 14:08:50 1527653330782 Metric[classloading.loadedClassesCount=12531]
+30-05-2018 14:08:50 1527653330782 Metric[classloading.totalLoadedClassesCount=12531]
+30-05-2018 14:08:50 1527653330782 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[client.endpoint.count=0]
+30-05-2018 14:08:50 1527653330782 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:08:50 1527653330782 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:08:50 1527653330782 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:08:50 1527653330782 Metric[event.eventQueueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[event.eventsProcessed=2053]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[file.partition[user.home].freeSpace=380013125632]
+30-05-2018 14:08:50 1527653330782 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:08:50 1527653330782 Metric[file.partition[user.home].usableSpace=364233048064]
+30-05-2018 14:08:50 1527653330782 Metric[gc.majorCount=3]
+30-05-2018 14:08:50 1527653330782 Metric[gc.majorTime=242]
+30-05-2018 14:08:50 1527653330782 Metric[gc.minorCount=16]
+30-05-2018 14:08:50 1527653330782 Metric[gc.minorTime=539]
+30-05-2018 14:08:50 1527653330782 Metric[gc.unknownCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[gc.unknownTime=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.completedCount=70336]
+30-05-2018 14:08:50 1527653330782 Metric[operation.failedBackups=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.normalTimeouts=6]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.pending=2]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.responses[normal]=98289]
+30-05-2018 14:08:50 1527653330782 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.queueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.responseQueueSize=0]
+30-05-2018 14:08:50 1527653330782 Metric[operation.retryCount=1734]
+30-05-2018 14:08:50 1527653330782 Metric[os.committedVirtualMemorySize=10849533952]
+30-05-2018 14:08:50 1527653330782 Metric[os.freePhysicalMemorySize=1190236160]
+30-05-2018 14:08:50 1527653330782 Metric[os.freeSwapSpaceSize=1267728384]
+30-05-2018 14:08:50 1527653330782 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:08:50 1527653330782 Metric[os.openFileDescriptorCount=519]
+30-05-2018 14:08:50 1527653330782 Metric[os.processCpuLoad=1.3262924937203162]
+30-05-2018 14:08:50 1527653330782 Metric[os.processCpuTime=341209623000]
+30-05-2018 14:08:50 1527653330782 Metric[os.systemCpuLoad=11.441017998395047]
+30-05-2018 14:08:50 1527653330782 Metric[os.systemLoadAverage=3.69775390625]
+30-05-2018 14:08:50 1527653330782 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:08:50 1527653330782 Metric[os.totalSwapSpaceSize=13958643712]
+30-05-2018 14:08:50 1527653330782 Metric[proxy.createdCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[proxy.destroyedCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[runtime.availableProcessors=8]
+30-05-2018 14:08:50 1527653330782 Metric[runtime.freeMemory=354316608]
+30-05-2018 14:08:50 1527653330782 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:08:50 1527653330782 Metric[runtime.totalMemory=639631360]
+30-05-2018 14:08:50 1527653330782 Metric[runtime.uptime=7686349]
+30-05-2018 14:08:50 1527653330782 Metric[runtime.usedMemory=285314752]
+30-05-2018 14:08:50 1527653330782 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[tcp.connection.activeCount=23]
+30-05-2018 14:08:50 1527653330782 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[tcp.connection.count=15]
+30-05-2018 14:08:50 1527653330782 Metric[tcp.connection.textCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:08:50 1527653330782 Metric[thread.peakThreadCount=218]
+30-05-2018 14:08:50 1527653330782 Metric[thread.threadCount=217]
+30-05-2018 14:08:50 1527653330782 Metric[thread.totalStartedThreadCount=478]
+30-05-2018 14:08:50 1527653330782 Metric[transactions.commitCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[transactions.rollbackCount=0]
+30-05-2018 14:08:50 1527653330782 Metric[transactions.startCount=0]
+30-05-2018 14:08:50 1527653330782 SlowOperations[]
+30-05-2018 14:08:50 1527653330783 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=11
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703
+                                  [10.1.120.194]:5707]]
+30-05-2018 14:09:02 1527653342794 ConnectionRemoved[
+                          Connection[id=78, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.194]:5701, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:09:02 1527653342795 MemberRemoved[
+                          member=[10.1.120.194]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703
+                                  [10.1.120.194]:5707]]
+30-05-2018 14:09:05 1527653345794 ConnectionAdded[
+                          Connection[id=86, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.40]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false]
+30-05-2018 14:09:05 1527653345794 ConnectionRemoved[
+                          Connection[id=86, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.40]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:09:10 1527653350794 ConnectionAdded[
+                          Connection[id=87, /10.1.120.104:5701->/10.1.120.194:50491, endpoint=[10.1.120.194]:5704, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:09:13 1527653353795 ConnectionRemoved[
+                          Connection[id=85, 0.0.0.0/0.0.0.0:5701->/10.1.120.194:50237, endpoint=[10.1.120.194]:5707, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:09:14 1527653354795 MemberRemoved[
+                          member=[10.1.120.194]:5707
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:09:17 1527653357793 ConnectionAdded[
+                          Connection[id=88, /10.1.120.104:5701->/10.1.120.40:64728, endpoint=[10.1.120.40]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:09:18 1527653358793 MemberAdded[
+                          member=[10.1.120.40]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5703]]
+30-05-2018 14:09:50 1527653390782 Metric[classloading.loadedClassesCount=12544]
+30-05-2018 14:09:50 1527653390782 Metric[classloading.totalLoadedClassesCount=12544]
+30-05-2018 14:09:50 1527653390782 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[client.endpoint.count=0]
+30-05-2018 14:09:50 1527653390782 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:09:50 1527653390782 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:09:50 1527653390782 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:09:50 1527653390782 Metric[event.eventQueueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[event.eventsProcessed=2076]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[file.partition[user.home].freeSpace=380011839488]
+30-05-2018 14:09:50 1527653390782 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:09:50 1527653390782 Metric[file.partition[user.home].usableSpace=365305503744]
+30-05-2018 14:09:50 1527653390782 Metric[gc.majorCount=3]
+30-05-2018 14:09:50 1527653390782 Metric[gc.majorTime=242]
+30-05-2018 14:09:50 1527653390782 Metric[gc.minorCount=17]
+30-05-2018 14:09:50 1527653390782 Metric[gc.minorTime=581]
+30-05-2018 14:09:50 1527653390782 Metric[gc.unknownCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[gc.unknownTime=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.completedCount=71356]
+30-05-2018 14:09:50 1527653390782 Metric[operation.failedBackups=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.normalTimeouts=7]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.pending=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.responses[normal]=109144]
+30-05-2018 14:09:50 1527653390782 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.queueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.responseQueueSize=0]
+30-05-2018 14:09:50 1527653390782 Metric[operation.retryCount=1734]
+30-05-2018 14:09:50 1527653390782 Metric[os.committedVirtualMemorySize=10847412224]
+30-05-2018 14:09:50 1527653390782 Metric[os.freePhysicalMemorySize=306024448]
+30-05-2018 14:09:50 1527653390782 Metric[os.freeSwapSpaceSize=1528823808]
+30-05-2018 14:09:50 1527653390782 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:09:50 1527653390782 Metric[os.openFileDescriptorCount=522]
+30-05-2018 14:09:50 1527653390782 Metric[os.processCpuLoad=0.8203404360315179]
+30-05-2018 14:09:50 1527653390782 Metric[os.processCpuTime=345415353000]
+30-05-2018 14:09:50 1527653390782 Metric[os.systemCpuLoad=17.041542345650676]
+30-05-2018 14:09:50 1527653390782 Metric[os.systemLoadAverage=4.37744140625]
+30-05-2018 14:09:50 1527653390782 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:09:50 1527653390782 Metric[os.totalSwapSpaceSize=12884901888]
+30-05-2018 14:09:50 1527653390782 Metric[proxy.createdCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[proxy.destroyedCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[runtime.availableProcessors=8]
+30-05-2018 14:09:50 1527653390782 Metric[runtime.freeMemory=462857552]
+30-05-2018 14:09:50 1527653390782 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:09:50 1527653390782 Metric[runtime.totalMemory=630718464]
+30-05-2018 14:09:50 1527653390782 Metric[runtime.uptime=7746349]
+30-05-2018 14:09:50 1527653390782 Metric[runtime.usedMemory=167860912]
+30-05-2018 14:09:50 1527653390782 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[tcp.connection.activeCount=24]
+30-05-2018 14:09:50 1527653390782 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[tcp.connection.count=15]
+30-05-2018 14:09:50 1527653390782 Metric[tcp.connection.textCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:09:50 1527653390782 Metric[thread.peakThreadCount=218]
+30-05-2018 14:09:50 1527653390782 Metric[thread.threadCount=215]
+30-05-2018 14:09:50 1527653390782 Metric[thread.totalStartedThreadCount=479]
+30-05-2018 14:09:50 1527653390782 Metric[transactions.commitCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[transactions.rollbackCount=0]
+30-05-2018 14:09:50 1527653390782 Metric[transactions.startCount=0]
+30-05-2018 14:09:50 1527653390783 SlowOperations[]
+30-05-2018 14:09:50 1527653390784 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=10
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.194]:5705
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5703]]
+30-05-2018 14:09:51 1527653391796 ConnectionAdded[
+                          Connection[id=89, /10.1.120.104:53920->/10.1.120.89:5704, endpoint=[10.1.120.89]:5704, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:09:51 1527653391796 ConnectionRemoved[
+                          Connection[id=82, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.194]:5705, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:09:51 1527653391796 MemberRemoved[
+                          member=[10.1.120.194]:5705
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.194]:5702
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5703]]
+30-05-2018 14:10:09 1527653409796 ConnectionRemoved[
+                          Connection[id=79, 0.0.0.0/0.0.0.0:5701->/10.1.120.194:60236, endpoint=[10.1.120.194]:5702, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:10:10 1527653410793 MemberRemoved[
+                          member=[10.1.120.194]:5702
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5703]]
+30-05-2018 14:10:10 1527653410793 ConnectionRemoved[
+                          Connection[id=87, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.194]:5704, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:10:30 1527653430792 ConnectionAdded[
+                          Connection[id=90, /10.1.120.104:5701->/10.1.120.89:54487, endpoint=[10.1.120.89]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:10:31 1527653431794 MemberAdded[
+                          member=[10.1.120.89]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701]]
+30-05-2018 14:10:50 1527653450784 Metric[classloading.loadedClassesCount=12544]
+30-05-2018 14:10:50 1527653450784 Metric[classloading.totalLoadedClassesCount=12544]
+30-05-2018 14:10:50 1527653450784 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[client.endpoint.count=0]
+30-05-2018 14:10:50 1527653450784 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:10:50 1527653450784 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:10:50 1527653450784 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:10:50 1527653450784 Metric[event.eventQueueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[event.eventsProcessed=2098]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[file.partition[user.home].freeSpace=379963580416]
+30-05-2018 14:10:50 1527653450784 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:10:50 1527653450784 Metric[file.partition[user.home].usableSpace=364183502848]
+30-05-2018 14:10:50 1527653450784 Metric[gc.majorCount=3]
+30-05-2018 14:10:50 1527653450784 Metric[gc.majorTime=242]
+30-05-2018 14:10:50 1527653450784 Metric[gc.minorCount=17]
+30-05-2018 14:10:50 1527653450784 Metric[gc.minorTime=581]
+30-05-2018 14:10:50 1527653450784 Metric[gc.unknownCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[gc.unknownTime=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.completedCount=72195]
+30-05-2018 14:10:50 1527653450784 Metric[operation.failedBackups=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.normalTimeouts=7]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.pending=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.responses[normal]=113795]
+30-05-2018 14:10:50 1527653450784 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.queueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.responseQueueSize=0]
+30-05-2018 14:10:50 1527653450784 Metric[operation.retryCount=1734]
+30-05-2018 14:10:50 1527653450784 Metric[os.committedVirtualMemorySize=10849533952]
+30-05-2018 14:10:50 1527653450784 Metric[os.freePhysicalMemorySize=1678708736]
+30-05-2018 14:10:50 1527653450784 Metric[os.freeSwapSpaceSize=1286602752]
+30-05-2018 14:10:50 1527653450784 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:10:50 1527653450784 Metric[os.openFileDescriptorCount=519]
+30-05-2018 14:10:50 1527653450784 Metric[os.processCpuLoad=0.42730462166828737]
+30-05-2018 14:10:50 1527653450784 Metric[os.processCpuTime=348318933000]
+30-05-2018 14:10:50 1527653450784 Metric[os.systemCpuLoad=16.567164179104477]
+30-05-2018 14:10:50 1527653450784 Metric[os.systemLoadAverage=4.3212890625]
+30-05-2018 14:10:50 1527653450784 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:10:50 1527653450784 Metric[os.totalSwapSpaceSize=13958643712]
+30-05-2018 14:10:50 1527653450784 Metric[proxy.createdCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[proxy.destroyedCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[runtime.availableProcessors=8]
+30-05-2018 14:10:50 1527653450784 Metric[runtime.freeMemory=360816208]
+30-05-2018 14:10:50 1527653450784 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:10:50 1527653450784 Metric[runtime.totalMemory=630718464]
+30-05-2018 14:10:50 1527653450784 Metric[runtime.uptime=7806350]
+30-05-2018 14:10:50 1527653450784 Metric[runtime.usedMemory=269902256]
+30-05-2018 14:10:50 1527653450784 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[tcp.connection.activeCount=22]
+30-05-2018 14:10:50 1527653450784 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[tcp.connection.count=14]
+30-05-2018 14:10:50 1527653450784 Metric[tcp.connection.textCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:10:50 1527653450784 Metric[thread.peakThreadCount=218]
+30-05-2018 14:10:50 1527653450784 Metric[thread.threadCount=217]
+30-05-2018 14:10:50 1527653450784 Metric[thread.totalStartedThreadCount=481]
+30-05-2018 14:10:50 1527653450784 Metric[transactions.commitCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[transactions.rollbackCount=0]
+30-05-2018 14:10:50 1527653450784 Metric[transactions.startCount=0]
+30-05-2018 14:10:50 1527653450785 SlowOperations[]
+30-05-2018 14:10:50 1527653450785 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=9
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.150]:5703
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701]]
+30-05-2018 14:11:07 1527653467796 ConnectionRemoved[
+                          Connection[id=83, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.150]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:11:07 1527653467797 MemberRemoved[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701]]
+30-05-2018 14:11:20 1527653480796 ConnectionAdded[
+                          Connection[id=91, /10.1.120.104:5701->/10.1.120.150:57906, endpoint=[10.1.120.150]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:11:21 1527653481796 MemberAdded[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:11:50 1527653510783 Metric[classloading.loadedClassesCount=12544]
+30-05-2018 14:11:50 1527653510783 Metric[classloading.totalLoadedClassesCount=12544]
+30-05-2018 14:11:50 1527653510783 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[client.endpoint.count=0]
+30-05-2018 14:11:50 1527653510783 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:11:50 1527653510783 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:11:50 1527653510783 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:11:50 1527653510783 Metric[event.eventQueueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[event.eventsProcessed=2145]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[file.partition[user.home].freeSpace=379921645568]
+30-05-2018 14:11:50 1527653510783 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:11:50 1527653510783 Metric[file.partition[user.home].usableSpace=365215309824]
+30-05-2018 14:11:50 1527653510783 Metric[gc.majorCount=3]
+30-05-2018 14:11:50 1527653510783 Metric[gc.majorTime=242]
+30-05-2018 14:11:50 1527653510783 Metric[gc.minorCount=18]
+30-05-2018 14:11:50 1527653510783 Metric[gc.minorTime=599]
+30-05-2018 14:11:50 1527653510783 Metric[gc.unknownCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[gc.unknownTime=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.completedCount=73307]
+30-05-2018 14:11:50 1527653510783 Metric[operation.failedBackups=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.normalTimeouts=7]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.pending=7]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.responses[normal]=123417]
+30-05-2018 14:11:50 1527653510783 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.queueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.responseQueueSize=0]
+30-05-2018 14:11:50 1527653510783 Metric[operation.retryCount=1807]
+30-05-2018 14:11:50 1527653510783 Metric[os.committedVirtualMemorySize=10847412224]
+30-05-2018 14:11:50 1527653510783 Metric[os.freePhysicalMemorySize=650973184]
+30-05-2018 14:11:50 1527653510783 Metric[os.freeSwapSpaceSize=1026293760]
+30-05-2018 14:11:50 1527653510783 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:11:50 1527653510783 Metric[os.openFileDescriptorCount=519]
+30-05-2018 14:11:50 1527653510783 Metric[os.processCpuLoad=0.8672928046437742]
+30-05-2018 14:11:50 1527653510783 Metric[os.processCpuTime=352058013000]
+30-05-2018 14:11:50 1527653510783 Metric[os.systemCpuLoad=20.045977011494255]
+30-05-2018 14:11:50 1527653510783 Metric[os.systemLoadAverage=3.60791015625]
+30-05-2018 14:11:50 1527653510783 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:11:50 1527653510783 Metric[os.totalSwapSpaceSize=12884901888]
+30-05-2018 14:11:50 1527653510783 Metric[proxy.createdCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[proxy.destroyedCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[runtime.availableProcessors=8]
+30-05-2018 14:11:50 1527653510783 Metric[runtime.freeMemory=493898496]
+30-05-2018 14:11:50 1527653510783 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:11:50 1527653510783 Metric[runtime.totalMemory=621805568]
+30-05-2018 14:11:50 1527653510783 Metric[runtime.uptime=7866349]
+30-05-2018 14:11:50 1527653510783 Metric[runtime.usedMemory=127907072]
+30-05-2018 14:11:50 1527653510783 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[tcp.connection.activeCount=22]
+30-05-2018 14:11:50 1527653510783 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[tcp.connection.count=14]
+30-05-2018 14:11:50 1527653510783 Metric[tcp.connection.textCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:11:50 1527653510783 Metric[thread.peakThreadCount=218]
+30-05-2018 14:11:50 1527653510783 Metric[thread.threadCount=215]
+30-05-2018 14:11:50 1527653510783 Metric[thread.totalStartedThreadCount=481]
+30-05-2018 14:11:50 1527653510783 Metric[transactions.commitCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[transactions.rollbackCount=0]
+30-05-2018 14:11:50 1527653510783 Metric[transactions.startCount=0]
+30-05-2018 14:11:50 1527653510784 SlowOperations[]
+30-05-2018 14:11:50 1527653510785 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=9
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:12:50 1527653570784 Metric[classloading.loadedClassesCount=12544]
+30-05-2018 14:12:50 1527653570784 Metric[classloading.totalLoadedClassesCount=12544]
+30-05-2018 14:12:50 1527653570784 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[client.endpoint.count=0]
+30-05-2018 14:12:50 1527653570784 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:12:50 1527653570784 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:12:50 1527653570784 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:12:50 1527653570784 Metric[event.eventQueueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[event.eventsProcessed=2150]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[file.partition[user.home].freeSpace=379879542784]
+30-05-2018 14:12:50 1527653570784 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:12:50 1527653570784 Metric[file.partition[user.home].usableSpace=365173207040]
+30-05-2018 14:12:50 1527653570784 Metric[gc.majorCount=3]
+30-05-2018 14:12:50 1527653570784 Metric[gc.majorTime=242]
+30-05-2018 14:12:50 1527653570784 Metric[gc.minorCount=18]
+30-05-2018 14:12:50 1527653570784 Metric[gc.minorTime=599]
+30-05-2018 14:12:50 1527653570784 Metric[gc.unknownCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[gc.unknownTime=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.completedCount=73863]
+30-05-2018 14:12:50 1527653570784 Metric[operation.failedBackups=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.normalTimeouts=7]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.pending=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.responses[normal]=124982]
+30-05-2018 14:12:50 1527653570784 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.queueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.responseQueueSize=0]
+30-05-2018 14:12:50 1527653570784 Metric[operation.retryCount=1807]
+30-05-2018 14:12:50 1527653570784 Metric[os.committedVirtualMemorySize=10846351360]
+30-05-2018 14:12:50 1527653570784 Metric[os.freePhysicalMemorySize=152555520]
+30-05-2018 14:12:50 1527653570784 Metric[os.freeSwapSpaceSize=1328283648]
+30-05-2018 14:12:50 1527653570784 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:12:50 1527653570784 Metric[os.openFileDescriptorCount=519]
+30-05-2018 14:12:50 1527653570784 Metric[os.processCpuLoad=0.35960853922262837]
+30-05-2018 14:12:50 1527653570784 Metric[os.processCpuTime=353961753000]
+30-05-2018 14:12:50 1527653570784 Metric[os.systemCpuLoad=17.72151898734177]
+30-05-2018 14:12:50 1527653570784 Metric[os.systemLoadAverage=3.2822265625]
+30-05-2018 14:12:50 1527653570784 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:12:50 1527653570784 Metric[os.totalSwapSpaceSize=12884901888]
+30-05-2018 14:12:50 1527653570784 Metric[proxy.createdCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[proxy.destroyedCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[runtime.availableProcessors=8]
+30-05-2018 14:12:50 1527653570784 Metric[runtime.freeMemory=463090264]
+30-05-2018 14:12:50 1527653570784 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:12:50 1527653570784 Metric[runtime.totalMemory=621805568]
+30-05-2018 14:12:50 1527653570784 Metric[runtime.uptime=7926349]
+30-05-2018 14:12:50 1527653570784 Metric[runtime.usedMemory=158715304]
+30-05-2018 14:12:50 1527653570784 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[tcp.connection.activeCount=22]
+30-05-2018 14:12:50 1527653570784 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[tcp.connection.count=14]
+30-05-2018 14:12:50 1527653570784 Metric[tcp.connection.textCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:12:50 1527653570784 Metric[thread.peakThreadCount=218]
+30-05-2018 14:12:50 1527653570784 Metric[thread.threadCount=214]
+30-05-2018 14:12:50 1527653570784 Metric[thread.totalStartedThreadCount=481]
+30-05-2018 14:12:50 1527653570784 Metric[transactions.commitCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[transactions.rollbackCount=0]
+30-05-2018 14:12:50 1527653570784 Metric[transactions.startCount=0]
+30-05-2018 14:12:50 1527653570785 SlowOperations[]
+30-05-2018 14:12:50 1527653570786 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=9
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701
+                                  [10.1.120.150]:5703]]
+30-05-2018 14:13:02 1527653582797 ConnectionRemoved[
+                          Connection[id=91, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.150]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:13:02 1527653582798 MemberRemoved[
+                          member=[10.1.120.150]:5703
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.150]:5701
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701]]
+30-05-2018 14:13:03 1527653583797 ConnectionRemoved[
+                          Connection[id=55, 0.0.0.0/0.0.0.0:52810->null, endpoint=[10.1.120.150]:5702, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:13:03 1527653583798 ConnectionRemoved[
+                          Connection[id=56, 0.0.0.0/0.0.0.0:5701->null, endpoint=[10.1.120.150]:5701, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:13:03 1527653583798 MemberRemoved[
+                          member=[10.1.120.150]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701]]
+30-05-2018 14:13:50 1527653630784 Metric[classloading.loadedClassesCount=12544]
+30-05-2018 14:13:50 1527653630784 Metric[classloading.totalLoadedClassesCount=12544]
+30-05-2018 14:13:50 1527653630784 Metric[classloading.unloadedClassCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[client.endpoint.count=0]
+30-05-2018 14:13:50 1527653630784 Metric[client.endpoint.totalRegistrations=0]
+30-05-2018 14:13:50 1527653630784 Metric[cluster.clock.clusterTimeDiff=-3]
+30-05-2018 14:13:50 1527653630784 Metric[cluster.clock.maxClusterTimeDiff=-33]
+30-05-2018 14:13:50 1527653630784 Metric[event.eventQueueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[event.eventsProcessed=2228]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:async].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:client-query].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:client].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:cluster:event].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:cluster].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:offloadable].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:scheduled:cqc:89242036-e12b-4aef-b96f-f5a8140ca086].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:scheduled].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[executor.[hz:system].queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[file.partition[user.home].freeSpace=379915358208]
+30-05-2018 14:13:50 1527653630784 Metric[file.partition[user.home].totalSpace=1000240963584]
+30-05-2018 14:13:50 1527653630784 Metric[file.partition[user.home].usableSpace=366282768384]
+30-05-2018 14:13:50 1527653630784 Metric[gc.majorCount=3]
+30-05-2018 14:13:50 1527653630784 Metric[gc.majorTime=242]
+30-05-2018 14:13:50 1527653630784 Metric[gc.minorCount=18]
+30-05-2018 14:13:50 1527653630784 Metric[gc.minorTime=599]
+30-05-2018 14:13:50 1527653630784 Metric[gc.unknownCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[gc.unknownTime=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.callTimeoutCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.completedCount=74869]
+30-05-2018 14:13:50 1527653630784 Metric[operation.failedBackups=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.backupTimeouts=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.normalTimeouts=7]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.pending=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.responses[backup]=28]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.responses[error]=2]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.responses[missing]=3]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.responses[normal]=131165]
+30-05-2018 14:13:50 1527653630784 Metric[operation.invocations.responses[timeout]=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.operationTimeoutCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.priorityQueueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.queueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.responseQueueSize=0]
+30-05-2018 14:13:50 1527653630784 Metric[operation.retryCount=2409]
+30-05-2018 14:13:50 1527653630784 Metric[os.committedVirtualMemorySize=10847932416]
+30-05-2018 14:13:50 1527653630784 Metric[os.freePhysicalMemorySize=22855680]
+30-05-2018 14:13:50 1527653630784 Metric[os.freeSwapSpaceSize=3707764736]
+30-05-2018 14:13:50 1527653630784 Metric[os.maxFileDescriptorCount=10240]
+30-05-2018 14:13:50 1527653630784 Metric[os.openFileDescriptorCount=514]
+30-05-2018 14:13:50 1527653630784 Metric[os.processCpuLoad=0.5589782020052257]
+30-05-2018 14:13:50 1527653630784 Metric[os.processCpuTime=359195336000]
+30-05-2018 14:13:50 1527653630784 Metric[os.systemCpuLoad=65.38018433179722]
+30-05-2018 14:13:50 1527653630784 Metric[os.systemLoadAverage=5.87353515625]
+30-05-2018 14:13:50 1527653630784 Metric[os.totalPhysicalMemorySize=17179869184]
+30-05-2018 14:13:50 1527653630784 Metric[os.totalSwapSpaceSize=11811160064]
+30-05-2018 14:13:50 1527653630784 Metric[proxy.createdCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[proxy.destroyedCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[runtime.availableProcessors=8]
+30-05-2018 14:13:50 1527653630784 Metric[runtime.freeMemory=340347688]
+30-05-2018 14:13:50 1527653630784 Metric[runtime.maxMemory=3817865216]
+30-05-2018 14:13:50 1527653630784 Metric[runtime.totalMemory=621805568]
+30-05-2018 14:13:50 1527653630784 Metric[runtime.uptime=7986353]
+30-05-2018 14:13:50 1527653630784 Metric[runtime.usedMemory=281457880]
+30-05-2018 14:13:50 1527653630784 Metric[tcp.connection.acceptedSocketCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[tcp.connection.activeCount=19]
+30-05-2018 14:13:50 1527653630784 Metric[tcp.connection.clientCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[tcp.connection.count=11]
+30-05-2018 14:13:50 1527653630784 Metric[tcp.connection.textCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[thread.daemonThreadCount=29]
+30-05-2018 14:13:50 1527653630784 Metric[thread.peakThreadCount=218]
+30-05-2018 14:13:50 1527653630784 Metric[thread.threadCount=216]
+30-05-2018 14:13:50 1527653630784 Metric[thread.totalStartedThreadCount=491]
+30-05-2018 14:13:50 1527653630784 Metric[transactions.commitCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[transactions.rollbackCount=0]
+30-05-2018 14:13:50 1527653630784 Metric[transactions.startCount=0]
+30-05-2018 14:13:50 1527653630789 SlowOperations[]
+30-05-2018 14:13:50 1527653630789 HazelcastInstance[
+                          thisAddress=[10.1.120.104]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=f6d8ba7a-f5e1-470e-9824-0ccc0e259aa4
+                          clusterSize=7
+                          isMaster=true
+                          masterAddress=[10.1.120.104]:5701
+                          Members[
+                                  [10.1.120.104]:5701
+                                  [10.1.120.104]:5702
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701]]
+30-05-2018 14:14:04 1527653644795 ConnectionAdded[
+                          Connection[id=92, /10.1.120.104:5701->/10.1.120.194:52087, endpoint=[10.1.120.194]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+30-05-2018 14:14:05 1527653645793 MemberAdded[
+                          member=[10.1.120.194]:5701
+                          Members[
+                                  [10.1.120.104]:5701:this:master
+                                  [10.1.120.104]:5702
+                                  [10.1.120.89]:5705
+                                  [10.1.120.89]:5703
+                                  [10.1.120.40]:5701
+                                  [10.1.120.40]:5703
+                                  [10.1.120.89]:5701
+                                  [10.1.120.194]:5701]]
+30-05-2018 14:14:09 1527653649798 ConnectionRemoved[
+                          Connection[id=4, 0.0.0.0/0.0.0.0:50846->null, endpoint=[10.1.120.104]:5702, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Exception in Connection[id=4, /10.1.120.104:50846->/10.1.120.104:5702, endpoint=[10.1.120.104]:5702, alive=true, type=MEMBER], thread=hz._hzInstance_1_dev.IO.thread-in-0
+                          CloseCause[
+                                  java.io.IOException: Connection reset by peer
+                                  sun.nio.ch.FileDispatcherImpl.read0(Native Method)
+                                  sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
+                                  sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+                                  sun.nio.ch.IOUtil.read(IOUtil.java:197)
+                                  sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+                                  com.hazelcast.internal.networking.AbstractChannel.read(AbstractChannel.java:94)
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:127)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+30-05-2018 14:14:12 1527653652798 ConnectionAdded[
+                          Connection[id=93, /10.1.120.104:5701->/10.1.120.150:58438, endpoint=[10.1.120.150]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]

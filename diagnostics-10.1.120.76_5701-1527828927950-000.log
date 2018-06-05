@@ -1,0 +1,875 @@
+01-06-2018 14:55:29 1527828929823 BuildInfo[
+                          Build=20180216
+                          BuildNumber=20180216
+                          Revision=539b124
+                          Version=3.9.3
+                          SerialVersion=1
+                          Enterprise=false]
+01-06-2018 14:55:29 1527828929824 SystemProperties[
+                          hazelcast.diagnostics.enabled=true
+                          hazelcast.shutdownhook.enabled=false
+                          java.class.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/System/Library/Java/Extensions/MRJToolkit.jar:/Users/acrow/projects/genny/bridge/target/classes:/Users/acrow/.m2/repository/javax/money/money-api/1.0/money-api-1.0.jar:/Users/acrow/.m2/repository/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar:/Users/acrow/.m2/repository/javax/xml/bind/jaxb-api/2.3.0/jaxb-api-2.3.0.jar:/Users/acrow/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/Users/acrow/.m2/repository/javax/xml/bind/jsr173_api/1.0/jsr173_api-1.0.jar:/Users/acrow/.m2/repository/javax/mail/mail/1.4.4/mail-1.4.4.jar:/Users/acrow/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar:/Users/acrow/.m2/repository/life/genny/genny-verticle/1.0.37/genny-verticle-1.0.37.jar:/Users/acrow/.m2/repository/com/hazelcast/hazelcast/3.9.3/hazelcast-3.9.3.jar:/Users/acrow/.m2/repository/com/hazelcast/hazelcast-client/3.9.3/hazelcast-client-3.9.3.jar:/Users/acrow/.m2/repository/io/vertx/vertx-redis-client/3.5.1/vertx-redis-client-3.5.1.jar:/Users/acrow/.m2/repository/io/vertx/vertx-core/3.5.1/vertx-core-3.5.1.jar:/Users/acrow/.m2/repository/io/netty/netty-common/4.1.19.Final/netty-common-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-buffer/4.1.19.Final/netty-buffer-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-transport/4.1.19.Final/netty-transport-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver/4.1.19.Final/netty-resolver-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler/4.1.19.Final/netty-handler-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec/4.1.19.Final/netty-codec-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler-proxy/4.1.19.Final/netty-handler-proxy-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-socks/4.1.19.Final/netty-codec-socks-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http/4.1.19.Final/netty-codec-http-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http2/4.1.19.Final/netty-codec-http2-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver-dns/4.1.19.Final/netty-resolver-dns-4.1.19.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-dns/4.1.19.Final/netty-codec-dns-4.1.19.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.3/jackson-core-2.9.3.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.1/jackson-databind-2.9.1.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.0/jackson-annotations-2.9.0.jar:/Users/acrow/.m2/repository/io/vertx/vertx-web/3.5.1/vertx-web-3.5.1.jar:/Users/acrow/.m2/repository/io/vertx/vertx-auth-common/3.5.1/vertx-auth-common-3.5.1.jar:/Users/acrow/.m2/repository/io/vertx/vertx-bridge-common/3.5.1/vertx-bridge-common-3.5.1.jar:/Users/acrow/.m2/repository/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar:/Users/acrow/.m2/repository/io/vertx/vertx-reactive-streams/3.5.1/vertx-reactive-streams-3.5.1.jar:/Users/acrow/.m2/repository/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.jar:/Users/acrow/.m2/repository/io/vertx/vertx-rx-java/3.5.1/vertx-rx-java-3.5.1.jar:/Users/acrow/.m2/repository/io/reactivex/rxjava/1.3.5/rxjava-1.3.5.jar:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-core/2.5/log4j-core-2.5.jar:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-api/2.5/log4j-api-2.5.jar:/Users/acrow/.m2/repository/io/vertx/vertx-hazelcast/3.5.1/vertx-hazelcast-3.5.1.jar:/Users/acrow/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/Users/acrow/.m2/repository/io/vertx/vertx-dropwizard-metrics/3.5.1/vertx-dropwizard-metrics-3.5.1.jar:/Users/acrow/.m2/repository/io/dropwizard/metrics/metrics-core/4.0.2/metrics-core-4.0.2.jar:/Users/acrow/.m2/repository/life/genny/qwanda-utils/1.0.37/qwanda-utils-1.0.37.jar:/Users/acrow/.m2/repository/org/javamoney/moneta/1.1/moneta-1.1.jar:/Users/acrow/.m2/repository/commons-io/commons-io/2.5/commons-io-2.5.jar:/Users/acrow/.m2/repository/org/eclipse/jgit/org.eclipse.jgit/4.8.0.201706111038-r/org.eclipse.jgit-4.8.0.201706111038-r.jar:/Users/acrow/.m2/repository/com/jcraft/jsch/0.1.54/jsch-0.1.54.jar:/Users/acrow/.m2/repository/com/googlecode/javaewah/JavaEWAH/1.1.6/JavaEWAH-1.1.6.jar:/Users/acrow/.m2/repository/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar:/Users/acrow/.m2/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.jar:/Users/acrow/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/acrow/.m2/repository/commons-codec/commons-codec/1.10/commons-codec-1.10.jar:/Users/acrow/.m2/repository/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar:/Users/acrow/.m2/repository/life/genny/qwanda/1.0.37/qwanda-1.0.37.jar:/Users/acrow/.m2/repository/org/zalando/jackson-datatype-money/1.0.0/jackson-datatype-money-1.0.0.jar:/Users/acrow/.m2/repository/org/hsqldb/hsqldb/2.4.0/hsqldb-2.4.0.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-envers/5.2.13.Final/hibernate-envers-5.2.13.Final.jar:/Users/acrow/.m2/repository/org/jboss/logging/jboss-logging/3.3.1.Final/jboss-logging-3.3.1.Final.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-core/5.2.13.Final/hibernate-core-5.2.13.Final.jar:/Users/acrow/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar:/Users/acrow/.m2/repository/org/javassist/javassist/3.22.0-GA/javassist-3.22.0-GA.jar:/Users/acrow/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/Users/acrow/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.0.1.Final/jboss-transaction-api_1.2_spec-1.0.1.Final.jar:/Users/acrow/.m2/repository/org/jboss/jandex/2.0.3.Final/jandex-2.0.3.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/classmate/1.3.0/classmate-1.3.0.jar:/Users/acrow/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar:/Users/acrow/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:/Users/acrow/.m2/repository/org/hibernate/common/hibernate-commons-annotations/5.0.1.Final/hibernate-commons-annotations-5.0.1.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.8.7/jackson-datatype-jsr310-2.8.7.jar:/Users/acrow/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar:/Users/acrow/.m2/repository/com/google/guava/guava/24.0-jre/guava-24.0-jre.jar:/Users/acrow/.m2/repository/com/google/code/findbugs/jsr305/1.3.7/jsr305-1.3.7.jar:/Users/acrow/.m2/repository/org/checkerframework/checker-compat-qual/2.0.0/checker-compat-qual-2.0.0.jar:/Users/acrow/.m2/repository/com/google/errorprone/error_prone_annotations/2.1.3/error_prone_annotations-2.1.3.jar:/Users/acrow/.m2/repository/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar:/Users/acrow/.m2/repository/org/codehaus/mojo/animal-sniffer-annotations/1.14/animal-sniffer-annotations-1.14.jar:/Users/acrow/.m2/repository/org/json/json/20170516/json-20170516.jar:/Users/acrow/.m2/repository/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar:/Users/acrow/.m2/repository/commons-beanutils/commons-beanutils/1.9.3/commons-beanutils-1.9.3.jar:/Users/acrow/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-admin-client/3.4.0.Final/keycloak-admin-client-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-core/3.4.0.Final/keycloak-core-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-common/3.4.0.Final/keycloak-common-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.56/bcprov-jdk15on-1.56.jar:/Users/acrow/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.56/bcpkix-jdk15on-1.56.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/resteasy-multipart-provider/3.0.4.Final/resteasy-multipart-provider-3.0.4.Final.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/resteasy-jaxrs/3.0.4.Final/resteasy-jaxrs-3.0.4.Final.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/jaxrs-api/3.0.4.Final/jaxrs-api-3.0.4.Final.jar:/Users/acrow/.m2/repository/org/scannotation/scannotation/1.0.3/scannotation-1.0.3.jar:/Users/acrow/.m2/repository/javassist/javassist/3.12.1.GA/javassist-3.12.1.GA.jar:/Users/acrow/.m2/repository/org/jboss/spec/javax/annotation/jboss-annotations-api_1.1_spec/1.0.1.Final/jboss-annotations-api_1.1_spec-1.0.1.Final.jar:/Users/acrow/.m2/repository/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar:/Users/acrow/.m2/repository/org/jboss/resteasy/resteasy-jaxb-provider/3.0.4.Final/resteasy-jaxb-provider-3.0.4.Final.jar:/Users/acrow/.m2/repository/com/sun/xml/bind/jaxb-impl/2.2.7/jaxb-impl-2.2.7.jar:/Users/acrow/.m2/repository/com/sun/xml/bind/jaxb-core/2.2.7/jaxb-core-2.2.7.jar:/Users/acrow/.m2/repository/com/sun/istack/istack-commons-runtime/2.16/istack-commons-runtime-2.16.jar:/Users/acrow/.m2/repository/com/sun/xml/fastinfoset/FastInfoset/1.2.12/FastInfoset-1.2.12.jar:/Users/acrow/.m2/repository/org/apache/james/apache-mime4j/0.6/apache-mime4j-0.6.jar:/Users/acrow/.m2/repository/org/codehaus/jackson/jackson-jaxrs/1.9.13/jackson-jaxrs-1.9.13.jar:/Users/acrow/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar:/Users/acrow/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar:/Users/acrow/.m2/repository/com/google/gdata/core/1.47.1/core-1.47.1.jar:/Users/acrow/.m2/repository/com/google/oauth-client/google-oauth-client-jetty/1.11.0-beta/google-oauth-client-jetty-1.11.0-beta.jar:/Users/acrow/.m2/repository/com/google/oauth-client/google-oauth-client-java6/1.11.0-beta/google-oauth-client-java6-1.11.0-beta.jar:/Users/acrow/.m2/repository/com/google/oauth-client/google-oauth-client/1.23.0/google-oauth-client-1.23.0.jar:/Users/acrow/.m2/repository/com/google/http-client/google-http-client/1.23.0/google-http-client-1.23.0.jar:/Users/acrow/.m2/repository/org/mortbay/jetty/jetty/6.1.26/jetty-6.1.26.jar:/Users/acrow/.m2/repository/org/mortbay/jetty/jetty-util/6.1.26/jetty-util-6.1.26.jar:/Users/acrow/.m2/repository/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211.jar:/Users/acrow/.m2/repository/com/google/apis/google-api-services-sheets/v4-rev483-1.22.0/google-api-services-sheets-v4-rev483-1.22.0.jar:/Users/acrow/.m2/repository/com/google/apis/google-api-services-drive/v3-rev90-1.23.0/google-api-services-drive-v3-rev90-1.23.0.jar:/Users/acrow/.m2/repository/com/google/api-client/google-api-client/1.23.0/google-api-client-1.23.0.jar:/Users/acrow/.m2/repository/com/google/http-client/google-http-client-jackson2/1.23.0/google-http-client-jackson2-1.23.0.jar:/Users/acrow/.m2/repository/com/google/guava/guava-jdk5/17.0/guava-jdk5-17.0.jar:/Users/acrow/projects/genny/genny-verticle/target/classes:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.3/jackson-databind-2.9.3.jar:/Users/acrow/projects/genny/qwanda-utils/target/classes:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-api/2.9.1/log4j-api-2.9.1.jar:/Users/acrow/.m2/repository/org/apache/logging/log4j/log4j-core/2.9.1/log4j-core-2.9.1.jar:/Users/acrow/.m2/repository/junit/junit/4.12/junit-4.12.jar:/Users/acrow/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/acrow/.m2/repository/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.1/jackson-core-2.9.1.jar:/Users/acrow/.m2/repository/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-adapter-core/3.4.0.Final/keycloak-adapter-core-3.4.0.Final.jar:/Users/acrow/.m2/repository/org/keycloak/keycloak-adapter-spi/3.4.0.Final/keycloak-adapter-spi-3.4.0.Final.jar:/Users/acrow/.m2/repository/io/vertx/vertx-core/3.4.2/vertx-core-3.4.2.jar:/Users/acrow/.m2/repository/io/netty/netty-common/4.1.8.Final/netty-common-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-buffer/4.1.8.Final/netty-buffer-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-transport/4.1.8.Final/netty-transport-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver/4.1.8.Final/netty-resolver-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler/4.1.8.Final/netty-handler-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec/4.1.8.Final/netty-codec-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-handler-proxy/4.1.8.Final/netty-handler-proxy-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-socks/4.1.8.Final/netty-codec-socks-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http/4.1.8.Final/netty-codec-http-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-http2/4.1.8.Final/netty-codec-http2-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-resolver-dns/4.1.8.Final/netty-resolver-dns-4.1.8.Final.jar:/Users/acrow/.m2/repository/io/netty/netty-codec-dns/4.1.8.Final/netty-codec-dns-4.1.8.Final.jar:/Users/acrow/projects/genny/qwanda/target/classes:/Users/acrow/.m2/repository/javax/validation/validation-api/2.0.1.Final/validation-api-2.0.1.Final.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.7/jackson-databind-2.8.7.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.7/jackson-annotations-2.8.7.jar:/Users/acrow/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.7/jackson-core-2.8.7.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-core/5.2.16.Final/hibernate-core-5.2.16.Final.jar:/Users/acrow/.m2/repository/org/hibernate/validator/hibernate-validator/6.0.7.Final/hibernate-validator-6.0.7.Final.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-annotations/3.5.6-Final/hibernate-annotations-3.5.6-Final.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-commons-annotations/3.2.0.Final/hibernate-commons-annotations-3.2.0.Final.jar:/Users/acrow/.m2/repository/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8.jar:/Users/acrow/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final.jar:/Users/acrow/.m2/repository/com/h2database/h2/1.4.193/h2-1.4.193.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-spatial/5.2.16.Final/hibernate-spatial-5.2.16.Final.jar:/Users/acrow/.m2/repository/org/postgresql/postgresql/42.1.4/postgresql-42.1.4.jar:/Users/acrow/.m2/repository/org/geolatte/geolatte-geom/1.2.0/geolatte-geom-1.2.0.jar:/Users/acrow/.m2/repository/com/vividsolutions/jts/1.13/jts-1.13.jar:/Users/acrow/.m2/repository/org/hibernate/hibernate-java8/5.2.16.Final/hibernate-java8-5.2.16.Final.jar:/Users/acrow/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar
+                          java.class.version=52.0
+                          java.endorsed.dirs=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/endorsed
+                          java.ext.dirs=/Users/acrow/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+                          java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre
+                          java.io.tmpdir=/var/folders/jj/pnzvw3wj0632fcdzg5ldyk500000gn/T/
+                          java.library.path=/Users/acrow/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+                          java.runtime.name=Java(TM) SE Runtime Environment
+                          java.runtime.version=1.8.0_152-b16
+                          java.specification.name=Java Platform API Specification
+                          java.specification.vendor=Oracle Corporation
+                          java.specification.version=1.8
+                          java.vendor=Oracle Corporation
+                          java.vendor.url=http://java.oracle.com/
+                          java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+                          java.version=1.8.0_152
+                          java.vm.args=-agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:50326 -Drebel.base=/Users/acrow/.jrebel -Drebel.env.ide.plugin.version=7.1.5 -Drebel.env.ide.version=4.7.3 -Drebel.env.ide.product=Eclipse -Drebel.env.ide=eclipse -Drebel.notification.url=http://localhost:17434 -Drebel.workspace.path=/Users/acrow/eclipse-workspace -Drebel.properties=/Users/acrow/.jrebel/jrebel.properties -agentpath:/Users/acrow/eclipse/java-oxygen/Eclipse.app/Contents/MacOS/../../../../../.p2/pool/plugins/org.zeroturnaround.eclipse.embedder_7.1.5.RELEASE/jrebel/lib/libjrebel64.dylib -Dvertx.options.blockedThreadCheckInterval=2147483647 -Dhazelcast.diagnostics.enabled=true -Dfile.encoding=UTF-8 
+                          java.vm.info=mixed mode
+                          java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+                          java.vm.specification.name=Java Virtual Machine Specification
+                          java.vm.specification.vendor=Oracle Corporation
+                          java.vm.specification.version=1.8
+                          java.vm.vendor=Oracle Corporation
+                          java.vm.version=25.152-b16
+                          os.arch=x86_64
+                          os.name=Mac OS X
+                          os.version=10.13.4
+                          sun.arch.data.model=64
+                          sun.boot.class.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/classes:/Users/acrow/.p2/pool/plugins/org.zeroturnaround.eclipse.embedder_7.1.5.RELEASE/jrebel/jrebel.jar
+                          sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/jre/lib
+                          sun.cpu.endian=little
+                          sun.cpu.isalist=
+                          sun.io.unicode.encoding=UnicodeBig
+                          sun.java.command=io.vertx.core.Launcher run life.genny.bridge.ServiceVerticle —redeploy=**/*.java —launcher-class=io.vertx.core.Launcher -cluster
+                          sun.java.launcher=SUN_STANDARD
+                          sun.jnu.encoding=UTF-8
+                          sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+                          sun.nio.ch.bugLevel=
+                          sun.os.patch.level=unknown]
+01-06-2018 14:55:29 1527828929824 ConfigProperties[
+                          hazelcast.mancenter.enabled=false
+                          hazelcast.memcache.enabled=false
+                          hazelcast.rest.enabled=false
+                          hazelcast.wait.seconds.before.join=0]
+01-06-2018 14:55:29 1527828929824 Metric[classloading.loadedClassesCount=9098]
+01-06-2018 14:55:29 1527828929824 Metric[classloading.totalLoadedClassesCount=9098]
+01-06-2018 14:55:29 1527828929824 Metric[classloading.unloadedClassCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[client.endpoint.count=0]
+01-06-2018 14:55:29 1527828929824 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 14:55:29 1527828929824 Metric[cluster.clock.clusterTimeDiff=0]
+01-06-2018 14:55:29 1527828929824 Metric[cluster.clock.maxClusterTimeDiff=0]
+01-06-2018 14:55:29 1527828929824 Metric[event.eventQueueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[event.eventsProcessed=5]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[file.partition[user.home].freeSpace=376229994496]
+01-06-2018 14:55:29 1527828929824 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 14:55:29 1527828929824 Metric[file.partition[user.home].usableSpace=373334867968]
+01-06-2018 14:55:29 1527828929824 Metric[gc.majorCount=2]
+01-06-2018 14:55:29 1527828929824 Metric[gc.majorTime=108]
+01-06-2018 14:55:29 1527828929824 Metric[gc.minorCount=10]
+01-06-2018 14:55:29 1527828929824 Metric[gc.minorTime=89]
+01-06-2018 14:55:29 1527828929824 Metric[gc.unknownCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[gc.unknownTime=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.callTimeoutCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.completedCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.failedBackups=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.pending=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.responses[backup]=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.responses[error]=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.responses[normal]=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.operationTimeoutCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.priorityQueueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.queueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.responseQueueSize=0]
+01-06-2018 14:55:29 1527828929824 Metric[operation.retryCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[os.committedVirtualMemorySize=10595913728]
+01-06-2018 14:55:29 1527828929824 Metric[os.freePhysicalMemorySize=45273088]
+01-06-2018 14:55:29 1527828929824 Metric[os.freeSwapSpaceSize=617611264]
+01-06-2018 14:55:29 1527828929824 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 14:55:29 1527828929824 Metric[os.openFileDescriptorCount=386]
+01-06-2018 14:55:29 1527828929824 Metric[os.processCpuLoad=0.0]
+01-06-2018 14:55:29 1527828929824 Metric[os.processCpuTime=28419355000]
+01-06-2018 14:55:29 1527828929824 Metric[os.systemCpuLoad=0.0]
+01-06-2018 14:55:29 1527828929824 Metric[os.systemLoadAverage=6.958984375]
+01-06-2018 14:55:29 1527828929824 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 14:55:29 1527828929824 Metric[os.totalSwapSpaceSize=1073741824]
+01-06-2018 14:55:29 1527828929824 Metric[proxy.createdCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[proxy.destroyedCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[runtime.availableProcessors=8]
+01-06-2018 14:55:29 1527828929824 Metric[runtime.freeMemory=257150728]
+01-06-2018 14:55:29 1527828929824 Metric[runtime.maxMemory=3817865216]
+01-06-2018 14:55:29 1527828929824 Metric[runtime.totalMemory=486539264]
+01-06-2018 14:55:29 1527828929824 Metric[runtime.uptime=7844]
+01-06-2018 14:55:29 1527828929824 Metric[runtime.usedMemory=229388536]
+01-06-2018 14:55:29 1527828929824 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[tcp.connection.activeCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[tcp.connection.clientCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[tcp.connection.count=0]
+01-06-2018 14:55:29 1527828929824 Metric[tcp.connection.textCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[thread.daemonThreadCount=25]
+01-06-2018 14:55:29 1527828929824 Metric[thread.peakThreadCount=66]
+01-06-2018 14:55:29 1527828929824 Metric[thread.threadCount=66]
+01-06-2018 14:55:29 1527828929824 Metric[thread.totalStartedThreadCount=87]
+01-06-2018 14:55:29 1527828929824 Metric[transactions.commitCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[transactions.rollbackCount=0]
+01-06-2018 14:55:29 1527828929824 Metric[transactions.startCount=0]
+01-06-2018 14:55:29 1527828929894 SlowOperations[]
+01-06-2018 14:55:29 1527828929894 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=false
+                          nodeState=ACTIVE
+                          clusterId=null
+                          clusterSize=1
+                          isMaster=false
+                          masterAddress=null
+                          Members[
+                                  [10.1.120.76]:5701]]
+01-06-2018 14:55:29 1527828929897 ClusterVersionChanged[
+                          3.9]
+01-06-2018 14:55:29 1527828929898 Lifecycle[
+                          STARTING]
+01-06-2018 14:55:29 1527828929898 MemberAdded[
+                          member=[10.1.120.76]:5701
+                          Members[
+                                  [10.1.120.76]:5701:this:master]]
+01-06-2018 14:55:30 1527828930832 ConnectionAdded[
+                          Connection[id=1, /10.1.120.104:50350->/10.1.120.129:5705, endpoint=[10.1.120.129]:5705, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:55:31 1527828931834 ClusterVersionChanged[
+                          3.9]
+01-06-2018 14:55:31 1527828931834 ConnectionAdded[
+                          Connection[id=2, /10.1.120.76:5701->/10.1.120.228:50820, endpoint=[10.1.120.228]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:55:31 1527828931834 ConnectionAdded[
+                          Connection[id=3, /10.1.120.76:5701->/10.1.120.228:50821, endpoint=[10.1.120.228]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:55:31 1527828931834 ConnectionAdded[
+                          Connection[id=4, /10.1.120.76:5701->/10.1.120.198:60966, endpoint=[10.1.120.198]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:55:31 1527828931834 MemberAdded[
+                          member=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.76]:5701:this:master
+                                  [10.1.120.129]:5705]]
+01-06-2018 14:55:31 1527828931834 MemberAdded[
+                          member=[10.1.120.198]:5703
+                          Members[
+                                  [10.1.120.76]:5701:this:master
+                                  [10.1.120.129]:5705
+                                  [10.1.120.198]:5703]]
+01-06-2018 14:55:31 1527828931834 MemberAdded[
+                          member=[10.1.120.228]:5701
+                          Members[
+                                  [10.1.120.76]:5701:this:master
+                                  [10.1.120.129]:5705
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701]]
+01-06-2018 14:55:31 1527828931834 MemberAdded[
+                          member=[10.1.120.228]:5703
+                          Members[
+                                  [10.1.120.76]:5701:this:master
+                                  [10.1.120.129]:5705
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701
+                                  [10.1.120.228]:5703]]
+01-06-2018 14:55:33 1527828933968 Lifecycle[
+                          STARTED]
+01-06-2018 14:56:22 1527828982832 ConnectionRemoved[
+                          Connection[id=3, 0.0.0.0/0.0.0.0:5701->/10.1.120.228:50821, endpoint=[10.1.120.228]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+01-06-2018 14:56:22 1527828982836 MemberRemoved[
+                          member=[10.1.120.228]:5703
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701
+                                  [10.1.120.76]:5701:this]]
+01-06-2018 14:56:29 1527828989825 Metric[classloading.loadedClassesCount=11559]
+01-06-2018 14:56:29 1527828989825 Metric[classloading.totalLoadedClassesCount=11559]
+01-06-2018 14:56:29 1527828989825 Metric[classloading.unloadedClassCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[client.endpoint.count=0]
+01-06-2018 14:56:29 1527828989825 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 14:56:29 1527828989825 Metric[cluster.clock.clusterTimeDiff=-53]
+01-06-2018 14:56:29 1527828989825 Metric[cluster.clock.maxClusterTimeDiff=-69]
+01-06-2018 14:56:29 1527828989825 Metric[event.eventQueueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[event.eventsProcessed=92]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[file.partition[user.home].freeSpace=376107778048]
+01-06-2018 14:56:29 1527828989825 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 14:56:29 1527828989825 Metric[file.partition[user.home].usableSpace=372138901504]
+01-06-2018 14:56:29 1527828989825 Metric[gc.majorCount=3]
+01-06-2018 14:56:29 1527828989825 Metric[gc.majorTime=250]
+01-06-2018 14:56:29 1527828989825 Metric[gc.minorCount=13]
+01-06-2018 14:56:29 1527828989825 Metric[gc.minorTime=142]
+01-06-2018 14:56:29 1527828989825 Metric[gc.unknownCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[gc.unknownTime=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.callTimeoutCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.completedCount=2850]
+01-06-2018 14:56:29 1527828989825 Metric[operation.failedBackups=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.pending=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.responses[backup]=2]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.responses[error]=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.responses[normal]=214]
+01-06-2018 14:56:29 1527828989825 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.operationTimeoutCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.priorityQueueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.queueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.responseQueueSize=0]
+01-06-2018 14:56:29 1527828989825 Metric[operation.retryCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[os.committedVirtualMemorySize=10714959872]
+01-06-2018 14:56:29 1527828989825 Metric[os.freePhysicalMemorySize=25436160]
+01-06-2018 14:56:29 1527828989825 Metric[os.freeSwapSpaceSize=1315962880]
+01-06-2018 14:56:29 1527828989825 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 14:56:29 1527828989825 Metric[os.openFileDescriptorCount=489]
+01-06-2018 14:56:29 1527828989825 Metric[os.processCpuLoad=2.7029819470739116]
+01-06-2018 14:56:29 1527828989825 Metric[os.processCpuTime=53987101000]
+01-06-2018 14:56:29 1527828989825 Metric[os.systemCpuLoad=30.58937614481198]
+01-06-2018 14:56:29 1527828989825 Metric[os.systemLoadAverage=5.35302734375]
+01-06-2018 14:56:29 1527828989825 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 14:56:29 1527828989825 Metric[os.totalSwapSpaceSize=2147483648]
+01-06-2018 14:56:29 1527828989825 Metric[proxy.createdCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[proxy.destroyedCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[runtime.availableProcessors=8]
+01-06-2018 14:56:29 1527828989825 Metric[runtime.freeMemory=438203160]
+01-06-2018 14:56:29 1527828989825 Metric[runtime.maxMemory=3817865216]
+01-06-2018 14:56:29 1527828989825 Metric[runtime.totalMemory=622854144]
+01-06-2018 14:56:29 1527828989825 Metric[runtime.uptime=67783]
+01-06-2018 14:56:29 1527828989825 Metric[runtime.usedMemory=184650984]
+01-06-2018 14:56:29 1527828989825 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[tcp.connection.activeCount=3]
+01-06-2018 14:56:29 1527828989825 Metric[tcp.connection.clientCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[tcp.connection.count=3]
+01-06-2018 14:56:29 1527828989825 Metric[tcp.connection.textCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[thread.daemonThreadCount=27]
+01-06-2018 14:56:29 1527828989825 Metric[thread.peakThreadCount=140]
+01-06-2018 14:56:29 1527828989825 Metric[thread.threadCount=139]
+01-06-2018 14:56:29 1527828989825 Metric[thread.totalStartedThreadCount=163]
+01-06-2018 14:56:29 1527828989825 Metric[transactions.commitCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[transactions.rollbackCount=0]
+01-06-2018 14:56:29 1527828989825 Metric[transactions.startCount=0]
+01-06-2018 14:56:29 1527828989828 SlowOperations[]
+01-06-2018 14:56:29 1527828989828 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=596b2c38-aa24-4f3e-ab88-60a85b22943a
+                          clusterSize=4
+                          isMaster=false
+                          masterAddress=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.129]:5705
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701
+                                  [10.1.120.76]:5701]]
+01-06-2018 14:56:39 1527828999833 ConnectionRemoved[
+                          Connection[id=2, 0.0.0.0/0.0.0.0:5701->/10.1.120.228:50820, endpoint=[10.1.120.228]:5701, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+01-06-2018 14:56:39 1527828999834 MemberRemoved[
+                          member=[10.1.120.228]:5701
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.198]:5703
+                                  [10.1.120.76]:5701:this]]
+01-06-2018 14:56:51 1527829011834 MemberAdded[
+                          member=[10.1.120.228]:5701
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.198]:5703
+                                  [10.1.120.76]:5701:this
+                                  [10.1.120.228]:5701]]
+01-06-2018 14:56:51 1527829011834 ConnectionAdded[
+                          Connection[id=5, /10.1.120.104:50644->/10.1.120.228:5701, endpoint=[10.1.120.228]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:57:16 1527829036834 ConnectionRemoved[
+                          Connection[id=5, 0.0.0.0/0.0.0.0:50644->/10.1.120.228:5701, endpoint=[10.1.120.228]:5701, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+01-06-2018 14:57:16 1527829036835 MemberRemoved[
+                          member=[10.1.120.228]:5701
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.198]:5703
+                                  [10.1.120.76]:5701:this]]
+01-06-2018 14:57:29 1527829049826 Metric[classloading.loadedClassesCount=11588]
+01-06-2018 14:57:29 1527829049826 Metric[classloading.totalLoadedClassesCount=11588]
+01-06-2018 14:57:29 1527829049826 Metric[classloading.unloadedClassCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[client.endpoint.count=0]
+01-06-2018 14:57:29 1527829049826 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 14:57:29 1527829049826 Metric[cluster.clock.clusterTimeDiff=-53]
+01-06-2018 14:57:29 1527829049826 Metric[cluster.clock.maxClusterTimeDiff=-69]
+01-06-2018 14:57:29 1527829049826 Metric[event.eventQueueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[event.eventsProcessed=242]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[file.partition[user.home].freeSpace=375995461632]
+01-06-2018 14:57:29 1527829049826 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 14:57:29 1527829049826 Metric[file.partition[user.home].usableSpace=372026585088]
+01-06-2018 14:57:29 1527829049826 Metric[gc.majorCount=3]
+01-06-2018 14:57:29 1527829049826 Metric[gc.majorTime=250]
+01-06-2018 14:57:29 1527829049826 Metric[gc.minorCount=13]
+01-06-2018 14:57:29 1527829049826 Metric[gc.minorTime=142]
+01-06-2018 14:57:29 1527829049826 Metric[gc.unknownCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[gc.unknownTime=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.callTimeoutCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.completedCount=5368]
+01-06-2018 14:57:29 1527829049826 Metric[operation.failedBackups=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.pending=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.responses[backup]=2]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.responses[error]=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.responses[normal]=1103]
+01-06-2018 14:57:29 1527829049826 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.operationTimeoutCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.priorityQueueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.queueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.responseQueueSize=0]
+01-06-2018 14:57:29 1527829049826 Metric[operation.retryCount=132]
+01-06-2018 14:57:29 1527829049826 Metric[os.committedVirtualMemorySize=10741825536]
+01-06-2018 14:57:29 1527829049826 Metric[os.freePhysicalMemorySize=69025792]
+01-06-2018 14:57:29 1527829049826 Metric[os.freeSwapSpaceSize=1059848192]
+01-06-2018 14:57:29 1527829049826 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 14:57:29 1527829049826 Metric[os.openFileDescriptorCount=488]
+01-06-2018 14:57:29 1527829049826 Metric[os.processCpuLoad=0.6833281439615118]
+01-06-2018 14:57:29 1527829049826 Metric[os.processCpuTime=57955658000]
+01-06-2018 14:57:29 1527829049826 Metric[os.systemCpuLoad=41.30903601466465]
+01-06-2018 14:57:29 1527829049826 Metric[os.systemLoadAverage=4.04150390625]
+01-06-2018 14:57:29 1527829049826 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 14:57:29 1527829049826 Metric[os.totalSwapSpaceSize=2147483648]
+01-06-2018 14:57:29 1527829049826 Metric[proxy.createdCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[proxy.destroyedCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[runtime.availableProcessors=8]
+01-06-2018 14:57:29 1527829049826 Metric[runtime.freeMemory=367693704]
+01-06-2018 14:57:29 1527829049826 Metric[runtime.maxMemory=3817865216]
+01-06-2018 14:57:29 1527829049826 Metric[runtime.totalMemory=622854144]
+01-06-2018 14:57:29 1527829049826 Metric[runtime.uptime=127782]
+01-06-2018 14:57:29 1527829049826 Metric[runtime.usedMemory=255160440]
+01-06-2018 14:57:29 1527829049826 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[tcp.connection.activeCount=2]
+01-06-2018 14:57:29 1527829049826 Metric[tcp.connection.clientCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[tcp.connection.count=2]
+01-06-2018 14:57:29 1527829049826 Metric[tcp.connection.textCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[thread.daemonThreadCount=27]
+01-06-2018 14:57:29 1527829049826 Metric[thread.peakThreadCount=161]
+01-06-2018 14:57:29 1527829049826 Metric[thread.threadCount=161]
+01-06-2018 14:57:29 1527829049826 Metric[thread.totalStartedThreadCount=186]
+01-06-2018 14:57:29 1527829049826 Metric[transactions.commitCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[transactions.rollbackCount=0]
+01-06-2018 14:57:29 1527829049826 Metric[transactions.startCount=0]
+01-06-2018 14:57:29 1527829049828 SlowOperations[]
+01-06-2018 14:57:29 1527829049828 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=596b2c38-aa24-4f3e-ab88-60a85b22943a
+                          clusterSize=3
+                          isMaster=false
+                          masterAddress=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.129]:5705
+                                  [10.1.120.198]:5703
+                                  [10.1.120.76]:5701]]
+01-06-2018 14:58:29 1527829109828 Metric[classloading.loadedClassesCount=12466]
+01-06-2018 14:58:29 1527829109828 Metric[classloading.totalLoadedClassesCount=12466]
+01-06-2018 14:58:29 1527829109828 Metric[classloading.unloadedClassCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[client.endpoint.count=0]
+01-06-2018 14:58:29 1527829109828 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 14:58:29 1527829109828 Metric[cluster.clock.clusterTimeDiff=-58]
+01-06-2018 14:58:29 1527829109828 Metric[cluster.clock.maxClusterTimeDiff=-89]
+01-06-2018 14:58:29 1527829109828 Metric[event.eventQueueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[event.eventsProcessed=247]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[file.partition[user.home].freeSpace=376036442112]
+01-06-2018 14:58:29 1527829109828 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 14:58:29 1527829109828 Metric[file.partition[user.home].usableSpace=372067565568]
+01-06-2018 14:58:29 1527829109828 Metric[gc.majorCount=3]
+01-06-2018 14:58:29 1527829109828 Metric[gc.majorTime=250]
+01-06-2018 14:58:29 1527829109828 Metric[gc.minorCount=16]
+01-06-2018 14:58:29 1527829109828 Metric[gc.minorTime=251]
+01-06-2018 14:58:29 1527829109828 Metric[gc.unknownCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[gc.unknownTime=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.callTimeoutCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.completedCount=5731]
+01-06-2018 14:58:29 1527829109828 Metric[operation.failedBackups=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.pending=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.responses[backup]=2]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.responses[error]=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.responses[normal]=1103]
+01-06-2018 14:58:29 1527829109828 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.operationTimeoutCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.priorityQueueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.queueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.responseQueueSize=0]
+01-06-2018 14:58:29 1527829109828 Metric[operation.retryCount=132]
+01-06-2018 14:58:29 1527829109828 Metric[os.committedVirtualMemorySize=10759909376]
+01-06-2018 14:58:29 1527829109828 Metric[os.freePhysicalMemorySize=143798272]
+01-06-2018 14:58:29 1527829109828 Metric[os.freeSwapSpaceSize=958136320]
+01-06-2018 14:58:29 1527829109828 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 14:58:29 1527829109828 Metric[os.openFileDescriptorCount=488]
+01-06-2018 14:58:29 1527829109828 Metric[os.processCpuLoad=0.675601311862125]
+01-06-2018 14:58:29 1527829109828 Metric[os.processCpuTime=81665162000]
+01-06-2018 14:58:29 1527829109828 Metric[os.systemCpuLoad=20.23745277927685]
+01-06-2018 14:58:29 1527829109828 Metric[os.systemLoadAverage=3.66796875]
+01-06-2018 14:58:29 1527829109828 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 14:58:29 1527829109828 Metric[os.totalSwapSpaceSize=2147483648]
+01-06-2018 14:58:29 1527829109828 Metric[proxy.createdCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[proxy.destroyedCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[runtime.availableProcessors=8]
+01-06-2018 14:58:29 1527829109828 Metric[runtime.freeMemory=474278272]
+01-06-2018 14:58:29 1527829109828 Metric[runtime.maxMemory=3817865216]
+01-06-2018 14:58:29 1527829109828 Metric[runtime.totalMemory=786956288]
+01-06-2018 14:58:29 1527829109828 Metric[runtime.uptime=187785]
+01-06-2018 14:58:29 1527829109828 Metric[runtime.usedMemory=312678016]
+01-06-2018 14:58:29 1527829109828 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[tcp.connection.activeCount=2]
+01-06-2018 14:58:29 1527829109828 Metric[tcp.connection.clientCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[tcp.connection.count=2]
+01-06-2018 14:58:29 1527829109828 Metric[tcp.connection.textCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[thread.daemonThreadCount=27]
+01-06-2018 14:58:29 1527829109828 Metric[thread.peakThreadCount=163]
+01-06-2018 14:58:29 1527829109828 Metric[thread.threadCount=150]
+01-06-2018 14:58:29 1527829109828 Metric[thread.totalStartedThreadCount=188]
+01-06-2018 14:58:29 1527829109828 Metric[transactions.commitCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[transactions.rollbackCount=0]
+01-06-2018 14:58:29 1527829109828 Metric[transactions.startCount=0]
+01-06-2018 14:58:29 1527829109832 SlowOperations[]
+01-06-2018 14:58:29 1527829109832 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=596b2c38-aa24-4f3e-ab88-60a85b22943a
+                          clusterSize=3
+                          isMaster=false
+                          masterAddress=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.129]:5705
+                                  [10.1.120.198]:5703
+                                  [10.1.120.76]:5701]]
+01-06-2018 14:58:39 1527829119837 ConnectionRemoved[
+                          Connection[id=4, 0.0.0.0/0.0.0.0:5701->/10.1.120.198:60966, endpoint=[10.1.120.198]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]
+01-06-2018 14:58:39 1527829119837 MemberRemoved[
+                          member=[10.1.120.198]:5703
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.76]:5701:this]]
+01-06-2018 14:58:52 1527829132837 MemberAdded[
+                          member=[10.1.120.198]:5703
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.76]:5701:this
+                                  [10.1.120.198]:5703]]
+01-06-2018 14:58:52 1527829132837 ConnectionAdded[
+                          Connection[id=6, /10.1.120.104:51142->/10.1.120.198:5703, endpoint=[10.1.120.198]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:58:54 1527829134837 MemberAdded[
+                          member=[10.1.120.228]:5701
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.76]:5701:this
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701]]
+01-06-2018 14:58:54 1527829134837 ConnectionAdded[
+                          Connection[id=7, /10.1.120.104:51151->/10.1.120.228:5701, endpoint=[10.1.120.228]:5701, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 14:59:29 1527829169827 Metric[classloading.loadedClassesCount=12466]
+01-06-2018 14:59:29 1527829169827 Metric[classloading.totalLoadedClassesCount=12466]
+01-06-2018 14:59:29 1527829169827 Metric[classloading.unloadedClassCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[client.endpoint.count=0]
+01-06-2018 14:59:29 1527829169827 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 14:59:29 1527829169827 Metric[cluster.clock.clusterTimeDiff=-56]
+01-06-2018 14:59:29 1527829169827 Metric[cluster.clock.maxClusterTimeDiff=-89]
+01-06-2018 14:59:29 1527829169827 Metric[event.eventQueueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[event.eventsProcessed=355]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[file.partition[user.home].freeSpace=375989755904]
+01-06-2018 14:59:29 1527829169827 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 14:59:29 1527829169827 Metric[file.partition[user.home].usableSpace=372020879360]
+01-06-2018 14:59:29 1527829169827 Metric[gc.majorCount=3]
+01-06-2018 14:59:29 1527829169827 Metric[gc.majorTime=250]
+01-06-2018 14:59:29 1527829169827 Metric[gc.minorCount=16]
+01-06-2018 14:59:29 1527829169827 Metric[gc.minorTime=251]
+01-06-2018 14:59:29 1527829169827 Metric[gc.unknownCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[gc.unknownTime=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.callTimeoutCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.completedCount=8035]
+01-06-2018 14:59:29 1527829169827 Metric[operation.failedBackups=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.pending=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.responses[backup]=3]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.responses[error]=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.responses[normal]=1727]
+01-06-2018 14:59:29 1527829169827 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.operationTimeoutCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.priorityQueueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.queueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.responseQueueSize=0]
+01-06-2018 14:59:29 1527829169827 Metric[operation.retryCount=132]
+01-06-2018 14:59:29 1527829169827 Metric[os.committedVirtualMemorySize=10783248384]
+01-06-2018 14:59:29 1527829169827 Metric[os.freePhysicalMemorySize=70004736]
+01-06-2018 14:59:29 1527829169827 Metric[os.freeSwapSpaceSize=700973056]
+01-06-2018 14:59:29 1527829169827 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 14:59:29 1527829169827 Metric[os.openFileDescriptorCount=489]
+01-06-2018 14:59:29 1527829169827 Metric[os.processCpuLoad=0.3906724014141273]
+01-06-2018 14:59:29 1527829169827 Metric[os.processCpuTime=84904070000]
+01-06-2018 14:59:29 1527829169827 Metric[os.systemCpuLoad=16.366188060023752]
+01-06-2018 14:59:29 1527829169827 Metric[os.systemLoadAverage=3.27392578125]
+01-06-2018 14:59:29 1527829169827 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 14:59:29 1527829169827 Metric[os.totalSwapSpaceSize=2147483648]
+01-06-2018 14:59:29 1527829169827 Metric[proxy.createdCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[proxy.destroyedCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[runtime.availableProcessors=8]
+01-06-2018 14:59:29 1527829169827 Metric[runtime.freeMemory=403950160]
+01-06-2018 14:59:29 1527829169827 Metric[runtime.maxMemory=3817865216]
+01-06-2018 14:59:29 1527829169827 Metric[runtime.totalMemory=786956288]
+01-06-2018 14:59:29 1527829169827 Metric[runtime.uptime=247783]
+01-06-2018 14:59:29 1527829169827 Metric[runtime.usedMemory=383006128]
+01-06-2018 14:59:29 1527829169827 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[tcp.connection.activeCount=3]
+01-06-2018 14:59:29 1527829169827 Metric[tcp.connection.clientCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[tcp.connection.count=3]
+01-06-2018 14:59:29 1527829169827 Metric[tcp.connection.textCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[thread.daemonThreadCount=27]
+01-06-2018 14:59:29 1527829169827 Metric[thread.peakThreadCount=172]
+01-06-2018 14:59:29 1527829169827 Metric[thread.threadCount=172]
+01-06-2018 14:59:29 1527829169827 Metric[thread.totalStartedThreadCount=210]
+01-06-2018 14:59:29 1527829169827 Metric[transactions.commitCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[transactions.rollbackCount=0]
+01-06-2018 14:59:29 1527829169827 Metric[transactions.startCount=0]
+01-06-2018 14:59:29 1527829169829 SlowOperations[]
+01-06-2018 14:59:29 1527829169829 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=596b2c38-aa24-4f3e-ab88-60a85b22943a
+                          clusterSize=4
+                          isMaster=false
+                          masterAddress=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.129]:5705
+                                  [10.1.120.76]:5701
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701]]
+01-06-2018 15:00:29 1527829229830 Metric[classloading.loadedClassesCount=12467]
+01-06-2018 15:00:29 1527829229830 Metric[classloading.totalLoadedClassesCount=12467]
+01-06-2018 15:00:29 1527829229830 Metric[classloading.unloadedClassCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[client.endpoint.count=0]
+01-06-2018 15:00:29 1527829229830 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 15:00:29 1527829229830 Metric[cluster.clock.clusterTimeDiff=-52]
+01-06-2018 15:00:29 1527829229830 Metric[cluster.clock.maxClusterTimeDiff=-89]
+01-06-2018 15:00:29 1527829229830 Metric[event.eventQueueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[event.eventsProcessed=360]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[file.partition[user.home].freeSpace=375943487488]
+01-06-2018 15:00:29 1527829229830 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 15:00:29 1527829229830 Metric[file.partition[user.home].usableSpace=371974610944]
+01-06-2018 15:00:29 1527829229830 Metric[gc.majorCount=3]
+01-06-2018 15:00:29 1527829229830 Metric[gc.majorTime=250]
+01-06-2018 15:00:29 1527829229830 Metric[gc.minorCount=16]
+01-06-2018 15:00:29 1527829229830 Metric[gc.minorTime=251]
+01-06-2018 15:00:29 1527829229830 Metric[gc.unknownCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[gc.unknownTime=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.callTimeoutCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.completedCount=8482]
+01-06-2018 15:00:29 1527829229830 Metric[operation.failedBackups=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.pending=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.responses[backup]=3]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.responses[error]=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.responses[normal]=1727]
+01-06-2018 15:00:29 1527829229830 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.operationTimeoutCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.priorityQueueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.queueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.responseQueueSize=0]
+01-06-2018 15:00:29 1527829229830 Metric[operation.retryCount=132]
+01-06-2018 15:00:29 1527829229830 Metric[os.committedVirtualMemorySize=10769457152]
+01-06-2018 15:00:29 1527829229830 Metric[os.freePhysicalMemorySize=26247168]
+01-06-2018 15:00:29 1527829229830 Metric[os.freeSwapSpaceSize=551026688]
+01-06-2018 15:00:29 1527829229830 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 15:00:29 1527829229830 Metric[os.openFileDescriptorCount=489]
+01-06-2018 15:00:29 1527829229830 Metric[os.processCpuLoad=0.3448324125274754]
+01-06-2018 15:00:29 1527829229830 Metric[os.processCpuTime=86562647000]
+01-06-2018 15:00:29 1527829229830 Metric[os.systemCpuLoad=20.14256399179177]
+01-06-2018 15:00:29 1527829229830 Metric[os.systemLoadAverage=3.140625]
+01-06-2018 15:00:29 1527829229830 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 15:00:29 1527829229830 Metric[os.totalSwapSpaceSize=2147483648]
+01-06-2018 15:00:29 1527829229830 Metric[proxy.createdCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[proxy.destroyedCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[runtime.availableProcessors=8]
+01-06-2018 15:00:29 1527829229830 Metric[runtime.freeMemory=399338728]
+01-06-2018 15:00:29 1527829229830 Metric[runtime.maxMemory=3817865216]
+01-06-2018 15:00:29 1527829229830 Metric[runtime.totalMemory=786956288]
+01-06-2018 15:00:29 1527829229830 Metric[runtime.uptime=307785]
+01-06-2018 15:00:29 1527829229830 Metric[runtime.usedMemory=387617560]
+01-06-2018 15:00:29 1527829229830 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[tcp.connection.activeCount=3]
+01-06-2018 15:00:29 1527829229830 Metric[tcp.connection.clientCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[tcp.connection.count=3]
+01-06-2018 15:00:29 1527829229830 Metric[tcp.connection.textCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[thread.daemonThreadCount=27]
+01-06-2018 15:00:29 1527829229830 Metric[thread.peakThreadCount=172]
+01-06-2018 15:00:29 1527829229830 Metric[thread.threadCount=159]
+01-06-2018 15:00:29 1527829229830 Metric[thread.totalStartedThreadCount=210]
+01-06-2018 15:00:29 1527829229830 Metric[transactions.commitCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[transactions.rollbackCount=0]
+01-06-2018 15:00:29 1527829229830 Metric[transactions.startCount=0]
+01-06-2018 15:00:29 1527829229831 SlowOperations[]
+01-06-2018 15:00:29 1527829229831 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=596b2c38-aa24-4f3e-ab88-60a85b22943a
+                          clusterSize=4
+                          isMaster=false
+                          masterAddress=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.129]:5705
+                                  [10.1.120.76]:5701
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701]]
+01-06-2018 15:01:29 1527829289829 Metric[classloading.loadedClassesCount=12468]
+01-06-2018 15:01:29 1527829289829 Metric[classloading.totalLoadedClassesCount=12468]
+01-06-2018 15:01:29 1527829289829 Metric[classloading.unloadedClassCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[client.endpoint.count=0]
+01-06-2018 15:01:29 1527829289829 Metric[client.endpoint.totalRegistrations=0]
+01-06-2018 15:01:29 1527829289829 Metric[cluster.clock.clusterTimeDiff=-52]
+01-06-2018 15:01:29 1527829289829 Metric[cluster.clock.maxClusterTimeDiff=-89]
+01-06-2018 15:01:29 1527829289829 Metric[event.eventQueueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[event.eventsProcessed=370]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:async].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:client-query].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:client].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:cluster:event].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:cluster].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:offloadable].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:scheduled:cqc:604a2e24-0aa1-4ec9-8981-aa6f03612b74].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:scheduled].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[executor.[hz:system].queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[file.partition[user.home].freeSpace=375897448448]
+01-06-2018 15:01:29 1527829289829 Metric[file.partition[user.home].totalSpace=1000240963584]
+01-06-2018 15:01:29 1527829289829 Metric[file.partition[user.home].usableSpace=371928571904]
+01-06-2018 15:01:29 1527829289829 Metric[gc.majorCount=3]
+01-06-2018 15:01:29 1527829289829 Metric[gc.majorTime=250]
+01-06-2018 15:01:29 1527829289829 Metric[gc.minorCount=16]
+01-06-2018 15:01:29 1527829289829 Metric[gc.minorTime=251]
+01-06-2018 15:01:29 1527829289829 Metric[gc.unknownCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[gc.unknownTime=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.callTimeoutCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.completedCount=8935]
+01-06-2018 15:01:29 1527829289829 Metric[operation.failedBackups=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.backupTimeouts=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.normalTimeouts=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.pending=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.responses[backup]=3]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.responses[error]=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.responses[missing]=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.responses[normal]=1728]
+01-06-2018 15:01:29 1527829289829 Metric[operation.invocations.responses[timeout]=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.operationTimeoutCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.priorityQueueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.queueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.responseQueueSize=0]
+01-06-2018 15:01:29 1527829289829 Metric[operation.retryCount=132]
+01-06-2018 15:01:29 1527829289829 Metric[os.committedVirtualMemorySize=10772713472]
+01-06-2018 15:01:29 1527829289829 Metric[os.freePhysicalMemorySize=44990464]
+01-06-2018 15:01:29 1527829289829 Metric[os.freeSwapSpaceSize=428343296]
+01-06-2018 15:01:29 1527829289829 Metric[os.maxFileDescriptorCount=10240]
+01-06-2018 15:01:29 1527829289829 Metric[os.openFileDescriptorCount=495]
+01-06-2018 15:01:29 1527829289829 Metric[os.processCpuLoad=0.3306861836399949]
+01-06-2018 15:01:29 1527829289829 Metric[os.processCpuTime=88455104000]
+01-06-2018 15:01:29 1527829289829 Metric[os.systemCpuLoad=58.463035019455255]
+01-06-2018 15:01:29 1527829289829 Metric[os.systemLoadAverage=3.45849609375]
+01-06-2018 15:01:29 1527829289829 Metric[os.totalPhysicalMemorySize=17179869184]
+01-06-2018 15:01:29 1527829289829 Metric[os.totalSwapSpaceSize=2147483648]
+01-06-2018 15:01:29 1527829289829 Metric[proxy.createdCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[proxy.destroyedCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[runtime.availableProcessors=8]
+01-06-2018 15:01:29 1527829289829 Metric[runtime.freeMemory=389628992]
+01-06-2018 15:01:29 1527829289829 Metric[runtime.maxMemory=3817865216]
+01-06-2018 15:01:29 1527829289829 Metric[runtime.totalMemory=786956288]
+01-06-2018 15:01:29 1527829289829 Metric[runtime.uptime=367784]
+01-06-2018 15:01:29 1527829289829 Metric[runtime.usedMemory=397327296]
+01-06-2018 15:01:29 1527829289829 Metric[tcp.connection.acceptedSocketCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[tcp.connection.activeCount=4]
+01-06-2018 15:01:29 1527829289829 Metric[tcp.connection.clientCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[tcp.connection.count=4]
+01-06-2018 15:01:29 1527829289829 Metric[tcp.connection.textCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[thread.daemonThreadCount=27]
+01-06-2018 15:01:29 1527829289829 Metric[thread.peakThreadCount=172]
+01-06-2018 15:01:29 1527829289829 Metric[thread.threadCount=161]
+01-06-2018 15:01:29 1527829289829 Metric[thread.totalStartedThreadCount=212]
+01-06-2018 15:01:29 1527829289829 Metric[transactions.commitCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[transactions.rollbackCount=0]
+01-06-2018 15:01:29 1527829289829 Metric[transactions.startCount=0]
+01-06-2018 15:01:29 1527829289831 SlowOperations[]
+01-06-2018 15:01:29 1527829289831 HazelcastInstance[
+                          thisAddress=[10.1.120.76]:5701
+                          isRunning=true
+                          isLite=false
+                          joined=true
+                          nodeState=ACTIVE
+                          clusterId=596b2c38-aa24-4f3e-ab88-60a85b22943a
+                          clusterSize=5
+                          isMaster=false
+                          masterAddress=[10.1.120.129]:5705
+                          Members[
+                                  [10.1.120.129]:5705
+                                  [10.1.120.76]:5701
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701
+                                  [10.1.120.76]:5703]]
+01-06-2018 15:01:29 1527829289834 MemberAdded[
+                          member=[10.1.120.76]:5703
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.76]:5701:this
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701
+                                  [10.1.120.76]:5703]]
+01-06-2018 15:01:29 1527829289834 ConnectionAdded[
+                          Connection[id=8, /10.1.120.76:51682->/10.1.120.76:5703, endpoint=[10.1.120.76]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 15:01:33 1527829293838 MemberAdded[
+                          member=[10.1.120.228]:5703
+                          Members[
+                                  [10.1.120.129]:5705:master
+                                  [10.1.120.76]:5701:this
+                                  [10.1.120.198]:5703
+                                  [10.1.120.228]:5701
+                                  [10.1.120.76]:5703
+                                  [10.1.120.228]:5703]]
+01-06-2018 15:01:33 1527829293838 ConnectionAdded[
+                          Connection[id=9, /10.1.120.104:51712->/10.1.120.228:5703, endpoint=[10.1.120.228]:5703, alive=true, type=MEMBER]
+                          type=MEMBER
+                          isAlive=true]
+01-06-2018 15:01:54 1527829314838 ConnectionRemoved[
+                          Connection[id=8, 0.0.0.0/0.0.0.0:51682->null, endpoint=[10.1.120.76]:5703, alive=false, type=MEMBER]
+                          type=MEMBER
+                          isAlive=false
+                          closeReason=Connection closed by the other side
+                          CloseCause[
+                                  java.io.EOFException: Remote socket closed!
+                                  com.hazelcast.internal.networking.nio.NioChannelReader.handle(NioChannelReader.java:130)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKey(NioThread.java:401)
+                                  com.hazelcast.internal.networking.nio.NioThread.handleSelectionKeys(NioThread.java:386)
+                                  com.hazelcast.internal.networking.nio.NioThread.selectLoop(NioThread.java:293)
+                                  com.hazelcast.internal.networking.nio.NioThread.run(NioThread.java:248)]]

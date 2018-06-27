@@ -248,9 +248,10 @@ public class RouterHandlers {
 		        req.response().end(err.encode());
 		      } else {
 		            req.response().headers().set("Content-Type", "application/json");
-		            req.response().end(json.encode());
+		            req.response().end(json.encodePrettily());
 		          }
 
 		  }
 
+	
 }

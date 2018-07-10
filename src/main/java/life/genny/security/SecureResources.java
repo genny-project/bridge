@@ -52,7 +52,7 @@ public class SecureResources {
     	                
     	                JsonObject ob = new JsonObject(keycloakJsonText);
     	                ob.remove("credentials");
-    	                ob.remove("resource");
+//    	                ob.remove("resource");
     	                ob.remove("ssl-required");
     	                ob.remove("policy-enforcer");
     	                keycloakJsonMap.put(fileStr, ob.toString());

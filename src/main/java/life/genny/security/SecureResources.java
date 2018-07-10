@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 import io.vertx.core.json.DecodeException;
+import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Future;
 import io.vertx.rxjava.core.Vertx;
 
@@ -28,40 +31,49 @@ public class SecureResources {
    * @param keycloakJsonMap the keycloakJsonMap to set
    * @return
    */
-  public static Future<Void> setKeycloakJsonMap() {
-    final Future<Void> fut = Future.future();
-    Vertx.currentContext().owner().executeBlocking(exec -> {
-      // Load in keycloakJsons
-      // readFilenamesFromDirectory("./realm", keycloakJsonMap);
-      // update afterwrads
-      final List<String> filesList = Vertx.currentContext().owner().fileSystem().readDirBlocking("./realm");
+      public static Future<Void> setKeycloakJsonMap() {
 
-      for (final String dirFileStr : filesList) {
-        final String fileStr = new File(dirFileStr).getName();;
-        if (!"keycloak-data.json".equalsIgnoreCase(fileStr)) {
-        	Vertx.currentContext().owner().fileSystem().readFile(dirFileStr, d -> {
-            if (!d.failed()) {
-              try {
-                System.out.println("Loading in [" + fileStr + "]");
-                final String keycloakJsonText =
-                    d.result().toString().replaceAll("localhost", hostIP);
-                keycloakJsonMap.put(fileStr, keycloakJsonText);
-                System.out.println("Keycloak json file:"+fileStr+":"+keycloakJsonText);
+    	    final Future<Void> fut = Future.future();
+    	    Vertx.currentContext().owner().executeBlocking(exec -> {
+    	      // Load in keycloakJsons
+    	      // readFilenamesFromDirectory("./realm", keycloakJsonMap);
+    	      // update afterwrads
+    	      final List<String> filesList = Vertx.currentContext().owner().fileSystem().readDirBlocking("./realm");
 
-              } catch (final DecodeException dE) {
+    	      for (final String dirFileStr : filesList) {
+    	        final String fileStr = new File(dirFileStr).getName();;
+    	        if (!"keycloak-data.json".equalsIgnoreCase(fileStr)) {
+    	            Vertx.currentContext().owner().fileSystem().readFile(dirFileStr, d -> {
+    	            if (!d.failed()) {
+    	              try {
+    	                System.out.println("Loading in [" + fileStr + "]");
+    	                final String keycloakJsonText =
+    	                    d.result().toString().replaceAll("localhost", hostIP);
+    	                
+    	                JsonObject ob = new JsonObject(keycloakJsonText);
+    	                ob.remove("credentials");
+    	                ob.remove("resource");
+    	                ob.remove("ssl-required");
+    	                ob.remove("policy-enforcer");
+    	                keycloakJsonMap.put(fileStr, ob.toString());
 
-              }
-            } else {
-              System.err.println("Error reading  file!"+fileStr);
-            }
-          });
-        }
-      }
-      fut.complete();
-    }, res -> {
-    });
-    return fut;
-  }
+    	   
+    	                System.out.println("Keycloak json file:"+fileStr+":"+keycloakJsonText);
+
+    	              } catch (final DecodeException dE) {
+
+    	              }
+    	            } else {
+    	              System.err.println("Error reading  file!"+fileStr);
+    	            }
+    	          });
+    	        }
+    	      }
+    	      fut.complete();
+    	    }, res -> {
+    	    });
+    	    return fut;
+    	  }
 
   private static void readFilenamesFromDirectory(final String rootFilePath,
       final Map<String, String> keycloakJsonMap) {

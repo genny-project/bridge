@@ -17,3 +17,4 @@ src/main/resources/git.properties
 !/.mvn/wrapper/maven-wrapper.jar
 /bin/
 /site/
+diagnostic*

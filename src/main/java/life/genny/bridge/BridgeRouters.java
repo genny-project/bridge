@@ -26,7 +26,6 @@ public class BridgeRouters {
     
     router.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 
-    Routers.activate(vertx);
   }
 
 }

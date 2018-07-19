@@ -18,6 +18,7 @@ public class ServiceVerticle extends AbstractVerticle {
       SecureResources.setKeycloakJsonMap().compose(p -> {
     	Routers.routers(vertx);
         BridgeRouters.routers(vertx);
+        Routers.activate(vertx);
         System.out.println("Bridge now ready");
         fut.complete();
       }, fut);

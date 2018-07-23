@@ -29,7 +29,7 @@ import life.genny.security.SecureResources;
 import life.genny.utils.VertxUtils;
 
 
-public class RouterHandlers {
+public class BridgeRouterHandlers {
 
 	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
 

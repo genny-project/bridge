@@ -32,7 +32,6 @@ import life.genny.utils.VertxUtils;
 public class RouterHandlers {
 
 	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
-	private static String hostIP = System.getenv("HOSTIP") != null ? System.getenv("HOSTIP") : "127.0.0.1";
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());

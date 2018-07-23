@@ -18,7 +18,7 @@ public class BridgeConfig {
 	private static List<PermittedOptions> setOutbounds(){
 		List<PermittedOptions> inbounds = new ArrayList<PermittedOptions>();
 		inbounds.add(new PermittedOptions().setAddressRegex("address.outbound"));
-		inbounds.add(new PermittedOptions().setAddressRegex(".*"));
+		inbounds.add(new PermittedOptions().setAddressRegex("^(?!(address\\.inbound)$).*"));
 		return inbounds;
 	}
 

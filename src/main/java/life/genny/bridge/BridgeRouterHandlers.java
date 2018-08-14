@@ -22,6 +22,7 @@ import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.message.QDataBaseEntityMessage;
+import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
@@ -54,6 +55,7 @@ public class BridgeRouterHandlers {
 				if (keycloakJsonText != null) {
 					final JsonObject retInit = new JsonObject(keycloakJsonText);
 					retInit.put("vertx_url", vertxUrl);
+					retInit.put("api_url", "https://api-fourdegrees-dev.outcome-hub.com");
 					final String kcUrl = retInit.getString("auth-server-url");
 					retInit.put("url", kcUrl);
 					final String kcClientId = retInit.getString("resource");

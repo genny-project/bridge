@@ -108,6 +108,7 @@ public class EBCHandlers {
 							MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 							// final MessageProducer<JsonObject> msgProducer =
 							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
+							msgProducer.setWriteQueueMaxSize(10000);
 							if (msgProducer != null) {
 								System.out.println("Sending to "+sessionState);
 

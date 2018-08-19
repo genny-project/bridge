@@ -2,6 +2,7 @@ package life.genny.bridge;
 
 
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.Router;
 import life.genny.channel.RouterHandlers;
@@ -31,7 +32,15 @@ public class BridgeRouters {
     
 	  bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 	System.out.println("Activating Bridge Routes on port "+bridgeServerPort+" given ["+System.getenv("API_PORT")+"]");
-	vertx.createHttpServer().requestHandler(bridgeRouter::accept).listen(bridgeServerPort);
+	
+	HttpServerOptions serverOptions = new HttpServerOptions();
+	  serverOptions.setUsePooledBuffers(true);
+	  serverOptions.setCompressionSupported(true);
+	  serverOptions.setCompressionLevel(3);
+
+	  serverOptions.setUseAlpn(true);
+	  
+	vertx.createHttpServer(serverOptions).requestHandler(bridgeRouter::accept).listen(bridgeServerPort);
 
   }
 

@@ -3,8 +3,6 @@ package life.genny.bridge;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
@@ -16,14 +14,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
-import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
-import life.genny.qwanda.entity.BaseEntity;
-import life.genny.qwanda.message.QDataBaseEntityMessage;
 import life.genny.qwandautils.GennySettings;
-import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;
@@ -55,7 +49,7 @@ public class BridgeRouterHandlers {
 				if (keycloakJsonText != null) {
 					final JsonObject retInit = new JsonObject(keycloakJsonText);
 					retInit.put("vertx_url", vertxUrl);
-					retInit.put("api_url", "https://api-fourdegrees-dev.outcome-hub.com");
+					retInit.put("api_url", GennySettings.qwandaServiceUrl);
 					final String kcUrl = retInit.getString("auth-server-url");
 					retInit.put("url", kcUrl);
 					final String kcClientId = retInit.getString("resource");

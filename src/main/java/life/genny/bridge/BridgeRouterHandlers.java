@@ -1,13 +1,19 @@
 package life.genny.bridge;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
-
+import javax.annotation.Resource;
 import org.apache.logging.log4j.Logger;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.json.JSONObject;
-
+import com.google.api.client.util.Value;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -18,6 +24,7 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
 import life.genny.qwandautils.GennySettings;
+import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;
@@ -30,6 +37,11 @@ public class BridgeRouterHandlers {
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+	
+	public static final String POM_FILE_LOCATION = "META-INF/maven/life.genny/bridge/pom.xml";
+	
+	@Value("classpath:/*.properties")
+	Resource[] resources;
 
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
@@ -158,5 +170,24 @@ public class BridgeRouterHandlers {
 		});
 		routingContext.response().end();
 	}
+	
+	public static void apiVersionHandler(final RoutingContext routingContext) {
+      routingContext.request().bodyHandler(body -> {
+        String versionString = "";
+        try {
+          MavenXpp3Reader reader = new MavenXpp3Reader();
+          InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(POM_FILE_LOCATION);
+          if(inputStream != null) {
+            Model model = reader.read(new InputStreamReader(inputStream));
+            versionString = GitUtils.getGitVersionString(model);
+          }
+        } catch (IOException | XmlPullParserException e) {
+          e.printStackTrace();
+        }
+        routingContext.response().putHeader("Content-Type", "application/json");
+        routingContext.response().setChunked(true);
+        routingContext.response().end(versionString);
+      });
+    }
 
 }

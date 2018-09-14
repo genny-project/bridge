@@ -5,7 +5,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.Router;
-//import life.genny.channel.RouterHandlers;
 import life.genny.metrics.Metrics;
 import life.genny.qwandautils.GennySettings;
 
@@ -14,7 +13,7 @@ import life.genny.qwandautils.GennySettings;
 public class BridgeRouters {
 
 
-	static private Router bridgeRouter = null;
+  private static Router bridgeRouter = null;
  
   protected static void routers(final Vertx vertx) {
 	  bridgeRouter = Router.router(vertx);  // create new router
@@ -24,11 +23,10 @@ public class BridgeRouters {
 	  bridgeRouter.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
 	  bridgeRouter.route(HttpMethod.GET, "/api/events/init").handler(BridgeRouterHandlers::apiGetInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
-    // router.route(HttpMethod.GET, "/api/session").handler(RouterHandlers::apiSession);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(BridgeRouterHandlers::apiServiceHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/cmds").handler(BridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(BridgeRouterHandlers::apiHandler);
-    
+	  bridgeRouter.route(HttpMethod.GET, "/version").handler(BridgeRouterHandlers::apiVersionHandler);
 	  bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 	System.out.println("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");
 	

@@ -1,8 +1,10 @@
 package life.genny.bridge;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,7 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
 import life.genny.qwandautils.GennySettings;
+import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;
@@ -30,6 +33,10 @@ public class BridgeRouterHandlers {
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+	
+	public static final String GIT_VERSION_PROPERTIES = "GitVersion.properties";
+	  
+	public static final String PROJECT_DEPENDENCIES = "project_dependencies";
 
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
@@ -158,5 +165,22 @@ public class BridgeRouterHandlers {
 		});
 		routingContext.response().end();
 	}
-
+	
+	public static void apiGetVersionHandler(final RoutingContext routingContext) {
+	  routingContext.request().bodyHandler(body -> {
+	    Properties properties = new Properties();
+	    String versionString = "";
+	    try {
+	      properties.load(Thread.currentThread().getContextClassLoader().getResource(GIT_VERSION_PROPERTIES)
+	          .openStream());
+	      String projectDependencies = properties.getProperty(PROJECT_DEPENDENCIES);
+	      versionString = GitUtils.getGitVersionString(projectDependencies);
+	    } catch (IOException e) {
+	      log.error("Error reading GitVersion.properties", e);
+	    }
+	    routingContext.response().putHeader("Content-Type", "application/json");
+	    routingContext.response().end(versionString);
+	  });
+	  
+	}
 }

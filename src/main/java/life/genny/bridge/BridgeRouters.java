@@ -24,8 +24,8 @@ public class BridgeRouters {
 	  bridgeRouter.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
 	  bridgeRouter.route(HttpMethod.GET, "/api/events/init").handler(BridgeRouterHandlers::apiGetInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
-    // router.route(HttpMethod.GET, "/api/session").handler(RouterHandlers::apiSession);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(BridgeRouterHandlers::apiServiceHandler);
+	  bridgeRouter.route(HttpMethod.GET, "/version").handler(BridgeRouterHandlers::apiGetVersionHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/cmds").handler(BridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(BridgeRouterHandlers::apiHandler);
     

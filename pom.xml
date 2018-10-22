@@ -7,13 +7,14 @@
 	<name>bridge</name>
 	<properties>
 		<qwanda-utils.version>1.0.62</qwanda-utils.version>
+		<qwanda-verticle.version>1.0.62</qwanda-verticle.version>
 		<log4j-core-version>2.5</log4j-core-version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>life.genny</groupId>
 			<artifactId>genny-verticle</artifactId>
-			<version>${qwanda-utils.version}</version>
+			<version>${qwanda-verticle.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

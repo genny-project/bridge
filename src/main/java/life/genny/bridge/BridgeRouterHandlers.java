@@ -111,6 +111,7 @@ public class BridgeRouterHandlers {
 
 	public static void apiServiceHandler(final RoutingContext routingContext) {
 		String token = routingContext.request().getParam("token");
+		String channel = routingContext.request().getParam("channel");
 		routingContext.request().bodyHandler(body -> {
 			String localToken = null;
 			final JsonObject j = body.toJsonObject();
@@ -127,8 +128,8 @@ public class BridgeRouterHandlers {
 			}
 			// j.put("token", token);
 			System.out.println("Incoming Service:"+j);
-			if (j.getString("msg_type").equals("EVT_MSG")) {
-				log.info("CMD API POST   >> EVENT-BUS EVENT:" + j);
+			if (j.getString("msg_type").equals("EVT_MSG") || "events".equals(channel) || "event".equals(channel)) {
+				log.info("EVT API POST   >> EVENT-BUS EVENT:" + j);
 				j.put("token", localToken);
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
@@ -136,15 +137,19 @@ public class BridgeRouterHandlers {
 				Producer.getToEvents().send(j);
 			} else
 
-			if (j.getString("msg_type").equals("CMD_MSG")) {
+			if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
 				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 				j.put("token", localToken);
 				Producer.getToCmds().send(j);
-			} else if (j.getString("msg_type").equals("MSG_MESSAGE")) {
-				log.info("CMD API POST   >> EVENT-BUS MSG DATA :" + j);
+			} else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
+				log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :" + j);
 				j.put("token", localToken);
 				Producer.getToMessages().send(j);
-			} else if (j.getString("msg_type").equals("DATA_MSG")) {
+			} else if ( "webdata".equals(channel)) {
+				log.info("WEBDATA API POST   >> EVENT-BUS DATA :" + j);
+				j.put("token", localToken);
+				Producer.getToWebData().send(j);
+			} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
 				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
 				j.put("token", localToken);
 				Producer.getToData().send(j);

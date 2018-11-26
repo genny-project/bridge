@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bridge</name>
 	<properties>
-		<qwanda-utils.version>1.0.59</qwanda-utils.version>
+		<qwanda-utils.version>1.0.64</qwanda-utils.version>
 		<log4j-core-version>2.5</log4j-core-version>
 	</properties>
 	<dependencies>
@@ -25,11 +25,13 @@
 			<artifactId>log4j-core</artifactId>
 			<version>${log4j-core-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>life.genny</groupId>
-			<artifactId>qwanda-utils</artifactId>
-			<version>${qwanda-utils.version}</version>
-		</dependency>
+        <!-->
+            <dependency>
+                <groupId>life.genny</groupId>
+                <artifactId>qwanda-utils</artifactId>
+                <version>${qwanda-utils.version}</version>
+            </dependency>
+        </!-->
 	</dependencies>
 	<repositories>
 		<repository>

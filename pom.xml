@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bridge</name>
 	<properties>
-		<qwanda-utils.version>1.0.59</qwanda-utils.version>
+		<qwanda-utils.version>1.0.64</qwanda-utils.version>
 		<log4j-core-version>2.5</log4j-core-version>
 	</properties>
 	<dependencies>
@@ -57,7 +57,16 @@
 			</resource>
 		</resources>
 		<plugins>
-
+<plugin>
+  <groupId>com.google.cloud.tools</groupId>
+  <artifactId>jib-maven-plugin</artifactId>
+  <version>0.10.0</version>
+  <configuration>
+    <to>
+      <image>registry.hub.docker.com/gennyproject/bridge</image>
+    </to>
+  </configuration>
+</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>

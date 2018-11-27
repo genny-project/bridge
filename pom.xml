@@ -6,13 +6,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bridge</name>
 	<properties>
-		<qwanda-utils.version>1.0.64</qwanda-utils.version>
+		<qwanda-utils.version>1.0.65</qwanda-utils.version>
 		<log4j-core-version>2.5</log4j-core-version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>life.genny</groupId>
-			<artifactId>genny-verticle</artifactId>
+			<artifactId>genny-verticle-rules</artifactId>
 			<version>${qwanda-utils.version}</version>
 		</dependency>
 		<dependency>

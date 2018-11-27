@@ -38,7 +38,7 @@ public class SecureResources {
     	      // Load in keycloakJsons
     	      // readFilenamesFromDirectory("./realm", keycloakJsonMap);
     	      // update afterwrads
-    	      final List<String> filesList = Vertx.currentContext().owner().fileSystem().readDirBlocking("./realm");
+    	      final List<String> filesList = Vertx.currentContext().owner().fileSystem().readDirBlocking("./realm/" + System.getenv("PROJECT_REALM"));
 
     	      for (final String dirFileStr : filesList) {
     	        final String fileStr = new File(dirFileStr).getName();;

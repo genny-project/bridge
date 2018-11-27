@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 
@@ -19,11 +20,14 @@ import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
+import life.genny.qwanda.attribute.EntityAttribute;
+import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.SecureResources;
+import life.genny.utils.RulesUtils;
 import life.genny.utils.VertxUtils;
 
 
@@ -45,6 +49,27 @@ public class BridgeRouterHandlers {
 	}
 
 	public static void apiGetInitHandler(final RoutingContext routingContext) {
+		/* APP_NAME=Internmatch
+GENNY_HOST=https://bridge-internmatch-staging.outcome-hub.com/
+GENNY_INITURL=http://internmatch-staging.outcome-hub.com
+GENNY_BRIDGE_PORT=80
+GENNY_BRIDGE_VERTEX=frontend
+GENNY_BRIDGE_SERVICE=api/service
+GENNY_BRIDGE_EVENTS=api/events
+GOOGLE_MAPS_APIKEY="AIzaSyBwvr5m9CqFV4nW4AtnxAdT-_w_xOWufRE"
+GOOGLE_MAPS_APIURL=https://maps.googleapis.com/maps/api/js
+LAYOUT_PUBLICURL=https://layouts.fourdegrees.io/
+UPPY_URL=""
+KEYCLOAK_REDIRECTURI=""
+APPCENTER_ANDROID_SECRET=""
+APPCENTER_IOS_SECRET=""
+ANDROID_CODEPUSH_KEY=""
+LAYOUT_PUBLICURL=https://layout-cache-staging.outcome-hub.com/
+LAYOUT_QUERY_DIRECTORY=layouts/internmatch-new
+GUEST_USERNAME=guest
+GUEST_PASSWORD=asdf1234
+SIGNATURE_URL=""
+*/
 		routingContext.request().bodyHandler(bodyy -> {
 			final String fullurl = routingContext.request().getParam("url");
 			URL aURL = null;
@@ -55,12 +80,32 @@ public class BridgeRouterHandlers {
 				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
 				if (keycloakJsonText != null) {
 					final JsonObject retInit = new JsonObject(keycloakJsonText);
+					String realm = retInit.getString("resource"); // clientId = realm by convention
+					String serviceToken = RulesUtils.generateServiceToken(realm);
 					retInit.put("vertx_url", vertxUrl);
 					retInit.put("api_url", GennySettings.qwandaServiceUrl);
 					final String kcUrl = retInit.getString("auth-server-url");
 					retInit.put("url", kcUrl);
 					final String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);
+					retInit.put("GENNY_HOST", fullurl+":"+GennySettings.apiPort); // The web bfrontend already knows this url on port 8088 (It uses it's own url with a port 8088)
+					retInit.put("GENNY_INITURL", fullurl); // the web frontend knows this url. It passed it to us, but the mobile may not know
+					retInit.put("GENNY_BRIDGE_PORT", GennySettings.apiPort);
+					retInit.put("GENNY_BRIDGE_VERTEX", "/frontend");  
+					retInit.put("GENNY_BRIDGE_SERVICE", "/api/service");
+					retInit.put("GENNY_BRIDGE_EVENTS", "api/events");
+					retInit.put("GOOGLE_MAPS_APIKEY", fetchSetting(realm,"GOOGLE_MAPS_APIKEY",serviceToken,"NO_GOOGLE_MAPS_APIKEY"));
+					retInit.put("GOOGLE_MAPS_APIURL", fetchSetting(realm,"GOOGLE_MAPS_APIURL",serviceToken,"NO_GOOGLE_MAPS_APIURL"));
+					retInit.put("UPPY_URL", fetchSetting(realm,"UPPY_URL",serviceToken,"http://uppy.genny.life")); 
+					retInit.put("KEYCLOAK_REDIRECTURI", kcUrl); 
+					retInit.put("APPCENTER_ANDROID_SECRET", fetchSetting(realm,"APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")); 
+					retInit.put("APPCENTER_IOS_SECRET", fetchSetting(realm,"APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
+					retInit.put("ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
+					retInit.put("LAYOUT_PUBLICURL", fetchSetting(realm,"LAYOUT_PUBLICURL",serviceToken,"http://layout.genny.life")); 
+					retInit.put("LAYOUT_QUERY_DIRECTORY", fetchSetting(realm,"LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY"));
+					retInit.put("GUEST_USERNAME", fetchSetting(realm,"GUEST_USERNAME",serviceToken,"guest"));
+					retInit.put("GUEST_PASSWORD", fetchSetting(realm,"GUEST_PASSWORD",serviceToken,"asdf1234"));
+					retInit.put("SIGNATURE_URL", fetchSetting(realm,"SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());
@@ -83,6 +128,33 @@ public class BridgeRouterHandlers {
 		});
 	}
 
+	private static String fetchSetting(final String realm, final String key, final String serviceToken, final String defaultValue)
+	{
+		String project_code = "PRJ_"+realm.toUpperCase();
+		String retValue = null;
+		
+		// First look at the system env
+		retValue = System.getenv(realm.toUpperCase()+"_"+key.toUpperCase());
+		
+		// else look at the project setting
+		if (retValue == null) {
+			BaseEntity project = VertxUtils.getObject(realm, "", project_code, BaseEntity.class, serviceToken);
+			if (project == null) {
+				log.error("Error: no Project Setting for "+key);
+				return defaultValue;
+			}
+			Optional<EntityAttribute> entityAttribute =  project.findEntityAttribute("ENV_"+key.toUpperCase());
+			if (entityAttribute.isPresent()) {
+				return entityAttribute.get().getValueString();
+			} else {
+				return defaultValue;
+			}
+		} else {
+			return retValue;
+		}
+		
+	}
+	
 	public static void apiInitHandler(final RoutingContext routingContext) {
 
 			routingContext.request().bodyHandler(body -> {

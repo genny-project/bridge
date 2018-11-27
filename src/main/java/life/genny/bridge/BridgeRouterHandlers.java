@@ -88,24 +88,24 @@ SIGNATURE_URL=""
 					retInit.put("url", kcUrl);
 					final String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);
-					retInit.put("GENNY_HOST", fullurl+":"+GennySettings.apiPort); // The web bfrontend already knows this url on port 8088 (It uses it's own url with a port 8088)
-					retInit.put("GENNY_INITURL", fullurl); // the web frontend knows this url. It passed it to us, but the mobile may not know
-					retInit.put("GENNY_BRIDGE_PORT", GennySettings.apiPort);
-					retInit.put("GENNY_BRIDGE_VERTEX", "/frontend");  
-					retInit.put("GENNY_BRIDGE_SERVICE", "/api/service");
-					retInit.put("GENNY_BRIDGE_EVENTS", "api/events");
-					retInit.put("GOOGLE_MAPS_APIKEY", fetchSetting(realm,"GOOGLE_MAPS_APIKEY",serviceToken,"NO_GOOGLE_MAPS_APIKEY"));
-					retInit.put("GOOGLE_MAPS_APIURL", fetchSetting(realm,"GOOGLE_MAPS_APIURL",serviceToken,"NO_GOOGLE_MAPS_APIURL"));
-					retInit.put("UPPY_URL", fetchSetting(realm,"UPPY_URL",serviceToken,"http://uppy.genny.life")); 
-					retInit.put("KEYCLOAK_REDIRECTURI", kcUrl); 
-					retInit.put("APPCENTER_ANDROID_SECRET", fetchSetting(realm,"APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")); 
-					retInit.put("APPCENTER_IOS_SECRET", fetchSetting(realm,"APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
-					retInit.put("ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
-					retInit.put("LAYOUT_PUBLICURL", fetchSetting(realm,"LAYOUT_PUBLICURL",serviceToken,"http://layout.genny.life")); 
-					retInit.put("LAYOUT_QUERY_DIRECTORY", fetchSetting(realm,"LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY"));
-					retInit.put("GUEST_USERNAME", fetchSetting(realm,"GUEST_USERNAME",serviceToken,"guest"));
-					retInit.put("GUEST_PASSWORD", fetchSetting(realm,"GUEST_PASSWORD",serviceToken,"asdf1234"));
-					retInit.put("SIGNATURE_URL", fetchSetting(realm,"SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
+					retInit.put("ENV_GENNY_HOST", fullurl+":"+GennySettings.apiPort); // The web bfrontend already knows this url on port 8088 (It uses it's own url with a port 8088)
+					retInit.put("ENV_GENNY_INITURL", fullurl); // the web frontend knows this url. It passed it to us, but the mobile may not know
+					retInit.put("ENV_GENNY_BRIDGE_PORT", GennySettings.apiPort);
+					retInit.put("ENV_GENNY_BRIDGE_VERTEX", "/frontend");  
+					retInit.put("ENV_GENNY_BRIDGE_SERVICE", "/api/service");
+					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "api/events");
+					retInit.put("ENV_GOOGLE_MAPS_APIKEY", fetchSetting(realm,"ENV_GOOGLE_MAPS_APIKEY",serviceToken,"NO_GOOGLE_MAPS_APIKEY"));
+					retInit.put("ENV_GOOGLE_MAPS_APIURL", fetchSetting(realm,"ENV_GOOGLE_MAPS_APIURL",serviceToken,"NO_GOOGLE_MAPS_APIURL"));
+					retInit.put("ENV_UPPY_URL", fetchSetting(realm,"ENV_UPPY_URL",serviceToken,"http://uppy.genny.life")); 
+					retInit.put("ENV_KEYCLOAK_REDIRECTURI", kcUrl); 
+					retInit.put("ENV_APPCENTER_ANDROID_SECRET", fetchSetting(realm,"ENV_APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")); 
+					retInit.put("ENV_APPCENTER_IOS_SECRET", fetchSetting(realm,"ENV_APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
+					retInit.put("ENV_ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ENV_ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
+					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout.genny.life")); 
+					retInit.put("ENV_LAYOUT_QUERY_DIRECTORY", fetchSetting(realm,"ENV_LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY"));
+					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest"));
+					retInit.put("ENV_GUEST_PASSWORD", fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234"));
+					retInit.put("ENV_SIGNATURE_URL", fetchSetting(realm,"ENV_SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());
@@ -140,13 +140,14 @@ SIGNATURE_URL=""
 		if (retValue == null) {
 			BaseEntity project = VertxUtils.getObject(realm, "", project_code, BaseEntity.class, serviceToken);
 			if (project == null) {
-				log.error("Error: no Project Setting for "+key);
+				log.error("Error: no Project Setting for "+key+" , ensure PRJ_"+realm.toUpperCase()+" has entityAttribute value for ENV_"+key.toUpperCase());
 				return defaultValue;
 			}
-			Optional<EntityAttribute> entityAttribute =  project.findEntityAttribute("ENV_"+key.toUpperCase());
+			Optional<EntityAttribute> entityAttribute =  project.findEntityAttribute(key.toUpperCase());
 			if (entityAttribute.isPresent()) {
 				return entityAttribute.get().getValueString();
 			} else {
+				log.error("Error: no Project Setting for "+key+" , ensure PRJ_"+realm.toUpperCase()+" has entityAttribute value for ENV_"+key.toUpperCase()+" returning default:"+defaultValue);
 				return defaultValue;
 			}
 		} else {

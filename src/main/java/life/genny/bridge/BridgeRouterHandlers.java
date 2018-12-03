@@ -93,7 +93,7 @@ SIGNATURE_URL=""
 					retInit.put("ENV_GENNY_BRIDGE_PORT", GennySettings.apiPort);
 					retInit.put("ENV_GENNY_BRIDGE_VERTEX", "/frontend");  
 					retInit.put("ENV_GENNY_BRIDGE_SERVICE", "/api/service");
-					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "api/events");
+					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "/api/events");
 					retInit.put("ENV_GOOGLE_MAPS_APIKEY", fetchSetting(realm,"ENV_GOOGLE_MAPS_APIKEY",serviceToken,"NO_GOOGLE_MAPS_APIKEY"));
 					retInit.put("ENV_GOOGLE_MAPS_APIURL", fetchSetting(realm,"ENV_GOOGLE_MAPS_APIURL",serviceToken,"NO_GOOGLE_MAPS_APIURL"));
 					retInit.put("ENV_UPPY_URL", fetchSetting(realm,"ENV_UPPY_URL",serviceToken,"http://uppy.genny.life")); 
@@ -101,7 +101,7 @@ SIGNATURE_URL=""
 					retInit.put("ENV_APPCENTER_ANDROID_SECRET", fetchSetting(realm,"ENV_APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")); 
 					retInit.put("ENV_APPCENTER_IOS_SECRET", fetchSetting(realm,"ENV_APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
 					retInit.put("ENV_ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ENV_ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
-					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout.genny.life:2224cache")); 
+					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout-cache.genny.life:2224")); 
 					retInit.put("ENV_LAYOUT_QUERY_DIRECTORY", fetchSetting(realm,"ENV_LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY"));
 					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest"));
 					retInit.put("ENV_GUEST_PASSWORD", fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234"));

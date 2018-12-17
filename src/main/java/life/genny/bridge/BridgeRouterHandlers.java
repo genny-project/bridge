@@ -106,6 +106,8 @@ SIGNATURE_URL=""
 					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest"));
 					retInit.put("ENV_GUEST_PASSWORD", fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234"));
 					retInit.put("ENV_SIGNATURE_URL", fetchSetting(realm,"ENV_SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
+					retInit.put("ENV_USE_CUSTOM_AUTH_LAYOUTS", fetchSetting(realm,"ENV_USE_CUSTOM_AUTH_LAYOUTS",serviceToken,"FALSE"));
+					
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());

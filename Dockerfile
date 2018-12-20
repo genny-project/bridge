@@ -4,8 +4,7 @@ RUN echo http://mirror.yandex.ru/mirrors/alpine/v3.7/main > /etc/apk/repositorie
 
 RUN apk update && apk add jq && apk add curl && apk add bash
 
-ADD target/bridge-0.0.1-SNAPSHOT-fat.jar /service.jar
-#ADD cluster.xml /cluster.xml
+ADD target/bridge-2.0.0-fat.jar /service.jar
 
 RUN mkdir /realm
 ADD realm /opt/realm
@@ -22,7 +21,7 @@ EXPOSE 5706
 EXPOSE 8088
 EXPOSE 15701
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD curl -f / http://localhost:8088/version || exit 1
+HEALTHCHECK --interval=10s --timeout=3s --retries=15 CMD curl -f / http://localhost:8088/version || exit 1
 
 #CMD ["java"]
 ENTRYPOINT [ "/docker-entrypoint.sh" ]

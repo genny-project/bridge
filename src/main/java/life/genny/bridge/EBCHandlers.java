@@ -40,7 +40,7 @@ public class EBCHandlers {
 		Consumer.getFromWebData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ":");
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size->" +json.size());
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(incomingData, false);

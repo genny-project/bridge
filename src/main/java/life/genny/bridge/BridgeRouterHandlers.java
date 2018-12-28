@@ -140,7 +140,7 @@ SIGNATURE_URL=""
 		
 		// else look at the project setting
 		if (retValue == null) {
-			BaseEntity project = VertxUtils.getObject(realm, "", project_code, BaseEntity.class, serviceToken);
+			BaseEntity project = VertxUtils.readFromDDT( project_code, serviceToken);
 			if (project == null) {
 				log.error("Error: no Project Setting for "+key+" , ensure PRJ_"+realm.toUpperCase()+" has entityAttribute value for "+key.toUpperCase());
 				return defaultValue;

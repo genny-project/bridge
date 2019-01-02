@@ -29,7 +29,6 @@ public class ServiceVerticle extends AbstractVerticle {
     	Routers.routers(vertx);
         BridgeRouters.routers(vertx);
         Routers.activate(vertx);
-        System.out.println("QWANDA UTILS CODE: " + QwandaUtils.testMethod());
         System.out.println("Bridge now ready");
         fut.complete();
       }, fut);

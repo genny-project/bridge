@@ -102,11 +102,20 @@ SIGNATURE_URL=""
 					retInit.put("ENV_APPCENTER_IOS_SECRET", fetchSetting(realm,"ENV_APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
 					retInit.put("ENV_ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ENV_ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
 					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout-cache.genny.life:2224")); 
-					retInit.put("ENV_LAYOUT_QUERY_DIRECTORY", fetchSetting(realm,"ENV_LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY"));
 					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest"));
 					retInit.put("ENV_GUEST_PASSWORD", fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234"));
 					retInit.put("ENV_SIGNATURE_URL", fetchSetting(realm,"ENV_SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
 					retInit.put("ENV_USE_CUSTOM_AUTH_LAYOUTS", fetchSetting(realm,"ENV_USE_CUSTOM_AUTH_LAYOUTS",serviceToken,"FALSE"));
+					
+					// To handle a quirky layout directory setting that is in format <realm>-new we hack this bit...
+					String layout_query_dir = fetchSetting(realm,"ENV_LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY");
+					String devrealm = System.getenv("PROJECT_REALM");
+					if (devrealm==null) {
+						devrealm = realm;
+					}
+					layout_query_dir = layout_query_dir.replaceAll("genny", devrealm.toLowerCase().trim());
+					retInit.put("ENV_LAYOUT_QUERY_DIRECTORY", layout_query_dir);
+
 					
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
@@ -140,14 +149,15 @@ SIGNATURE_URL=""
 		
 		// else look at the project setting
 		if (retValue == null) {
-			BaseEntity project = VertxUtils.getObject(realm, "", project_code, BaseEntity.class, serviceToken);
+			BaseEntity project = VertxUtils.readFromDDT( project_code, serviceToken);
 			if (project == null) {
 				log.error("Error: no Project Setting for "+key+" , ensure PRJ_"+realm.toUpperCase()+" has entityAttribute value for "+key.toUpperCase());
 				return defaultValue;
 			}
 			Optional<EntityAttribute> entityAttribute =  project.findEntityAttribute(key.toUpperCase());
 			if (entityAttribute.isPresent()) {
-				return entityAttribute.get().getValueString();
+				Object ret = entityAttribute.get().getValue();
+				return ret.toString();
 			} else {
 				log.error("Error: no Project Setting for "+key+" , ensure PRJ_"+realm.toUpperCase()+" has entityAttribute value for ENV_"+key.toUpperCase()+" returning default:"+defaultValue);
 				return defaultValue;

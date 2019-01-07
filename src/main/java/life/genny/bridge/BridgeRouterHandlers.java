@@ -101,7 +101,7 @@ SIGNATURE_URL=""
 					retInit.put("ENV_APPCENTER_ANDROID_SECRET", fetchSetting(realm,"ENV_APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")); 
 					retInit.put("ENV_APPCENTER_IOS_SECRET", fetchSetting(realm,"ENV_APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
 					retInit.put("ENV_ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ENV_ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
-					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout-cache.genny.life:2224")); 
+					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout-cache.genny.life")); 
 					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest"));
 					retInit.put("ENV_GUEST_PASSWORD", fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234"));
 					retInit.put("ENV_SIGNATURE_URL", fetchSetting(realm,"ENV_SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
@@ -121,7 +121,7 @@ SIGNATURE_URL=""
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());
 				} else {
-					System.out.println(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
+					log.info(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
 
 					// Treat Inbound api call as a WEB SITE!!
 
@@ -212,9 +212,8 @@ SIGNATURE_URL=""
 				localToken = token;
 			}
 			// j.put("token", token);
-			System.out.println("Incoming Service:"+j);
 			if (j.getString("msg_type").equals("EVT_MSG") || "events".equals(channel) || "event".equals(channel)) {
-				log.info("EVT API POST   >> EVENT-BUS EVENT:" + j);
+				log.info("EVT API POST   >> EVENT-BUS EVENT:");
 				j.put("token", localToken);
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
@@ -223,19 +222,19 @@ SIGNATURE_URL=""
 			} else
 
 			if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
-				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
+				log.info("CMD API POST   >> EVENT-BUS CMD  :");
 				j.put("token", localToken);
 				Producer.getToCmds().send(j);
 			} else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
-				log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :" + j);
+				log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
 				j.put("token", localToken);
 				Producer.getToMessages().send(j);
 			} else if ( "webdata".equals(channel)) {
-				log.info("WEBDATA API POST   >> EVENT-BUS DATA :" + j);
+				log.info("WEBDATA API POST   >> EVENT-BUS DATA :");
 				j.put("token", localToken);
 				Producer.getToWebData().send(j);
 			} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
-				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
+				log.info("CMD API POST   >> EVENT-BUS DATA :");
 				j.put("token", localToken);
 				Producer.getToData().send(j);
 			}
@@ -247,10 +246,10 @@ SIGNATURE_URL=""
 	public static void apiHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(body -> {
 			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
-				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + body.toJsonObject());
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" );
 			Producer.getToClientOutbound().send(body.toJsonObject());
 			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
-				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:" + body.toJsonObject());
+				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:" );
 			Producer.getToData().send(body.toJsonObject());
 		});
 		routingContext.response().end();

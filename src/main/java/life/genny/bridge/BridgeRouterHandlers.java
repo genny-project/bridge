@@ -72,15 +72,18 @@ SIGNATURE_URL=""
 */
 		routingContext.request().bodyHandler(bodyy -> {
 			final String fullurl = routingContext.request().getParam("url");
+			String format = routingContext.request().getParam("format");
+			if (format==null) { format = "json"; }
 			URL aURL = null;
 			try {
 				aURL = new URL(fullurl);
 				final String url = aURL.getHost();
 				String key = url + ".json";
 				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
-				if (keycloakJsonText != null) {
+				if ((keycloakJsonText != null)&&("json".equalsIgnoreCase(format))) {
 					final JsonObject retInit = new JsonObject(keycloakJsonText);
-					String realm = retInit.getString("resource"); // clientId = realm by convention
+					String tokenRealm = retInit.getString("resource");
+					String realm = "genny".equals(tokenRealm)?GennySettings.mainrealm:tokenRealm; // clientId = realm by convention
 					String serviceToken = RulesUtils.generateServiceToken(realm);
 					retInit.put("vertx_url", vertxUrl);
 					retInit.put("api_url", GennySettings.qwandaServiceUrl);
@@ -111,8 +114,45 @@ SIGNATURE_URL=""
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());
-				} else {
-					System.out.println(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
+				} else if ((keycloakJsonText != null)&&("env".equalsIgnoreCase(format))) {
+					final JsonObject retInit = new JsonObject(keycloakJsonText);
+					String env = "";
+					String tokenRealm = retInit.getString("resource");
+					String realm = "genny".equals(tokenRealm)?GennySettings.mainrealm:tokenRealm; // clientId = realm by convention
+					String serviceToken = RulesUtils.generateServiceToken(realm);
+					env = "realm="+realm+"\n";
+					env += "vertx_url="+vertxUrl+"\n";
+					env += "api_url="+GennySettings.qwandaServiceUrl+"\n";
+					final String kcUrl = retInit.getString("auth-server-url");
+					env += "url="+kcUrl+"\n";
+					final String kcClientId = retInit.getString("resource");
+					env += "clientId="+kcClientId+"\n";
+					env += "ENV_GENNY_HOST="+fullurl+":"+GennySettings.apiPort+"\n"; // The web bfrontend already knows this url on port 8088 (It uses it's own url with a port 8088)
+					env += "ENV_GENNY_INITURL="+fullurl+"\n"; // the web frontend knows this url. It passed it to us, but the mobile may not know
+					env += "ENV_GENNY_BRIDGE_PORT="+GennySettings.apiPort+"\n";
+					env += "ENV_GENNY_BRIDGE_VERTEX="+"/frontend"+"\n";  
+					env += "ENV_GENNY_BRIDGE_SERVICE="+"/api/service"+"\n";
+					env += "ENV_GENNY_BRIDGE_EVENTS="+"/api/events"+"\n";
+					env += "ENV_GOOGLE_MAPS_APIKEY="+fetchSetting(realm,"ENV_GOOGLE_MAPS_APIKEY",serviceToken,"NO_GOOGLE_MAPS_APIKEY")+"\n";
+					env += "ENV_GOOGLE_MAPS_APIURL="+fetchSetting(realm,"ENV_GOOGLE_MAPS_APIURL",serviceToken,"NO_GOOGLE_MAPS_APIURL")+"\n";
+					env += "ENV_UPPY_URL="+fetchSetting(realm,"ENV_UPPY_URL",serviceToken,"http://uppy.genny.life")+"\n"; 
+					env += "ENV_KEYCLOAK_REDIRECTURI="+kcUrl+"\n"; 
+					env += "ENV_APPCENTER_ANDROID_SECRET="+fetchSetting(realm,"ENV_APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")+"\n"; 
+					env += "ENV_APPCENTER_IOS_SECRET="+fetchSetting(realm,"ENV_APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")+"\n"; 
+					env += "ENV_ANDROID_CODEPUSH_KEY="+fetchSetting(realm,"ENV_ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")+"\n"; 
+					env += "ENV_LAYOUT_PUBLICURL="+fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout-cache.genny.life:2224")+"\n"; 
+					env += "ENV_LAYOUT_QUERY_DIRECTORY="+fetchSetting(realm,"ENV_LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY")+"\n";
+					env += "ENV_GUEST_USERNAME="+fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest")+"\n";
+					env += "ENV_GUEST_PASSWORD="+fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234")+"\n";
+					env += "ENV_SIGNATURE_URL="+fetchSetting(realm,"ENV_SIGNATURE_URL",serviceToken,"http://signature.genny.life")+"\n";
+					env += "ENV_USE_CUSTOM_AUTH_LAYOUTS="+fetchSetting(realm,"ENV_USE_CUSTOM_AUTH_LAYOUTS",serviceToken,"FALSE")+"\n";
+					
+					log.info("WEB API GET ENV   >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
+					routingContext.response().putHeader("Content-Type", "text/plain");
+					routingContext.response().end(env);
+				} 
+				else {
+					log.error(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
 
 					// Treat Inbound api call as a WEB SITE!!
 
@@ -147,7 +187,13 @@ SIGNATURE_URL=""
 			}
 			Optional<EntityAttribute> entityAttribute =  project.findEntityAttribute(key.toUpperCase());
 			if (entityAttribute.isPresent()) {
-				return entityAttribute.get().getValueString();
+				retValue = entityAttribute.get().getValueString();
+				if (retValue == null) {
+					log.error(realm+" Bridge has "+key+" which is returning null so returning "+defaultValue);
+					return defaultValue;
+				} else  {
+					return retValue;
+				}
 			} else {
 				log.error("Error: no Project Setting for "+key+" , ensure PRJ_"+realm.toUpperCase()+" has entityAttribute value for ENV_"+key.toUpperCase()+" returning default:"+defaultValue);
 				return defaultValue;

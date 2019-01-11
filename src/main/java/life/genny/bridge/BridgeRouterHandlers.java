@@ -84,7 +84,7 @@ SIGNATURE_URL=""
 					final JsonObject retInit = new JsonObject(keycloakJsonText);
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm)?GennySettings.mainrealm:tokenRealm; // clientId = realm by convention
-					String serviceToken = RulesUtils.generateServiceToken(realm);
+					String serviceToken = RulesUtils.generateServiceToken(tokenRealm);
 					retInit.put("vertx_url", vertxUrl);
 					retInit.put("api_url", GennySettings.qwandaServiceUrl);
 					final String kcUrl = retInit.getString("auth-server-url");
@@ -119,7 +119,7 @@ SIGNATURE_URL=""
 					String env = "";
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm)?GennySettings.mainrealm:tokenRealm; // clientId = realm by convention
-					String serviceToken = RulesUtils.generateServiceToken(realm);
+					String serviceToken = RulesUtils.generateServiceToken(tokenRealm);
 					env = "realm="+realm+"\n";
 					env += "vertx_url="+vertxUrl+"\n";
 					env += "api_url="+GennySettings.qwandaServiceUrl+"\n";

@@ -248,7 +248,7 @@ SIGNATURE_URL=""
 				localToken = token;
 			}
 			// j.put("token", token);
-			System.out.println("Incoming Service:"+j);
+			log.info("Incoming Service:"+j);
 			if (j.getString("msg_type").equals("EVT_MSG") || "events".equals(channel) || "event".equals(channel)) {
 				log.info("EVT API POST   >> EVENT-BUS EVENT:" + j);
 				j.put("token", localToken);

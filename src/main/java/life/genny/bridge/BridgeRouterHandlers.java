@@ -98,30 +98,28 @@ public class BridgeRouterHandlers {
 					retInit.put("ENV_GENNY_BRIDGE_VERTEX", "/frontend");
 					retInit.put("ENV_GENNY_BRIDGE_SERVICE", "/api/service");
 					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "/api/events");
-					retInit.put("ENV_GOOGLE_MAPS_APIKEY",
-							fetchSetting(realm, "ENV_GOOGLE_MAPS_APIKEY", serviceToken, "NO_GOOGLE_MAPS_APIKEY"));
-					retInit.put("ENV_GOOGLE_MAPS_APIURL",
-							fetchSetting(realm, "ENV_GOOGLE_MAPS_APIURL", serviceToken, "NO_GOOGLE_MAPS_APIURL"));
-					retInit.put("ENV_UPPY_URL",
-							fetchSetting(realm, "ENV_UPPY_URL", serviceToken, "http://uppy.genny.life"));
-					retInit.put("ENV_KEYCLOAK_REDIRECTURI", kcUrl);
-					retInit.put("ENV_APPCENTER_ANDROID_SECRET", fetchSetting(realm, "ENV_APPCENTER_ANDROID_SECRET",
-							serviceToken, "NO_APPCENTER_ANDROID_SECRET"));
-					retInit.put("ENV_APPCENTER_IOS_SECRET",
-							fetchSetting(realm, "ENV_APPCENTER_IOS_SECRET", serviceToken, "NO_APPCENTER_IOS_SECRET"));
-					retInit.put("ENV_ANDROID_CODEPUSH_KEY",
-							fetchSetting(realm, "ENV_ANDROID_CODEPUSH_KEY", serviceToken, "NO_ANDROID_CODEPUSH_KEY"));
-					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm, "ENV_LAYOUT_PUBLICURL", serviceToken,
-							"http://layout-cache.genny.life:2224"));
-					retInit.put("ENV_LAYOUT_QUERY_DIRECTORY", fetchSetting(realm, "ENV_LAYOUT_QUERY_DIRECTORY",
-							serviceToken, "NO_LAYOUT_QUERY_DIRECTORY"));
-					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm, "ENV_GUEST_USERNAME", serviceToken, "guest"));
-					retInit.put("ENV_GUEST_PASSWORD",
-							fetchSetting(realm, "ENV_GUEST_PASSWORD", serviceToken, "asdf1234"));
-					retInit.put("ENV_SIGNATURE_URL",
-							fetchSetting(realm, "ENV_SIGNATURE_URL", serviceToken, "http://signature.genny.life"));
-					retInit.put("ENV_USE_CUSTOM_AUTH_LAYOUTS",
-							fetchSetting(realm, "ENV_USE_CUSTOM_AUTH_LAYOUTS", serviceToken, "FALSE"));
+
+					retInit.put("ENV_GOOGLE_MAPS_APIKEY", fetchSetting(realm,"ENV_GOOGLE_MAPS_APIKEY",serviceToken,"NO_GOOGLE_MAPS_APIKEY"));
+					retInit.put("ENV_GOOGLE_MAPS_APIURL", fetchSetting(realm,"ENV_GOOGLE_MAPS_APIURL",serviceToken,"NO_GOOGLE_MAPS_APIURL"));
+					retInit.put("ENV_UPPY_URL", fetchSetting(realm,"ENV_UPPY_URL",serviceToken,"http://uppy.genny.life")); 
+					retInit.put("ENV_KEYCLOAK_REDIRECTURI", kcUrl); 
+					retInit.put("ENV_APPCENTER_ANDROID_SECRET", fetchSetting(realm,"ENV_APPCENTER_ANDROID_SECRET",serviceToken,"NO_APPCENTER_ANDROID_SECRET")); 
+					retInit.put("ENV_APPCENTER_IOS_SECRET", fetchSetting(realm,"ENV_APPCENTER_IOS_SECRET",serviceToken,"NO_APPCENTER_IOS_SECRET")); 
+					retInit.put("ENV_ANDROID_CODEPUSH_KEY", fetchSetting(realm,"ENV_ANDROID_CODEPUSH_KEY",serviceToken,"NO_ANDROID_CODEPUSH_KEY")); 
+					retInit.put("ENV_LAYOUT_PUBLICURL", fetchSetting(realm,"ENV_LAYOUT_PUBLICURL",serviceToken,"http://layout-cache.genny.life")); 
+					retInit.put("ENV_GUEST_USERNAME", fetchSetting(realm,"ENV_GUEST_USERNAME",serviceToken,"guest"));
+					retInit.put("ENV_GUEST_PASSWORD", fetchSetting(realm,"ENV_GUEST_PASSWORD",serviceToken,"asdf1234"));
+					retInit.put("ENV_SIGNATURE_URL", fetchSetting(realm,"ENV_SIGNATURE_URL",serviceToken,"http://signature.genny.life"));
+					retInit.put("ENV_USE_CUSTOM_AUTH_LAYOUTS", fetchSetting(realm,"ENV_USE_CUSTOM_AUTH_LAYOUTS",serviceToken,"FALSE"));
+					
+					// To handle a quirky layout directory setting that is in format <realm>-new we hack this bit...
+					String layout_query_dir = fetchSetting(realm,"ENV_LAYOUT_QUERY_DIRECTORY",serviceToken,"NO_LAYOUT_QUERY_DIRECTORY");
+					String devrealm = System.getenv("PROJECT_REALM");
+					if (devrealm==null) {
+						devrealm = realm;
+					}
+					layout_query_dir = layout_query_dir.replaceAll("genny", devrealm.toLowerCase().trim());
+					retInit.put("ENV_LAYOUT_QUERY_DIRECTORY", layout_query_dir);
 
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
@@ -187,7 +185,9 @@ public class BridgeRouterHandlers {
 					routingContext.response().putHeader("Content-Type", "text/plain");
 					routingContext.response().end(env);
 				} else {
+
 					log.error(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
+
 
 					// Treat Inbound api call as a WEB SITE!!
 
@@ -223,6 +223,7 @@ public class BridgeRouterHandlers {
 			}
 			Optional<EntityAttribute> entityAttribute = project.findEntityAttribute(key.toUpperCase());
 			if (entityAttribute.isPresent()) {
+
 				retValue = entityAttribute.get().getValueString();
 				if (retValue == null) {
 					log.error(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
@@ -230,6 +231,7 @@ public class BridgeRouterHandlers {
 				} else {
 					return retValue;
 				}
+
 			} else {
 				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
 						+ " has entityAttribute value for ENV_" + key.toUpperCase() + " returning default:"
@@ -284,15 +286,18 @@ public class BridgeRouterHandlers {
 				localToken = token;
 			}
 			// j.put("token", token);
+
 			log.info("Incoming Service:" + j);
 			final DeliveryOptions options = new DeliveryOptions();
 			options.addHeader("Authorization", "Bearer " + localToken);
 
+
 			if (j.getString("msg_type").equals("EVT_MSG") || "events".equals(channel) || "event".equals(channel)) {
-				log.info("EVT API POST   >> EVENT-BUS EVENT:" + j);
+				log.info("EVT API POST   >> EVENT-BUS EVENT:");
 				j.put("token", localToken);
 				Producer.getToEvents().deliveryOptions(options);
 				Producer.getToEvents().send(j);
+
 			} else if (j.getString("msg_type").equals("CMD_MSG") && "webcmd".equals(channel)) {
 				log.info("WEBCMD API POST   >> WEB CMDS :" + j);
 				j.put("token", localToken);
@@ -301,21 +306,24 @@ public class BridgeRouterHandlers {
 				EBCHandlers.sendToClientSessions(j.toString(), false);
 			} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
 				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
+
 				j.put("token", localToken);
 				Producer.getToCmds().deliveryOptions(options);
 				Producer.getToCmds().send(j);
 			} else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
-				log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :" + j);
+				log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
 				j.put("token", localToken);
 				Producer.getToMessages().deliveryOptions(options);
 				Producer.getToMessages().send(j);
+
 			} else if ("webdata".equals(channel)) {
 				log.info("WEBDATA API POST   >> EVENT-BUS DATA :" + j);
+
 				j.put("token", localToken);
 				Producer.getToWebData().deliveryOptions(options);
 				Producer.getToWebData().send(j);
 			} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
-				log.info("CMD API POST   >> EVENT-BUS DATA :" + j);
+				log.info("CMD API POST   >> EVENT-BUS DATA :");
 				j.put("token", localToken);
 				Producer.getToData().deliveryOptions(options);
 				Producer.getToData().send(j);
@@ -328,10 +336,10 @@ public class BridgeRouterHandlers {
 	public static void apiHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(body -> {
 			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
-				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + body.toJsonObject());
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" );
 			Producer.getToClientOutbound().send(body.toJsonObject());
 			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
-				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:" + body.toJsonObject());
+				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:" );
 			Producer.getToData().send(body.toJsonObject());
 		});
 		routingContext.response().end();

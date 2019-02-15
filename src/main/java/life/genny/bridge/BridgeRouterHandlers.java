@@ -215,7 +215,7 @@ public class BridgeRouterHandlers {
 
 		// else look at the project setting
 		if (retValue == null) {
-			BaseEntity project = VertxUtils.readFromDDT(project_code, serviceToken);
+			BaseEntity project = VertxUtils.readFromDDT(realm, project_code, serviceToken);
 			if (project == null) {
 				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
 						+ " has entityAttribute value for " + key.toUpperCase());

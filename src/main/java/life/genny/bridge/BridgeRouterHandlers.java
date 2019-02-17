@@ -32,7 +32,6 @@ import life.genny.utils.VertxUtils;
 
 public class BridgeRouterHandlers {
 
-	private static String vertxUrl = System.getenv("REACT_APP_VERTX_URL");
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
@@ -82,7 +81,7 @@ public class BridgeRouterHandlers {
 																										// realm by
 																										// convention
 					String serviceToken = RulesUtils.generateServiceToken(tokenRealm);
-					retInit.put("vertx_url", vertxUrl);
+					retInit.put("vertx_url", GennySettings.vertxUrl);
 					retInit.put("api_url", GennySettings.qwandaServiceUrl);
 					final String kcUrl = retInit.getString("auth-server-url");
 					retInit.put("url", kcUrl);
@@ -133,7 +132,7 @@ public class BridgeRouterHandlers {
 																										// convention
 					String serviceToken = RulesUtils.generateServiceToken(tokenRealm);
 					env = "realm=" + realm + "\n";
-					env += "vertx_url=" + vertxUrl + "\n";
+					env += "vertx_url=" + GennySettings.vertxUrl + "\n";
 					env += "api_url=" + GennySettings.qwandaServiceUrl + "\n";
 					final String kcUrl = retInit.getString("auth-server-url");
 					env += "url=" + kcUrl + "\n";
@@ -193,7 +192,7 @@ public class BridgeRouterHandlers {
 
 					final JsonObject retInit = new JsonObject();
 					retInit.put("realm", "www");
-					retInit.put("vertx_url", vertxUrl);
+					retInit.put("vertx_url", GennySettings.vertxUrl);
 					log.info("WEB API GETWWW >> SETUP REQ:" + url + " sending : WWW");
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());

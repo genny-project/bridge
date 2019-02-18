@@ -66,6 +66,8 @@ public class EBCHandlers {
 			JsonArray recipientJsonArray = null;
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
+			String realm = tokenJSON.getString("azp");
+			
 			String userCode = "PER_" + uname.toUpperCase();
 			
 			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
@@ -99,22 +101,23 @@ public class EBCHandlers {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
 					String recipientCode = recipientJsonArray.getString(i);
 					// Get all the sessionStates for this user
+					log.info("GET SET realm="+realm+" userCode="+recipientCode);
 
-					Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
+					Set<String> sessionStates = VertxUtils.getSetString(realm, "SessionStates", recipientCode);
 
 					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 
 					//	sessionStates.add(tokenJSON.getString("session_state")); // commenting this one, since current
 																					// user was getting added to the
 																					// toast recipients
-						System.out.println("User:" + recipientCode + " with " + sessionStates.size() + " sessions");
+						log.info("User:" + recipientCode + " with " + sessionStates.size() + " sessions");
 						for (String sessionState : sessionStates) {
 
 							MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 							// final MessageProducer<JsonObject> msgProducer =
 							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
 							if (msgProducer != null) {
-								System.out.println("Sending to "+sessionState);
+								log.info("Sending to "+sessionState);
 
 									msgProducer.write(cleanJson).end();
 

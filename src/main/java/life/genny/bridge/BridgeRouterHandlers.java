@@ -253,12 +253,14 @@ public class BridgeRouterHandlers {
 			String tokenSt = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(tokenSt);
 			String sessionState = tokenJSON.getString("session_state");
+			String realm = tokenJSON.getString("azp");
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
 
-			Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
+			Set<String> sessionStates = VertxUtils.getSetString(realm, "SessionStates", userCode);
 			sessionStates.add(sessionState);
-			VertxUtils.putSetString("", "SessionStates", userCode, sessionStates);
+			VertxUtils.putSetString(realm, "SessionStates", userCode, sessionStates);
+			log.info("PUT SET realm="+realm+" userCode="+userCode+" session="+sessionState);
 			final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
 					.publisher(sessionState);
 			VertxUtils.putMessageProducer(sessionState, toSessionChannel);

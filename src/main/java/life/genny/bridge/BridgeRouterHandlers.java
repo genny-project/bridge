@@ -87,13 +87,14 @@ public class BridgeRouterHandlers {
 					retInit.put("url", kcUrl);
 					final String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);
-					retInit.put("ENV_GENNY_HOST", fullurl + ":" + GennySettings.apiPort); // The web bfrontend already
+					retInit.put("ENV_GENNY_HOST", fetchSetting(realm, "ENV_GENNY_HOST", serviceToken, fullurl + ":" + GennySettings.apiPort)); // The web bfrontend already
 																							// knows this url on port
 																							// 8088 (It uses it's own
 																							// url with a port 8088)
 					retInit.put("ENV_GENNY_INITURL", fullurl); // the web frontend knows this url. It passed it to us,
 																// but the mobile may not know
-					retInit.put("ENV_GENNY_BRIDGE_PORT", GennySettings.apiPort);
+					retInit.put("ENV_GENNY_BRIDGE_PORT", fetchSetting(realm,"ENV_GENNY_BRIDGE_PORT",serviceToken, GennySettings.apiPort));
+
 					retInit.put("ENV_GENNY_BRIDGE_VERTEX", "/frontend");
 					retInit.put("ENV_GENNY_BRIDGE_SERVICE", "/api/service");
 					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "/api/events");
@@ -138,14 +139,13 @@ public class BridgeRouterHandlers {
 					env += "url=" + kcUrl + "\n";
 					final String kcClientId = retInit.getString("resource");
 					env += "clientId=" + kcClientId + "\n";
-					env += "ENV_GENNY_HOST=" + fullurl + ":" + GennySettings.apiPort + "\n"; // The web bfrontend
-																								// already knows this
-																								// url on port 8088 (It
-																								// uses it's own url
-																								// with a port 8088)
 					env += "ENV_GENNY_INITURL=" + fullurl + "\n"; // the web frontend knows this url. It passed it to
 																	// us, but the mobile may not know
-					env += "ENV_GENNY_BRIDGE_PORT=" + GennySettings.apiPort + "\n";
+
+					env += "ENV_GENNY_HOST="
+							+ fetchSetting(realm, "ENV_GENNY_HOST", serviceToken, fullurl + ":" + GennySettings.apiPort)
+							+ "\n";
+					env += "ENV_GENNY_BRIDGE_PORT=" +fetchSetting(realm,"ENV_GENNY_BRIDGE_PORT",serviceToken, GennySettings.apiPort)+ "\n";
 					env += "ENV_GENNY_BRIDGE_VERTEX=" + "/frontend" + "\n";
 					env += "ENV_GENNY_BRIDGE_SERVICE=" + "/api/service" + "\n";
 					env += "ENV_GENNY_BRIDGE_EVENTS=" + "/api/events" + "\n";

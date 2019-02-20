@@ -316,7 +316,7 @@ public class BridgeRouterHandlers {
 				Producer.getToMessages().send(j);
 
 			} else if ("webdata".equals(channel)) {
-				log.info("WEBDATA API POST   >> EVENT-BUS DATA :" + j);
+				log.info("WEBDATA API POST   >> WEB DATA :" + j);
 
 				j.put("token", localToken);
 				Producer.getToWebData().deliveryOptions(options);

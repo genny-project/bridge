@@ -51,7 +51,7 @@ public class EBCHandlers {
 	/**
 	 * @param incomingCmd
 	 */
-	private static void sendToClientSessions(String incomingCmd, boolean sessionOnly) {
+	public static void sendToClientSessions(String incomingCmd, boolean sessionOnly) {
 		// ugly, but remove the outer array
 		if (incomingCmd.startsWith("[")) {
 			incomingCmd = incomingCmd.replaceFirst("\\[", "");
@@ -67,7 +67,7 @@ public class EBCHandlers {
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
-
+			
 			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
 
@@ -80,7 +80,7 @@ public class EBCHandlers {
 			json.remove("recipientCodeArray"); // do not show the other recipients
 			JsonObject cleanJson = null; //
 			
-      cleanJson =json; // removePrivates(json, tokenJSON, sessionOnly, userCode);
+			cleanJson =json; // removePrivates(json, tokenJSON, sessionOnly, userCode);
 			if (cleanJson == null) {
 				log.error("null json");
 			}
@@ -93,10 +93,7 @@ public class EBCHandlers {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-
-
 						msgProducer.write(cleanJson).end();
-
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {

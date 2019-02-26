@@ -233,7 +233,7 @@ public class BridgeRouterHandlers {
 
 			} else {
 				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
-						+ " has entityAttribute value for ENV_" + key.toUpperCase() + " returning default:"
+						+ " has entityAttribute value for " + key.toUpperCase() + " returning default:"
 						+ defaultValue);
 				return defaultValue;
 			}
@@ -270,7 +270,9 @@ public class BridgeRouterHandlers {
 	public static void apiServiceHandler(final RoutingContext routingContext) {
 		String token = routingContext.request().getParam("token");
 		String channel = routingContext.request().getParam("channel");
+		log.info("Service Call! "+channel);
 		routingContext.request().bodyHandler(body -> {
+			log.info("Service Call bodyHandler! "+channel);
 			String localToken = null;
 			final JsonObject j = body.toJsonObject();
 			if (token == null) {
@@ -291,7 +293,7 @@ public class BridgeRouterHandlers {
 			options.addHeader("Authorization", "Bearer " + localToken);
 
 
-			if (j.getString("msg_type").equals("EVT_MSG") || "events".equals(channel) || "event".equals(channel)) {
+			if ("EVT_MSG".equals(j.getString("msg_type")) || "events".equals(channel) || "event".equals(channel)) {
 				log.info("EVT API POST   >> EVENT-BUS EVENT:");
 				j.put("token", localToken);
 				Producer.getToEvents().deliveryOptions(options);
@@ -316,7 +318,7 @@ public class BridgeRouterHandlers {
 				Producer.getToMessages().send(j);
 
 			} else if ("webdata".equals(channel)) {
-				log.info("WEBDATA API POST   >> EVENT-BUS DATA :" + j);
+				log.info("WEBDATA API POST   >> WEB DATA :" + j);
 
 				j.put("token", localToken);
 				Producer.getToWebData().deliveryOptions(options);

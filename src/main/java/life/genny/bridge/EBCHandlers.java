@@ -107,14 +107,14 @@ public class EBCHandlers {
 					//	sessionStates.add(tokenJSON.getString("session_state")); // commenting this one, since current
 																					// user was getting added to the
 																					// toast recipients
-						System.out.println("User:" + recipientCode + " with " + sessionStates.size() + " sessions");
+						log.info("User:" + recipientCode + " with " + sessionStates.size() + " sessions");
 						for (String sessionState : sessionStates) {
 
 							MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 							// final MessageProducer<JsonObject> msgProducer =
 							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
 							if (msgProducer != null) {
-								System.out.println("Sending to "+sessionState);
+								log.info("Sending to "+sessionState);
 
 									msgProducer.write(cleanJson).end();
 

@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
 
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
@@ -16,6 +18,8 @@ import io.vertx.rxjava.core.Vertx;
 
 public class SecureResources {
 
+	protected static final Logger log = org.apache.logging.log4j.LogManager
+			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
   /**
    * @return the keycloakJsonMap
    */
@@ -46,7 +50,7 @@ public class SecureResources {
     	            Vertx.currentContext().owner().fileSystem().readFile(dirFileStr, d -> {
     	            if (!d.failed()) {
     	              try {
-    	                System.out.println("Loading in [" + fileStr + "]");
+    	                log.info("Loading in [" + fileStr + "]");
     	                final String keycloakJsonText =
     	                    d.result().toString().replaceAll("localhost", hostIP);
     	                
@@ -58,7 +62,7 @@ public class SecureResources {
     	                keycloakJsonMap.put(fileStr, ob.toString());
 
     	   
-    	                System.out.println("Keycloak json file:"+fileStr+":"+keycloakJsonText);
+    	                log.info("Keycloak json file:"+fileStr+":"+keycloakJsonText);
 
     	              } catch (final DecodeException dE) {
 
@@ -82,7 +86,7 @@ public class SecureResources {
 
     for (int i = 0; i < listOfFiles.length; i++) {
       if (listOfFiles[i].isFile()) {
-        System.out.println("File " + listOfFiles[i].getName());
+        log.info("File " + listOfFiles[i].getName());
         try {
           String keycloakJsonText = getFileAsText(listOfFiles[i]);
           // Handle case where dev is in place with localhost
@@ -95,7 +99,7 @@ public class SecureResources {
         }
 
       } else if (listOfFiles[i].isDirectory()) {
-        System.out.println("Directory " + listOfFiles[i].getName());
+        log.info("Directory " + listOfFiles[i].getName());
         readFilenamesFromDirectory(listOfFiles[i].getName(), keycloakJsonMap);
       }
     }

@@ -78,7 +78,7 @@ public class BridgeHandler {
 
         }
       } else {
-        System.out.println("EMPTY TOKEN");
+        log.error("EMPTY TOKEN");
       }
     }
     bridgeEvent.complete(true);

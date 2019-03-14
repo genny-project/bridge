@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
@@ -33,8 +34,10 @@ import life.genny.utils.VertxUtils;
 public class BridgeRouterHandlers {
 
 
-	protected static final Logger log = org.apache.logging.log4j.LogManager
-			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+//	protected static final Logger log = org.apache.logging.log4j.LogManager
+//			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+	
+	protected static final io.vertx.core.logging.Logger log = LoggerFactory.getLogger(BridgeRouterHandlers.class);
 
 	public static final String GIT_VERSION_PROPERTIES = "GitVersion.properties";
 
@@ -270,7 +273,7 @@ public class BridgeRouterHandlers {
 	public static void apiServiceHandler(final RoutingContext routingContext) {
 		String token = routingContext.request().getParam("token");
 		String channel = routingContext.request().getParam("channel");
-		log.info("Service Call! "+channel);
+	//	log.info("Service Call! "+channel);
 		routingContext.request().bodyHandler(body -> {
 			log.info("Service Call bodyHandler! "+channel);
 			String localToken = null;

@@ -68,11 +68,12 @@ public class BridgeRouterHandlers {
 			if (format == null) {
 				format = "json";
 			}
+			SecureResources.setKeycloakJsonMap();
 			URL aURL = null;
 			try {
 				aURL = new URL(fullurl);
 				final String url = aURL.getHost();
-				String key = url + ".json";
+				String key = "keycloak.json";
 				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
 				if ((keycloakJsonText != null) && ("json".equalsIgnoreCase(format))) {
 					final JsonObject retInit = new JsonObject(keycloakJsonText);

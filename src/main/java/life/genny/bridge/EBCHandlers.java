@@ -2,12 +2,16 @@ package life.genny.bridge;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.invoke.MethodHandles;
 import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
+import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -96,9 +100,10 @@ public class EBCHandlers {
 			
 			if (GennySettings.zipMode) {
 				try {
-				String cleanJsonStr = compress(cleanJson.toString());
+				byte[] cleanJsonByteArray = zipped(cleanJson.toString());
 				cleanJson = new JsonObject();
-				cleanJson.put("zip", cleanJsonStr);
+				cleanJson.put("zip", cleanJsonByteArray);
+				System.out.println(cleanJson);
 				} catch (IOException e) {
 					log.error("CANNOT ZIP json");
 				}
@@ -161,4 +166,17 @@ public class EBCHandlers {
 	    String outStr = out.toString("UTF-8");
 	    return outStr;
 	 }
+	
+	public static byte[] zipped(final String str) throws IOException {
+		  ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
+		  Base64OutputStream base64OutputStream=new Base64OutputStream(byteStream);
+		  GZIPOutputStream gzip=new GZIPOutputStream(base64OutputStream);
+		  OutputStreamWriter writer=new OutputStreamWriter(gzip);
+		  Gson gson = new Gson();
+		  gson.toJson(str,writer);
+		  writer.flush();
+		  gzip.finish();
+		  writer.close();
+		  return byteStream.toByteArray();
+		}
 }

@@ -1,7 +1,10 @@
 package life.genny.bridge;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Set;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -11,6 +14,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.channel.Consumer;
 import life.genny.qwanda.message.QBulkPullMessage;
+import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
@@ -50,8 +54,9 @@ public class EBCHandlers {
 
 	/**
 	 * @param incomingCmd
+	 * @throws IOException 
 	 */
-	public static void sendToClientSessions(String incomingCmd, boolean sessionOnly) {
+	public static void sendToClientSessions(String incomingCmd, boolean sessionOnly)  {
 		// ugly, but remove the outer array
 		if (incomingCmd.startsWith("[")) {
 			incomingCmd = incomingCmd.replaceFirst("\\[", "");
@@ -59,7 +64,7 @@ public class EBCHandlers {
 		}
 
 		final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code"));
+		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code") + (GennySettings.zipMode?"ZIPPED":" "));
 
 		if (json.getString("token") != null) {
 			// check token
@@ -88,6 +93,16 @@ public class EBCHandlers {
 				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
 				cleanJson = new JsonObject(JsonUtils.toJson(msg));
 			} 
+			
+			if (GennySettings.zipMode) {
+				try {
+				String cleanJsonStr = compress(cleanJson.toString());
+				cleanJson = new JsonObject();
+				cleanJson.put("zip", cleanJsonStr);
+				} catch (IOException e) {
+					log.error("CANNOT ZIP json");
+				}
+			}
 
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");
@@ -114,10 +129,10 @@ public class EBCHandlers {
 							// final MessageProducer<JsonObject> msgProducer =
 							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
 							if (msgProducer != null) {
-								log.info("Sending to "+sessionState);
+									
 
 									msgProducer.write(cleanJson).end();
-
+									log.info("Sent to "+sessionState+" "+cleanJson.size()+" bytes");
 							}
 
 						}
@@ -135,5 +150,15 @@ public class EBCHandlers {
 	}
 
 
-
+	public static String compress(String str) throws IOException {
+	    if (str == null || str.length() == 0) {
+	        return str;
+	    }
+	    ByteArrayOutputStream out = new ByteArrayOutputStream();
+	    GZIPOutputStream gzip = new GZIPOutputStream(out);
+	    gzip.write(str.getBytes());
+	    gzip.close();
+	    String outStr = out.toString("UTF-8");
+	    return outStr;
+	 }
 }

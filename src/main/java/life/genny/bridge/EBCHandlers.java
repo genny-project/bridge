@@ -102,6 +102,7 @@ public class EBCHandlers {
 			
 			if (GennySettings.zipMode) {
 				try {
+
 					log.info("ZIPPING!");;
 					if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
 						String js = compressAndEncodeString(cleanJson.toString());
@@ -123,6 +124,7 @@ public class EBCHandlers {
 
 				} catch (Exception e) {
 					log.error("CANNOT Compress json");
+
 				}
 			}
 
@@ -198,6 +200,7 @@ public class EBCHandlers {
 		  writer.close();
 		  return byteStream.toByteArray();
 		}
+
 	
 	public static String compressAndEncodeString(String str) {
 	    DeflaterOutputStream def = null;
@@ -224,4 +227,5 @@ public class EBCHandlers {
 		bos.close();
 		return compressed;
 	}
+
 }

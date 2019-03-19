@@ -78,6 +78,7 @@ public class BridgeRouterHandlers {
 				final String url = aURL.getHost();
 				String key = "keycloak.json";
 				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
+				log.debug("Keycloak JSON: " + keycloakJsonText);
 				if ((keycloakJsonText != null) && ("json".equalsIgnoreCase(format))) {
 					final JsonObject retInit = new JsonObject(keycloakJsonText);
 					String tokenRealm = retInit.getString("resource");

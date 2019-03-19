@@ -2,12 +2,18 @@ package life.genny.bridge;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.invoke.MethodHandles;
 import java.util.Set;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -96,11 +102,27 @@ public class EBCHandlers {
 			
 			if (GennySettings.zipMode) {
 				try {
-				String cleanJsonStr = compress(cleanJson.toString());
-				cleanJson = new JsonObject();
-				cleanJson.put("zip", cleanJsonStr);
-				} catch (IOException e) {
-					log.error("CANNOT ZIP json");
+					log.info("ZIPPING!");;
+					if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
+						String js = compressAndEncodeString(cleanJson.toString());
+						cleanJson = new JsonObject();
+						cleanJson.put("zip",js);
+					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
+						byte[] js = compress2(cleanJson.toString());
+						 cleanJson = new JsonObject();
+						cleanJson.put("zip",js);
+						} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
+							byte[] js = zipped(cleanJson.toString());
+							 cleanJson = new JsonObject();
+							cleanJson.put("zip",js);
+							} else  {
+								String js = compress(cleanJson.toString());
+								 cleanJson = new JsonObject();
+								cleanJson.put("zip",js);
+								} 
+
+				} catch (Exception e) {
+					log.error("CANNOT Compress json");
 				}
 			}
 
@@ -108,7 +130,9 @@ public class EBCHandlers {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
+					log.info("About to send  to "+sessionState+" "+cleanJson.size()+" bytes");
 						msgProducer.write(cleanJson).end();
+						log.info("Sent to "+sessionState+" "+cleanJson.size()+" bytes");
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -161,4 +185,43 @@ public class EBCHandlers {
 	    String outStr = out.toString("UTF-8");
 	    return outStr;
 	 }
+	
+	public static byte[] zipped(final String str) throws IOException {
+		  ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
+		  Base64OutputStream base64OutputStream=new Base64OutputStream(byteStream);
+		  GZIPOutputStream gzip=new GZIPOutputStream(base64OutputStream);
+		  OutputStreamWriter writer=new OutputStreamWriter(gzip);
+		  Gson gson = new Gson();
+		  gson.toJson(str,writer);
+		  writer.flush();
+		  gzip.finish();
+		  writer.close();
+		  return byteStream.toByteArray();
+		}
+	
+	public static String compressAndEncodeString(String str) {
+	    DeflaterOutputStream def = null;
+	    String compressed = null;
+	    try {
+	        ByteArrayOutputStream out = new ByteArrayOutputStream();
+	        // create deflater without header
+	        def = new DeflaterOutputStream(out, new Deflater(Deflater.BEST_COMPRESSION, true));
+	        def.write(str.getBytes());
+	        def.close();
+	        compressed = out.toString("UTF-8");
+	    } catch(Exception e) {
+	       System.out.println( "could not compress data: " + e);
+	    }
+	    return compressed;
+	}
+	
+	public static byte[] compress2(String data) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length());
+		GZIPOutputStream gzip = new GZIPOutputStream(bos);
+		gzip.write(data.getBytes());
+		gzip.close();
+		byte[] compressed = bos.toByteArray();
+		bos.close();
+		return compressed;
+	}
 }

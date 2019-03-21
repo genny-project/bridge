@@ -74,9 +74,11 @@ public class BridgeRouterHandlers {
 			try {
 				aURL = new URL(fullurl);
 				final String url = aURL.getHost();
-				JsonObject retInit = VertxUtils.readCachedJson(GennySettings.mainrealm, GennySettings.KEYCLOAK_JSON);
-				log.info("Keycloak JSON: " + retInit);
-				if ((retInit != null) && ("json".equalsIgnoreCase(format))) {
+				JsonObject retInit = null;
+				JsonObject json = VertxUtils.readCachedJson(GennySettings.mainrealm, GennySettings.KEYCLOAK_JSON);
+				if ((json != null) && ("json".equalsIgnoreCase(format))) {
+					retInit = (new JsonObject(json.getString("value")));
+					log.info("KEYCLOAK JSON VALUE: " + retInit);
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm) ? GennySettings.mainrealm : tokenRealm; // clientId =
 																										// realm by
@@ -127,6 +129,7 @@ public class BridgeRouterHandlers {
 					routingContext.response().end(retInit.toString());
 				} else if ((retInit != null) && ("env".equalsIgnoreCase(format))) {
 					String env = "";
+					retInit = (new JsonObject(retInit.getString("value")));
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm) ? GennySettings.mainrealm : tokenRealm; // clientId =
 																										// realm by

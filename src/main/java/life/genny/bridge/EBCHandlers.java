@@ -114,8 +114,10 @@ public class EBCHandlers {
 						cleanJson.put("zip", js);
 					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
 						byte[] js = compress3(cleanJson.toString());
+						String encoded = Base64.getEncoder().encodeToString(js);
+
 						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
+						cleanJson.put("zip", encoded);
 					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
 						byte[] js = zipped(cleanJson.toString());
 						cleanJson = new JsonObject();
@@ -235,7 +237,10 @@ public class EBCHandlers {
 		// byte[] compressed = Zstd.compress(data.getBytes("UTF-16LE"));
 	//	byte[] encodedBytes = Base64.getEncoder().encode("hello".getBytes());
 	//	byte[] bytes = Zstd.compress(encodedBytes); // 40 181 47 253
-		byte[] bytes = Zstd.compress(data.getBytes()); // 40 181 47 253
+	//	byte[] bytes = Zstd.compress(data.getBytes()); // 40 181 47 253
+		byte[] encodedBytes = Base64.getEncoder().encode(data.getBytes());
+		byte[] bytes =   Zstd.compress(encodedBytes);			// 40 181 47 253
+
 
 		return bytes;
 	}

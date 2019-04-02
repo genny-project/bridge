@@ -1,9 +1,11 @@
 package life.genny.bridge;
 
 import java.io.ByteArrayOutputStream;
+import com.github.luben.zstd.Zstd;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.invoke.MethodHandles;
+import java.util.Base64;
 import java.util.Set;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -228,4 +230,12 @@ public class EBCHandlers {
 		return compressed;
 	}
 
+	public static byte[] compress3(String data) throws IOException {
+      //  byte[] in = data.getBytes();
+     //   byte[] compressed = Zstd.compress(data.getBytes("UTF-16LE"));
+		byte[] encodedBytes = Base64.getEncoder().encode(data.getBytes());
+		byte[] bytes =   Zstd.compress(encodedBytes);			// 40 181 47 253
+
+        return bytes;
+    }
 }

@@ -29,14 +29,14 @@ import life.genny.qwandautils.QwandaUtils;
 import life.genny.utils.BaseEntityUtils;
 import life.genny.utils.VertxUtils;
 
-
-
 public class EBCHandlers {
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
-	
-	private static Boolean bulkPull = (System.getenv("BULKPULL") != null) ? "TRUE".equalsIgnoreCase(System.getenv("BULKPULL")) : false;
+
+	private static Boolean bulkPull = (System.getenv("BULKPULL") != null)
+			? "TRUE".equalsIgnoreCase(System.getenv("BULKPULL"))
+			: false;
 
 	public static void registerHandlers() {
 
@@ -52,7 +52,7 @@ public class EBCHandlers {
 		Consumer.getFromWebData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size->" +json.size());
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size->" + json.size());
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(incomingData, false);
@@ -62,9 +62,9 @@ public class EBCHandlers {
 
 	/**
 	 * @param incomingCmd
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public static void sendToClientSessions(String incomingCmd, boolean sessionOnly)  {
+	public static void sendToClientSessions(String incomingCmd, boolean sessionOnly) {
 		// ugly, but remove the outer array
 		if (incomingCmd.startsWith("[")) {
 			incomingCmd = incomingCmd.replaceFirst("\\[", "");
@@ -72,7 +72,8 @@ public class EBCHandlers {
 		}
 
 		final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code") + (GennySettings.zipMode?"ZIPPED":" "));
+		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code")
+				+ (GennySettings.zipMode ? "ZIPPED" : " "));
 
 		if (json.getString("token") != null) {
 			// check token
@@ -80,7 +81,7 @@ public class EBCHandlers {
 			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(json.getString("token"));
 			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 			String userCode = "PER_" + uname.toUpperCase();
-			
+
 			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
 
@@ -92,37 +93,38 @@ public class EBCHandlers {
 			json.remove("token"); // do not show the token
 			json.remove("recipientCodeArray"); // do not show the other recipients
 			JsonObject cleanJson = null; //
-			
-			cleanJson =json; // removePrivates(json, tokenJSON, sessionOnly, userCode);
+
+			cleanJson = json; // removePrivates(json, tokenJSON, sessionOnly, userCode);
 			if (cleanJson == null) {
 				log.error("null json");
 			}
 			if (bulkPull) {
 				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
 				cleanJson = new JsonObject(JsonUtils.toJson(msg));
-			} 
-			
+			}
+
 			if (GennySettings.zipMode) {
 				try {
 
-					log.info("ZIPPING!");;
+					log.info("ZIPPING!");
+					;
 					if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
 						String js = compressAndEncodeString(cleanJson.toString());
 						cleanJson = new JsonObject();
-						cleanJson.put("zip",js);
+						cleanJson.put("zip", js);
 					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
-						byte[] js = compress2(cleanJson.toString());
-						 cleanJson = new JsonObject();
-						cleanJson.put("zip",js);
-						} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
-							byte[] js = zipped(cleanJson.toString());
-							 cleanJson = new JsonObject();
-							cleanJson.put("zip",js);
-							} else  {
-								String js = compress(cleanJson.toString());
-								 cleanJson = new JsonObject();
-								cleanJson.put("zip",js);
-								} 
+						byte[] js = compress3(cleanJson.toString());
+						cleanJson = new JsonObject();
+						cleanJson.put("zip", js);
+					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
+						byte[] js = zipped(cleanJson.toString());
+						cleanJson = new JsonObject();
+						cleanJson.put("zip", js);
+					} else {
+						String js = compress(cleanJson.toString());
+						cleanJson = new JsonObject();
+						cleanJson.put("zip", js);
+					}
 
 				} catch (Exception e) {
 					log.error("CANNOT Compress json");
@@ -134,9 +136,9 @@ public class EBCHandlers {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-					log.info("About to send  to "+sessionState+" "+cleanJson.size()+" bytes");
-						msgProducer.write(cleanJson).end();
-						log.info("Sent to "+sessionState+" "+cleanJson.size()+" bytes");
+					log.info("About to send  to " + sessionState + " " + cleanJson.size() + " bytes");
+					msgProducer.write(cleanJson).end();
+					log.info("Sent to " + sessionState + " " + cleanJson.size() + " bytes");
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -147,9 +149,10 @@ public class EBCHandlers {
 
 					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 
-					//	sessionStates.add(tokenJSON.getString("session_state")); // commenting this one, since current
-																					// user was getting added to the
-																					// toast recipients
+						// sessionStates.add(tokenJSON.getString("session_state")); // commenting this
+						// one, since current
+						// user was getting added to the
+						// toast recipients
 						log.info("User:" + recipientCode + " with " + sessionStates.size() + " sessions");
 						for (String sessionState : sessionStates) {
 
@@ -157,17 +160,16 @@ public class EBCHandlers {
 							// final MessageProducer<JsonObject> msgProducer =
 							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
 							if (msgProducer != null) {
-									
 
-									msgProducer.write(cleanJson).end();
-									log.info("Sent to "+sessionState+" "+cleanJson.size()+" bytes");
+								msgProducer.write(cleanJson).end();
+								log.info("Sent to " + sessionState + " " + cleanJson.size() + " bytes");
 							}
 
 						}
 					} else {
 						// no sessions for this user!
 						// need to remove them from subscriptions ...
-						log.error("Remove "+recipientCode+" from subscriptions , they have no sessions");
+						log.error("Remove " + recipientCode + " from subscriptions , they have no sessions");
 					}
 				}
 			}
@@ -177,49 +179,47 @@ public class EBCHandlers {
 		}
 	}
 
-
 	public static String compress(String str) throws IOException {
-	    if (str == null || str.length() == 0) {
-	        return str;
-	    }
-	    ByteArrayOutputStream out = new ByteArrayOutputStream();
-	    GZIPOutputStream gzip = new GZIPOutputStream(out);
-	    gzip.write(str.getBytes());
-	    gzip.close();
-	    String outStr = out.toString("UTF-8");
-	    return outStr;
-	 }
-	
-	public static byte[] zipped(final String str) throws IOException {
-		  ByteArrayOutputStream byteStream=new ByteArrayOutputStream();
-		  Base64OutputStream base64OutputStream=new Base64OutputStream(byteStream);
-		  GZIPOutputStream gzip=new GZIPOutputStream(base64OutputStream);
-		  OutputStreamWriter writer=new OutputStreamWriter(gzip);
-		  Gson gson = new Gson();
-		  gson.toJson(str,writer);
-		  writer.flush();
-		  gzip.finish();
-		  writer.close();
-		  return byteStream.toByteArray();
+		if (str == null || str.length() == 0) {
+			return str;
 		}
-
-	
-	public static String compressAndEncodeString(String str) {
-	    DeflaterOutputStream def = null;
-	    String compressed = null;
-	    try {
-	        ByteArrayOutputStream out = new ByteArrayOutputStream();
-	        // create deflater without header
-	        def = new DeflaterOutputStream(out, new Deflater(Deflater.BEST_COMPRESSION, true));
-	        def.write(str.getBytes());
-	        def.close();
-	        compressed = out.toString("UTF-8");
-	    } catch(Exception e) {
-	       System.out.println( "could not compress data: " + e);
-	    }
-	    return compressed;
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		GZIPOutputStream gzip = new GZIPOutputStream(out);
+		gzip.write(str.getBytes());
+		gzip.close();
+		String outStr = out.toString("UTF-8");
+		return outStr;
 	}
-	
+
+	public static byte[] zipped(final String str) throws IOException {
+		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+		Base64OutputStream base64OutputStream = new Base64OutputStream(byteStream);
+		GZIPOutputStream gzip = new GZIPOutputStream(base64OutputStream);
+		OutputStreamWriter writer = new OutputStreamWriter(gzip);
+		Gson gson = new Gson();
+		gson.toJson(str, writer);
+		writer.flush();
+		gzip.finish();
+		writer.close();
+		return byteStream.toByteArray();
+	}
+
+	public static String compressAndEncodeString(String str) {
+		DeflaterOutputStream def = null;
+		String compressed = null;
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			// create deflater without header
+			def = new DeflaterOutputStream(out, new Deflater(Deflater.BEST_COMPRESSION, true));
+			def.write(str.getBytes());
+			def.close();
+			compressed = out.toString("UTF-8");
+		} catch (Exception e) {
+			System.out.println("could not compress data: " + e);
+		}
+		return compressed;
+	}
+
 	public static byte[] compress2(String data) throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length());
 		GZIPOutputStream gzip = new GZIPOutputStream(bos);
@@ -231,11 +231,11 @@ public class EBCHandlers {
 	}
 
 	public static byte[] compress3(String data) throws IOException {
-      //  byte[] in = data.getBytes();
-     //   byte[] compressed = Zstd.compress(data.getBytes("UTF-16LE"));
-		byte[] encodedBytes = Base64.getEncoder().encode(data.getBytes());
-		byte[] bytes =   Zstd.compress(encodedBytes);			// 40 181 47 253
+		// byte[] in = data.getBytes();
+		// byte[] compressed = Zstd.compress(data.getBytes("UTF-16LE"));
+		byte[] encodedBytes = Base64.getEncoder().encode("hello".getBytes());
+		byte[] bytes = Zstd.compress(encodedBytes); // 40 181 47 253
 
-        return bytes;
-    }
+		return bytes;
+	}
 }

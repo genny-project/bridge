@@ -21,6 +21,12 @@ public class compressionTest {
 		String encoded = Base64.getEncoder().encodeToString(bytes);
 		
 		System.out.println("encoded=["+encoded+"]");
+		
+		String in = "KLUv/SAIQQAAYUdWc2JHOD0=";
+		 byte[] ob = new byte[(int)Zstd.decompressedSize(bytes)];
+	     Zstd.decompress(ob, bytes);
+	     byte[] decoded = Base64.getDecoder().decode(ob);
+	     System.out.println("decompressed=["+new String(decoded)+"]");
 	}
 	
 }

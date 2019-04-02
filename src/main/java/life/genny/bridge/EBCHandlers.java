@@ -233,8 +233,9 @@ public class EBCHandlers {
 	public static byte[] compress3(String data) throws IOException {
 		// byte[] in = data.getBytes();
 		// byte[] compressed = Zstd.compress(data.getBytes("UTF-16LE"));
-		byte[] encodedBytes = Base64.getEncoder().encode("hello".getBytes());
-		byte[] bytes = Zstd.compress(encodedBytes); // 40 181 47 253
+	//	byte[] encodedBytes = Base64.getEncoder().encode("hello".getBytes());
+	//	byte[] bytes = Zstd.compress(encodedBytes); // 40 181 47 253
+		byte[] bytes = Zstd.compress(data.getBytes()); // 40 181 47 253
 
 		return bytes;
 	}

@@ -15,14 +15,21 @@ public class compressionTest {
 	@Test
 	public void compression2Test()
 	{
-		System.out.println("This is a bridge test");
-		byte[] encodedBytes = Base64.getEncoder().encode("hello".getBytes());
-		byte[] bytes =   Zstd.compress(encodedBytes);			// 40 181 47 253
-		String encoded = Base64.getEncoder().encodeToString(bytes);
+		String originalStr = "hello";
+		System.out.println("Original String=["+originalStr+"]");
+
+		try {
+			String encoded = EBCHandlers.compress3(originalStr);
+			
+			System.out.println("encoded=["+encoded+"]");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		System.out.println("encoded=["+encoded+"]");
-		
+	
 		String in = "KLUv/SAIQQAAYUdWc2JHOD0=";
+		byte[] bytes = Base64.getDecoder().decode(in);
 		 byte[] ob = new byte[(int)Zstd.decompressedSize(bytes)];
 	     Zstd.decompress(ob, bytes);
 	     byte[] decoded = Base64.getDecoder().decode(ob);

@@ -115,7 +115,7 @@ public class EBCHandlers {
 					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
 						String js = compress3(cleanJson.toString());
 						
-
+						System.out.println("encoded["+js);
 						cleanJson = new JsonObject();
 						cleanJson.put("zip",js);
 					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {

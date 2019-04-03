@@ -103,7 +103,7 @@ public class EBCHandlers {
 				cleanJson = new JsonObject(JsonUtils.toJson(msg));
 			}
 
-			int originalSize = cleanJson.size();
+			int originalSize = cleanJson.toString().length();
 			if (GennySettings.zipMode) {
 				try {
 
@@ -135,7 +135,8 @@ public class EBCHandlers {
 				}
 			}
 
-			int finalSize = cleanJson.size();
+			int finalSize = cleanJson.toString().length();
+			
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);

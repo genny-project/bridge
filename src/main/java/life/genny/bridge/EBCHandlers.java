@@ -105,51 +105,53 @@ public class EBCHandlers {
 
 			int originalSize = cleanJson.toString().length();
 			if (GennySettings.zipMode) {
-				long startTime = System.nanoTime();
+
 				try {
+					if (originalSize > 500000) {
+						long startTime = System.nanoTime();
+						log.info("ZIPPING!");
+						;
+						if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
+							String js = compressAndEncodeString(cleanJson.toString());
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
+							String js = compress3(cleanJson.toString());
 
-					log.info("ZIPPING!");
-					;
-					if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
-						String js = compressAndEncodeString(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
-						String js = compress3(cleanJson.toString());
-						
-						//System.out.println("encoded["+js);
-						cleanJson = new JsonObject();
-						cleanJson.put("zip",js);
-					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
-						byte[] js = zipped(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else {
-						String js = compress(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
+							// System.out.println("encoded["+js);
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
+							byte[] js = zipped(cleanJson.toString());
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						} else {
+							String js = compress(cleanJson.toString());
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						}
+
+						long endTime = System.nanoTime();
+						double difference = (endTime - startTime) / 1e6; // get ms
+						int finalSize = cleanJson.toString().length();
+						log.info("Sending " + originalSize + " bytes  compressed to " + finalSize + " bytes "
+								+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + " % in " + difference
+								+ "ms");
 					}
-
 				} catch (Exception e) {
 					log.error("CANNOT Compress json");
 
 				}
-				
-				long endTime = System.nanoTime();
-				double difference = (endTime - startTime) / 1e6; // get ms
-				int finalSize = cleanJson.toString().length();
-				log.info("Sending "+originalSize+" bytes  compressed to " + finalSize + " bytes "+((int)(((double)finalSize*100)/((double)originalSize)))+" % in "+difference+"ms");
+
 			}
 
-			
-			
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-					
+
 					msgProducer.write(cleanJson).end();
-				//	log.info("Sent to " + sessionState );
+					// log.info("Sent to " + sessionState );
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {

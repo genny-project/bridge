@@ -328,6 +328,9 @@ public class BridgeRouterHandlers {
 			} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
 				log.info("CMD API POST   >> EVENT-BUS DATA :");
 				j.put("token", localToken);
+				if ("Rule".equals(j.getString("data_type"))) {
+					log.info("INCOMING RULE !");
+				}
 				Producer.getToData().deliveryOptions(options);
 				Producer.getToData().send(j);
 			}

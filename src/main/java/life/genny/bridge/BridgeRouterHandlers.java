@@ -307,7 +307,7 @@ public class BridgeRouterHandlers {
 				j.put("token", localToken);
 				//Producer.getToWebCmds().deliveryOptions(options);
 				//Producer.getToWebCmds().send(j);
-				EBCHandlers.sendToClientSessions(j.toString(), false);
+				EBCHandlers.sendToClientSessions(j, false);
 			} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
 				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 

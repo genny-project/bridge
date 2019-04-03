@@ -138,7 +138,7 @@ public class EBCHandlers {
 				long endTime = System.nanoTime();
 				double difference = (endTime - startTime) / 1e6; // get ms
 				int finalSize = cleanJson.toString().length();
-				log.info("Sending "+originalSize+" bytes  compressed to " + finalSize + " bytes "+(((double)finalSize*100)/((double)originalSize))+"% in "+difference+"ms");
+				log.info("Sending "+originalSize+" bytes  compressed to " + finalSize + " bytes "+((int)(((double)finalSize*100)/((double)originalSize)))+" % in "+difference+"ms");
 			}
 
 			

@@ -105,6 +105,7 @@ public class EBCHandlers {
 
 			int originalSize = cleanJson.toString().length();
 			if (GennySettings.zipMode) {
+				long startTime = System.nanoTime();
 				try {
 
 					log.info("ZIPPING!");
@@ -133,17 +134,22 @@ public class EBCHandlers {
 					log.error("CANNOT Compress json");
 
 				}
+				
+				long endTime = System.nanoTime();
+				double difference = (endTime - startTime) / 1e6; // get ms
+				int finalSize = cleanJson.toString().length();
+				log.info("Sending "+originalSize+" bytes  compressed to " + finalSize + " bytes "+(((double)finalSize)/((double)originalSize))+"% in "+difference+"ms");
 			}
 
-			int finalSize = cleanJson.toString().length();
+			
 			
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-					log.info("About to send "+originalSize+" bytes to " + sessionState + " compressed to " + finalSize + " bytes "+(finalSize/originalSize)+"%");
+					
 					msgProducer.write(cleanJson).end();
-					log.info("Sent to " + sessionState + " " + finalSize + " bytes");
+				//	log.info("Sent to " + sessionState );
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -167,7 +173,6 @@ public class EBCHandlers {
 							if (msgProducer != null) {
 
 								msgProducer.write(cleanJson).end();
-								log.info("Sent "+originalSize+" bytes   compressed to " + finalSize + " bytes "+(finalSize/originalSize)+"%");
 							}
 
 						}

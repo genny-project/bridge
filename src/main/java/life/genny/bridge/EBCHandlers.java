@@ -103,6 +103,7 @@ public class EBCHandlers {
 				cleanJson = new JsonObject(JsonUtils.toJson(msg));
 			}
 
+			int originalSize = cleanJson.size();
 			if (GennySettings.zipMode) {
 				try {
 
@@ -134,13 +135,14 @@ public class EBCHandlers {
 				}
 			}
 
+			int finalSize = cleanJson.size();
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-					log.info("About to send  to " + sessionState + " " + cleanJson.size() + " bytes");
+					log.info("About to send "+originalSize+" bytes to " + sessionState + " compressed to " + finalSize + " bytes "+(finalSize/originalSize)+"%");
 					msgProducer.write(cleanJson).end();
-					log.info("Sent to " + sessionState + " " + cleanJson.size() + " bytes");
+					log.info("Sent to " + sessionState + " " + finalSize + " bytes");
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -164,7 +166,7 @@ public class EBCHandlers {
 							if (msgProducer != null) {
 
 								msgProducer.write(cleanJson).end();
-								log.info("Sent to " + sessionState + " " + cleanJson.size() + " bytes");
+								log.info("Sent "+originalSize+" bytes   compressed to " + finalSize + " bytes "+(finalSize/originalSize)+"%");
 							}
 
 						}

@@ -109,7 +109,7 @@ public class EBCHandlers {
 				try {
 					if (originalSize > 524287) { // 2^19-1
 						long startTime = System.nanoTime();
-						log.info("ZIPPING!");
+						//log.info("ZIPPING!");
 						;
 						if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
 							String js = compressAndEncodeString(cleanJson.toString());
@@ -134,7 +134,7 @@ public class EBCHandlers {
 						long endTime = System.nanoTime();
 						double difference = (endTime - startTime) / 1e6; // get ms
 						int finalSize = cleanJson.toString().length();
-						log.info("Sending " + originalSize + " bytes  compressed to " + finalSize + " bytes "
+						log.info("Sending ZIPPED " + originalSize + " bytes  compressed to " + finalSize + " bytes "
 								+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + "% in " + difference
 								+ "ms");
 					}

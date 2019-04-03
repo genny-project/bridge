@@ -72,8 +72,8 @@ public class EBCHandlers {
 		}
 
 		final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code")
-				+ (GennySettings.zipMode ? "ZIPPED" : " "));
+		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + (json.getString("code")==null?"":json.getString("code"))
+				);
 
 		if (json.getString("token") != null) {
 			// check token
@@ -135,7 +135,7 @@ public class EBCHandlers {
 						double difference = (endTime - startTime) / 1e6; // get ms
 						int finalSize = cleanJson.toString().length();
 						log.info("Sending " + originalSize + " bytes  compressed to " + finalSize + " bytes "
-								+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + " % in " + difference
+								+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + "% in " + difference
 								+ "ms");
 					}
 				} catch (Exception e) {

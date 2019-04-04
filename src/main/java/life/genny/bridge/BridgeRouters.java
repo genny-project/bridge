@@ -1,6 +1,10 @@
 package life.genny.bridge;
 
 
+import java.lang.invoke.MethodHandles;
+
+import org.apache.logging.log4j.Logger;
+
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.rxjava.core.Vertx;
@@ -12,6 +16,8 @@ import life.genny.qwandautils.GennySettings;
 
 
 public class BridgeRouters {
+	  protected static final Logger log = org.apache.logging.log4j.LogManager
+		      .getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
 
 	static private Router bridgeRouter = null;
@@ -30,7 +36,7 @@ public class BridgeRouters {
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(BridgeRouterHandlers::apiHandler);
     
 	  bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
-	System.out.println("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");
+	log.info("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");
 	
 	HttpServerOptions serverOptions = new HttpServerOptions();
 	  serverOptions.setUsePooledBuffers(true);

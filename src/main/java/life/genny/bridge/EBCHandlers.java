@@ -102,7 +102,7 @@ public class EBCHandlers {
 			}
 
 			int originalSize = cleanJson.toString().length();
-			if (GennySettings.zipMode) {
+	//		if (GennySettings.zipMode) {
 
 				try {
 					if (originalSize > 524287) { // 2^19-1
@@ -140,8 +140,8 @@ public class EBCHandlers {
 					log.error("CANNOT Compress json");
 
 				}
-
-			}
+//
+//			}
 
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");

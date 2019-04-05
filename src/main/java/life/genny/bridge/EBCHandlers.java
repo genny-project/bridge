@@ -105,7 +105,7 @@ public class EBCHandlers {
 	//		if (GennySettings.zipMode) {
 
 				try {
-					if (originalSize > 524287) { // 2^19-1
+					if (originalSize > GennySettings.minimumZipThreshold) { // 2^19-1 = 524287
 						long startTime = System.nanoTime();
 						//log.info("ZIPPING!");
 						;

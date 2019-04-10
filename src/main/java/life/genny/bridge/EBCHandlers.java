@@ -41,21 +41,22 @@ public class EBCHandlers {
 	public static void registerHandlers() {
 
 		Consumer.getFromWebCmds().subscribe(arg -> {
-			// log.info("EVENT-BUS CMD >> WEBSOCKET CMD :"+incomingCmd);
 			String incomingCmd = arg.body().toString();
+			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length());
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(incomingCmd, true);
+				sendToClientSessions(json, true);
 			}
 		});
 
 		Consumer.getFromWebData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size->" + json.size());
+			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size=" + incomingData.length());
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(incomingData, false);
+				sendToClientSessions(json, false);
 			}
 		});
 	}
@@ -64,16 +65,13 @@ public class EBCHandlers {
 	 * @param incomingCmd
 	 * @throws IOException
 	 */
-	public static void sendToClientSessions(String incomingCmd, boolean sessionOnly) {
-		// ugly, but remove the outer array
-		if (incomingCmd.startsWith("[")) {
-			incomingCmd = incomingCmd.replaceFirst("\\[", "");
-			incomingCmd = incomingCmd.substring(0, incomingCmd.length() - 1);
-		}
-
-		final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :" + json.getString("cmd_type") + ":" + json.getString("code")
-				+ (GennySettings.zipMode ? "ZIPPED" : " "));
+	public static void sendToClientSessions(final JsonObject json, boolean sessionOnly) {
+//		// ugly, but remove the outer array
+//		if (incomingCmd.startsWith("[")) {
+//			incomingCmd = incomingCmd.replaceFirst("\\[", "");
+//			incomingCmd = incomingCmd.substring(0, incomingCmd.length() - 1);
+//		}
+			
 
 		if (json.getString("token") != null) {
 			// check token
@@ -103,44 +101,55 @@ public class EBCHandlers {
 				cleanJson = new JsonObject(JsonUtils.toJson(msg));
 			}
 
+			int originalSize = cleanJson.toString().length();
 			if (GennySettings.zipMode) {
+
 				try {
+					if (originalSize > GennySettings.zipMinimumThresholdBytes) { // 2^19-1
+						long startTime = System.nanoTime();
+						//log.info("ZIPPING!");
+						;
+						if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
+							String js = compressAndEncodeString(cleanJson.toString());
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
+							String js = compress3(cleanJson.toString());
 
-					log.info("ZIPPING!");
-					;
-					if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
-						String js = compressAndEncodeString(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
-						String js = compress3(cleanJson.toString());
-						
-						System.out.println("encoded["+js);
-						cleanJson = new JsonObject();
-						cleanJson.put("zip",js);
-					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
-						byte[] js = zipped(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else {
-						String js = compress(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
+							// System.out.println("encoded["+js);
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
+							byte[] js = zipped(cleanJson.toString());
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						} else {
+							String js = compress(cleanJson.toString());
+							cleanJson = new JsonObject();
+							cleanJson.put("zip", js);
+						}
+
+						long endTime = System.nanoTime();
+						double difference = (endTime - startTime) / 1e6; // get ms
+						int finalSize = cleanJson.toString().length();
+						log.info("Sending ZIPPED " + originalSize + " bytes  compressed to " + finalSize + " bytes with threshold = "+GennySettings.zipMinimumThresholdBytes+" "
+								+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + "% in " + difference
+								+ "ms");
 					}
-
 				} catch (Exception e) {
 					log.error("CANNOT Compress json");
 
 				}
+//
 			}
 
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-					log.info("About to send  to " + sessionState + " " + cleanJson.size() + " bytes");
+
 					msgProducer.write(cleanJson).end();
-					log.info("Sent to " + sessionState + " " + cleanJson.size() + " bytes");
+					// log.info("Sent to " + sessionState );
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -164,7 +173,6 @@ public class EBCHandlers {
 							if (msgProducer != null) {
 
 								msgProducer.write(cleanJson).end();
-								log.info("Sent to " + sessionState + " " + cleanJson.size() + " bytes");
 							}
 
 						}

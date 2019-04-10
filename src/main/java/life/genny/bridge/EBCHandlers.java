@@ -102,7 +102,7 @@ public class EBCHandlers {
 			}
 
 			int originalSize = cleanJson.toString().length();
-	//		if (GennySettings.zipMode) {
+			if (GennySettings.zipMode) {
 
 				try {
 					if (originalSize > GennySettings.zipMinimumThresholdBytes) { // 2^19-1
@@ -141,7 +141,7 @@ public class EBCHandlers {
 
 				}
 //
-//			}
+			}
 
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");

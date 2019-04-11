@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.mortbay.log.Log;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
@@ -76,7 +77,7 @@ public class BridgeRouterHandlers {
 				final String url = aURL.getHost();
 				JsonObject retInit = null;
 				JsonObject json = VertxUtils.readCachedJson(GennySettings.mainrealm, GennySettings.KEYCLOAK_JSON);
-				if ((json != null) && ("json".equalsIgnoreCase(format))) {
+				if ((json != null) && !"error".equals(json.getString("status")) && ("json".equalsIgnoreCase(format))) {
 					retInit = (new JsonObject(json.getString("value")));
 					log.info("KEYCLOAK JSON VALUE: " + retInit);
 					String tokenRealm = retInit.getString("resource");
@@ -127,9 +128,9 @@ public class BridgeRouterHandlers {
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());
-				} else if ((retInit != null) && ("env".equalsIgnoreCase(format))) {
+				} else if ((json != null) && !"error".equals(json.getString("status")) && ("env".equalsIgnoreCase(format))) {
 					String env = "";
-					retInit = (new JsonObject(retInit.getString("value")));
+					retInit = (new JsonObject(json.getString("value")));
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm) ? GennySettings.mainrealm : tokenRealm; // clientId =
 																										// realm by

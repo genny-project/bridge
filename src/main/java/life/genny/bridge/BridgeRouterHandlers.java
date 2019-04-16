@@ -77,6 +77,9 @@ public class BridgeRouterHandlers {
 				final String url = aURL.getHost();
 				JsonObject retInit = null;
 				JsonObject json = VertxUtils.readCachedJson(GennySettings.mainrealm, GennySettings.KEYCLOAK_JSON);
+				log.info("############ GEN_251 ##############" + GennySettings.mainrealm +" "+ GennySettings.KEYCLOAK_JSON);
+				
+				log.info("############ GEN_251 ##############" + json);
 				if ((json != null) && !"error".equals(json.getString("status")) && ("json".equalsIgnoreCase(format))) {
 					retInit = (new JsonObject(json.getString("value")));
 					log.info("KEYCLOAK JSON VALUE: " + retInit);

@@ -96,14 +96,13 @@ public class EBCHandlers {
 			if (cleanJson == null) {
 				log.error("null json");
 			}
-			if (bulkPull) {
-				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
-				cleanJson = new JsonObject(JsonUtils.toJson(msg));
-			}
+//			if (bulkPull) {
+//				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
+//				cleanJson = new JsonObject(JsonUtils.toJson(msg));
+//			}
 
 			int originalSize = cleanJson.toString().length();
-			if (GennySettings.zipMode) {
-
+	
 				try {
 					if (originalSize > GennySettings.zipMinimumThresholdBytes) { // 2^19-1
 						long startTime = System.nanoTime();
@@ -141,7 +140,7 @@ public class EBCHandlers {
 
 				}
 //
-			}
+		
 
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");

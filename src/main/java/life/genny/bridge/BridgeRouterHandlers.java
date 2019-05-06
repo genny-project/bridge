@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import org.mortbay.log.Log;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
@@ -28,6 +27,7 @@ import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
+import life.genny.security.SecureResources;
 import life.genny.utils.RulesUtils;
 import life.genny.utils.VertxUtils;
 
@@ -75,14 +75,10 @@ public class BridgeRouterHandlers {
 			try {
 				aURL = new URL(fullurl);
 				final String url = aURL.getHost();
-				JsonObject retInit = null;
-				JsonObject json = VertxUtils.readCachedJson(GennySettings.mainrealm, GennySettings.KEYCLOAK_JSON);
-				log.info("############ GEN_251 ##############" + GennySettings.mainrealm +" "+ GennySettings.KEYCLOAK_JSON);
-				
-				log.info("############ GEN_251 ##############" + json);
-				if ((json != null) && !"error".equals(json.getString("status")) && ("json".equalsIgnoreCase(format))) {
-					retInit = (new JsonObject(json.getString("value")));
-					log.info("KEYCLOAK JSON VALUE: " + retInit);
+				String key = url + ".json";
+				final String keycloakJsonText = SecureResources.getKeycloakJsonMap().get(key);
+				if ((keycloakJsonText != null) && ("json".equalsIgnoreCase(format))) {
+					final JsonObject retInit = new JsonObject(keycloakJsonText);
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm) ? GennySettings.mainrealm : tokenRealm; // clientId =
 																										// realm by
@@ -131,9 +127,9 @@ public class BridgeRouterHandlers {
 					log.info("WEB API GET    >> SETUP REQ:" + url + " sending : " + kcUrl + " " + kcClientId);
 					routingContext.response().putHeader("Content-Type", "application/json");
 					routingContext.response().end(retInit.toString());
-				} else if ((json != null) && !"error".equals(json.getString("status")) && ("env".equalsIgnoreCase(format))) {
+				} else if ((keycloakJsonText != null) && ("env".equalsIgnoreCase(format))) {
+					final JsonObject retInit = new JsonObject(keycloakJsonText);
 					String env = "";
-					retInit = (new JsonObject(json.getString("value")));
 					String tokenRealm = retInit.getString("resource");
 					String realm = "genny".equals(tokenRealm) ? GennySettings.mainrealm : tokenRealm; // clientId =
 																										// realm by
@@ -192,11 +188,12 @@ public class BridgeRouterHandlers {
 					routingContext.response().end(env);
 				} else {
 
-					log.error("KEYCLOAK JSON NOT FOUND");
+					log.error(key + " NOT FOUND IN KEYCLOAK-JSON-MAP");
+
 
 					// Treat Inbound api call as a WEB SITE!!
 
-					retInit = new JsonObject();
+					final JsonObject retInit = new JsonObject();
 					retInit.put("realm", "www");
 					retInit.put("vertx_url", GennySettings.vertxUrl);
 					log.info("WEB API GETWWW >> SETUP REQ:" + url + " sending : WWW");

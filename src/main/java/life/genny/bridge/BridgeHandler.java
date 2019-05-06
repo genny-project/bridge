@@ -11,7 +11,6 @@ import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
 import life.genny.channel.Producer;
 import life.genny.cluster.CurrentVtxCtx;
-import life.genny.security.TokenIntrospection;
 
 public class BridgeHandler {
 

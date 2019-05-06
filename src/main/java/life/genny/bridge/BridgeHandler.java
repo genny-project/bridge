@@ -25,13 +25,6 @@ public class BridgeHandler {
   private static final String DATA_TYPE = "data_type";
   private static final String DATA_MSG = "DATA_MSG";
   private static final String EVT_MSG = "EVT_MSG";
-  private static final List<String> roles;
-
-
-  static {
-
-    roles = TokenIntrospection.setRoles("user");
-  }
 
   protected static final Logger log =
       org.apache.logging.log4j.LogManager.getLogger(
@@ -59,9 +52,8 @@ public class BridgeHandler {
           bridgeEvent.getRawMessage().getJsonObject(BODY);
       rawMessage = rawMessage.getJsonObject(DATA);
       String token = rawMessage.getString(TOKEN);
-      if ( token != null && TokenIntrospection.checkAuthForRoles(roles, token)) { // do not allow empty tokens
+      if ( token != null ) { // do not allow empty tokens
 
-          log.info("Roles from this token are allow and authenticated" +TokenIntrospection.checkAuthForRoles(roles, token) );
 
 
         if (rawMessage.getString(MSG_TYPE).equals(DATA_MSG)) {

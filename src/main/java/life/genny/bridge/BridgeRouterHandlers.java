@@ -423,7 +423,8 @@ public class BridgeRouterHandlers {
 				testMessage.put("token", localToken);
 
 
-	                     Vertx.vertx().eventBus().<JsonObject>send("health", testMessage, ar ->{
+                Vertx.vertx().eventBus().<JsonObject>send("health", testMessage, ar ->{
+//	                     Producer.getToHealth().send("health", testMessage, ar ->{
 
 	                               if (ar.succeeded()) {
 

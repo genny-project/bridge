@@ -397,4 +397,55 @@ public class BridgeRouterHandlers {
 		});
 
 	}
+	
+	public static void apiGetHealthHandler(final RoutingContext context) {
+		String token = context.request().getParam("token");
+
+		context.request().bodyHandler(rc -> {
+			String localToken = null;
+			JsonObject testMessage = new JsonObject();
+			if (token == null) {
+				MultiMap headerMap = context.request().headers();
+				localToken = headerMap.get("Authorization");
+				if (localToken == null) {
+					log.error("NULL TOKEN!");
+				} else {
+					localToken = localToken.substring(7); // To remove initial [Bearer ]
+				}
+			} else {
+				localToken = token;
+			}
+
+			final DeliveryOptions options = new DeliveryOptions();
+			options.addHeader("Authorization", "Bearer " + localToken);
+			
+
+				testMessage.put("token", localToken);
+
+
+	                     Vertx.vertx().eventBus().<JsonObject>send("health", testMessage, ar ->{
+
+	                               if (ar.succeeded()) {
+
+	                                   JsonObject result = ar.result().body();
+
+	                                   context.request().response().end(result.encode());
+
+	                             } else {
+
+	                                        // Do some fail - this is not good to return exception from server :D better  some  error  code
+
+	                                   // rc.fail(ar.cause());
+	                            	 JsonObject ret = new JsonObject().put("status", "error");
+	                            	 context.request().response().end(ret.encode());
+
+	                            }
+
+	                       });
+
+	             });
+
+			
+	
+	}
 }

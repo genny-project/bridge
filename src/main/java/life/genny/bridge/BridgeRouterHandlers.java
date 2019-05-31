@@ -53,22 +53,7 @@ public class BridgeRouterHandlers {
 	}
 
 	public static void apiGetInitHandler(final RoutingContext routingContext) {
-		/*
-		 * APP_NAME=Internmatch
-		 * GENNY_HOST=https://bridge-internmatch-staging.outcome-hub.com/
-		 * GENNY_INITURL=http://internmatch-staging.outcome-hub.com GENNY_BRIDGE_PORT=80
-		 * GENNY_BRIDGE_VERTEX=frontend GENNY_BRIDGE_SERVICE=api/service
-		 * GENNY_BRIDGE_EVENTS=api/events
-		 * GOOGLE_MAPS_APIKEY="AIzaSyBwvr5m9CqFV4nW4AtnxAdT-_w_xOWufRE"
-		 * GOOGLE_MAPS_APIURL=https://maps.googleapis.com/maps/api/js
-		 * LAYOUT_PUBLICURL=https://layouts.fourdegrees.io/ UPPY_URL=""
-		 * KEYCLOAK_REDIRECTURI="" APPCENTER_ANDROID_SECRET="" APPCENTER_IOS_SECRET=""
-		 * ANDROID_CODEPUSH_KEY=""
-		 * LAYOUT_PUBLICURL=https://layout-cache-staging.outcome-hub.com/
-		 * LAYOUT_QUERY_DIRECTORY=layouts/internmatch-new GUEST_USERNAME=guest
-		 * GUEST_PASSWORD=asdf1234 SIGNATURE_URL=""
-		 */
-		routingContext.request().bodyHandler(bodyy -> {
+			routingContext.request().bodyHandler(bodyy -> {
 			final String fullurl = routingContext.request().getParam("url");
 			String format = routingContext.request().getParam("format");
 			if (format == null) {

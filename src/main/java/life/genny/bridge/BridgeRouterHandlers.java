@@ -83,12 +83,13 @@ public class BridgeRouterHandlers {
 				// Fetch Project BE
 				JsonObject jsonObj = VertxUtils.readCachedJson(GennySettings.GENNY_REALM, url.toUpperCase());
 				BaseEntity projectBe = null;
-				if (jsonObj == null) {
-
+				if ((jsonObj == null)||("error".equals(jsonObj.getString("status")))) {
+					log.error(url.toUpperCase()+" not found in cache");
+				
 				} else {
 					String value = jsonObj.getString("value");
 					projectBe = JsonUtils.fromJson(value.toString(), BaseEntity.class);
-					JsonObject tokenObj = VertxUtils.readCachedJson(GennySettings.GENNY_REALM, "TOKEN:"+url.toUpperCase());
+					JsonObject tokenObj = VertxUtils.readCachedJson(GennySettings.GENNY_REALM, "TOKEN"+url.toUpperCase());
 					token = tokenObj.getString("value");
 
 					log.info(projectBe.getRealm() );
@@ -224,6 +225,8 @@ public class BridgeRouterHandlers {
 					// Treat Inbound api call as a WEB SITE!!
 
 					retInit = new JsonObject();
+					retInit.put("status", "error");
+					retInit.put("description", "keycloak json not found for "+url.toUpperCase());
 					retInit.put("realm", "www");
 					retInit.put("vertx_url", GennySettings.vertxUrl);
 					log.info("WEB API GETWWW >> SETUP REQ:" + url + " sending : WWW");

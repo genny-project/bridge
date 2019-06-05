@@ -6,12 +6,16 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mortbay.log.Log;
 import org.mortbay.util.ajax.JSON;
@@ -294,8 +298,11 @@ public class BridgeRouterHandlers {
 				String userCode = "PER_" + uname.toUpperCase();
 
 				// for testig and debugging, if a user has a role test then put the token into a cache entry so that the test can access it
-				Set<String> roles = KeycloakUtils.getRoleSet(tokenJSON.getString("realm_access"));
-				if (roles.contains("test")) {
+				JSONObject realm_access = tokenJSON.getJSONObject("realm_access");
+				JSONArray roles = realm_access.getJSONArray("roles");
+				List<Object> roleList = roles.toList();
+				
+				if (roleList.contains("test")) {
 					VertxUtils.writeCachedJson(realm, "TOKEN:"+userCode, token, token, 28800);  // 8 hours expiry, TODO use token expiry
 				}
 
@@ -457,5 +464,30 @@ public class BridgeRouterHandlers {
 
 		});
 
+	}
+	
+	public boolean hasRole(Map<String,Object> decodedTokenMap, final String role) {
+
+		if (decodedTokenMap == null) {
+			return false;
+		}
+
+		LinkedHashMap rolesMap = (LinkedHashMap) decodedTokenMap.get("realm_access");
+		if (rolesMap != null) {
+
+			try {
+
+				Object rolesObj = rolesMap.get("roles");
+				if (rolesObj != null) {
+					ArrayList roles = (ArrayList) rolesObj;
+					if (roles.contains(role)) {
+						return true;
+					}
+				}
+			} catch (Exception e) {
+			}
+		}
+
+		return false;
 	}
 }

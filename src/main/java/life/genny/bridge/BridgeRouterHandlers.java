@@ -283,13 +283,21 @@ public class BridgeRouterHandlers {
 
 			if (token != null && TokenIntrospection.checkAuthForRoles(roles, token)) { // do not allow empty tokens
 
-				log.info("Roles from this token are allow and authenticated"
+				log.info("Roles from this token are allow and authenticated "
 						+ TokenIntrospection.checkAuthForRoles(roles, token));
+				
 
 				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
 				String sessionState = tokenJSON.getString("session_state");
+				String realm = tokenJSON.getString("aud");
 				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
 				String userCode = "PER_" + uname.toUpperCase();
+
+				// for testig and debugging, if a user has a role test then put the token into a cache entry so that the test can access it
+				Set<String> roles = KeycloakUtils.getRoleSet(tokenJSON.getString("realm_access"));
+				if (roles.contains("test")) {
+					VertxUtils.writeCachedJson(realm, "TOKEN:"+userCode, token, token, 28800);  // 8 hours expiry, TODO use token expiry
+				}
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
 				sessionStates.add(sessionState);

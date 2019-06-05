@@ -61,7 +61,7 @@ public class BridgeHandler {
       String token = rawMessage.getString(TOKEN);
       if ( token != null && TokenIntrospection.checkAuthForRoles(roles, token)) { // do not allow empty tokens
 
-          log.info("Roles from this token are allow and authenticated" +TokenIntrospection.checkAuthForRoles(roles, token) );
+          log.info("Roles from this token are allow and authenticated " +TokenIntrospection.checkAuthForRoles(roles, token) );
 
 
         if (rawMessage.getString(MSG_TYPE).equals(DATA_MSG)) {

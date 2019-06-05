@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
@@ -32,9 +33,10 @@ import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
+import life.genny.security.TokenIntrospection;
 import life.genny.utils.RulesUtils;
 import life.genny.utils.VertxUtils;
- 
+
 public class BridgeRouterHandlers {
 
 //	protected static final Logger log = org.apache.logging.log4j.LogManager
@@ -46,6 +48,12 @@ public class BridgeRouterHandlers {
 
 	public static final String PROJECT_DEPENDENCIES = "project_dependencies";
 
+	private static final List<String> roles;
+	static {
+
+		roles = TokenIntrospection.setRoles("user");
+	}
+
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
 				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type")
@@ -53,7 +61,7 @@ public class BridgeRouterHandlers {
 	}
 
 	public static void apiGetInitHandler(final RoutingContext routingContext) {
-			routingContext.request().bodyHandler(bodyy -> {
+		routingContext.request().bodyHandler(bodyy -> {
 			final String fullurl = routingContext.request().getParam("url");
 			String format = routingContext.request().getParam("format");
 			if (format == null) {
@@ -68,16 +76,17 @@ public class BridgeRouterHandlers {
 				// Fetch Project BE
 				JsonObject jsonObj = VertxUtils.readCachedJson(GennySettings.GENNY_REALM, url.toUpperCase());
 				BaseEntity projectBe = null;
-				if ((jsonObj == null)||("error".equals(jsonObj.getString("status")))) {
-					log.error(url.toUpperCase()+" not found in cache");
-				
+				if ((jsonObj == null) || ("error".equals(jsonObj.getString("status")))) {
+					log.error(url.toUpperCase() + " not found in cache");
+
 				} else {
 					String value = jsonObj.getString("value");
 					projectBe = JsonUtils.fromJson(value.toString(), BaseEntity.class);
-					JsonObject tokenObj = VertxUtils.readCachedJson(GennySettings.GENNY_REALM, "TOKEN"+url.toUpperCase());
+					JsonObject tokenObj = VertxUtils.readCachedJson(GennySettings.GENNY_REALM,
+							"TOKEN" + url.toUpperCase());
 					token = tokenObj.getString("value");
 
-					log.info(projectBe.getRealm() );
+					log.info(projectBe.getRealm());
 				}
 
 				if ((projectBe != null) && ("json".equalsIgnoreCase(format))) {
@@ -211,7 +220,7 @@ public class BridgeRouterHandlers {
 
 					retInit = new JsonObject();
 					retInit.put("status", "error");
-					retInit.put("description", "keycloak json not found for "+url.toUpperCase());
+					retInit.put("description", "keycloak json not found for " + url.toUpperCase());
 					retInit.put("realm", "www");
 					retInit.put("vertx_url", GennySettings.vertxUrl);
 					log.info("WEB API GETWWW >> SETUP REQ:" + url + " sending : WWW");
@@ -270,18 +279,25 @@ public class BridgeRouterHandlers {
 			final JsonObject j = new JsonObject(bodyString);
 			log.info("WEB API POST   >> SESSION_INIT:");
 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
-			String tokenSt = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
-			JSONObject tokenJSON = KeycloakUtils.getDecodedToken(tokenSt);
-			String sessionState = tokenJSON.getString("session_state");
-			String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
-			String userCode = "PER_" + uname.toUpperCase();
+			String token = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
-			Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
-			sessionStates.add(sessionState);
-			VertxUtils.putSetString("", "SessionStates", userCode, sessionStates);
-			final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
-					.publisher(sessionState);
-			VertxUtils.putMessageProducer(sessionState, toSessionChannel);
+			if (token != null && TokenIntrospection.checkAuthForRoles(roles, token)) { // do not allow empty tokens
+
+				log.info("Roles from this token are allow and authenticated"
+						+ TokenIntrospection.checkAuthForRoles(roles, token));
+
+				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
+				String sessionState = tokenJSON.getString("session_state");
+				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
+				String userCode = "PER_" + uname.toUpperCase();
+
+				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
+				sessionStates.add(sessionState);
+				VertxUtils.putSetString("", "SessionStates", userCode, sessionStates);
+				final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
+						.publisher(sessionState);
+				VertxUtils.putMessageProducer(sessionState, toSessionChannel);
+			}
 			routingContext.response().end();
 
 		});
@@ -385,7 +401,7 @@ public class BridgeRouterHandlers {
 		});
 
 	}
-	
+
 	public static void apiGetHealthHandler(final RoutingContext context) {
 		String token = context.request().getParam("token");
 
@@ -406,35 +422,32 @@ public class BridgeRouterHandlers {
 
 			final DeliveryOptions options = new DeliveryOptions();
 			options.addHeader("Authorization", "Bearer " + localToken);
-			
 
-				testMessage.put("token", localToken);
+			testMessage.put("token", localToken);
 
-
-                Vertx.vertx().eventBus().<JsonObject>send("health", testMessage, ar ->{
+			Vertx.vertx().eventBus().<JsonObject>send("health", testMessage, ar -> {
 //	                     Producer.getToHealth().send("health", testMessage, ar ->{
 
-	                               if (ar.succeeded()) {
+				if (ar.succeeded()) {
 
-	                                   JsonObject result = ar.result().body();
+					JsonObject result = ar.result().body();
 
-	                                   context.request().response().end(result.encode());
+					context.request().response().end(result.encode());
 
-	                             } else {
+				} else {
 
-	                                        // Do some fail - this is not good to return exception from server :D better  some  error  code
+					// Do some fail - this is not good to return exception from server :D better
+					// some error code
 
-	                                   // rc.fail(ar.cause());
-	                            	 JsonObject ret = new JsonObject().put("status", "error");
-	                            	 context.request().response().end(ret.encode());
+					// rc.fail(ar.cause());
+					JsonObject ret = new JsonObject().put("status", "error");
+					context.request().response().end(ret.encode());
 
-	                            }
+				}
 
-	                       });
+			});
 
-	             });
+		});
 
-			
-	
 	}
 }

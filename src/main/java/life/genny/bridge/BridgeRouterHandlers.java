@@ -30,6 +30,7 @@ import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
+import life.genny.models.GennyToken;
 import life.genny.qwanda.attribute.EntityAttribute;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwandautils.GennySettings;
@@ -290,19 +291,14 @@ public class BridgeRouterHandlers {
 				log.info("Roles from this token are allow and authenticated "
 						+ TokenIntrospection.checkAuthForRoles(roles, token));
 				
-
-				JSONObject tokenJSON = KeycloakUtils.getDecodedToken(token);
-				String sessionState = tokenJSON.getString("session_state");
-				String realm = tokenJSON.getString("aud");
-				String uname = QwandaUtils.getNormalisedUsername(tokenJSON.getString("preferred_username"));
-				String userCode = "PER_" + uname.toUpperCase();
-
-				// for testig and debugging, if a user has a role test then put the token into a cache entry so that the test can access it
-				JSONObject realm_access = tokenJSON.getJSONObject("realm_access");
-				JSONArray roles = realm_access.getJSONArray("roles");
-				List<Object> roleList = roles.toList();
+				GennyToken gennyToken = new GennyToken(token);
 				
-				if (roleList.contains("test")) {
+				String sessionState = gennyToken.getString("session_state");
+				String realm = gennyToken.getRealm();
+				String userCode = gennyToken.getCode();
+
+				
+				if (gennyToken.hasRole("test")) {
 					VertxUtils.writeCachedJson(realm, "TOKEN:"+userCode, token, token, 28800);  // 8 hours expiry, TODO use token expiry
 				}
 

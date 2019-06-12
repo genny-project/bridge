@@ -96,16 +96,15 @@ public class EBCHandlers {
 			if (cleanJson == null) {
 				log.error("null json");
 			}
-			if (bulkPull) {
-				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
-				cleanJson = new JsonObject(JsonUtils.toJson(msg));
-			}
+//			if (bulkPull) {
+//				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
+//				cleanJson = new JsonObject(JsonUtils.toJson(msg));
+//			}
 
 			int originalSize = cleanJson.toString().length();
-	//		if (GennySettings.zipMode) {
-
+	
 				try {
-					if (originalSize > GennySettings.minimumZipThreshold) { // 2^19-1 = 524287
+					if (originalSize > GennySettings.zipMinimumThresholdBytes) { // 2^19-1
 						long startTime = System.nanoTime();
 						//log.info("ZIPPING!");
 						;
@@ -132,7 +131,7 @@ public class EBCHandlers {
 						long endTime = System.nanoTime();
 						double difference = (endTime - startTime) / 1e6; // get ms
 						int finalSize = cleanJson.toString().length();
-						log.info("Sending ZIPPED " + originalSize + " bytes  compressed to " + finalSize + " bytes "
+						log.info("Sending ZIPPED " + originalSize + " bytes  compressed to " + finalSize + " bytes with threshold = "+GennySettings.zipMinimumThresholdBytes+" "
 								+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + "% in " + difference
 								+ "ms");
 					}
@@ -141,7 +140,7 @@ public class EBCHandlers {
 
 				}
 //
-//			}
+		
 
 			if (sessionOnly) {
 				String sessionState = tokenJSON.getString("session_state");

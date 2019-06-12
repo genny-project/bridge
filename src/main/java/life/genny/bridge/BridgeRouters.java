@@ -9,6 +9,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.Router;
+import life.genny.channel.VersionHandler;
 //import life.genny.channel.RouterHandlers;
 import life.genny.metrics.Metrics;
 import life.genny.qwandautils.GennySettings;
@@ -32,6 +33,8 @@ public class BridgeRouters {
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(BridgeRouterHandlers::apiServiceHandler);
 	  bridgeRouter.route(HttpMethod.GET, "/version").handler(BridgeRouterHandlers::apiGetVersionHandler);
+      bridgeRouter.route(HttpMethod.GET, "/health").handler(BridgeRouterHandlers::apiGetHealthHandler);
+
 	  bridgeRouter.route(HttpMethod.POST, "/api/cmds").handler(BridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(BridgeRouterHandlers::apiHandler);
     

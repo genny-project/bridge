@@ -25,6 +25,8 @@ public class BridgeRouters {
  
   protected static void routers(final Vertx vertx) {
 	  bridgeRouter = Router.router(vertx);  // create new router
+	  
+	  BridgeRouterHandlers.avertx = vertx;
 
 	  bridgeRouter.route().handler(BridgeRouterHandlers.cors());
 

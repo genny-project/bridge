@@ -34,6 +34,7 @@ public class BridgeHandler {
     roles = TokenIntrospection.setRoles("user");
   }
 
+  public static Vertx avertx;
   protected static final Logger log =
       org.apache.logging.log4j.LogManager.getLogger(
           MethodHandles.lookup().lookupClass().getCanonicalName());
@@ -42,6 +43,8 @@ public class BridgeHandler {
 
     final SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
+    avertx = vertx;
+    
     SockJSHandler bridge =
         sockJSHandler.bridge(BridgeConfig.setBridgeOptions(),
             BridgeHandler::bridgeHandler);
@@ -52,7 +55,8 @@ public class BridgeHandler {
   public static JsonObject msgTmp = null;
 
   protected static void bridgeHandler(final BridgeEvent bridgeEvent) {
-
+	  
+	  
     if (bridgeEvent.type() == BridgeEventType.PUBLISH
         || bridgeEvent.type() == BridgeEventType.SEND) {
 
@@ -60,9 +64,9 @@ public class BridgeHandler {
           bridgeEvent.getRawMessage().getJsonObject(BODY);
       rawMessage = rawMessage.getJsonObject(DATA);
       String token = rawMessage.getString(TOKEN);
-      if ( token != null && TokenIntrospection.checkAuthForRoles(roles, token)) { // do not allow empty tokens
+      if ( token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token)) { // do not allow empty tokens
 
-          log.info("Roles from this token are allow and authenticated " +TokenIntrospection.checkAuthForRoles(roles, token) );
+          log.info("Roles from this token are allow and authenticated ");
 
           rawMessage.put("sourceAddress", Consumer.directIP);  // set the source (return) address for any command
           

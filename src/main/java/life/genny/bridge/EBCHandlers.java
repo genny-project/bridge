@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.buffer.Buffer;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.channel.Consumer;
 import life.genny.qwanda.message.QBulkPullMessage;
@@ -51,8 +52,41 @@ public class EBCHandlers {
 		});
 		Consumer.getFromWebCmds().subscribe(arg -> {
 			String incomingCmd = arg.body().toString();
-			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length());
+			if ("{}".equals(incomingCmd)) {
+				log.error("Received empty {} in webcmds");
+				return;
+			}
+		//	final JsonObject json = new JsonObject(incomingCmd); //
+			final JsonObject json = Buffer.buffer(incomingCmd).toJsonObject();
+			if (json == null) {
+				log.error("Json input is null!");
+			} else
+			if ("Attribute".equals(json.getString("data_type"))) {
+				JsonArray items = json.getJsonArray("items");
+				JsonObject attribute = items.getJsonObject(0);
+				String code = attribute.getString("code");
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length()+" Code="+code);
+			} else 	if ("BaseEntity".equals(json.getString("data_type"))) {
+				JsonArray items = json.getJsonArray("items");
+				JsonObject be = items.getJsonObject(0);
+				String code = be.getString("code");
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length()+" Code="+code);
+			} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {
+				JsonObject asks = json.getJsonObject("asks");
+				JsonArray items = asks.getJsonArray("items");
+				JsonObject ask = items.getJsonObject(0);
+				String targetCode = ask.getString("targetCode");
+				String questionCode = ask.getString("questionCode");
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("cmd_type") + ": size=" + incomingCmd.length()+":target->"+targetCode+":"+questionCode);
+			} else if ("Ask".equals(json.getString("data_type"))) {
+				JsonArray items = json.getJsonArray("items");
+				JsonObject attribute = items.getJsonObject(0);
+				String code = attribute.getString("code");
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length()+" Code="+code);
+			} else {
+				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + "UNKNOWN" + ": size=" + incomingCmd.length());
+						
+			}
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(json, true);

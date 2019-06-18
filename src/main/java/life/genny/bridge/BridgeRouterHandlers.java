@@ -58,6 +58,12 @@ public class BridgeRouterHandlers {
 
 		roles = TokenIntrospection.setRoles("user");
 	}
+	
+	private static final List<String> testroles;
+	static {
+
+		testroles = TokenIntrospection.setRoles("test");
+	}
 
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
@@ -247,6 +253,9 @@ public class BridgeRouterHandlers {
 		// First look at the system env
 		retValue = System.getenv(realm.toUpperCase() + "_" + key.toUpperCase());
 
+		if (retValue == null) {
+			retValue = System.getenv(key.toUpperCase());  // try a common one
+		}
 		// else look at the project setting
 		if (retValue == null) {
 			BaseEntity project = VertxUtils.readFromDDT(realm, project_code, serviceToken);
@@ -290,16 +299,16 @@ public class BridgeRouterHandlers {
 
 				log.info("Roles from this token are allow and authenticated "
 						+ TokenIntrospection.checkAuthForRoles(roles, token));
-				
+
 				GennyToken gennyToken = new GennyToken(token);
-				
+
 				String sessionState = gennyToken.getString("session_state");
 				String realm = gennyToken.getRealm();
 				String userCode = gennyToken.getCode();
 
-				
 				if (gennyToken.hasRole("test")) {
-					VertxUtils.writeCachedJson(realm, "TOKEN:"+userCode, token, token, 28800);  // 8 hours expiry, TODO use token expiry
+					VertxUtils.writeCachedJson(realm, "TOKEN:" + userCode, token, token, 28800); // 8 hours expiry, TODO
+																									// use token expiry
 				}
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
@@ -335,50 +344,57 @@ public class BridgeRouterHandlers {
 			}
 			// j.put("token", token);
 
-			log.info("Incoming Service:" + j);
-			final DeliveryOptions options = new DeliveryOptions();
-			options.addHeader("Authorization", "Bearer " + localToken);
+			if (token != null && TokenIntrospection.checkAuthForRoles(testroles, token)) { // do not allow empty tokens
 
-			if ("EVT_MSG".equals(j.getString("msg_type")) || "events".equals(channel) || "event".equals(channel)) {
-				log.info("EVT API POST   >> EVENT-BUS EVENT:");
-				j.put("token", localToken);
-				Producer.getToEvents().deliveryOptions(options);
-				Producer.getToEvents().send(j);
+				log.info("Roles from this token are allow and authenticated "
+						+ TokenIntrospection.checkAuthForRoles(testroles, token));
 
-			} else if (j.getString("msg_type").equals("CMD_MSG") && "webcmd".equals(channel)) {
-				log.info("WEBCMD API POST   >> WEB CMDS :" + j);
-				j.put("token", localToken);
-				// Producer.getToWebCmds().deliveryOptions(options);
-				// Producer.getToWebCmds().send(j);
-				EBCHandlers.sendToClientSessions(j, false);
-			} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
-				log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
+				String eventbusWriteSend = j.getString("eventbus");
+				
+				log.info("Incoming Service:" + j);
+				final DeliveryOptions options = new DeliveryOptions();
+				options.addHeader("Authorization", "Bearer " + localToken);
 
-				j.put("token", localToken);
-				Producer.getToCmds().deliveryOptions(options);
-				Producer.getToCmds().send(j);
-			} else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
-				log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
-				j.put("token", localToken);
-				Producer.getToMessages().deliveryOptions(options);
-				Producer.getToMessages().send(j);
+				if ("EVT_MSG".equals(j.getString("msg_type")) || "events".equals(channel) || "event".equals(channel)) {
+					log.info("EVT API POST   >> EVENT-BUS EVENT:");
+					j.put("token", localToken);
+					Producer.getToEvents().deliveryOptions(options);
+					Producer.getToEvents().send(j);
 
-			} else if ("webdata".equals(channel)) {
-				log.info("WEBDATA API POST   >> WEB DATA :" + j);
+				} else if (j.getString("msg_type").equals("CMD_MSG") && "webcmd".equals(channel)) {
+					log.info("WEBCMD API POST   >> WEB CMDS :" + j);
+					j.put("token", localToken);
+					// Producer.getToWebCmds().deliveryOptions(options);
+					// Producer.getToWebCmds().send(j);
+					EBCHandlers.sendToClientSessions(j, false);
+				} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
+					log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 
-				j.put("token", localToken);
-				Producer.getToWebData().deliveryOptions(options);
-				Producer.getToWebData().send(j);
-			} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
-				log.info("CMD API POST   >> EVENT-BUS DATA :");
-				j.put("token", localToken);
-				if ("Rule".equals(j.getString("data_type"))) {
-					log.info("INCOMING RULE !");
+					j.put("token", localToken);
+					Producer.getToCmds().deliveryOptions(options);
+					Producer.getToCmds().send(j);
+				} else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
+					log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
+					j.put("token", localToken);
+					Producer.getToMessages().deliveryOptions(options);
+					Producer.getToMessages().send(j);
+
+				} else if ("webdata".equals(channel)) {
+					log.info("WEBDATA API POST   >> WEB DATA :" + j);
+
+					j.put("token", localToken);
+					Producer.getToWebData().deliveryOptions(options);
+					Producer.getToWebData().send(j);
+				} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
+					log.info("CMD API POST   >> EVENT-BUS DATA :");
+					j.put("token", localToken);
+					if ("Rule".equals(j.getString("data_type"))) {
+						log.info("INCOMING RULE !");
+					}
+					Producer.getToData().deliveryOptions(options);
+					Producer.getToData().write(j);
 				}
-				Producer.getToData().deliveryOptions(options);
-				Producer.getToData().send(j);
 			}
-
 		});
 		routingContext.response().end();
 	}
@@ -461,8 +477,8 @@ public class BridgeRouterHandlers {
 		});
 
 	}
-	
-	public boolean hasRole(Map<String,Object> decodedTokenMap, final String role) {
+
+	public boolean hasRole(Map<String, Object> decodedTokenMap, final String role) {
 
 		if (decodedTokenMap == null) {
 			return false;

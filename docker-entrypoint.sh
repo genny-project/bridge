@@ -13,6 +13,8 @@ if [ -z "${myip}" ]; then
    myip=127.0.0.1
 fi
 
+myip=`ip a |  grep eth | grep inet | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" 2>&1 | head -n 1`
+
 export MYIP=${myip}
 
 #KEYCLOAK_JSON_DIR=/realm

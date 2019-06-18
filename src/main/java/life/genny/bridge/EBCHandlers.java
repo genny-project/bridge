@@ -40,6 +40,15 @@ public class EBCHandlers {
 
 	public static void registerHandlers() {
 
+		Consumer.getFromDirect().subscribe(arg -> {
+			String incomingCmd = arg.body().toString();
+			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+			log.info("DIRECT EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length() + "  --- "+Consumer.directIP);
+
+			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
+				sendToClientSessions(json, true);
+			}
+		});
 		Consumer.getFromWebCmds().subscribe(arg -> {
 			String incomingCmd = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();

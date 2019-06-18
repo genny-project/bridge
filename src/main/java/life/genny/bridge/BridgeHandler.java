@@ -9,6 +9,7 @@ import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
+import life.genny.channel.Consumer;
 import life.genny.channel.Producer;
 import life.genny.cluster.CurrentVtxCtx;
 import life.genny.security.TokenIntrospection;
@@ -63,7 +64,8 @@ public class BridgeHandler {
 
           log.info("Roles from this token are allow and authenticated " +TokenIntrospection.checkAuthForRoles(roles, token) );
 
-
+          rawMessage.put("sourceAddress", Consumer.directIP);  // set the source (return) address for any command
+          
         if (rawMessage.getString(MSG_TYPE).equals(DATA_MSG)) {
 
           log.info("WEBSOCKET DATA >> EVENT-BUS DATA:"

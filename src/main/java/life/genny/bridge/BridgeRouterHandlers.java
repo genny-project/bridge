@@ -64,6 +64,8 @@ public class BridgeRouterHandlers {
 
 		testroles = TokenIntrospection.setRoles("test");
 	}
+	
+	static public Vertx avertx;
 
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
@@ -295,10 +297,10 @@ public class BridgeRouterHandlers {
 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 			String token = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
-			if (token != null && TokenIntrospection.checkAuthForRoles(roles, token)) { // do not allow empty tokens
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token)) { // do not allow empty tokens
 
 				log.info("Roles from this token are allow and authenticated "
-						+ TokenIntrospection.checkAuthForRoles(roles, token));
+						+ TokenIntrospection.checkAuthForRoles(avertx,roles, token));
 
 				GennyToken gennyToken = new GennyToken(token);
 
@@ -328,7 +330,10 @@ public class BridgeRouterHandlers {
 		String channel = routingContext.request().getParam("channel");
 		// log.info("Service Call! "+channel);
 		routingContext.request().bodyHandler(body -> {
-			log.info("Service Call bodyHandler! " + channel);
+//			log.info("Service Call bodyHandler! " + channel);
+//			if (channel == null) {
+//				log.error("channel = null");
+//			}
 			String localToken = null;
 			final JsonObject j = body.toJsonObject();
 			if (token == null) {
@@ -344,12 +349,12 @@ public class BridgeRouterHandlers {
 			}
 			// j.put("token", token);
 
-			if (token != null && TokenIntrospection.checkAuthForRoles(testroles, token)) { // do not allow empty tokens
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,testroles, token)) { // do not allow empty tokens
 
 				log.info("Roles from this token are allow and authenticated "
-						+ TokenIntrospection.checkAuthForRoles(testroles, token));
+						);
 
-				String eventbusWriteSend = j.getString("eventbus");
+				//String eventbusWriteSend = j.getString("eventbus");
 				
 				log.info("Incoming Service:" + j);
 				final DeliveryOptions options = new DeliveryOptions();

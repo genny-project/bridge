@@ -357,7 +357,7 @@ public class BridgeRouterHandlers {
 
 				//String eventbusWriteSend = j.getString("eventbus");
 				
-				log.info("Incoming Service:" + j);
+			//	log.info("Incoming Service:" + j);
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
 

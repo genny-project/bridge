@@ -343,13 +343,14 @@ public class BridgeRouterHandlers {
 					log.error("NULL TOKEN!");
 				} else {
 					localToken = localToken.substring(7); // To remove initial [Bearer ]
+
 				}
 			} else {
 				localToken = token;
 			}
 			// j.put("token", token);
 
-			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,testroles, token)) { // do not allow empty tokens
+			if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx,testroles, localToken)) { // do not allow empty tokens
 
 				log.info("Roles from this token are allow and authenticated "
 						);
@@ -366,7 +367,7 @@ public class BridgeRouterHandlers {
 					Producer.getToEvents().deliveryOptions(options);
 					Producer.getToEvents().send(j);
 
-				} else if (j.getString("msg_type").equals("CMD_MSG") && "webcmd".equals(channel)) {
+				} else if (j.getString("msg_type").equals("CMD_MSG") && "webcmds".equals(channel)) {
 					log.info("WEBCMD API POST   >> WEB CMDS :" + j);
 					j.put("token", localToken);
 					// Producer.getToWebCmds().deliveryOptions(options);

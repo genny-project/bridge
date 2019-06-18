@@ -80,8 +80,8 @@ public class EBCHandlers {
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("cmd_type") + ": size=" + incomingCmd.length()+":target->"+targetCode+":"+questionCode);
 			} else if ("Ask".equals(json.getString("data_type"))) {
 				JsonArray items = json.getJsonArray("items");
-				JsonObject attribute = items.getJsonObject(0);
-				String code = attribute.getString("code");
+				JsonObject ask = items.getJsonObject(0);
+				String code = ask.getString("questionCode");
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size=" + incomingCmd.length()+" Code="+code);
 			} else {
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + "UNKNOWN" + ": size=" + incomingCmd.length());

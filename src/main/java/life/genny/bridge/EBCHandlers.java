@@ -22,6 +22,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.buffer.Buffer;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.channel.Consumer;
+import life.genny.channel.Producer;
+import life.genny.cluster.CurrentVtxCtx;
 import life.genny.qwanda.message.QBulkPullMessage;
 import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.JsonUtils;
@@ -189,9 +191,12 @@ public class EBCHandlers {
 				String sessionState = tokenJSON.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
-
-					msgProducer.write(cleanJson).end();
-					// log.info("Sent to " + sessionState );
+					if (msgProducer.writeQueueFull()) {
+						log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
+						msgProducer.write(cleanJson).end();
+					} else {
+						msgProducer.write(cleanJson).end();
+					}
 				}
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
@@ -210,11 +215,13 @@ public class EBCHandlers {
 						for (String sessionState : sessionStates) {
 
 							MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-							// final MessageProducer<JsonObject> msgProducer =
-							// Vertx.currentContext().owner().eventBus().publisher(sessionState);
 							if (msgProducer != null) {
-
-								msgProducer.write(cleanJson).end();
+								if (msgProducer.writeQueueFull()) {
+									log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
+									msgProducer.write(cleanJson).end();
+								} else {
+									msgProducer.write(cleanJson).end();
+								}
 							}
 
 						}

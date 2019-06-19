@@ -327,15 +327,17 @@ public class BridgeRouterHandlers {
 	}
 
 	public static void apiServiceHandler(final RoutingContext routingContext) {
-		routingContext.request().bodyHandler(body -> {
+	
 
 			String token = routingContext.request().getParam("token");
 		String channel = routingContext.request().getParam("channel");
 		log.info("Service Call! "+channel);
-			log.info("Service Call bodyHandler! " + channel);
+
 //			if (channel == null) {
 //				log.error("channel = null");
 //			}
+			routingContext.request().bodyHandler(body -> {
+				log.info("Service Call bodyHandler! " + channel);
 			String localToken = null;
 			final JsonObject j = body.toJsonObject();
 			if (token == null) {
@@ -404,8 +406,9 @@ public class BridgeRouterHandlers {
 					Producer.getToData().write(j);
 				}
 			}
+			routingContext.response().end();
 		});
-		routingContext.response().end();
+		
 	}
 
 	public static void apiHandler(final RoutingContext routingContext) {

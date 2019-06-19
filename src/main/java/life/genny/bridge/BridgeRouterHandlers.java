@@ -30,6 +30,7 @@ import io.vertx.rxjava.core.eventbus.MessageProducer;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
+import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
 import life.genny.qwanda.attribute.EntityAttribute;
 import life.genny.qwanda.entity.BaseEntity;
@@ -373,7 +374,14 @@ public class BridgeRouterHandlers {
 					// Producer.getToWebCmds().deliveryOptions(options);
 					// Producer.getToWebCmds().send(j);
 					EBCHandlers.sendToClientSessions(j, false);
-				} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
+				} else if ("webdata".equals(channel)) {
+					log.info("WEBDATA API POST   >> WEB DATA :" + j);
+
+					j.put("token", localToken);
+					EBCHandlers.sendToClientSessions(j, false);
+
+				}
+				else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
 					log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 
 					j.put("token", localToken);
@@ -385,13 +393,7 @@ public class BridgeRouterHandlers {
 					Producer.getToMessages().deliveryOptions(options);
 					Producer.getToMessages().send(j);
 
-				} else if ("webdata".equals(channel)) {
-					log.info("WEBDATA API POST   >> WEB DATA :" + j);
-
-					j.put("token", localToken);
-					Producer.getToWebData().deliveryOptions(options);
-					Producer.getToWebData().send(j);
-				} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
+				}  else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
 					log.info("CMD API POST   >> EVENT-BUS DATA :");
 					j.put("token", localToken);
 					if ("Rule".equals(j.getString("data_type"))) {

@@ -272,7 +272,7 @@ public class BridgeRouterHandlers {
 
 				retValue = entityAttribute.get().getValueString();
 				if (retValue == null) {
-					log.warn(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
+					//log.warn(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
 					return defaultValue;
 				} else {
 					return retValue;

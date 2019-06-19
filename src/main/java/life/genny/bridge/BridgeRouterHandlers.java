@@ -100,12 +100,12 @@ public class BridgeRouterHandlers {
 							"TOKEN" + url.toUpperCase());
 					token = tokenObj.getString("value");
 
-					log.info(projectBe.getRealm());
+				//	log.info("Init Request for "+url+" identified as --> "+projectBe.getRealm());
 				}
 
 				if ((projectBe != null) && ("json".equalsIgnoreCase(format))) {
 					retInit = new JsonObject(projectBe.getValue("ENV_KEYCLOAK_JSON", "NO JSON"));
-					log.info("KEYCLOAK JSON VALUE: " + retInit);
+				//	log.info("KEYCLOAK JSON VALUE: " + retInit);
 					String tokenRealm = retInit.getString("resource");
 					String realm = projectBe.getRealm();
 					String serviceToken = projectBe.getValue("ENV_SERVICE_TOKEN", "DUMMY");
@@ -263,8 +263,8 @@ public class BridgeRouterHandlers {
 		if (retValue == null) {
 			BaseEntity project = VertxUtils.readFromDDT(realm, project_code, serviceToken);
 			if (project == null) {
-				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
-						+ " has entityAttribute value for " + key.toUpperCase());
+//				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
+//						+ " has entityAttribute value for " + key.toUpperCase());
 				return defaultValue;
 			}
 			Optional<EntityAttribute> entityAttribute = project.findEntityAttribute(key.toUpperCase());
@@ -272,15 +272,15 @@ public class BridgeRouterHandlers {
 
 				retValue = entityAttribute.get().getValueString();
 				if (retValue == null) {
-					log.error(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
+					log.warn(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
 					return defaultValue;
 				} else {
 					return retValue;
 				}
 
 			} else {
-				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
-						+ " has entityAttribute value for " + key.toUpperCase() + " returning default:" + defaultValue);
+//				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
+//						+ " has entityAttribute value for " + key.toUpperCase() + " returning default:" + defaultValue);
 				return defaultValue;
 			}
 		} else {
@@ -300,8 +300,6 @@ public class BridgeRouterHandlers {
 
 			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token)) { // do not allow empty tokens
 
-				log.info("Roles from this token are allow and authenticated "
-						+ TokenIntrospection.checkAuthForRoles(avertx,roles, token));
 
 				GennyToken gennyToken = new GennyToken(token);
 
@@ -320,6 +318,8 @@ public class BridgeRouterHandlers {
 				final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
 						.publisher(sessionState);
 				VertxUtils.putMessageProducer(sessionState, toSessionChannel);
+			} else {
+				log.warn("TOKEN NOT ALLOWED ");
 			}
 			routingContext.response().end();
 
@@ -356,8 +356,6 @@ public class BridgeRouterHandlers {
 
 			if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx,testroles, localToken)) { // do not allow empty tokens
 
-				log.info("Roles from this token are allow and authenticated "
-						);
 
 				//String eventbusWriteSend = j.getString("eventbus");
 				
@@ -405,6 +403,8 @@ public class BridgeRouterHandlers {
 					Producer.getToData().deliveryOptions(options);
 					Producer.getToData().write(j);
 				}
+			} else {
+				log.warn("TOKEN NOT ALLOWED");
 			}
 			routingContext.response().end();
 		});

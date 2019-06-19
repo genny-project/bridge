@@ -331,10 +331,10 @@ public class BridgeRouterHandlers {
 
 			String token = routingContext.request().getParam("token");
 		String channel = routingContext.request().getParam("channel");
-		log.info("Service Call! "+channel);
+	//	log.info("Service Call! "+channel);
 
 			routingContext.request().bodyHandler(body -> {
-				log.info("Service Call bodyHandler! " + channel);
+		//		log.info("Service Call bodyHandler! " + channel);
 			String localToken = null;
 			final JsonObject j = body.toJsonObject();
 			if (token == null) {

@@ -327,11 +327,12 @@ public class BridgeRouterHandlers {
 	}
 
 	public static void apiServiceHandler(final RoutingContext routingContext) {
-		String token = routingContext.request().getParam("token");
-		String channel = routingContext.request().getParam("channel");
-		// log.info("Service Call! "+channel);
 		routingContext.request().bodyHandler(body -> {
-//			log.info("Service Call bodyHandler! " + channel);
+
+			String token = routingContext.request().getParam("token");
+		String channel = routingContext.request().getParam("channel");
+		log.info("Service Call! "+channel);
+			log.info("Service Call bodyHandler! " + channel);
 //			if (channel == null) {
 //				log.error("channel = null");
 //			}

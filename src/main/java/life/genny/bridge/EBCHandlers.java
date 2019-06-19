@@ -53,7 +53,7 @@ public class EBCHandlers {
 					+ incomingCmd.length() + "  --- " + Consumer.directIP + " :" + userToken.getUserCode());
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(json, true);
+				sendToClientSessions(userToken,json, true);
 			}
 		});
 		Consumer.getFromWebCmds().subscribe(arg -> {
@@ -99,21 +99,24 @@ public class EBCHandlers {
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + "UNKNOWN" + ": size=" + incomingCmd.length()+ " :[" + userToken.getUserCode()+"]");
 
 				}
+				if (!incomingCmd.contains("<body>Unauthorized</body>")) {
+					sendToClientSessions(userToken,json, true);
+				}
 			}
 
-			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(json, true);
-			}
+
 		});
 
 		Consumer.getFromWebData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
+
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size="
-					+ incomingData.length());
+					+ incomingData.length()+ " :[" + userToken.getUserCode()+"]");
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(json, false);
+				sendToClientSessions(userToken,json, false);
 			}
 		});
 	}
@@ -122,7 +125,7 @@ public class EBCHandlers {
 	 * @param incomingCmd
 	 * @throws IOException
 	 */
-	public static void sendToClientSessions(final JsonObject json, boolean sessionOnly) {
+	public static void sendToClientSessions(final GennyToken userToken,final JsonObject json, boolean sessionOnly) {
 //		// ugly, but remove the outer array
 //		if (incomingCmd.startsWith("[")) {
 //			incomingCmd = incomingCmd.replaceFirst("\\[", "");
@@ -136,7 +139,7 @@ public class EBCHandlers {
 			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
 
-				recipientJsonArray.add(userCode);
+				recipientJsonArray.add(userToken.getUserCode());
 			} else {
 				recipientJsonArray = json.getJsonArray("recipientCodeArray");
 			}
@@ -196,7 +199,7 @@ public class EBCHandlers {
 //
 
 			if (sessionOnly) {
-				String sessionState = tokenJSON.getString("session_state");
+				String sessionState = userToken.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {
 					if (msgProducer.writeQueueFull()) {

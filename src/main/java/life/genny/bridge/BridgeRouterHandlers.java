@@ -333,9 +333,6 @@ public class BridgeRouterHandlers {
 		String channel = routingContext.request().getParam("channel");
 		log.info("Service Call! "+channel);
 
-//			if (channel == null) {
-//				log.error("channel = null");
-//			}
 			routingContext.request().bodyHandler(body -> {
 				log.info("Service Call bodyHandler! " + channel);
 			String localToken = null;
@@ -352,14 +349,10 @@ public class BridgeRouterHandlers {
 			} else {
 				localToken = token;
 			}
-			// j.put("token", token);
 
 			if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx,testroles, localToken)) { // do not allow empty tokens
+				GennyToken userToken  = new GennyToken(localToken);
 
-
-				//String eventbusWriteSend = j.getString("eventbus");
-				
-			//	log.info("Incoming Service:" + j);
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
 
@@ -374,12 +367,12 @@ public class BridgeRouterHandlers {
 					j.put("token", localToken);
 					// Producer.getToWebCmds().deliveryOptions(options);
 					// Producer.getToWebCmds().send(j);
-					EBCHandlers.sendToClientSessions(j, false);
+					EBCHandlers.sendToClientSessions(userToken,j, false);
 				} else if ("webdata".equals(channel)) {
 					log.info("WEBDATA API POST   >> WEB DATA :" + j);
 
 					j.put("token", localToken);
-					EBCHandlers.sendToClientSessions(j, false);
+					EBCHandlers.sendToClientSessions(userToken,j, false);
 
 				}
 				else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {

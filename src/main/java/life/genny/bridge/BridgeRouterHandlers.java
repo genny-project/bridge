@@ -105,8 +105,6 @@ public class BridgeRouterHandlers {
 
 				if ((projectBe != null) && ("json".equalsIgnoreCase(format))) {
 					retInit = new JsonObject(projectBe.getValue("ENV_KEYCLOAK_JSON", "NO JSON"));
-				//	log.info("KEYCLOAK JSON VALUE: " + retInit);
-					String tokenRealm = retInit.getString("resource");
 					String realm = projectBe.getRealm();
 					String serviceToken = projectBe.getValue("ENV_SERVICE_TOKEN", "DUMMY");
 					retInit.put("vertx_url", GennySettings.vertxUrl);
@@ -320,7 +318,7 @@ public class BridgeRouterHandlers {
 						.publisher(sessionState);
 				VertxUtils.putMessageProducer(sessionState, toSessionChannel);
 			} else {
-				log.warn("TOKEN NOT ALLOWED ");
+				log.warn("TOKEN NOT ALLOWED "+token);
 			}
 			routingContext.response().end();
 

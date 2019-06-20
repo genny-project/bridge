@@ -95,6 +95,12 @@ public class EBCHandlers {
 					String code = ask.getString("questionCode");
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
 							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
+				} else if ("QBulkMessage".equals(json.getString("data_type"))) {
+					JsonArray items = json.getJsonArray("items");
+					JsonObject ask = items.getJsonObject(0);
+					String code = ask.getString("code");
+					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
+							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 				} else {
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + "UNKNOWN" + ": size=" + incomingCmd.length()+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 
@@ -112,7 +118,7 @@ public class EBCHandlers {
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
-			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size="
+			log.info("EVENT-BUS WEBDATA >> WEBSOCKET DATA:" + json.getString("data_type") + ": size="
 					+ incomingData.length()+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
@@ -126,19 +132,11 @@ public class EBCHandlers {
 	 * @throws IOException
 	 */
 	public static void sendToClientSessions(final GennyToken userToken,final JsonObject json, boolean sessionOnly) {
-//		// ugly, but remove the outer array
-//		if (incomingCmd.startsWith("[")) {
-//			incomingCmd = incomingCmd.replaceFirst("\\[", "");
-//			incomingCmd = incomingCmd.substring(0, incomingCmd.length() - 1);
-//		}
 
-		if (json.getString("token") != null) {
-			// check token
 			JsonArray recipientJsonArray = null;
 
 			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
 				recipientJsonArray = new JsonArray();
-
 				recipientJsonArray.add(userToken.getUserCode());
 			} else {
 				recipientJsonArray = json.getJsonArray("recipientCodeArray");
@@ -196,19 +194,11 @@ public class EBCHandlers {
 				log.error("CANNOT Compress json");
 
 			}
-//
 
-			if (sessionOnly || true) {
+
+			if (sessionOnly ) {
 				String sessionState = userToken.getString("session_state");
-				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-				if (msgProducer != null) {
-					if (msgProducer.writeQueueFull()) {
-						log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
-						msgProducer.write(cleanJson).end();
-					} else {
-						msgProducer.write(cleanJson).end();
-					}
-				}
+				sendToSession(sessionState,cleanJson);
 			} else {
 				for (int i = 0; i < recipientJsonArray.size(); i++) {
 					String recipientCode = recipientJsonArray.getString(i);
@@ -218,36 +208,32 @@ public class EBCHandlers {
 
 					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 
-						// sessionStates.add(tokenJSON.getString("session_state")); // commenting this
-						// one, since current
-						// user was getting added to the
-						// toast recipients
-						// log.info("User:" + recipientCode + " with " + sessionStates.size() + "
-						// sessions");
 						for (String sessionState : sessionStates) {
-
-							MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-							if (msgProducer != null) {
-								if (msgProducer.writeQueueFull()) {
-									log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
-									msgProducer.write(cleanJson).end();
-								} else {
-									msgProducer.write(cleanJson).end();
-								}
-							}
-
+							sendToSession(sessionState,cleanJson);
 						}
 					} else {
+						sendToSession(userToken.getString("session_state"),cleanJson);  // have to send to something
 						// no sessions for this user!
 						// need to remove them from subscriptions ...
-						log.error("Remove " + recipientCode + " from subscriptions , they have no sessions");
+						//log.error("Remove " + recipientCode + " from subscriptions , they have no sessions");
 					}
 				}
 			}
 
-		} else {
-			log.error("Cmd with Unauthorised cmd recieved");
+	}
+
+	private static void sendToSession(String sessionState, JsonObject cleanJson) {
+		MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
+		if (msgProducer != null) {
+			if (msgProducer.writeQueueFull()) {
+				log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
+				msgProducer.send(cleanJson);
+			} else {
+				msgProducer.send(cleanJson);
+			}
 		}
+
+		
 	}
 
 	public static String compress(String str) throws IOException {

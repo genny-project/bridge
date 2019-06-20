@@ -50,7 +50,7 @@ public class EBCHandlers {
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
 			log.info("DIRECT EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
-					+ incomingCmd.length() + "  --- " + Consumer.directIP + " :" + userToken.getUserCode());
+					+ incomingCmd.length() + "  --- " + Consumer.directIP + " :" + userToken.getUserCode()+ " "+userToken.getString("session_state"));
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(userToken,json, true);
@@ -74,13 +74,13 @@ public class EBCHandlers {
 					JsonObject attribute = items.getJsonObject(0);
 					String code = attribute.getString("code");
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
-							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"]");
+							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 				} else if ("BaseEntity".equals(json.getString("data_type"))) {
 					JsonArray items = json.getJsonArray("items");
 					JsonObject be = items.getJsonObject(0);
 					String code = be.getString("code");
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
-							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"]");
+							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 				} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {
 					JsonObject asks = json.getJsonObject("asks");
 					JsonArray items = asks.getJsonArray("items");
@@ -88,15 +88,15 @@ public class EBCHandlers {
 					String targetCode = ask.getString("targetCode");
 					String questionCode = ask.getString("questionCode");
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("cmd_type") + ": size="
-							+ incomingCmd.length() + ":target->" + targetCode + ":" + questionCode);
+							+ incomingCmd.length() + ":target->" + targetCode + ":" + questionCode+" "+userToken.getString("session_state"));
 				} else if ("Ask".equals(json.getString("data_type"))) {
 					JsonArray items = json.getJsonArray("items");
 					JsonObject ask = items.getJsonObject(0);
 					String code = ask.getString("questionCode");
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
-							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"]");
+							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 				} else {
-					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + "UNKNOWN" + ": size=" + incomingCmd.length()+ " :[" + userToken.getUserCode()+"]");
+					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + "UNKNOWN" + ": size=" + incomingCmd.length()+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 
 				}
 				if (!incomingCmd.contains("<body>Unauthorized</body>")) {
@@ -113,7 +113,7 @@ public class EBCHandlers {
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
 			log.info("EVENT-BUS DATA >> WEBSOCKET DATA2:" + json.getString("data_type") + ": size="
-					+ incomingData.length()+ " :[" + userToken.getUserCode()+"]");
+					+ incomingData.length()+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(userToken,json, false);
@@ -198,7 +198,7 @@ public class EBCHandlers {
 			}
 //
 
-			if (sessionOnly) {
+			if (sessionOnly || true) {
 				String sessionState = userToken.getString("session_state");
 				MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
 				if (msgProducer != null) {

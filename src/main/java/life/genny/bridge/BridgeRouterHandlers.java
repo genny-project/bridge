@@ -294,7 +294,7 @@ public class BridgeRouterHandlers {
 		routingContext.request().bodyHandler(body -> {
 			final String bodyString = body.toString();
 			final JsonObject j = new JsonObject(bodyString);
-			log.info("WEB API POST   >> SESSION_INIT:");
+			
 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 			String token = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
@@ -304,9 +304,10 @@ public class BridgeRouterHandlers {
 				GennyToken gennyToken = new GennyToken(token);
 
 				String sessionState = gennyToken.getString("session_state");
+				
 				String realm = gennyToken.getRealm();
 				String userCode = gennyToken.getCode();
-
+				log.info("WEB API POST   >> SESSION_INIT:"+realm+":"+userCode+":"+sessionState);
 				if (gennyToken.hasRole("test")) {
 					VertxUtils.writeCachedJson(realm, "TOKEN:" + userCode, token, token, 28800); // 8 hours expiry, TODO
 																									// use token expiry

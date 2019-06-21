@@ -96,9 +96,9 @@ public class EBCHandlers {
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
 							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 				} else if ("QBulkMessage".equals(json.getString("data_type"))) {
-					JsonArray items = json.getJsonArray("items");
-					JsonObject ask = items.getJsonObject(0);
-					String code = ask.getString("code");
+//					JsonArray items = json.getJsonArray("items");
+//					JsonObject ask = items.getJsonObject(0);
+					String code = "bulk"; //ask.getString("code");
 					log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  :" + json.getString("data_type") + ": size="
 							+ incomingCmd.length() + " Code=" + code+ " :[" + userToken.getUserCode()+"] "+userToken.getString("session_state"));
 				} else {

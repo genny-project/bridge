@@ -45,10 +45,10 @@ import life.genny.utils.VertxUtils;
 
 public class BridgeRouterHandlers {
 
-//	protected static final Logger log = org.apache.logging.log4j.LogManager
-//			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+	protected static final Logger log = org.apache.logging.log4j.LogManager
+			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-	protected static final io.vertx.core.logging.Logger log = LoggerFactory.getLogger(BridgeRouterHandlers.class);
+//	protected static final io.vertx.core.logging.Logger log = LoggerFactory.getLogger(BridgeRouterHandlers.class);
 
 	public static final String GIT_VERSION_PROPERTIES = "GitVersion.properties";
 

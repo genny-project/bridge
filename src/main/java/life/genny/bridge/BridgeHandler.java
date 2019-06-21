@@ -64,7 +64,7 @@ public class BridgeHandler {
           bridgeEvent.getRawMessage().getJsonObject(BODY);
       rawMessage = rawMessage.getJsonObject(DATA);
       String token = rawMessage.getString(TOKEN);
-      if ( token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token)) { // do not allow empty tokens
+      if ( token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/) { // do not allow empty tokens
 
 
           rawMessage.put("sourceAddress", Consumer.directIP);  // set the source (return) address for any command
@@ -74,7 +74,7 @@ public class BridgeHandler {
           log.info("WEBSOCKET DATA >> EVENT-BUS DATA:"
               + rawMessage.getString(DATA_TYPE) + ":"
               + StringUtils.abbreviateMiddle(
-                  rawMessage.getString(TOKEN), "...", 40));
+                  token, "...", 40));
 
           if (Producer.getToData().writeQueueFull()) {
 
@@ -95,7 +95,7 @@ public class BridgeHandler {
               + rawMessage.getString(EVENT_TYPE) + ":"
               + rawMessage.getJsonObject(DATA).getString(CODE) + ":"
               + StringUtils.abbreviateMiddle(
-                  rawMessage.getString(TOKEN), "...", 40));
+                  token, "...", 40));
 
           if (Producer.getToEvents().writeQueueFull()) {
 

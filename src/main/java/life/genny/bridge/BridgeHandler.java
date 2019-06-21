@@ -12,6 +12,7 @@ import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
 import life.genny.channel.Consumer;
 import life.genny.channel.Producer;
 import life.genny.cluster.CurrentVtxCtx;
+import life.genny.models.GennyToken;
 import life.genny.security.TokenIntrospection;
 
 public class BridgeHandler {
@@ -64,6 +65,7 @@ public class BridgeHandler {
           bridgeEvent.getRawMessage().getJsonObject(BODY);
       rawMessage = rawMessage.getJsonObject(DATA);
       String token = rawMessage.getString(TOKEN);
+      GennyToken userToken = new GennyToken(token);
       if ( token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/) { // do not allow empty tokens
 
 
@@ -74,7 +76,7 @@ public class BridgeHandler {
           log.info("WEBSOCKET DATA >> EVENT-BUS DATA:"
               + rawMessage.getString(DATA_TYPE) + ":"
               + StringUtils.abbreviateMiddle(
-                  token, "...", 40));
+                  token, "...", 30)+"  "+userToken.getUserCode()+":  "+userToken.getString("session_state"));
 
           if (Producer.getToData().writeQueueFull()) {
 
@@ -95,7 +97,7 @@ public class BridgeHandler {
               + rawMessage.getString(EVENT_TYPE) + ":"
               + rawMessage.getJsonObject(DATA).getString(CODE) + ":"
               + StringUtils.abbreviateMiddle(
-                  token, "...", 40));
+                  token, "...", 30)+":  "+userToken.getString("session_state"));
 
           if (Producer.getToEvents().writeQueueFull()) {
 

@@ -227,9 +227,9 @@ public class EBCHandlers {
 		if (msgProducer != null) {
 			if (msgProducer.writeQueueFull()) {
 				log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
-				msgProducer.send(cleanJson);
+				msgProducer.send(cleanJson).end();
 			} else {
-				msgProducer.send(cleanJson);
+				msgProducer.send(cleanJson).end();
 			}
 		}
 

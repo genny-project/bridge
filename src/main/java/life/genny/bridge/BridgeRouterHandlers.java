@@ -59,13 +59,13 @@ public class BridgeRouterHandlers {
 
 		roles = TokenIntrospection.setRoles("user");
 	}
-	
+
 	private static final List<String> testroles;
 	static {
 
 		testroles = TokenIntrospection.setRoles("test");
 	}
-	
+
 	static public Vertx avertx;
 
 	public static CorsHandler cors() {
@@ -100,7 +100,7 @@ public class BridgeRouterHandlers {
 							"TOKEN" + url.toUpperCase());
 					token = tokenObj.getString("value");
 
-				//	log.info("Init Request for "+url+" identified as --> "+projectBe.getRealm());
+					// log.info("Init Request for "+url+" identified as --> "+projectBe.getRealm());
 				}
 
 				if ((projectBe != null) && ("json".equalsIgnoreCase(format))) {
@@ -255,7 +255,7 @@ public class BridgeRouterHandlers {
 		retValue = System.getenv(realm.toUpperCase() + "_" + key.toUpperCase());
 
 		if (retValue == null) {
-			retValue = System.getenv(key.toUpperCase());  // try a common one
+			retValue = System.getenv(key.toUpperCase()); // try a common one
 		}
 		// else look at the project setting
 		if (retValue == null) {
@@ -270,7 +270,8 @@ public class BridgeRouterHandlers {
 
 				retValue = entityAttribute.get().getValueString();
 				if (retValue == null) {
-					//log.warn(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
+					// log.warn(realm + " Bridge has " + key + " which is returning null so
+					// returning " + defaultValue);
 					return defaultValue;
 				} else {
 					return retValue;
@@ -292,33 +293,35 @@ public class BridgeRouterHandlers {
 		routingContext.request().bodyHandler(body -> {
 			final String bodyString = body.toString();
 			final JsonObject j = new JsonObject(bodyString);
-			
+
 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 			String token = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
-			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/) { // do not allow empty tokens
-
+			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+																									// tokens
 
 				GennyToken gennyToken = new GennyToken(token);
 
 				String sessionState = gennyToken.getString("session_state");
-				
+
 				String realm = gennyToken.getRealm();
-				String userCode = gennyToken.getCode();
-				log.info("WEB API POST   >> SESSION_INIT:"+realm+":"+userCode+":"+sessionState);
+				String userCode = gennyToken.getUserCode();
+				log.info("API POST >> SESSN_INIT  :" + sessionState + ":" + realm + ":" + ":" + userCode);
 				if (gennyToken.hasRole("test")) {
 					VertxUtils.writeCachedJson(realm, "TOKEN:" + userCode, token, token, 28800); // 8 hours expiry, TODO
 																									// use token expiry
 				}
 
 				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
-				sessionStates.add(sessionState);
-				VertxUtils.putSetString("", "SessionStates", userCode, sessionStates);
-				final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
-						.publisher(sessionState);
-				VertxUtils.putMessageProducer(sessionState, toSessionChannel);
+			//	if (!sessionStates.contains(sessionState)) {
+					sessionStates.add(sessionState);
+					VertxUtils.putSetString("", "SessionStates", userCode, sessionStates);
+					final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
+							.publisher(sessionState);
+					VertxUtils.putMessageProducer(sessionState, toSessionChannel);
+			//	}
 			} else {
-				log.warn("TOKEN NOT ALLOWED "+token);
+				log.warn("TOKEN NOT ALLOWED " + token);
 			}
 			routingContext.response().end();
 
@@ -326,14 +329,13 @@ public class BridgeRouterHandlers {
 	}
 
 	public static void apiServiceHandler(final RoutingContext routingContext) {
-	
 
-			String token = routingContext.request().getParam("token");
+		String token = routingContext.request().getParam("token");
 		String channel = routingContext.request().getParam("channel");
-	//	log.info("Service Call! "+channel);
+		// log.info("Service Call! "+channel);
 
-			routingContext.request().bodyHandler(body -> {
-		//		log.info("Service Call bodyHandler! " + channel);
+		routingContext.request().bodyHandler(body -> {
+			// log.info("Service Call bodyHandler! " + channel);
 			String localToken = null;
 			final JsonObject j = body.toJsonObject();
 			if (token == null) {
@@ -349,8 +351,11 @@ public class BridgeRouterHandlers {
 				localToken = token;
 			}
 
-			if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx,testroles, localToken)) { // do not allow empty tokens
-				GennyToken userToken  = new GennyToken(localToken);
+			if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)) { // do not
+																												// allow
+																												// empty
+																												// tokens
+				GennyToken userToken = new GennyToken(localToken);
 
 				final DeliveryOptions options = new DeliveryOptions();
 				options.addHeader("Authorization", "Bearer " + localToken);
@@ -366,15 +371,14 @@ public class BridgeRouterHandlers {
 					j.put("token", localToken);
 					// Producer.getToWebCmds().deliveryOptions(options);
 					// Producer.getToWebCmds().send(j);
-					EBCHandlers.sendToClientSessions(userToken,j, false);
+					EBCHandlers.sendToClientSessions(userToken, j, false);
 				} else if ("webdata".equals(channel)) {
 					log.info("WEBDATA API POST   >> WEB DATA :" + j);
 
 					j.put("token", localToken);
-					EBCHandlers.sendToClientSessions(userToken,j, false);
+					EBCHandlers.sendToClientSessions(userToken, j, false);
 
-				}
-				else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
+				} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
 					log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
 
 					j.put("token", localToken);
@@ -386,7 +390,7 @@ public class BridgeRouterHandlers {
 					Producer.getToMessages().deliveryOptions(options);
 					Producer.getToMessages().send(j);
 
-				}  else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
+				} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
 					log.info("CMD API POST   >> EVENT-BUS DATA :");
 					j.put("token", localToken);
 					if ("Rule".equals(j.getString("data_type"))) {
@@ -400,7 +404,7 @@ public class BridgeRouterHandlers {
 			}
 			routingContext.response().end();
 		});
-		
+
 	}
 
 	public static void apiHandler(final RoutingContext routingContext) {

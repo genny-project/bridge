@@ -74,9 +74,10 @@ public class BridgeHandler {
         if (rawMessage.getString(MSG_TYPE).equals(DATA_MSG)) {
 
           log.info("WEBSOCKET DATA >> EVENT-BUS DATA:"
+        		  +userToken.getString("session_state") +" :"
               + rawMessage.getString(DATA_TYPE) + ":"
               + StringUtils.abbreviateMiddle(
-                  token, "...", 30)+"  "+userToken.getUserCode()+":  "+userToken.getString("session_state"));
+                  token, "...", 30)+"  ["+userToken.getUserCode()+"]:  ");
 
           if (Producer.getToData().writeQueueFull()) {
 
@@ -92,12 +93,13 @@ public class BridgeHandler {
             Producer.getToData().send(rawMessage).end();
           }
         } else if (rawMessage.getString(MSG_TYPE).equals(EVT_MSG)) {
-
-          log.info("WEBSOCKET EVT >> EVENT-BUS EVT:"
+          log.info("WEB EVENT    >> EVENT-BUS EVT  :"
+        		  +userToken.getString("session_state") +" : "
               + rawMessage.getString(EVENT_TYPE) + ":"
-              + rawMessage.getJsonObject(DATA).getString(CODE) + ":"
-              + StringUtils.abbreviateMiddle(
-                  token, "...", 30)+":  "+userToken.getString("session_state"));
+              
+              + rawMessage.getJsonObject(DATA).getString(CODE) +" :["+userToken.getUserCode()+"]"); // + ":"
+//              + StringUtils.abbreviateMiddle(
+//                  token, "...", 30));
 
           if (Producer.getToEvents().writeQueueFull()) {
 

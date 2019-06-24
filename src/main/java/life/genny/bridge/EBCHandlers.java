@@ -12,6 +12,7 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.codec.binary.Base64OutputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
@@ -128,8 +129,8 @@ public class EBCHandlers {
 	
 	private static void bridgelog(final GennyToken userToken, final JsonObject msg, final String code,Integer messageLength)
 	{
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  : " + userToken.getString("session_state")+" :"+msg.getString("data_type") + ": size="
-				+ messageLength + " Code=" + code+ " :[" + userToken.getUserCode()+"] ");
+		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  : " + userToken.getString("session_state")+" :"+StringUtils.rightPad(msg.getString("data_type"), 12, " ") + ": size="
+				+ StringUtils.rightPad(messageLength+"",6," ") + " Code=" + StringUtils.rightPad(code,32," ")+ " :[" + userToken.getUserCode()+"] ");
 	}
 	
 	/**

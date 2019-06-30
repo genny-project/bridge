@@ -337,7 +337,10 @@ public class BridgeRouterHandlers {
 		routingContext.request().bodyHandler(body -> {
 			// log.info("Service Call bodyHandler! " + channel);
 			String localToken = null;
-			final JsonObject j = body.toJsonObject();
+			JsonObject j = null;
+			
+			try {
+				j = body.toJsonObject();
 			if (token == null) {
 				MultiMap headerMap = routingContext.request().headers();
 				localToken = headerMap.get("Authorization");
@@ -366,12 +369,12 @@ public class BridgeRouterHandlers {
 					Producer.getToEvents().deliveryOptions(options);
 					Producer.getToEvents().send(j);
 
-				} else if (j.getString("msg_type").equals("CMD_MSG") && "webcmds".equals(channel)) {
+				} else if (j.getString("msg_type").equals("CMD_MSG") || "webcmds".equals(channel)) {
 					log.info("WEBCMD API POST   >> WEB CMDS :" + j);
 					j.put("token", localToken);
-					// Producer.getToWebCmds().deliveryOptions(options);
-					// Producer.getToWebCmds().send(j);
-					EBCHandlers.sendToClientSessions(userToken, j, false);
+					Producer.getToWebCmds().deliveryOptions(options);
+					Producer.getToWebCmds().send(j);
+					//EBCHandlers.sendToClientSessions(userToken, j, false);
 				} else if ("webdata".equals(channel)) {
 					log.info("WEBDATA API POST   >> WEB DATA :" + j);
 
@@ -402,7 +405,12 @@ public class BridgeRouterHandlers {
 			} else {
 				log.warn("TOKEN NOT ALLOWED");
 			}
-			routingContext.response().end();
+			} catch (Exception e) {
+				log.error("Error in json "+body.toString());
+			}
+			finally {
+				routingContext.response().end();
+			}
 		});
 
 	}

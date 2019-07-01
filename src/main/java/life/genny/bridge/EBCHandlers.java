@@ -202,7 +202,7 @@ public class EBCHandlers {
 			}
 
 
-			if (true ||sessionOnly ) {
+			if (sessionOnly ) {
 				String sessionState = userToken.getString("session_state");
 				sendToSession(sessionState,cleanJson);
 			} else {

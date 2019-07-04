@@ -354,7 +354,7 @@ public class BridgeRouterHandlers {
 				localToken = token;
 			}
 
-			if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)) { // do not
+			if (localToken != null /*&& TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)*/) { // do not
 																												// allow
 																												// empty
 																												// tokens
@@ -372,9 +372,9 @@ public class BridgeRouterHandlers {
 				} else if (j.getString("msg_type").equals("CMD_MSG") || "webcmds".equals(channel)) {
 					log.info("WEBCMD API POST   >> WEB CMDS :" + j);
 					j.put("token", localToken);
-					Producer.getToWebCmds().deliveryOptions(options);
-					Producer.getToWebCmds().send(j);
-					//EBCHandlers.sendToClientSessions(userToken, j, false);
+					//Producer.getToWebCmds().deliveryOptions(options);
+					//Producer.getToWebCmds().send(j);
+					EBCHandlers.sendToClientSessions(userToken, j, false);
 				} else if ("webdata".equals(channel)) {
 					log.info("WEBDATA API POST   >> WEB DATA :" + j);
 

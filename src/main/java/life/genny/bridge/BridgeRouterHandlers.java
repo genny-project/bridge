@@ -369,7 +369,7 @@ public class BridgeRouterHandlers {
 					Producer.getToEvents().deliveryOptions(options);
 					Producer.getToEvents().send(j);
 
-				} else if (j.getString("msg_type").equals("CMD_MSG") || "webcmds".equals(channel)) {
+				} else if ( "webcmds".equals(channel)) {
 					log.info("WEBCMD API POST   >> WEB CMDS :" + j);
 					j.put("token", localToken);
 					//Producer.getToWebCmds().deliveryOptions(options);

@@ -91,10 +91,13 @@ public class EBCHandlers {
 					bridgelog(userToken,json,":target->" + targetCode + ":" + questionCode,incomingCmd.length());
 
 				} else if ("Ask".equals(json.getString("data_type"))) {
-					JsonArray items = json.getJsonArray("items");
-					JsonObject ask = items.getJsonObject(0);
-					String code = ask.getString("questionCode");
-					bridgelog(userToken,json,code,incomingCmd.length());
+//					JsonArray items = json.getJsonArray("items");
+//					
+//					JsonObject ask = null;
+//					
+//					ask = items.getJsonObject(0);
+//					String code = ask.getString("questionCode");
+//					bridgelog(userToken,json,code,incomingCmd.length());
 
 				} else if ("QBulkMessage".equals(json.getString("data_type"))) {
 //					JsonArray items = json.getJsonArray("items");

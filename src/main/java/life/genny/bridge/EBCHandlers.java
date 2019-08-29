@@ -159,6 +159,8 @@ public class EBCHandlers {
 			if (cleanJson == null) {
 				log.error("null json");
 			}
+			
+			String txt = cleanJson.toString(); 
 //			if (bulkPull) {
 //				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
 //				cleanJson = new JsonObject(JsonUtils.toJson(msg));

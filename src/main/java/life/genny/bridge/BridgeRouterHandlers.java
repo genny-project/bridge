@@ -132,6 +132,8 @@ public class BridgeRouterHandlers {
 
 					retInit.put("ENV_GOOGLE_MAPS_APIKEY",
 							fetchSetting(realm, "ENV_GOOGLE_MAPS_APIKEY", serviceToken, "NO_GOOGLE_MAPS_APIKEY"));
+					retInit.put("PRI_FAVICON",
+							fetchSetting(realm, "PRI_FAVICON", serviceToken, "NO_FAVICON"));
 					retInit.put("ENV_GOOGLE_MAPS_APIURL",
 							fetchSetting(realm, "ENV_GOOGLE_MAPS_APIURL", serviceToken, "NO_GOOGLE_MAPS_APIURL"));
 					retInit.put("ENV_UPPY_URL",
@@ -192,6 +194,9 @@ public class BridgeRouterHandlers {
 					env += "ENV_GENNY_BRIDGE_EVENTS=" + "/api/events" + "\n";
 					env += "ENV_GOOGLE_MAPS_APIKEY="
 							+ fetchSetting(realm, "ENV_GOOGLE_MAPS_APIKEY", serviceToken, "NO_GOOGLE_MAPS_APIKEY")
+							+ "\n";
+					env += "PRI_FAVICON="
+							+ fetchSetting(realm, "PRI_FAVICON", serviceToken, "NO_FAVICON")
 							+ "\n";
 					env += "ENV_GOOGLE_MAPS_APIURL="
 							+ fetchSetting(realm, "ENV_GOOGLE_MAPS_APIURL", serviceToken, "NO_GOOGLE_MAPS_APIURL")

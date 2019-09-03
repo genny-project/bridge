@@ -51,10 +51,10 @@ public class EBCHandlers {
 			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
-			bridgelog(userToken,json,":target->" + Consumer.directIP ,incomingCmd.length());
+			bridgelog(userToken, json, ":target->" + Consumer.directIP, incomingCmd.length());
 
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(userToken,json, true);
+				sendToClientSessions(userToken, json, true);
 			}
 		});
 		Consumer.getFromWebCmds().subscribe(arg -> {
@@ -68,29 +68,30 @@ public class EBCHandlers {
 			if (json == null) {
 				log.error("Json input is null!");
 			} else {
-				GennyToken userToken = new GennyToken("userToken",json.getString("token"));
+				if (StringUtils.isBlank(json.getString("token"))) {
+					GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
-				if ("Attribute".equals(json.getString("data_type"))) {
-					JsonArray items = json.getJsonArray("items");
-					JsonObject attribute = items.getJsonObject(0);
-					String code = attribute.getString("code");
-					bridgelog(userToken,json,code,incomingCmd.length());
+					if ("Attribute".equals(json.getString("data_type"))) {
+						JsonArray items = json.getJsonArray("items");
+						JsonObject attribute = items.getJsonObject(0);
+						String code = attribute.getString("code");
+						bridgelog(userToken, json, code, incomingCmd.length());
 
-				} else if ("BaseEntity".equals(json.getString("data_type"))) {
-					JsonArray items = json.getJsonArray("items");
-					JsonObject be = items.getJsonObject(0);
-					String code = be.getString("code");
-					bridgelog(userToken,json,code,incomingCmd.length());
+					} else if ("BaseEntity".equals(json.getString("data_type"))) {
+						JsonArray items = json.getJsonArray("items");
+						JsonObject be = items.getJsonObject(0);
+						String code = be.getString("code");
+						bridgelog(userToken, json, code, incomingCmd.length());
 
-				} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {
-					JsonObject asks = json.getJsonObject("asks");
-					JsonArray items = asks.getJsonArray("items");
-					JsonObject ask = items.getJsonObject(0);
-					String targetCode = ask.getString("targetCode");
-					String questionCode = ask.getString("questionCode");
-					bridgelog(userToken,json,":target->" + targetCode + ":" + questionCode,incomingCmd.length());
+					} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {
+						JsonObject asks = json.getJsonObject("asks");
+						JsonArray items = asks.getJsonArray("items");
+						JsonObject ask = items.getJsonObject(0);
+						String targetCode = ask.getString("targetCode");
+						String questionCode = ask.getString("questionCode");
+						bridgelog(userToken, json, ":target->" + targetCode + ":" + questionCode, incomingCmd.length());
 
-				} else if ("Ask".equals(json.getString("data_type"))) {
+					} else if ("Ask".equals(json.getString("data_type"))) {
 //					JsonArray items = json.getJsonArray("items");
 //					
 //					JsonObject ask = null;
@@ -99,21 +100,23 @@ public class EBCHandlers {
 //					String code = ask.getString("questionCode");
 //					bridgelog(userToken,json,code,incomingCmd.length());
 
-				} else if ("QBulkMessage".equals(json.getString("data_type"))) {
+					} else if ("QBulkMessage".equals(json.getString("data_type"))) {
 //					JsonArray items = json.getJsonArray("items");
 //					JsonObject ask = items.getJsonObject(0);
-					String code = "bulk"; //ask.getString("code");
-					bridgelog(userToken,json,code,incomingCmd.length());
+						String code = "bulk"; // ask.getString("code");
+						bridgelog(userToken, json, code, incomingCmd.length());
 
+					} else {
+						bridgelog(userToken, json, "UNKNOWN", incomingCmd.length());
+
+					}
+					if (!incomingCmd.contains("<body>Unauthorized</body>")) {
+						sendToClientSessions(userToken, json, true);
+					}
 				} else {
-						bridgelog(userToken,json,"UNKNOWN",incomingCmd.length());
-
-				}
-				if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-					sendToClientSessions(userToken,json, true);
+					log.error("Null token sent to bridge");
 				}
 			}
-
 
 		});
 
@@ -122,121 +125,127 @@ public class EBCHandlers {
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
-			bridgelog(userToken,json,userToken.getUserCode(),incomingData.length());
+			bridgelog(userToken, json, userToken.getUserCode(), incomingData.length());
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(userToken,json, false);
+				sendToClientSessions(userToken, json, false);
 			}
 		});
 	}
 
-	
-	private static void bridgelog(final GennyToken userToken, final JsonObject msg, final String code,Integer messageLength)
-	{
-		log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  : " + userToken.getString("session_state")+" :"+StringUtils.rightPad(msg.getString("data_type"), 12, " ") + ": size="
-				+ StringUtils.rightPad(messageLength+"",6," ") + " Code=" + StringUtils.rightPad(code,32," ")+ " :[" + userToken.getUserCode()+"] ");
+	private static void bridgelog(final GennyToken userToken, final JsonObject msg, final String code,
+			Integer messageLength) {
+		try {
+			log.info("EVENT-BUS CMD  >> WEBSOCKET CMD  : " + userToken.getString("session_state") + " :"
+					+ StringUtils.rightPad(msg.getString("data_type"), 12, " ") + ": size="
+					+ StringUtils.rightPad(messageLength + "", 6, " ") + " Code=" + StringUtils.rightPad(code, 32, " ")
+					+ " :[" + userToken.getUserCode() + "] ");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 * @param incomingCmd
 	 * @throws IOException
 	 */
-	public static void sendToClientSessions(final GennyToken userToken,final JsonObject json, boolean sessionOnly) {
+	public static void sendToClientSessions(final GennyToken userToken, final JsonObject json, boolean sessionOnly) {
 
-			JsonArray recipientJsonArray = null;
+		JsonArray recipientJsonArray = null;
 
-			if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
-				recipientJsonArray = new JsonArray();
-				recipientJsonArray.add(userToken.getUserCode());
-			} else {
-				recipientJsonArray = json.getJsonArray("recipientCodeArray");
-			}
+		if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
+			recipientJsonArray = new JsonArray();
+			recipientJsonArray.add(userToken.getUserCode());
+		} else {
+			recipientJsonArray = json.getJsonArray("recipientCodeArray");
+		}
 
-			json.remove("token"); // do not show the token
-			json.remove("recipientCodeArray"); // do not show the other recipients
-			JsonObject cleanJson = null; //
+		json.remove("token"); // do not show the token
+		json.remove("recipientCodeArray"); // do not show the other recipients
+		JsonObject cleanJson = null; //
 
-			cleanJson = json; // removePrivates(json, tokenJSON, sessionOnly, userCode);
-			if (cleanJson == null) {
-				log.error("null json");
-			}
-			
-			String txt = cleanJson.toString(); 
+		cleanJson = json; // removePrivates(json, tokenJSON, sessionOnly, userCode);
+		if (cleanJson == null) {
+			log.error("null json");
+		}
+
+		String txt = cleanJson.toString();
 //			if (bulkPull) {
 //				QBulkPullMessage msg = BaseEntityUtils.createQBulkPullMessage(cleanJson);
 //				cleanJson = new JsonObject(JsonUtils.toJson(msg));
 //			}
 
-			int originalSize = cleanJson.toString().length();
+		int originalSize = cleanJson.toString().length();
 
-			try {
-				if (originalSize > GennySettings.zipMinimumThresholdBytes) { // 2^19-1
-					long startTime = System.nanoTime();
-					// log.info("ZIPPING!");
-					;
-					if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
-						String js = compressAndEncodeString(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
-						String js = compress3(cleanJson.toString());
+		try {
+			if (originalSize > GennySettings.zipMinimumThresholdBytes) { // 2^19-1
+				long startTime = System.nanoTime();
+				// log.info("ZIPPING!");
+				;
+				if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
+					String js = compressAndEncodeString(cleanJson.toString());
+					cleanJson = new JsonObject();
+					cleanJson.put("zip", js);
+				} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
+					String js = compress3(cleanJson.toString());
 
-						// System.out.println("encoded["+js);
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
-						byte[] js = zipped(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					} else {
-						String js = compress(cleanJson.toString());
-						cleanJson = new JsonObject();
-						cleanJson.put("zip", js);
-					}
-
-					long endTime = System.nanoTime();
-					double difference = (endTime - startTime) / 1e6; // get ms
-					int finalSize = cleanJson.toString().length();
-					log.info("Sending ZIPPED " + originalSize + " bytes  compressed to " + finalSize
-							+ " bytes with threshold = " + GennySettings.zipMinimumThresholdBytes + " "
-							+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + "% in " + difference
-							+ "ms");
+					// System.out.println("encoded["+js);
+					cleanJson = new JsonObject();
+					cleanJson.put("zip", js);
+				} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
+					byte[] js = zipped(cleanJson.toString());
+					cleanJson = new JsonObject();
+					cleanJson.put("zip", js);
+				} else {
+					String js = compress(cleanJson.toString());
+					cleanJson = new JsonObject();
+					cleanJson.put("zip", js);
 				}
-			} catch (Exception e) {
-				log.error("CANNOT Compress json");
 
+				long endTime = System.nanoTime();
+				double difference = (endTime - startTime) / 1e6; // get ms
+				int finalSize = cleanJson.toString().length();
+				log.info("Sending ZIPPED " + originalSize + " bytes  compressed to " + finalSize
+						+ " bytes with threshold = " + GennySettings.zipMinimumThresholdBytes + " "
+						+ ((int) (((double) finalSize * 100) / ((double) originalSize))) + "% in " + difference + "ms");
 			}
+		} catch (Exception e) {
+			log.error("CANNOT Compress json");
 
+		}
 
-			if (sessionOnly ) {
-				String sessionState = userToken.getString("session_state");
-				sendToSession(sessionState,cleanJson);
-			} else {
-				for (int i = 0; i < recipientJsonArray.size(); i++) {
-					String recipientCode = recipientJsonArray.getString(i);
-					// Get all the sessionStates for this user
+		if (sessionOnly) {
+			String sessionState = userToken.getString("session_state");
+			sendToSession(sessionState, cleanJson);
+		} else {
+			for (int i = 0; i < recipientJsonArray.size(); i++) {
+				String recipientCode = recipientJsonArray.getString(i);
+				// Get all the sessionStates for this user
 
-					Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
+				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
 
-					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
+				if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 
-						for (String sessionState : sessionStates) {
-							sendToSession(sessionState,cleanJson);
-						}
-					} else {
-						sendToSession(userToken.getString("session_state"),cleanJson);  // have to send to something
-						// no sessions for this user!
-						// need to remove them from subscriptions ...
-						//log.error("Remove " + recipientCode + " from subscriptions , they have no sessions");
+					for (String sessionState : sessionStates) {
+						sendToSession(sessionState, cleanJson);
 					}
+				} else {
+					sendToSession(userToken.getString("session_state"), cleanJson); // have to send to something
+					// no sessions for this user!
+					// need to remove them from subscriptions ...
+					// log.error("Remove " + recipientCode + " from subscriptions , they have no
+					// sessions");
 				}
 			}
+		}
 
 	}
 
 	private static void sendToSession(String sessionState, JsonObject cleanJson) {
 		MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-		//final MessageProducer<JsonObject> msgProducer = Vertx.currentContext().owner().eventBus()
-		//		.publisher(sessionState);
+		// final MessageProducer<JsonObject> msgProducer =
+		// Vertx.currentContext().owner().eventBus()
+		// .publisher(sessionState);
 		if (msgProducer != null) {
 			if (msgProducer.writeQueueFull()) {
 				log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");
@@ -246,7 +255,6 @@ public class EBCHandlers {
 			}
 		}
 
-		
 	}
 
 	public static String compress(String str) throws IOException {

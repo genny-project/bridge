@@ -68,7 +68,7 @@ public class EBCHandlers {
 			if (json == null) {
 				log.error("Json input is null!");
 			} else {
-				if (StringUtils.isBlank(json.getString("token"))) {
+				if (!StringUtils.isBlank(json.getString("token"))) {
 					GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
 					if ("Attribute".equals(json.getString("data_type"))) {

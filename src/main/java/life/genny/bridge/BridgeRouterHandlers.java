@@ -127,6 +127,7 @@ public class BridgeRouterHandlers {
 							fetchSetting(realm, "ENV_GENNY_BRIDGE_PORT", serviceToken, GennySettings.apiPort));
 
 					retInit.put("ENV_GENNY_BRIDGE_VERTEX", "/frontend");
+					retInit.put("ENV_MEDIA_PROXY_URL", System.getenv("MEDIA_PROXY_URL"));
 					retInit.put("ENV_GENNY_BRIDGE_SERVICE", "/api/service");
 					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "/api/events");
 
@@ -182,6 +183,7 @@ public class BridgeRouterHandlers {
 					env += "ENV_GENNY_INITURL=" + fullurl + "\n"; // the web frontend knows this url. It passed it to
 																	// us, but the mobile may not know
 
+					env +="ENV_MEDIA_PROXY_URL"+ System.getenv("MEDIA_PROXY_URL");
 					env += "ENV_GENNY_HOST="
 							+ fetchSetting(realm, "ENV_GENNY_HOST", serviceToken, fullurl + ":" + GennySettings.apiPort)
 							+ "\n";

@@ -4,6 +4,14 @@ RUN echo http://mirror.yandex.ru/mirrors/alpine/v3.7/main > /etc/apk/repositorie
 
 RUN apk update && apk add jq && apk add curl && apk add bash
 
+RUN wget https://www.yourkit.com/download/docker/YourKit-JavaProfiler-2019.8-docker.zip -P /tmp/ && \
+  unzip /tmp/YourKit-JavaProfiler-2019.8-docker.zip -d /usr/local && \
+  rm /tmp/YourKit-JavaProfiler-2019.8-docker.zip
+
+RUN apk add --no-cache libc6-compat
+
+EXPOSE 10001
+
 ADD target/bridge-fat.jar /service.jar
 
 #RUN mkdir /realm

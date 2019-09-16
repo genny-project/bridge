@@ -8,6 +8,15 @@
 	<version>3.0.0</version>
 
 	<name>bridge</name>
+
+       <licenses>
+                <license>
+                        <name>Apache License, Version 2.0</name>
+                        <distribution>repo</distribution>
+                        <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+                </license>
+        </licenses>
+
 	<properties>
 		<qwanda-utils.version>${version}</qwanda-utils.version>
 		<log4j-core-version>2.5</log4j-core-version>

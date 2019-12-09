@@ -73,23 +73,30 @@ public class EBCHandlers {
 
 					if ("Attribute".equals(json.getString("data_type"))) {
 						JsonArray items = json.getJsonArray("items");
-						JsonObject attribute = items.getJsonObject(0);
-						String code = attribute.getString("code");
-						bridgelog(userToken, json, code, incomingCmd.length());
+						if ((items == null) || (items.toString().isEmpty())) {
+							JsonObject attribute = items.getJsonObject(0);
+							String code = attribute.getString("code");
+							bridgelog(userToken, json, code, incomingCmd.length());
+						}
 
 					} else if ("BaseEntity".equals(json.getString("data_type"))) {
 						JsonArray items = json.getJsonArray("items");
-						JsonObject be = items.getJsonObject(0);
-						String code = be.getString("code");
-						bridgelog(userToken, json, code, incomingCmd.length());
+						if ((items == null) || (items.toString().isEmpty())) {
+							JsonObject be = items.getJsonObject(0);
+							String code = be.getString("code");
+							bridgelog(userToken, json, code, incomingCmd.length());
+						}
 
 					} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {
 						JsonObject asks = json.getJsonObject("asks");
 						JsonArray items = asks.getJsonArray("items");
-						JsonObject ask = items.getJsonObject(0);
-						String targetCode = ask.getString("targetCode");
-						String questionCode = ask.getString("questionCode");
-						bridgelog(userToken, json, ":target->" + targetCode + ":" + questionCode, incomingCmd.length());
+						if ((items == null) || (items.toString().isEmpty())) {
+							JsonObject ask = items.getJsonObject(0);
+							String targetCode = ask.getString("targetCode");
+							String questionCode = ask.getString("questionCode");
+							bridgelog(userToken, json, ":target->" + targetCode + ":" + questionCode,
+									incomingCmd.length());
+						}
 
 					} else if ("Ask".equals(json.getString("data_type"))) {
 //					JsonArray items = json.getJsonArray("items");
@@ -214,7 +221,7 @@ public class EBCHandlers {
 
 		}
 
-		if (true/*sessionOnly*/) {
+		if (true/* sessionOnly */) {
 			String sessionState = userToken.getString("session_state");
 			sendToSession(sessionState, cleanJson);
 		} else {

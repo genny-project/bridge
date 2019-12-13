@@ -40,9 +40,7 @@ public class EBCHandlers {
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-	private static Boolean bulkPull = (System.getenv("BULKPULL") != null)
-			? "TRUE".equalsIgnoreCase(System.getenv("BULKPULL"))
-			: false;
+
 
 	public static void registerHandlers() {
 
@@ -189,17 +187,17 @@ public class EBCHandlers {
 				long startTime = System.nanoTime();
 				// log.info("ZIPPING!");
 				;
-				if ("TRUE".equalsIgnoreCase(System.getenv("MODE_ZIP"))) {
+				if (GennySettings.zipMode) {
 					String js = compressAndEncodeString(cleanJson.toString());
 					cleanJson = new JsonObject();
 					cleanJson.put("zip", js);
-				} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP"))) {
+				} else if (GennySettings.gzipMode) {
 					String js = compress3(cleanJson.toString());
 
 					// System.out.println("encoded["+js);
 					cleanJson = new JsonObject();
 					cleanJson.put("zip", js);
-				} else if ("TRUE".equalsIgnoreCase(System.getenv("MODE_GZIP64"))) {
+				} else if (GennySettings.gzip64Mode) {
 					byte[] js = zipped(cleanJson.toString());
 					cleanJson = new JsonObject();
 					cleanJson.put("zip", js);

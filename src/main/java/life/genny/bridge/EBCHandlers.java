@@ -71,7 +71,7 @@ public class EBCHandlers {
 
 					if ("Attribute".equals(json.getString("data_type"))) {
 						JsonArray items = json.getJsonArray("items");
-						if (!((items == null) || (items.toString().isEmpty()))) {
+						if (!((items == null) || (items.isEmpty()))) {
 							JsonObject attribute = items.getJsonObject(0);
 							String code = attribute.getString("code");
 							bridgelog(userToken, json, code, incomingCmd.length());
@@ -79,7 +79,7 @@ public class EBCHandlers {
 
 					} else if ("BaseEntity".equals(json.getString("data_type"))) {
 						JsonArray items = json.getJsonArray("items");
-						if (!((items == null) || (items.toString().isEmpty()))) {
+						if (!((items == null) || (items.isEmpty()))) {
 							JsonObject be = items.getJsonObject(0);
 							String code = be.getString("code");
 							bridgelog(userToken, json, code, incomingCmd.length());
@@ -88,7 +88,7 @@ public class EBCHandlers {
 					} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {
 						JsonObject asks = json.getJsonObject("asks");
 						JsonArray items = asks.getJsonArray("items");
-						if (!((items == null) || (items.toString().isEmpty()))) {
+						if (!((items == null) || (items.isEmpty()))) {
 							JsonObject ask = items.getJsonObject(0);
 							String targetCode = ask.getString("targetCode");
 							String questionCode = ask.getString("questionCode");

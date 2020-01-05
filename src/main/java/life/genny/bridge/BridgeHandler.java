@@ -22,6 +22,7 @@ public class BridgeHandler {
 
 	private static final String DATA = "data";
 	private static final String CODE = "code";
+	private static final String TARGET_CODE = "targetCode";
 	private static final String BODY = "body";
 	private static final String EVENTS = "events";
 	private static final String TOKEN = "token";
@@ -96,7 +97,7 @@ public class BridgeHandler {
 					// HACK , change incoming button event to data
 					if ((rawMessage.getJsonObject(DATA).getString(CODE) != null)
 							&& (rawMessage.getJsonObject(DATA).getString(CODE).equals("QUE_SUBMIT"))) {
-						Answer dataAnswer = new Answer(userToken.getUserCode(), userToken.getUserCode(), "PRI_SUBMIT",
+						Answer dataAnswer = new Answer(userToken.getUserCode(), rawMessage.getJsonObject(DATA).getString(TARGET_CODE), "PRI_SUBMIT",
 								"QUE_SUBMIT");
 						dataAnswer.setChangeEvent(false);
 						QDataAnswerMessage dataMsg = new QDataAnswerMessage(dataAnswer);

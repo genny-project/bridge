@@ -419,7 +419,7 @@ public class BridgeRouterHandlers {
 				log.warn("TOKEN NOT ALLOWED");
 			}
 			} catch (Exception e) {
-				log.error("Error in json "+body.toString());
+				log.error("Error:"+ e.toString() + ", Body is:" + body.toString());
 			}
 			finally {
 				routingContext.response().end();

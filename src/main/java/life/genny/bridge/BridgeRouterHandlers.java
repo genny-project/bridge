@@ -269,13 +269,15 @@ public class BridgeRouterHandlers {
 
 		if (retValue == null) {
 			retValue = System.getenv(key.toUpperCase()); // try a common one
+		} else {
+			log.warn(realm+":"+key+" IS BEING OVERRIDDEN BY SYSTEM_ENV!!!! using ENV="+realm.toUpperCase() + "_" + key.toUpperCase());
 		}
 		// else look at the project setting
 		if (retValue == null) {
 			BaseEntity project = VertxUtils.readFromDDT(realm, project_code, serviceToken);
 			if (project == null) {
-//				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
-//						+ " has entityAttribute value for " + key.toUpperCase());
+				log.warn("Error: no Project BE Cached for " + key + " , ensure PRJ_" + realm.toUpperCase()
+						+ " exists in cache for " + project_code+" returning default Value of "+defaultValue);
 				return defaultValue;
 			}
 			Optional<EntityAttribute> entityAttribute = project.findEntityAttribute(key.toUpperCase());
@@ -283,16 +285,15 @@ public class BridgeRouterHandlers {
 
 				retValue = entityAttribute.get().getValueString();
 				if (retValue == null) {
-					// log.warn(realm + " Bridge has " + key + " which is returning null so
-					// returning " + defaultValue);
+					log.warn(realm + " Bridge has " + key + " which is returning null so returning " + defaultValue);
 					return defaultValue;
 				} else {
 					return retValue;
 				}
 
 			} else {
-//				log.error("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
-//						+ " has entityAttribute value for " + key.toUpperCase() + " returning default:" + defaultValue);
+				log.warn("Error: no Project Setting for " + key + " , ensure PRJ_" + realm.toUpperCase()
+						+ " has entityAttribute value for " + key.toUpperCase() + " returning default:" + defaultValue);
 				return defaultValue;
 			}
 		} else {

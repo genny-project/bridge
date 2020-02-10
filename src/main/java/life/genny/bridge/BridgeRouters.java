@@ -39,6 +39,7 @@ public class BridgeRouters {
 
 	  bridgeRouter.route(HttpMethod.POST, "/api/cmds").handler(BridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(BridgeRouterHandlers::apiHandler);
+	  bridgeRouter.route(HttpMethod.POST, "/api/virtualbus").handler(BridgeRouterHandlers::virtualEventBusHandler);
     
 	  bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 	log.info("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import life.genny.channel.Producer;
 
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -302,6 +303,31 @@ public class BridgeRouterHandlers {
 
 	}
 
+    public static void virtualEventBusHandler(final RoutingContext routingContext){
+        routingContext.request().bodyHandler(body -> {
+			final String bodyString = body.toString();
+			final JsonObject rawMessage = new JsonObject(bodyString);
+
+			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+
+		   	if (Producer.getToData().writeQueueFull()) {
+
+				log.error("WEBSOCKET EVT >> producer data is full hence message cannot be sent");
+
+				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
+
+                Producer.getToDataWithReply().send(rawMessage, d ->{
+                    System.out.println(d);
+                }).end();
+
+			} else {
+                Producer.getToDataWithReply().send(rawMessage, d ->{
+                    JsonObject json = (JsonObject) d.result().body();
+                }).end();
+			}
+			routingContext.response().end();
+        });
+    }
 	public static void apiInitHandler(final RoutingContext routingContext) {
 
 		routingContext.request().bodyHandler(body -> {

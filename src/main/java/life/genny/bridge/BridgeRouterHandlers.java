@@ -108,8 +108,8 @@ public class BridgeRouterHandlers {
 					retInit = new JsonObject(projectBe.getValue("ENV_KEYCLOAK_JSON", "NO JSON"));
 					String realm = projectBe.getRealm();
 					String serviceToken = projectBe.getValue("ENV_SERVICE_TOKEN", "DUMMY");
-					retInit.put("vertx_url", GennySettings.vertxUrl);
-					retInit.put("api_url", GennySettings.qwandaServiceUrl);
+					retInit.put("vertx_url", fullurl+"/frontend"/*GennySettings.vertxUrl*/);
+					retInit.put("api_url", fullurl/*GennySettings.qwandaServiceUrl*/);
 					final String kcUrl = retInit.getString("auth-server-url");
 					retInit.put("url", kcUrl);
 					final String kcClientId = retInit.getString("resource");
@@ -180,8 +180,8 @@ public class BridgeRouterHandlers {
 					String realm = projectBe.getRealm();
 					String serviceToken = projectBe.getValue("ENV_SERVICE_TOKEN", "DUMMY");
 					env = "realm=" + realm + "\n";
-					env += "vertx_url=" + GennySettings.vertxUrl + "\n";
-					env += "api_url=" + GennySettings.qwandaServiceUrl + "\n";
+					env += "vertx_url=" + fullurl+"/frontend" /*GennySettings.vertxUrl*/ + "\n";
+					env += "api_url=" + fullurl/*GennySettings.qwandaServiceUrl*/ + "\n";
 					final String kcUrl = retInit.getString("auth-server-url");
 					env += "url=" + kcUrl + "\n";
 					final String kcClientId = retInit.getString("resource");
@@ -312,7 +312,7 @@ public class BridgeRouterHandlers {
 
 		   	if (Producer.getToData().writeQueueFull()) {
 
-				log.error("WEBSOCKET EVT >> producer data is full hence message cannot be sent");
+				log.error("WEBSOCKET VB EVT >> producer data is full hence message cannot be sent");
 
 				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 
@@ -323,6 +323,8 @@ public class BridgeRouterHandlers {
 			} else {
                 Producer.getToDataWithReply().send(rawMessage, d ->{
                     JsonObject json = (JsonObject) d.result().body();
+                    routingContext.response().putHeader("Content-Type", "application/json");
+					routingContext.response().end(json.toString());
                 }).end();
 			}
 			routingContext.response().end();

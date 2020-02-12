@@ -303,8 +303,13 @@ public class BridgeRouterHandlers {
 
 	}
 
+	
     public static void virtualEventBusHandler(final RoutingContext routingContext){
+    	
+
         routingContext.request().bodyHandler(body -> {
+        	
+   
 			final String bodyString = body.toString();
 			final JsonObject rawMessage = new JsonObject(bodyString);
 
@@ -318,17 +323,23 @@ public class BridgeRouterHandlers {
 
                 Producer.getToDataWithReply().send(rawMessage, d ->{
                     System.out.println(d);
+                    JsonObject json= new JsonObject();
+                    json = (JsonObject) d.result().body();
+                    routingContext.response().putHeader("Content-Type", "application/json");
+        			routingContext.response().end(json.toString());
+
                 }).end();
 
 			} else {
                 Producer.getToDataWithReply().send(rawMessage, d ->{
-                    JsonObject json = (JsonObject) d.result().body();
+                	JsonObject json= new JsonObject();
+                    json = (JsonObject) d.result().body();
                     routingContext.response().putHeader("Content-Type", "application/json");
-					routingContext.response().end(json.toString());
+        			routingContext.response().end(json.toString());
+
                 }).end();
 			}
-			routingContext.response().end();
-        });
+         });
     }
 	public static void apiInitHandler(final RoutingContext routingContext) {
 

@@ -341,6 +341,46 @@ public class BridgeRouterHandlers {
 			}
          });
     }
+    
+    
+   public static void apiSyncHandler(final RoutingContext routingContext){
+    	
+
+        routingContext.request().bodyHandler(body -> {
+        	
+   
+			final String bodyString = body.toString();
+			final JsonObject rawMessage = new JsonObject(bodyString);
+
+			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+
+		   	if (Producer.getToData().writeQueueFull()) {
+
+				log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
+
+				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
+
+                Producer.getToDataWithReply().send(rawMessage, d ->{
+                    System.out.println(d);
+                    JsonObject json= new JsonObject();
+                    json = (JsonObject) d.result().body();
+                    routingContext.response().putHeader("Content-Type", "application/json");
+        			routingContext.response().end(json.toString());
+
+                }).end();
+
+			} else {
+                Producer.getToDataWithReply().send(rawMessage, d ->{
+                	JsonObject json= new JsonObject();
+                    json = (JsonObject) d.result().body();
+                    routingContext.response().putHeader("Content-Type", "application/json");
+        			routingContext.response().end(json.toString());
+
+                }).end();
+			}
+         });
+    }    
+    
 	public static void apiInitHandler(final RoutingContext routingContext) {
 
 		routingContext.request().bodyHandler(body -> {

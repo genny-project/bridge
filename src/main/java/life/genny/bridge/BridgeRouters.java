@@ -34,6 +34,8 @@ public class BridgeRouters {
 	  bridgeRouter.route(HttpMethod.GET, "/api/events/init").handler(BridgeRouterHandlers::apiGetInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(BridgeRouterHandlers::apiServiceHandler);
+	  bridgeRouter.route(HttpMethod.POST, "/api/service/sync").handler(BridgeRouterHandlers::apiSyncHandler);
+
 	  bridgeRouter.route(HttpMethod.GET, "/version").handler(BridgeRouterHandlers::apiGetVersionHandler);
       bridgeRouter.route(HttpMethod.GET, "/health").handler(BridgeRouterHandlers::apiGetHealthHandler);
 

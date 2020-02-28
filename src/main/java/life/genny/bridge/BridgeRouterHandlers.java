@@ -322,7 +322,7 @@ public class BridgeRouterHandlers {
 				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 
                 Producer.getToDataWithReply().send(rawMessage, d ->{
-                    System.out.println(d);
+                    log.info(d);
                     JsonObject json= new JsonObject();
                     json = (JsonObject) d.result().body();
                     routingContext.response().putHeader("Content-Type", "application/json");
@@ -361,7 +361,7 @@ public class BridgeRouterHandlers {
 				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 
                 Producer.getToDataWithReply().send(rawMessage, d ->{
-                    System.out.println(d);
+                    log.info(d);
                     JsonObject json= new JsonObject();
                     json = (JsonObject) d.result().body();
                     routingContext.response().putHeader("Content-Type", "application/json");

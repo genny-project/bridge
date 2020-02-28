@@ -1,8 +1,10 @@
 package bridge;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.Base64;
 
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import com.github.luben.zstd.Zstd;
@@ -11,17 +13,23 @@ import life.genny.bridge.EBCHandlers;
 
 public class compressionTest {
 
+	/**
+	 * Stores logger object.
+	 */
+	protected static final Logger log = org.apache.logging.log4j.LogManager
+			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+
 
 	@Test
 	public void compression2Test()
 	{
 		String originalStr = "hello";
-		System.out.println("Original String=["+originalStr+"]");
+		log.info("Original String=["+originalStr+"]");
 		String encoded = "";
 		try {
 			encoded = EBCHandlers.compress3(originalStr);
 			
-			System.out.println("encoded=["+encoded+"]");
+			log.info("encoded=["+encoded+"]");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,7 +43,7 @@ public class compressionTest {
 		 byte[] ob = new byte[(int)Zstd.decompressedSize(bytes)];
 	     Zstd.decompress(ob, bytes);
 	     byte[] decoded = Base64.getDecoder().decode(ob);
-	     System.out.println("decompressed=["+new String(decoded)+"]");
+	     log.info("decompressed=["+new String(decoded)+"]");
 	}
 	
 }

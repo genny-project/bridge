@@ -194,7 +194,7 @@ public class EBCHandlers {
 				} else if (GennySettings.gzipMode) {
 					String js = compress3(cleanJson.toString());
 
-					// System.out.println("encoded["+js);
+					// log.info("encoded["+js);
 					cleanJson = new JsonObject();
 					cleanJson.put("zip", js);
 				} else if (GennySettings.gzip64Mode) {
@@ -298,7 +298,7 @@ public class EBCHandlers {
 			def.close();
 			compressed = out.toString("UTF-8");
 		} catch (Exception e) {
-			System.out.println("could not compress data: " + e);
+			log.info("could not compress data: " + e);
 		}
 		return compressed;
 	}

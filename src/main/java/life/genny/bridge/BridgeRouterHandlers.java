@@ -345,12 +345,14 @@ public class BridgeRouterHandlers {
     
    public static void apiSyncHandler(final RoutingContext routingContext){
     	
-
-        routingContext.request().bodyHandler(body -> {
-        	
-   
+       routingContext.request().bodyHandler(body -> {
 			final String bodyString = body.toString();
 			final JsonObject rawMessage = new JsonObject(bodyString);
+			String token = rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+
+			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+																									// tokens
+				rawMessage.put("token", token);
 
 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 
@@ -378,6 +380,10 @@ public class BridgeRouterHandlers {
 
                 }).end();
 			}
+			} else {
+				log.warn("TOKEN NOT ALLOWED " + token);
+			}
+			routingContext.response().end();
          });
     }    
     

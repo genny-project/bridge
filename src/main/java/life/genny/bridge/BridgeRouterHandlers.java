@@ -348,7 +348,7 @@ public class BridgeRouterHandlers {
        routingContext.request().bodyHandler(body -> {
 			final String bodyString = body.toString();
 			final JsonObject rawMessage = new JsonObject(bodyString);
-			String token = rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+			String token  = routingContext.request().getParam("token");//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
 			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
 																									// tokens

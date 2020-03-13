@@ -61,6 +61,7 @@ public class BridgeHandler {
 
 			JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject(BODY);
 			log.info("[DEBUG] Raw Message is:" + rawMessage.toString());
+
 			rawMessage = rawMessage.getJsonObject(DATA);
 			String token = rawMessage.getString(TOKEN);
 			GennyToken userToken = new GennyToken(token);

@@ -383,7 +383,7 @@ public class BridgeRouterHandlers {
 			} else {
 				log.warn("TOKEN NOT ALLOWED " + token);
 			}
-			routingContext.response().end();
+			//routingContext.response().end();
          });
     }    
     

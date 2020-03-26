@@ -24,7 +24,10 @@ public class BridgeConfig {
 
 	protected static BridgeOptions setBridgeOptions(){
 		BridgeOptions options = new BridgeOptions();
-		options.setMaxAddressLength(10000);
+		options.setMaxAddressLength(100000);
+		options.setMaxHandlersPerSocket(10);
+		options.setPingTimeout(120); // 2 minutes
+		options.setReplyTimeout(120);
 		setInbounds().stream().forEach(options::addInboundPermitted);
 		setOutbounds().stream().forEach(options::addOutboundPermitted);
 		return options;

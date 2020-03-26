@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.BridgeEventType;
+import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
 import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;

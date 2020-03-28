@@ -28,6 +28,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.rxjava.core.MultiMap;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.core.eventbus.MessageProducer;
+import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
@@ -617,4 +618,62 @@ public class BridgeRouterHandlers {
 
 		return false;
 	}
+	
+	public static void apiGetPullHandler(final RoutingContext context) {
+		final HttpServerRequest req = context.request();
+		String key = req.getParam("key");
+		String token = context.request().getParam("token");
+		String realm = null;
+		if (token == null) {
+			MultiMap headerMap = context.request().headers();
+			token = headerMap.get("Authorization");
+			if (token == null) {
+				log.error("NULL TOKEN!");
+			} else {
+				token = token.substring(7); // To remove initial [Bearer ]
+			}
+
+		}
+
+		if (token != null /* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
+																								// tokens
+
+			if ("DUMMY".equals(token)) {
+				realm = "jenny"; // force
+			} 
+			
+			GennyToken gToken = new GennyToken(token);
+			realm = gToken.getRealm();
+
+			// for testig and debugging, if a user has a role test then put the token into a
+			// cache entry so that the test can access it
+			//// JSONObject realm_access = tokenJSON.getJSONObject("realm_access");
+			// JSONArray roles = realm_access.getJSONArray("roles");
+			// List<Object> roleList = roles.toList();
+
+			// if ((roleList.contains("test")) || (roleList.contains("dev"))) {
+
+			try {
+				// a JsonObject wraps a map and it exposes type-aware getters
+				JsonObject cachedJsonObject = VertxUtils.readCachedJson(realm, "PONTOON_"+key.toUpperCase(), token);
+				String value = "ERROR";
+				if (cachedJsonObject != null) {
+					value = cachedJsonObject.getString("value");
+				} 
+				context.request().response().headers().set("Content-Type", "application/json");
+				context.request().response().end(value);
+
+			} catch (Exception e) {
+				JsonObject err = new JsonObject().put("status", "error");
+				context.request().response().headers().set("Content-Type", "application/json");
+				context.request().response().end(err.encode());
+
+			}
+		} else {
+			log.warn("TOKEN NOT GOOD");
+		}
+		// }
+
+	}
+
 }

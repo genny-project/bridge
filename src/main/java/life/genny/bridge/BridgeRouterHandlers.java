@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import life.genny.channel.Producer;
 
 import org.apache.logging.log4j.Logger;
@@ -659,10 +662,23 @@ public class BridgeRouterHandlers {
 				String value = "ERROR";
 				if (cachedJsonObject != null) {
 					value = cachedJsonObject.getString("value");
-				} 
-				context.request().response().headers().set("Content-Type", "application/json");
-				context.request().response().end(value);
+					String value2 = value.replaceAll(Pattern.quote("\\\""),
+							Matcher.quoteReplacement("\""));
+					String value3 = value2.replaceAll(Pattern.quote("\\n"),
+							Matcher.quoteReplacement("\n"));
+					String value4 = value3.replaceAll(Pattern.quote("\\\n"),
+							Matcher.quoteReplacement("\n"));
+					String value5 = value4.replaceAll(Pattern.quote("\"{"),
+							Matcher.quoteReplacement("{"));
+					String value6 = value5.replaceAll(Pattern.quote("}\""), Matcher.quoteReplacement("}"));
+					context.request().response().headers().set("Content-Type", "application/json");
+					context.request().response().end(value6);
+				}  else {
+					JsonObject err = new JsonObject().put("status", "error");
+					context.request().response().headers().set("Content-Type", "application/json");
+					context.request().response().end(err.encode());
 
+				}
 			} catch (Exception e) {
 				JsonObject err = new JsonObject().put("status", "error");
 				context.request().response().headers().set("Content-Type", "application/json");

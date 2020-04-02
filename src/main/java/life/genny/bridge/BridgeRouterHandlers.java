@@ -74,8 +74,8 @@ public class BridgeRouterHandlers {
 	static public Vertx avertx;
 
 	public static CorsHandler cors() {
-		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST)
-				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type")
+		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.PUT)
+				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type").allowedHeader("Authorization")
 				.allowedHeader("X-Requested-With");
 	}
 

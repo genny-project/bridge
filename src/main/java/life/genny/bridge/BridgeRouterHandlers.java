@@ -76,7 +76,7 @@ public class BridgeRouterHandlers {
 	public static CorsHandler cors() {
 		return CorsHandler.create("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.PUT)
 				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type").allowedHeader("Authorization")
-				.allowedHeader("application/json")
+				.allowedHeader("Accept")
 				.allowedHeader("X-Requested-With");
 	}
 

@@ -39,6 +39,8 @@ import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
 import life.genny.qwanda.attribute.EntityAttribute;
 import life.genny.qwanda.entity.BaseEntity;
+import life.genny.qwanda.message.QDataAnswerMessage;
+import life.genny.qwanda.message.QDataMessage;
 import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.JsonUtils;
@@ -47,6 +49,7 @@ import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.TokenIntrospection;
 import life.genny.utils.RulesUtils;
 import life.genny.utils.VertxUtils;
+import life.genny.qwanda.Answer;
 
 public class BridgeRouterHandlers {
 
@@ -519,6 +522,71 @@ public class BridgeRouterHandlers {
 
 	}
 
+	public static void apiDevicesHandler(final RoutingContext routingContext) {
+
+		
+	      routingContext.request().bodyHandler(body -> {
+				final String bodyString = body.toString();
+				final JsonObject rawMessage = new JsonObject(bodyString);
+				String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+
+				if (token != null /*&& TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
+																										// tokens
+					rawMessage.put("token", token);
+					GennyToken userToken = new GennyToken(token);
+
+					final DeliveryOptions options = new DeliveryOptions();
+					options.addHeader("Authorization", "Bearer " + token);
+					
+					log.info("Device Code:"+rawMessage.getString("code"));
+					log.info("Device Type:"+rawMessage.getString("type"));
+					log.info("Device Version:"+rawMessage.getString("version"));
+					
+					List<Answer> answers = new ArrayList<Answer>();
+					answers.add(new Answer(userToken.getUserCode(),userToken.getUserCode(),"PRI_DEVICE_CODE",rawMessage.getString("code")));
+					answers.add(new Answer(userToken.getUserCode(),userToken.getUserCode(),"PRI_DEVICE_TYPE",rawMessage.getString("type")));
+					answers.add(new Answer(userToken.getUserCode(),userToken.getUserCode(),"PRI_DEVICE_VERSION",rawMessage.getString("version")));
+					
+					QDataAnswerMessage dataMsg = new QDataAnswerMessage(answers);
+					dataMsg.setToken(token);
+					dataMsg.setAliasCode("STATELESS");
+					
+
+
+			   	if (Producer.getToData().writeQueueFull()) {
+
+					log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
+
+					Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
+
+	                Producer.getToDataWithReply().send(rawMessage, d ->{
+	                    log.info(d);
+	                    JsonObject json= new JsonObject();
+	                    json = (JsonObject) d.result().body();
+	                    routingContext.response().putHeader("Content-Type", "application/json");
+	        			routingContext.response().end(json.toString());
+
+	                }).end();
+
+				} else {
+	                Producer.getToDataWithReply().send(rawMessage, d ->{
+	                	JsonObject json= new JsonObject();
+	                    json = (JsonObject) d.result().body();
+	                    routingContext.response().putHeader("Content-Type", "application/json");
+	        			routingContext.response().end(json.toString());
+
+	                }).end();
+				}
+				} else {
+					log.warn("TOKEN NOT ALLOWED " + token);
+					JsonObject err = new JsonObject().put("status", "error");
+					routingContext.request().response().headers().set("Content-Type", "application/json");
+					routingContext.request().response().end(err.encode());
+				}
+				//routingContext.response().end();
+	         });
+	}
+	
 	public static void apiHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(body -> {
 			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))

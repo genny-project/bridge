@@ -559,7 +559,7 @@ public class BridgeRouterHandlers {
 
 					Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 
-	                Producer.getToDataWithReply().send(rawMessage, d ->{
+	                Producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), d ->{
 	                    log.info(d);
 	                    JsonObject json= new JsonObject();
 	                    json = (JsonObject) d.result().body();
@@ -569,7 +569,7 @@ public class BridgeRouterHandlers {
 	                }).end();
 
 				} else {
-	                Producer.getToDataWithReply().send(rawMessage, d ->{
+	                Producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), d ->{
 	                	JsonObject json= new JsonObject();
 	                    json = (JsonObject) d.result().body();
 	                    routingContext.response().putHeader("Content-Type", "application/json");

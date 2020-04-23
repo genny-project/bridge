@@ -127,6 +127,21 @@ public class BridgeRouterHandlers {
 																															// web
 																															// bfrontend
 																															// already
+                                                                                                                            
+                    Optional<JsonObject> jsonObject = System.getenv().entrySet().stream()
+                     .filter(d -> d.getKey().startsWith("mobile_version_"))
+                     .map(d -> new JsonObject().put(d.getKey().substring(15), new JsonObject().put("version",d.getValue())))
+                     .reduce((acc,pre) ->{
+                       Map a = acc.getMap();
+                       a.putAll(pre.getMap());
+                       JsonObject.mapFrom(a);
+                       return acc;
+
+                     });
+
+                    if(jsonObject.isPresent())
+                        retInit.put("mobile_conf", jsonObject.get());
+                                                                                                                        
 					// knows this url on port
 					// 8088 (It uses it's own
 					// url with a port 8088)
@@ -194,6 +209,21 @@ public class BridgeRouterHandlers {
 					env += "url=" + kcUrl + "\n";
 					final String kcClientId = retInit.getString("resource");
 					env += "clientId=" + kcClientId + "\n";
+
+                    Optional<JsonObject> jsonObject = System.getenv().entrySet().stream()
+                     .filter(d -> d.getKey().startsWith("mobile_version_"))
+                     .map(d -> new JsonObject().put(d.getKey().substring(15), new JsonObject().put("version",d.getValue())))
+                     .reduce((acc,pre) ->{
+                       Map a = acc.getMap();
+                       a.putAll(pre.getMap());
+                       JsonObject.mapFrom(a);
+                       return acc;
+
+                     });
+
+                    if(jsonObject.isPresent())
+                        env += "mobile_conf=" + jsonObject.get()+"\n";
+
 					env += "ENV_GENNY_INITURL=" + fullurl + "\n"; // the web frontend knows this url. It passed it to
 																	// us, but the mobile may not know
 

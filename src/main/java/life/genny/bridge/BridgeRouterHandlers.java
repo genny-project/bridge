@@ -616,7 +616,15 @@ public class BridgeRouterHandlers {
 				if (token != null /*&& TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
 																										// tokens
 					rawMessage.put("token", token);
-					GennyToken userToken = new GennyToken(token);
+					GennyToken userToken  = null;
+					try {
+						userToken = new GennyToken(token);
+					} catch (Exception e1) {
+						JsonObject err = new JsonObject().put("status", "error");
+						routingContext.request().response().headers().set("Content-Type", "application/json");
+						routingContext.request().response().end(err.encode());
+						return;
+					}
 
 					final DeliveryOptions options = new DeliveryOptions();
 					options.addHeader("Authorization", "Bearer " + token);

@@ -63,7 +63,12 @@ public class BridgeHandler {
 			JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject(BODY);
 			log.info("[DEBUG] Raw Message is:" + rawMessage.toString());
 
-			rawMessage = rawMessage.getJsonObject(DATA);
+			try {
+				rawMessage = rawMessage.getJsonObject(DATA);
+			} catch (Exception e) {
+				bridgeEvent.complete(true);
+				return;
+			}
 			String token = rawMessage.getString(TOKEN);
 			GennyToken userToken = new GennyToken(token);
 			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty

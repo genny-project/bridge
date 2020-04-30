@@ -383,6 +383,7 @@ public class BridgeRouterHandlers {
     public static void apiSync2Handler(final RoutingContext routingContext){
     	
         routingContext.request().bodyHandler(body -> {
+        	log.info("API SYNC 2 !! ");
  			final String bodyString = body.toString();
  			JsonObject rawMessage = null ;
  			try {
@@ -405,7 +406,7 @@ public class BridgeRouterHandlers {
 
  		   	if (Producer.getToData().writeQueueFull()) {
 
- 				log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
+ 				log.error("WEBSOCKET API SYNC2 EVT >> producer data is full hence message cannot be sent");
 
  				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 

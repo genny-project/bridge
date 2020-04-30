@@ -34,8 +34,8 @@ public class BridgeRouters {
 	  bridgeRouter.route(HttpMethod.GET, "/api/events/init").handler(BridgeRouterHandlers::apiGetInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(BridgeRouterHandlers::apiServiceHandler);
-	  bridgeRouter.route(HttpMethod.POST, "/api/service/sync").handler(BridgeRouterHandlers::apiSyncHandler);
-	  bridgeRouter.route(HttpMethod.POST, "/api/service/sync2").handler(BridgeRouterHandlers::apiSync2Handler);
+	  bridgeRouter.route(HttpMethod.POST, "/api/service/sync").handler(BridgeRouterHandlers::apiSyncHandler);   // old mobile
+	  bridgeRouter.route(HttpMethod.POST, "/v7/api/service/sync").handler(BridgeRouterHandlers::apiSync2Handler); // mobile v7
 
 	  bridgeRouter.route(HttpMethod.GET, "/api/pull/:key").handler(BridgeRouterHandlers::apiGetPullHandler);
 

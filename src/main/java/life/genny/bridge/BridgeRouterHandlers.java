@@ -611,7 +611,14 @@ public class BridgeRouterHandlers {
 				} else {
 	                Producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), d ->{
 	                	JsonObject json= new JsonObject();
-	                    json = (JsonObject) d.result().body();
+	                    try {
+							json = (JsonObject) d.result().body();
+						} catch (Exception e) {
+							log.error(e.getMessage());
+							JsonObject err = new JsonObject().put("status", "error");
+							routingContext.request().response().headers().set("Content-Type", "application/json");
+							routingContext.request().response().end(err.encode());
+						}
 	                    routingContext.response().putHeader("Content-Type", "application/json");
 	        			routingContext.response().end(json.toString());
 

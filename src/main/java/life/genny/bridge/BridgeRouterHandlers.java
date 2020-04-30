@@ -380,60 +380,103 @@ public class BridgeRouterHandlers {
          });
     }
     
-    
-   public static void apiSyncHandler(final RoutingContext routingContext){
+    public static void apiSync2Handler(final RoutingContext routingContext){
     	
-       routingContext.request().bodyHandler(body -> {
-			final String bodyString = body.toString();
-			JsonObject rawMessage = null ;
-			try {
-				rawMessage = new JsonObject(bodyString);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-				JsonObject err = new JsonObject().put("status", "error");
-				routingContext.request().response().headers().set("Content-Type", "application/json");
-				routingContext.request().response().end(err.encode());
-				return;
-			}
-			
-			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+        routingContext.request().bodyHandler(body -> {
+ 			final String bodyString = body.toString();
+ 			JsonObject rawMessage = null ;
+ 			try {
+ 				rawMessage = new JsonObject(bodyString);
+ 			} catch (Exception e) {
+ 				log.error(e.getMessage());
+ 				JsonObject err = new JsonObject().put("status", "error");
+ 				routingContext.request().response().headers().set("Content-Type", "application/json");
+ 				routingContext.request().response().end(err.encode());
+ 				return;
+ 			}
+ 			
+ 			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
-			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
-																									// tokens
-				rawMessage.put("token", token);
+ 			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+ 																									// tokens
+ 				rawMessage.put("token", token);
 
-			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+ 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 
-		   	if (Producer.getToData().writeQueueFull()) {
+ 		   	if (Producer.getToData().writeQueueFull()) {
 
-				log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
+ 				log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
 
-				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
+ 				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 
-                Producer.getToDataWithReply().send(rawMessage, d ->{
-                    log.info(d);
-                    JsonObject json= new JsonObject();
-                    json = (JsonObject) d.result().body();
-                    routingContext.response().putHeader("Content-Type", "application/json");
-        			routingContext.response().end(json.toString());
+                 Producer.getToDataWithReply().send(rawMessage, d ->{
+                     log.info(d);
+                     JsonObject json= new JsonObject();
+                     json = (JsonObject) d.result().body();
+                     routingContext.response().putHeader("Content-Type", "application/json");
+         			routingContext.response().end(json.toString());
 
-                }).end();
+                 }).end();
 
-			} else {
-                Producer.getToDataWithReply().send(rawMessage, d ->{
-                	JsonObject json= new JsonObject();
-                    json = (JsonObject) d.result().body();
-                    routingContext.response().putHeader("Content-Type", "application/json");
-        			routingContext.response().end(json.toString());
+ 			} else {
+                 Producer.getToDataWithReply().send(rawMessage, d ->{
+                 	JsonObject json= new JsonObject();
+                     json = (JsonObject) d.result().body();
+                     routingContext.response().putHeader("Content-Type", "application/json");
+         			routingContext.response().end(json.toString());
 
-                }).end();
-			}
-			} else {
-				log.warn("TOKEN NOT ALLOWED " + token);
-			}
-			//routingContext.response().end();
-         });
-    }    
+                 }).end();
+ 			}
+ 			} else {
+ 				log.warn("TOKEN NOT ALLOWED " + token);
+ 			}
+ 			//routingContext.response().end();
+          });
+     }    
+    
+    public static void apiSyncHandler(final RoutingContext routingContext){
+    	
+        routingContext.request().bodyHandler(body -> {
+ 			final String bodyString = body.toString();
+ 			final JsonObject rawMessage = new JsonObject(bodyString);
+ 			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+
+ 			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+ 																									// tokens
+ 				rawMessage.put("token", token);
+
+ 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+
+ 		   	if (Producer.getToData().writeQueueFull()) {
+
+ 				log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
+
+ 				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
+
+                 Producer.getToDataWithReply().send(rawMessage, d ->{
+                     log.info(d);
+                     JsonObject json= new JsonObject();
+                     json = (JsonObject) d.result().body();
+                     routingContext.response().putHeader("Content-Type", "application/json");
+         			routingContext.response().end(json.toString());
+
+                 }).end();
+
+ 			} else {
+                 Producer.getToDataWithReply().send(rawMessage, d ->{
+                 	JsonObject json= new JsonObject();
+                     json = (JsonObject) d.result().body();
+                     routingContext.response().putHeader("Content-Type", "application/json");
+         			routingContext.response().end(json.toString());
+
+                 }).end();
+ 			}
+ 			} else {
+ 				log.warn("TOKEN NOT ALLOWED " + token);
+ 			}
+ 			//routingContext.response().end();
+          });
+     }    
     
 	public static void apiInitHandler(final RoutingContext routingContext) {
 

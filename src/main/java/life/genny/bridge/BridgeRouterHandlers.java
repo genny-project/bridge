@@ -385,7 +385,17 @@ public class BridgeRouterHandlers {
     	
        routingContext.request().bodyHandler(body -> {
 			final String bodyString = body.toString();
-			final JsonObject rawMessage = new JsonObject(bodyString);
+			JsonObject rawMessage = null ;
+			try {
+				rawMessage = new JsonObject(bodyString);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				JsonObject err = new JsonObject().put("status", "error");
+				routingContext.request().response().headers().set("Content-Type", "application/json");
+				routingContext.request().response().end(err.encode());
+				return;
+			}
+			
 			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
 			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty

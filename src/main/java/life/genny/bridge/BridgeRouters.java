@@ -20,7 +20,7 @@ public class BridgeRouters {
 	  protected static final Logger log = org.apache.logging.log4j.LogManager
 		      .getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-
+  
 	static private Router bridgeRouter = null;
  
   protected static void routers(final Vertx vertx) {

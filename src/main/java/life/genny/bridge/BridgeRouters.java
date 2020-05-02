@@ -57,7 +57,7 @@ public class BridgeRouters {
 
 	  serverOptions.setUseAlpn(true);
 	
-	vertx.createHttpServer(serverOptions).requestHandler(bridgeRouter::accept).listen(Integer.parseInt(GennySettings.apiPort));
+	vertx.createHttpServer(/*serverOptions*/).requestHandler(bridgeRouter::accept).listen(Integer.parseInt(GennySettings.apiPort));
 
   }
 

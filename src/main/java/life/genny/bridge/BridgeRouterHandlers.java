@@ -422,10 +422,18 @@ public class BridgeRouterHandlers {
  			} else {
                  Producer.getToDataWithReply().send(rawMessage, d ->{
                  	JsonObject json= new JsonObject();
-                     json = (JsonObject) d.result().body();
-                     routingContext.response().putHeader("Content-Type", "application/json");
-         			routingContext.response().end(json.toString());
+                     try {
+						json = (JsonObject) d.result().body();
+						 routingContext.response().putHeader("Content-Type", "application/json");
+		         			routingContext.response().end(json.toString());
 
+					} catch (Exception e) {
+						log.error("json returned from rules engine is null");
+						JsonObject err = new JsonObject().put("status", "error");
+						 routingContext.request().response().headers().set("Content-Type", "application/json");
+						 routingContext.request().response().end(err.encode());
+					}
+                    
                  }).end();
  			}
  			} else {

@@ -56,8 +56,8 @@ public class BridgeRouters {
 	  serverOptions.setCompressionLevel(3);
 
 	  serverOptions.setUseAlpn(true);
-	  
-	vertx.createHttpServer(/*serverOptions*/).requestHandler(bridgeRouter::accept).listen(Integer.parseInt(GennySettings.apiPort));
+	
+	vertx.createHttpServer(serverOptions).requestHandler(bridgeRouter::accept).listen(Integer.parseInt(GennySettings.apiPort));
 
   }
 

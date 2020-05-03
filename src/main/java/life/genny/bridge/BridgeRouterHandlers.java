@@ -404,13 +404,16 @@ public class BridgeRouterHandlers {
 
  			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 
+ 				DeliveryOptions doptions = new DeliveryOptions();
+ 				doptions.setSendTimeout(120000);
+ 			
  		   	if (Producer.getToData().writeQueueFull()) {
 
  				log.error("WEBSOCKET API SYNC2 EVT >> producer data is full hence message cannot be sent");
 
  				Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
 
-                 Producer.getToDataWithReply().send(rawMessage, d ->{
+                 Producer.getToDataWithReply().deliveryOptions(doptions).send(rawMessage, d ->{
                      log.info(d);
                      JsonObject json= new JsonObject();
                      json = (JsonObject) d.result().body();
@@ -420,7 +423,7 @@ public class BridgeRouterHandlers {
                  }).end();
 
  			} else {
-                 Producer.getToDataWithReply().send(rawMessage, d ->{
+                 Producer.getToDataWithReply().deliveryOptions(doptions).send(rawMessage, d ->{
                  	JsonObject json= new JsonObject();
                      try {
 						json = (JsonObject) d.result().body();

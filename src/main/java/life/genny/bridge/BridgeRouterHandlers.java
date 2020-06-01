@@ -45,6 +45,7 @@ import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
+import life.genny.qwandautils.QwandaJsonUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.TokenIntrospection;
 import life.genny.utils.RulesUtils;
@@ -802,8 +803,11 @@ public class BridgeRouterHandlers {
 	}
 	
 	public static void apiGetPullHandler(final RoutingContext context) {
+		log.info("PONTOON API BEING CALLED:");
+
 		final HttpServerRequest req = context.request();
 		String key = req.getParam("key");
+		log.info("PONTOON API BEING CALLED KEY=:"+key);
 		String token = context.request().getParam("token");
 		String realm = null;
 		if (token == null) {
@@ -838,9 +842,11 @@ public class BridgeRouterHandlers {
 			try {
 				// a JsonObject wraps a map and it exposes type-aware getters
 				JsonObject cachedJsonObject = VertxUtils.readCachedJson(realm, "PONTOON_"+key.toUpperCase(), token);
+				log.info("PONTOON:"+key.toUpperCase());
 				String value = "ERROR";
 				if (cachedJsonObject != null) {
 					value = cachedJsonObject.getString("value");
+
 					String value2 = value.replaceAll(Pattern.quote("\\\""),
 							Matcher.quoteReplacement("\""));
 					String value3 = value2.replaceAll(Pattern.quote("\\n"),
@@ -852,7 +858,9 @@ public class BridgeRouterHandlers {
 					String value6 = value5.replaceAll(Pattern.quote("}\""), Matcher.quoteReplacement("}"));
 					context.request().response().headers().set("Content-Type", "application/json");
 					context.request().response().end(value6);
+					log.info("Good Pontoon!");
 				}  else {
+					log.info("Bad Pontoon!");
 					JsonObject err = new JsonObject().put("status", "error");
 					context.request().response().headers().set("Content-Type", "application/json");
 					context.request().response().end(err.encode());
@@ -865,7 +873,7 @@ public class BridgeRouterHandlers {
 
 			}
 		} else {
-			log.warn("TOKEN NOT GOOD");
+			log.warn("PONTOON TOKEN NOT GOOD!");
 		}
 		// }
 

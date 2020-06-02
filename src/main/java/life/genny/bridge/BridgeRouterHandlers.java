@@ -124,7 +124,7 @@ public class BridgeRouterHandlers {
 					final String kcClientId = retInit.getString("resource");
 					retInit.put("clientId", kcClientId);
 					retInit.put("ENV_GENNY_HOST",
-							fetchSetting(realm, "ENV_GENNY_HOST", serviceToken, fullurl + ":" + GennySettings.apiPort)); // The
+							fetchSetting(realm, "ENV_GENNY_HOST", serviceToken,  fullurl.substring(0,fullurl.lastIndexOf(':')) + ":" + GennySettings.apiPort)); // The
 																															// web
 																															// bfrontend
 																															// already
@@ -230,7 +230,7 @@ public class BridgeRouterHandlers {
 
 					env +="ENV_MEDIA_PROXY_URL"+ GennySettings.mediaProxyUrl;
 					env += "ENV_GENNY_HOST="
-							+ fetchSetting(realm, "ENV_GENNY_HOST", serviceToken, fullurl + ":" + GennySettings.apiPort)
+							+ fetchSetting(realm, "ENV_GENNY_HOST", serviceToken, fullurl.substring(0,fullurl.lastIndexOf(':')) + ":" + GennySettings.apiPort)
 							+ "\n";
 					env += "ENV_GENNY_BRIDGE_PORT="
 							+ fetchSetting(realm, "ENV_GENNY_BRIDGE_PORT", serviceToken, GennySettings.apiPort) + "\n";

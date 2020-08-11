@@ -39,7 +39,9 @@ import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
 import life.genny.qwanda.attribute.EntityAttribute;
 import life.genny.qwanda.entity.BaseEntity;
+import life.genny.qwanda.entity.SearchEntity;
 import life.genny.qwanda.message.QDataAnswerMessage;
+import life.genny.qwanda.message.QDataBaseEntityMessage;
 import life.genny.qwanda.message.QDataMessage;
 import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
@@ -48,6 +50,7 @@ import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaJsonUtils;
 import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.TokenIntrospection;
+import life.genny.utils.BaseEntityUtils;
 import life.genny.utils.RulesUtils;
 import life.genny.utils.VertxUtils;
 import life.genny.qwanda.Answer;
@@ -879,4 +882,77 @@ public class BridgeRouterHandlers {
 
 	}
 
+	public static void apiSearchHandler(final RoutingContext context) {
+		log.info("PBRIDGE SEARCH API BEING CALLED:");
+
+		final HttpServerRequest req = context.request();
+		String key = req.getParam("key");
+		log.info("SEARCH API BEING CALLED KEY=:"+key);
+		String token = context.request().getParam("token");
+		String realm = null;
+		if (token == null) {
+			MultiMap headerMap = context.request().headers();
+			token = headerMap.get("Authorization");
+			if (token == null) {
+				log.error("NULL TOKEN!");
+			} else {
+				token = token.substring(7); // To remove initial [Bearer ]
+			}
+
+		}
+
+		if (token != null /* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
+																								// tokens
+
+			if ("DUMMY".equals(token)) {
+				realm = "jenny"; // force
+			} 
+			
+			GennyToken gToken = new GennyToken(token);
+			realm = gToken.getRealm();
+
+			// for testig and debugging, if a user has a role test then put the token into a
+			// cache entry so that the test can access it
+			//// JSONObject realm_access = tokenJSON.getJSONObject("realm_access");
+			// JSONArray roles = realm_access.getJSONArray("roles");
+			// List<Object> roleList = roles.toList();
+
+			// if ((roleList.contains("test")) || (roleList.contains("dev"))) {
+
+			try {
+				// a JsonObject wraps a map and it exposes type-aware getters
+		        SearchEntity searchBE = new SearchEntity("JOBS","Web Jobs")
+		         	     .addSort("PRI_NAME","Name",SearchEntity.Sort.ASC)
+		         	     .addFilter("PRI_CODE",SearchEntity.StringFilter.LIKE,"BEG_%") 
+		         	     .addFilter("PRI_NAME",SearchEntity.StringFilter.LIKE,"%") 
+		       					.addColumn("PRI_NAME", "Name")
+		       					.addColumn("PRI_INDUSTRY", "Industry")
+		       					.addColumn("PRI_ASSOC_INDUSTRY", "Assoc Industry")
+		       					.addColumn("PRI_ADDRESS_FULL","Address")
+		         	     .setPageStart(0)
+		         	     .setPageSize(GennySettings.defaultPageSize);
+
+
+		         	     searchBE.setRealm(gToken.getRealm());
+		         	     BaseEntityUtils beUtils = new BaseEntityUtils(gToken);
+		         	    List<BaseEntity>results =  beUtils.getBaseEntitys(searchBE);
+		         	    QDataBaseEntityMessage msg = new QDataBaseEntityMessage(results);
+		         	    String resultsStr = JsonUtils.toJson(msg);
+						context.request().response().headers().set("Content-Type", "application/json");
+						context.request().response().end(resultsStr);
+
+				
+			} catch (Exception e) {
+				JsonObject err = new JsonObject().put("status", "error");
+				context.request().response().headers().set("Content-Type", "application/json");
+				context.request().response().end(err.encode());
+
+			}
+		} else {
+			log.warn("SEARCHTOKEN NOT GOOD!");
+		}
+		// }
+
+	}
+	
 }

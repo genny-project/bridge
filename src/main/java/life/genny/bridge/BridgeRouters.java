@@ -46,6 +46,8 @@ public class BridgeRouters {
 	  bridgeRouter.route(HttpMethod.POST, "/api/cmds").handler(BridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(BridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/devices").handler(BridgeRouterHandlers::apiDevicesHandler);
+	  bridgeRouter.route(HttpMethod.GET, "/api/search").handler(BridgeRouterHandlers::apiSearchHandler);
+
 	  bridgeRouter.route(HttpMethod.POST, "/api/virtualbus").handler(BridgeRouterHandlers::virtualEventBusHandler);
     
 	  bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);

@@ -98,13 +98,23 @@ public class BridgeHandler {
 							+ rawMessage.getString(EVENT_TYPE) + ":"
 
 							+ rawMessage.getJsonObject(DATA).getString(CODE) + " :[" + userToken.getUserCode() + "]"); // +
-																														// ":"
-//              + StringUtils.abbreviateMiddle(
-//                  token, "...", 30));
+
+					if (Producer.getToEvents().writeQueueFull()) {
+
+						log.error("WEBSOCKET EVT >> producer events is full hence message cannot be sent");
+						Producer.setToEvents(
+								CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher(EVENTS));
+						Producer.getToEvents().send(rawMessage).end();
+
+					} else {
+
+						Producer.getToEvents().send(rawMessage).end();
+
+					}
 
 					// HACK , change incoming button event to data
 					if ((rawMessage.getJsonObject(DATA).getString(CODE) != null)
-							&& (rawMessage.getJsonObject(DATA).getString(CODE).equals("QUE_SUBMIT"))) {
+						&& (rawMessage.getJsonObject(DATA).getString(CODE).equals("QUE_SUBMIT"))) {
 						Answer dataAnswer = new Answer(userToken.getUserCode(), rawMessage.getJsonObject(DATA).getString(TARGET_CODE), "PRI_SUBMIT",
 								"QUE_SUBMIT");
 						dataAnswer.setChangeEvent(false);
@@ -118,21 +128,8 @@ public class BridgeHandler {
 						} else {
 							Producer.getToData().send(rawMessage).end();
 						}
-					} else {
-
-						if (Producer.getToEvents().writeQueueFull()) {
-
-							log.error("WEBSOCKET EVT >> producer events is full hence message cannot be sent");
-							Producer.setToEvents(
-									CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher(EVENTS));
-							Producer.getToEvents().send(rawMessage).end();
-
-						} else {
-
-							Producer.getToEvents().send(rawMessage).end();
-
-						}
-					}
+					} 
+					
 				}
 			} else {
 				log.error("EMPTY TOKEN");

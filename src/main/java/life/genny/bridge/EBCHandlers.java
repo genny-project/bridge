@@ -224,10 +224,13 @@ public class EBCHandlers {
 			sendToSession(sessionState, cleanJson);
 		} else {
 			for (int i = 0; i < recipientJsonArray.size(); i++) {
-				String recipientCode = recipientJsonArray.getString(i);
-				// Get all the sessionStates for this user
-
-				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", recipientCode);
+				String channelCode = recipientJsonArray.getString(i);
+				if (!channelCode.startsWith("PER_")) {
+					sendToSession(channelCode, cleanJson);
+				} else {
+//				// Get all the sessionStates for this user
+//
+				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", channelCode);
 
 				if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 
@@ -241,16 +244,20 @@ public class EBCHandlers {
 					// log.error("Remove " + recipientCode + " from subscriptions , they have no
 					// sessions");
 				}
+				}
 			}
 		}
 
 	}
 
-	private static void sendToSession(String sessionState, JsonObject cleanJson) {
-		MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(sessionState);
-		// final MessageProducer<JsonObject> msgProducer =
-		// Vertx.currentContext().owner().eventBus()
-		// .publisher(sessionState);
+	private static void sendToSession(String channel, JsonObject cleanJson) {
+		MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(channel);
+		if (msgProducer == null) {
+		msgProducer =
+		Vertx.currentContext().owner().eventBus()
+		 .publisher(channel);
+		VertxUtils.putMessageProducer(channel, msgProducer); // save
+		}
 		if (msgProducer != null) {
 			if (msgProducer.writeQueueFull()) {
 				log.error("WEBSOCKET >> producer buffer is full hence message cannot be sent");

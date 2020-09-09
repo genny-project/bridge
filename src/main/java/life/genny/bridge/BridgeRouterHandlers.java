@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.mortbay.log.Log;
 import org.mortbay.util.ajax.JSON;
 
+import antlr.StringUtils;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -538,6 +539,8 @@ public class BridgeRouterHandlers {
 
 		String token = routingContext.request().getParam("token");
 		String channel = routingContext.request().getParam("channel");
+		String singleSessionStr = routingContext.request().getParam("singleSession");
+		final Boolean	singleSession = "TRUE".equalsIgnoreCase(singleSessionStr)?true:false;
 		// log.info("Service Call! "+channel);
 
 		routingContext.request().bodyHandler(body -> {
@@ -585,7 +588,7 @@ public class BridgeRouterHandlers {
 					log.info("WEBDATA API POST   >> WEB DATA :" + j);
 
 					j.put("token", localToken);
-					EBCHandlers.sendToClientSessions(userToken, j, false);
+					EBCHandlers.sendToClientSessions(userToken, j, singleSession);
 
 				} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
 					log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);

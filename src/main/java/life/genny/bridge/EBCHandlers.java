@@ -32,6 +32,7 @@ import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.qwandautils.KeycloakUtils;
 import life.genny.qwandautils.QwandaUtils;
+import life.genny.security.EncryptionUtils;
 import life.genny.utils.BaseEntityUtils;
 import life.genny.utils.VertxUtils;
 
@@ -156,13 +157,19 @@ public class EBCHandlers {
 	 */
 	public static void sendToClientSessions(final GennyToken userToken, final JsonObject json, boolean sessionOnly) {
 
-		JsonArray recipientJsonArray = null;
+		JsonArray recipientJsonArray = new JsonArray();;
 
 		if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
-			recipientJsonArray = new JsonArray();
 			recipientJsonArray.add(userToken.getUserCode());
 		} else {
-			recipientJsonArray = json.getJsonArray("recipientCodeArray");
+			// encrypt
+			JsonArray unencryptedJsonArray = json.getJsonArray("recipientCodeArray");
+			for (int i = 0; i < unencryptedJsonArray.size(); i++) {
+				String channelCode = unencryptedJsonArray.getString(i);
+				String securityKey = GennySettings.defaultServiceKey;
+				String encryptedChannel = EncryptionUtils.getEncryptedString(channelCode, securityKey, userToken);
+				recipientJsonArray.add(encryptedChannel);
+			}
 		}
 
 		json.remove("token"); // do not show the token

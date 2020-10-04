@@ -41,8 +41,6 @@ public class EBCHandlers {
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-
-
 	public static void registerHandlers() {
 
 		Consumer.getFromDirect().subscribe(arg -> {
@@ -157,7 +155,8 @@ public class EBCHandlers {
 	 */
 	public static void sendToClientSessions(final GennyToken userToken, final JsonObject json, boolean sessionOnly) {
 
-		JsonArray recipientJsonArray = new JsonArray();;
+		JsonArray recipientJsonArray = new JsonArray();
+		;
 
 		if ((!json.containsKey("recipientCodeArray")) || (json.getJsonArray("recipientCodeArray").isEmpty())) {
 			recipientJsonArray.add(userToken.getUserCode());
@@ -237,33 +236,31 @@ public class EBCHandlers {
 				} else {
 //				// Get all the sessionStates for this user
 //
-				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", channelCode);
+					Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", channelCode);
 
-				if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
+					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 
-					for (String sessionState : sessionStates) {
-						sendToSession(sessionState, cleanJson);
+						for (String sessionState : sessionStates) {
+							sendToSession(sessionState, cleanJson);
+						}
+					} else {
+						sendToSession(userToken.getString("session_state"), cleanJson); // have to send to something
+						// no sessions for this user!
+						// need to remove them from subscriptions ...
+						// log.error("Remove " + recipientCode + " from subscriptions , they have no
+						// sessions");
 					}
-				} else {
-					sendToSession(userToken.getString("session_state"), cleanJson); // have to send to something
-					// no sessions for this user!
-					// need to remove them from subscriptions ...
-					// log.error("Remove " + recipientCode + " from subscriptions , they have no
-					// sessions");
-				}
 				}
 			}
 		}
 
-	}
+	}// 0kZ0TI4tetjQHG84U/VdwA
 
 	private static void sendToSession(String channel, JsonObject cleanJson) {
 		MessageProducer<JsonObject> msgProducer = VertxUtils.getMessageProducer(channel);
 		if (msgProducer == null) {
-		msgProducer =
-		Vertx.currentContext().owner().eventBus()
-		 .publisher(channel);
-		VertxUtils.putMessageProducer(channel, msgProducer); // save
+			msgProducer = Vertx.currentContext().owner().eventBus().publisher(channel);
+			VertxUtils.putMessageProducer(channel, msgProducer); // save
 		}
 		if (msgProducer != null) {
 			if (msgProducer.writeQueueFull()) {

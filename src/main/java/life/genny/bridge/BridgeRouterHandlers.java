@@ -119,6 +119,9 @@ public class BridgeRouterHandlers {
 
 				if ((projectBe != null) && ("json".equalsIgnoreCase(format))) {
 					retInit = new JsonObject(projectBe.getValue("ENV_KEYCLOAK_JSON", "NO JSON"));
+					
+					retInit.remove("credentials");
+					
 					String realm = projectBe.getRealm();
 					String serviceToken = projectBe.getValue("ENV_SERVICE_TOKEN", "DUMMY");
 					retInit.put("vertx_url", fullurl+"/frontend"/*GennySettings.vertxUrl*/);
@@ -160,8 +163,7 @@ public class BridgeRouterHandlers {
 					retInit.put("ENV_GENNY_BRIDGE_SERVICE", "/api/service");
 					retInit.put("ENV_GENNY_BRIDGE_EVENTS", "/api/events");
 
-					retInit.put("ENV_GOOGLE_MAPS_APIKEY",
-							fetchSetting(realm, "ENV_GOOGLE_MAPS_APIKEY", serviceToken, "NO_GOOGLE_MAPS_APIKEY"));
+ 
 					retInit.put("PRI_FAVICON",
 							fetchSetting(realm, "PRI_FAVICON", serviceToken, "NO_FAVICON"));
 					retInit.put("PRI_NAME",
@@ -241,9 +243,7 @@ public class BridgeRouterHandlers {
 					env += "ENV_GENNY_BRIDGE_VERTEX=" + "/frontend" + "\n";
 					env += "ENV_GENNY_BRIDGE_SERVICE=" + "/api/service" + "\n";
 					env += "ENV_GENNY_BRIDGE_EVENTS=" + "/api/events" + "\n";
-					env += "ENV_GOOGLE_MAPS_APIKEY="
-							+ fetchSetting(realm, "ENV_GOOGLE_MAPS_APIKEY", serviceToken, "NO_GOOGLE_MAPS_APIKEY")
-							+ "\n";
+ 
 					env += "PRI_FAVICON="
 							+ fetchSetting(realm, "PRI_FAVICON", serviceToken, "NO_FAVICON")
 							+ "\n";

@@ -71,7 +71,7 @@ public class BridgeHandler {
 			}
 			String token = rawMessage.getString(TOKEN);
 			GennyToken userToken = new GennyToken(token);
-			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
 																									// tokens
 
 				rawMessage.put("sourceAddress", Consumer.directIP); // set the source (return) address for any command

@@ -3,8 +3,6 @@ package life.genny.bridge;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,46 +13,31 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import life.genny.channel.Producer;
-
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.mortbay.log.Log;
-import org.mortbay.util.ajax.JSON;
-
-import antlr.StringUtils;
+import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.eventbus.MessageProducer;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.LoggerFactory;
-import io.vertx.rxjava.core.MultiMap;
-import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.core.eventbus.MessageProducer;
-import io.vertx.rxjava.core.http.HttpServerRequest;
-import io.vertx.rxjava.ext.web.RoutingContext;
-import io.vertx.rxjava.ext.web.handler.CorsHandler;
+import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.CorsHandler;
 import life.genny.channel.Producer;
 import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
+import life.genny.qwanda.Answer;
 import life.genny.qwanda.attribute.EntityAttribute;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.entity.SearchEntity;
 import life.genny.qwanda.message.QDataAnswerMessage;
 import life.genny.qwanda.message.QDataBaseEntityMessage;
-import life.genny.qwanda.message.QDataMessage;
 import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.JsonUtils;
-import life.genny.qwandautils.KeycloakUtils;
-import life.genny.qwandautils.QwandaJsonUtils;
-import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.TokenIntrospection;
 import life.genny.utils.BaseEntityUtils;
-import life.genny.utils.RulesUtils;
 import life.genny.utils.VertxUtils;
-import life.genny.qwanda.Answer;
 
 public class BridgeRouterHandlers {
 

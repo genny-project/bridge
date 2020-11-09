@@ -2,17 +2,14 @@ package life.genny.bridge;
 
 
 import java.lang.invoke.MethodHandles;
-
 import org.apache.logging.log4j.Logger;
-
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
-import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.ext.web.Router;
-import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
-import life.genny.channel.VersionHandler;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.TimeoutHandler;
 //import life.genny.channel.RouterHandlers;
-import life.genny.metrics.Metrics;
+//import life.genny.metrics.Metrics;
 import life.genny.qwandautils.GennySettings;
 
 
@@ -31,7 +28,7 @@ public class BridgeRouters {
 
 	  bridgeRouter.route().handler(BridgeRouterHandlers.cors());
 
-	  bridgeRouter.route("/frontend/*").handler(BridgeHandler.eventBusHandler(vertx));
+	  bridgeRouter.route("/frontend/*").subRouter(BridgeHandler.eventBusHandler(vertx));
 	  bridgeRouter.route(HttpMethod.GET, "/api/events/init").handler(BridgeRouterHandlers::apiGetInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(BridgeRouterHandlers::apiServiceHandler);
@@ -50,7 +47,7 @@ public class BridgeRouters {
 
 	  bridgeRouter.route(HttpMethod.POST, "/api/virtualbus").handler(BridgeRouterHandlers::virtualEventBusHandler);
     
-	  bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
+	  //bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 	log.info("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");
 	
 	HttpServerOptions serverOptions = new HttpServerOptions();

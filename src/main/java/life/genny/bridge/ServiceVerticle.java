@@ -2,11 +2,9 @@ package life.genny.bridge;
 
 
 import java.lang.invoke.MethodHandles;
-
 import org.apache.logging.log4j.Logger;
-
-import io.vertx.rxjava.core.AbstractVerticle;
-import io.vertx.rxjava.core.Future;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 import life.genny.channel.Routers;
 import life.genny.cluster.Cluster;
 import life.genny.eventbus.EventBusInterface;

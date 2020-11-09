@@ -4,12 +4,13 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Logger;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.BridgeEventType;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.sockjs.BridgeEvent;
+import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
-import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.ext.web.handler.sockjs.BridgeEvent;
-import io.vertx.rxjava.ext.web.handler.sockjs.SockJSHandler;
 import life.genny.channel.Consumer;
 import life.genny.channel.Producer;
 import life.genny.cluster.CurrentVtxCtx;
@@ -43,13 +44,13 @@ public class BridgeHandler {
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-	protected static SockJSHandler eventBusHandler(final Vertx vertx) {
+	protected static Router eventBusHandler(final Vertx vertx) {
 
 		final SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
 		avertx = vertx;
 
-		SockJSHandler bridge = sockJSHandler.bridge(BridgeConfig.setBridgeOptions(), BridgeHandler::bridgeHandler);
+		Router bridge = sockJSHandler.bridge(BridgeConfig.setBridgeOptions(), BridgeHandler::bridgeHandler);
 
 		return bridge;
 	}

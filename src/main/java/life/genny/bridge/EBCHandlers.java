@@ -1,7 +1,6 @@
 package life.genny.bridge;
 
 import java.io.ByteArrayOutputStream;
-import com.github.luben.zstd.Zstd;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.invoke.MethodHandles;
@@ -11,29 +10,20 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import com.github.luben.zstd.Zstd;
+import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
-
+import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.eventbus.MessageProducer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.core.buffer.Buffer;
-import io.vertx.rxjava.core.eventbus.MessageProducer;
 import life.genny.channel.Consumer;
-import life.genny.channel.Producer;
-import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
-import life.genny.qwanda.message.QBulkPullMessage;
 import life.genny.qwandautils.GennySettings;
-import life.genny.qwandautils.JsonUtils;
-import life.genny.qwandautils.KeycloakUtils;
-import life.genny.qwandautils.QwandaUtils;
 import life.genny.security.EncryptionUtils;
-import life.genny.utils.BaseEntityUtils;
 import life.genny.utils.VertxUtils;
 
 public class EBCHandlers {
@@ -43,7 +33,7 @@ public class EBCHandlers {
 
 	public static void registerHandlers() {
 
-		Consumer.getFromDirect().subscribe(arg -> {
+		Consumer.getFromDirect().handler(arg -> {
 			String incomingCmd = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
@@ -54,7 +44,7 @@ public class EBCHandlers {
 				sendToClientSessions(userToken, json, true);
 			}
 		});
-		Consumer.getFromWebCmds().subscribe(arg -> {
+		Consumer.getFromWebCmds().handler(arg -> {
 			String incomingCmd = arg.body().toString();
 			if ("{}".equals(incomingCmd)) {
 				log.error("Received empty {} in webcmds");
@@ -124,7 +114,7 @@ public class EBCHandlers {
 
 		});
 
-		Consumer.getFromWebData().subscribe(arg -> {
+		Consumer.getFromWebData().handler(arg -> {
 			String incomingData = arg.body().toString();
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));

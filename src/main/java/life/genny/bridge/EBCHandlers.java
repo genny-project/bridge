@@ -56,6 +56,7 @@ public class EBCHandlers {
 		});
 		Consumer.getFromWebCmds().subscribe(arg -> {
 			String incomingCmd = arg.body().toString();
+			log.info("[DEBUG] INCOMING CMD : " + incomingCmd);
 			if ("{}".equals(incomingCmd)) {
 				log.error("Received empty {} in webcmds");
 				return;
@@ -126,6 +127,7 @@ public class EBCHandlers {
 
 		Consumer.getFromWebData().subscribe(arg -> {
 			String incomingData = arg.body().toString();
+			log.info("[DEBUG] INCOMING CMD : " + incomingData);
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 

@@ -112,6 +112,9 @@ public class EBCHandlers {
 				}
 			}
 
+		}, error -> {
+			log.info("Caught an error handling message from webcmds");
+			log.error(error);
 		});
 
 		Consumer.getFromWebData().handler(arg -> {
@@ -123,6 +126,9 @@ public class EBCHandlers {
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(userToken, json, false);
 			}
+		}, error -> {
+			log.info("Caught an error handling message from webcdata");
+			log.error(error);
 		});
 	}
 

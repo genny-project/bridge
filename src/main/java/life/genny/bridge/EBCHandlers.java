@@ -43,7 +43,11 @@ public class EBCHandlers {
 			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(userToken, json, true);
 			}
+		}).exceptionHandler(exception -> {
+			log.info("Caught Exception handling mesage from direct");
+			log.error(exception.getStackTrace());
 		});
+
 		Consumer.getFromWebCmds().handler(arg -> {
 			String incomingCmd = arg.body().toString();
 			if ("{}".equals(incomingCmd)) {
@@ -112,6 +116,9 @@ public class EBCHandlers {
 				}
 			}
 
+		}).exceptionHandler(exception -> {
+			log.info("Caught Exception handling mesage from webcmds");
+			log.error(exception.getStackTrace());
 		});
 
 		Consumer.getFromWebData().handler(arg -> {
@@ -123,6 +130,9 @@ public class EBCHandlers {
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(userToken, json, false);
 			}
+		}).exceptionHandler(exception -> {
+			log.info("Caught Exception handling mesage from webdata");
+			log.error(exception.getStackTrace());
 		});
 	}
 

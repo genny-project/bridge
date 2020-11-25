@@ -12,7 +12,9 @@ RUN apk add --no-cache libc6-compat gcompat
 
 EXPOSE 10001
 
-ADD target/bridge-fat.jar /service.jar
+
+COPY target/lib/* /deployments/lib/
+COPY target/*-runner.jar /deployments/service.jar
 
 #RUN mkdir /realm
 #ADD realm /opt/realm

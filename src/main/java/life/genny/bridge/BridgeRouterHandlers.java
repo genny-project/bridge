@@ -65,7 +65,7 @@ public class BridgeRouterHandlers {
 	static public Vertx avertx;
 
 	public static CorsHandler cors() {
-		return CorsHandler.create("http://localhost:3000|https://localhost:3000|https://internmatch.genny.life|"+ GennySettings.projectUrl).allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.PUT)
+		return CorsHandler.create("http://localhost:\\d\\d|https://localhost:\\d\\d\\d\\d|https://.*.genny.life|https://.*.gada.io"+ GennySettings.projectUrl).allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.PUT)
 				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type").allowedHeader("Authorization")
 				.allowedHeader("Accept")
 				.allowedHeader("X-Requested-With");

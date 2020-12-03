@@ -68,7 +68,7 @@
 	<dependency>
 		<groupId>life.genny</groupId>
 		<artifactId>genny-verticle-rules</artifactId>
-    <version>${version}</version>
+        <version>${project.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>io.vertx</groupId>

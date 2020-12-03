@@ -46,7 +46,8 @@ public class BridgeHandler {
 
 	protected static Router eventBusHandler(final Vertx vertx) {
 
-		final SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+    SockJSHandlerOptions sockOptions = new SockJSHandlerOptions().setHeartbeatInterval(2000);
+		final SockJSHandler sockJSHandler = SockJSHandler.create(vertx,sockOptions);
 
 		avertx = vertx;
 

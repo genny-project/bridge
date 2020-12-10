@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import io.quarkus.runtime.Startup;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.kafka.client.consumer.KafkaConsumer;
 import life.genny.channel.Consumer;
 import life.genny.channel.KProducer;
 import life.genny.channel.Producer;

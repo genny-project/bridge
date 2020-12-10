@@ -101,15 +101,6 @@
       <artifactId>zstd-jni</artifactId>
       <version>1.3.8-6</version>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-kafka-client</artifactId>
-      <version>3.9.4</version>
-    </dependency>
   </dependencies>
   <repositories>
     <repository>

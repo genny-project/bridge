@@ -2,6 +2,8 @@ package life.genny.bridge;
 
 
 import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -10,10 +12,11 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.Logger;
 
 import io.quarkus.runtime.Startup;
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.kafka.client.consumer.KafkaConsumer;
 import life.genny.channel.Consumer;
+import life.genny.channel.KProducer;
 import life.genny.channel.Producer;
 import life.genny.channel.Routers;
 import life.genny.cluster.Cluster;
@@ -66,6 +69,6 @@ public class ServiceVerticle {
          Routers.activate(vertx);
          
          EBCHandlers.registerHandlers();
-       
+         KProducer.sendr();
      }
 }

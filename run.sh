@@ -20,5 +20,8 @@ export MYIP=$MYIP
 
 ADMIN_PASSWORD=GENNY
 ADMIN_USERNAME=GENNY
+export IS_CACHE_SERVER=true
+export CACHE_SERVER_NAME=$MYIP
+
 export USER=GENNY
-java -jar -Dadmin.username=${ADMIN_USERNAME} -Dadmin.password=${ADMIN_PASSWORD} target/bridge-7.7.0-runner.jar
+java -jar -Dadmin.username=${ADMIN_USERNAME} -Dadmin.password=${ADMIN_PASSWORD} target/bridge-7.9.0-runner.jar

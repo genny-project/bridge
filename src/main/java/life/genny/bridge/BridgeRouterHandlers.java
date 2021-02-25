@@ -526,90 +526,100 @@ public class BridgeRouterHandlers {
 
 	public static void apiServiceHandler(final RoutingContext routingContext) {
 
-		String token = routingContext.request().getParam("token");
-		String channel = routingContext.request().getParam("channel");
-		String singleSessionStr = routingContext.request().getParam("singleSession");
-		final Boolean	singleSession = "TRUE".equalsIgnoreCase(singleSessionStr)?true:false;
-		// log.info("Service Call! "+channel);
+    String token = routingContext.request().getParam("token");
+    String channel = routingContext.request().getParam("channel");
+    String singleSessionStr = routingContext.request().getParam("singleSession");
+    final Boolean	singleSession = "TRUE".equalsIgnoreCase(singleSessionStr)?true:false;
+    log.info("Service Call! "+channel);
 
-		routingContext.request().bodyHandler(body -> {
-			// log.info("Service Call bodyHandler! " + channel);
-			String localToken = null;
-			JsonObject j = null;
-			
-			try {
-				j = body.toJsonObject();
-			if (token == null) {
-				MultiMap headerMap = routingContext.request().headers();
-				localToken = headerMap.get("Authorization");
-				if (localToken == null) {
-					log.error("NULL TOKEN!");
-				} else {
-					localToken = localToken.substring(7); // To remove initial [Bearer ]
+    routingContext.request().bodyHandler(body -> {
+      // log.info("Service Call bodyHandler! " + channel);
+      String localToken = null;
+      JsonObject j = null;
 
-				}
-			} else {
-				localToken = token;
-			}
+      log.info("Here in bodyhandler");
+      try {
+        j = body.toJsonObject();
+        log.info("Printing body here :::"+ j);
+        if (token == null) {
+          MultiMap headerMap = routingContext.request().headers();
+          localToken = headerMap.get("Authorization");
+          if (localToken == null) {
+            log.error("In api/service NULL TOKEN!");
+          } else {
+            localToken = localToken.substring(7); // To remove initial [Bearer ]
+            log.error("We get a localtoken");
+          }
+        } else {
+          log.error("Else we put token to localtoken");
+          localToken = token;
+        }
 
-			if (localToken != null /*&& TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)*/) { // do not
-																												// allow
-																												// empty
-																												// tokens
-				GennyToken userToken = new GennyToken(localToken);
+        if (localToken != null /*&& TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)*/) { // do not
+          // allow
+          // empty
+          // tokens
+          log.error("localtoken is not null");
+          GennyToken userToken = new GennyToken(localToken);
 
-				final DeliveryOptions options = new DeliveryOptions();
-				options.addHeader("Authorization", "Bearer " + localToken);
+          final DeliveryOptions options = new DeliveryOptions();
+          options.addHeader("Authorization", "Bearer " + localToken);
 
-				if ("EVT_MSG".equals(j.getString("msg_type")) || "events".equals(channel) || "event".equals(channel)) {
-					log.info("EVT API POST   >> EVENT-BUS EVENT:");
-					j.put("token", localToken);
-					Producer.getToEvents().deliveryOptions(options);
-					Producer.getToEvents().send(j);
+          if ("EVT_MSG".equals(j.getString("msg_type")) || "events".equals(channel) || "event".equals(channel)) {
+            log.info("EVT API POST   >> EVENT-BUS EVENT:");
+            log.error("we got into event message");
+            j.put("token", localToken);
+            Producer.getToEvents().deliveryOptions(options);
+            Producer.getToEvents().send(j);
 
-				} else if ( "webcmds".equals(channel)) {
-					log.info("WEBCMD API POST   >> WEB CMDS :" + j);
-					j.put("token", localToken);
-					//Producer.getToWebCmds().deliveryOptions(options);
-					//Producer.getToWebCmds().send(j);
-					EBCHandlers.sendToClientSessions(userToken, j, false);
-				} else if ("webdata".equals(channel)) {
-					log.info("WEBDATA API POST   >> WEB DATA :" + j);
+          } else if ( "webcmds".equals(channel)) {
+            log.info("WEBCMD API POST   >> WEB CMDS :" + j);
+            log.error("we got into web cmd");
+            j.put("token", localToken);
+            //Producer.getToWebCmds().deliveryOptions(options);
+            //Producer.getToWebCmds().send(j);
+            EBCHandlers.sendToClientSessions(userToken, j, false);
+          } else if ("webdata".equals(channel)) {
+            log.info("WEBDATA API POST   >> WEB DATA :" + j);
+            log.error("we got into web data");
+            j.put("token", localToken);
+            j.put("token", localToken);
+            EBCHandlers.sendToClientSessions(userToken, j, singleSession);
 
-					j.put("token", localToken);
-					EBCHandlers.sendToClientSessions(userToken, j, singleSession);
+          } else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
+            log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
+            log.error("we got into cmd_msg");
 
-				} else if (j.getString("msg_type").equals("CMD_MSG") || "cmds".equals(channel)) {
-					log.info("CMD API POST   >> EVENT-BUS CMD  :" + j);
+            j.put("token", localToken);
+            Producer.getToCmds().deliveryOptions(options);
+            Producer.getToCmds().send(j);
+          } else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
+            log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
+            log.error("we got into MSG_MESSAGE");
+            j.put("token", localToken);
+            Producer.getToMessages().deliveryOptions(options);
+            Producer.getToMessages().send(j);
 
-					j.put("token", localToken);
-					Producer.getToCmds().deliveryOptions(options);
-					Producer.getToCmds().send(j);
-				} else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
-					log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
-					j.put("token", localToken);
-					Producer.getToMessages().deliveryOptions(options);
-					Producer.getToMessages().send(j);
-
-				} else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
-					log.info("CMD API POST   >> EVENT-BUS DATA :");
-					j.put("token", localToken);
-					if ("Rule".equals(j.getString("data_type"))) {
-						log.info("INCOMING RULE !");
-					}
-					Producer.getToData().deliveryOptions(options);
-					Producer.getToData().write(j);
-				}
-			} else {
-				log.warn("TOKEN NOT ALLOWED");
-			}
-			} catch (Exception e) {
-				log.error("Error:"+ e.toString() + ", Body is:" + body.toString());
-			}
-			finally {
-				routingContext.response().end();
-			}
-		});
+          } else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
+            log.info("CMD API POST   >> EVENT-BUS DATA :");
+            log.error("we got into DATA_MSG sending to data");
+            j.put("token", localToken);
+            if ("Rule".equals(j.getString("data_type"))) {
+              log.info("INCOMING RULE !");
+            }
+            Producer.getToData().deliveryOptions(options);
+            Producer.getToData().write(j);
+          }
+        } else {
+          log.warn("TOKEN NOT ALLOWED");
+        }
+      } catch (Exception e) {
+        log.error("Error:"+ e.toString() + ", Body is:" + body.toString());
+      }
+      finally {
+        routingContext.response().end();
+      }
+    });
 
 	}
 

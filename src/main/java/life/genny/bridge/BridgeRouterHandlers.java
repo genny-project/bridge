@@ -79,6 +79,8 @@ public class BridgeRouterHandlers {
 
 	public static void apiGetInitHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(bodyy -> {
+      log.info("Get init handler being called apiGetInitHandler");
+      log.info("Genny realm is as follows:::" + GennySettings.GENNY_REALM);
 			final String fullurl = routingContext.request().getParam("url");
 			String format = routingContext.request().getParam("format");
 			if (format == null) {
@@ -508,10 +510,10 @@ public class BridgeRouterHandlers {
 																									// use token expiry
 				}
 
-				Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", userCode);
+				Set<String> sessionStates = VertxUtils.getSetString(realm, "SessionStates", userCode);
 			//	if (!sessionStates.contains(sessionState)) {
 					sessionStates.add(sessionState);
-					VertxUtils.putSetString("", "SessionStates", userCode, sessionStates);
+					VertxUtils.putSetString(realm, "SessionStates", userCode, sessionStates);
 					final MessageProducer<JsonObject> toSessionChannel = Vertx.currentContext().owner().eventBus()
 							.publisher(sessionState);
 					VertxUtils.putMessageProducer(sessionState, toSessionChannel);
@@ -844,6 +846,7 @@ public class BridgeRouterHandlers {
 
 			// if ((roleList.contains("test")) || (roleList.contains("dev"))) {
 
+		  log.info("PONTOON API BEING CALLED and the realm is :::" + realm);
 			try {
 				// a JsonObject wraps a map and it exposes type-aware getters
 				JsonObject cachedJsonObject = VertxUtils.readCachedJson(realm, "PONTOON_"+key.toUpperCase(), token);

@@ -236,7 +236,7 @@ public class EBCHandlers {
 				} else {
 //				// Get all the sessionStates for this user
 //
-					Set<String> sessionStates = VertxUtils.getSetString("", "SessionStates", channelCode);
+					Set<String> sessionStates = VertxUtils.getSetString(userToken.getRealm(), "SessionStates", channelCode);
 
 					if (((sessionStates != null) && (!sessionStates.isEmpty()))) {
 

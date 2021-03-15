@@ -72,10 +72,6 @@
 			<exclusions>
 				<exclusion>
 					<groupId>io.vertx</groupId>
-					<artifactId>vertx-hazelcast</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>io.vertx</groupId>
 					<artifactId>vertx-core</artifactId>
 				</exclusion>
 			</exclusions>
@@ -87,10 +83,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-vertx</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.vertx</groupId>
-        <artifactId>vertx-hazelcast</artifactId>
     </dependency>
 		<dependency>
 			<groupId>junit</groupId>

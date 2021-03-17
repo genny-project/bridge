@@ -1,14 +1,13 @@
-FROM openjdk:8u212-jre-alpine3.9 
-RUN echo http://mirror.yandex.ru/mirrors/alpine/v3.9/main > /etc/apk/repositories; \
-    echo http://mirror.yandex.ru/mirrors/alpine/v3.9/community >> /etc/apk/repositories
+#FROM openjdk:8u212-jre-alpine3.9 
+FROM adoptopenjdk/openjdk11:alpine
+
+RUN apk update && apk add jq && apk add curl && apk add bash && apk add xmlstarlet && apk add wget && apk add vim && apk add unzip && apk add sed
+RUN ln -s /bin/sed /usr/bin/sed
+RUN chmod a+x /usr/bin/sed
 
 RUN apk update && apk add jq && apk add curl && apk add bash
 
-RUN wget https://www.yourkit.com/download/docker/YourKit-JavaProfiler-2019.8-docker.zip -P /tmp/ && \
-  unzip /tmp/YourKit-JavaProfiler-2019.8-docker.zip -d /usr/local && \
-  rm /tmp/YourKit-JavaProfiler-2019.8-docker.zip
-
-RUN apk add --no-cache libc6-compat gcompat
+#RUN apk add --no-cache libc6-compat gcompat
 
 EXPOSE 10001
 

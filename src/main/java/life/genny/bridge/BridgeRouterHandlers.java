@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 
 import org.apache.logging.log4j.Logger;
 import io.vertx.core.MultiMap;
@@ -373,14 +374,21 @@ public class BridgeRouterHandlers {
 
                 //}).end();
 
-			//} else {
+			//} else{
+			try{
+
                 producer.getToDataWithReply().send(rawMessage, json ->{
                   //JsonObject json= new JsonObject();
                     //json = (JsonObject) d.result().body();
+										System.out.println(json);
                     routingContext.response().putHeader("Content-Type", "application/json");
         			routingContext.response().end(json.toString());
 
                 });
+			}catch(WebApplicationException e){
+                    routingContext.response().putHeader("Content-Type", "application/json");
+        			routingContext.response().setStatusCode(500).end();
+			}
 			//}
 				 });
     }

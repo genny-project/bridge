@@ -15,12 +15,14 @@ import com.google.gson.Gson;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageProducer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import life.genny.channel.Consumer;
+//import life.genny.channel.Consumer;
 import life.genny.models.GennyToken;
 import life.genny.qwandautils.GennySettings;
 import life.genny.security.EncryptionUtils;
@@ -31,25 +33,27 @@ public class EBCHandlers {
 	protected static final Logger log = org.apache.logging.log4j.LogManager
 			.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-	public static void registerHandlers() {
+	//public static void registerHandlers() {
 
-		Consumer.getFromDirect().handler(arg -> {
-			String incomingCmd = arg.body().toString();
-			final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
-			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
+		//Consumer.getFromDirect().handler(arg -> {
+			//String incomingCmd = arg.body().toString();
+			//final JsonObject json = new JsonObject(incomingCmd); // Buffer.buffer(arg.toString().toString()).toJsonObject();
+			//GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
-			bridgelog(userToken, json, ":target->" + Consumer.directIP, incomingCmd.length());
+			//bridgelog(userToken, json, ":target->" + Consumer.directIP, incomingCmd.length());
 
-			if (!incomingCmd.contains("<body>Unauthorized</body>")) {
-				sendToClientSessions(userToken, json, true);
-			}
-		}).exceptionHandler(exception -> {
-			log.info("Caught Exception handling mesage from direct");
-			log.error(exception.getStackTrace());
-		});
+			//if (!incomingCmd.contains("<body>Unauthorized</body>")) {
+				//sendToClientSessions(userToken, json, true);
+			//}
+		//}).exceptionHandler(exception -> {
+			//log.info("Caught Exception handling mesage from direct");
+			//log.error(exception.getStackTrace());
+		//});
 
-		Consumer.getFromWebCmds().handler(arg -> {
-			String incomingCmd = arg.body().toString();
+		@Incoming("webcmds")
+		public void getFromWebCmds(String arg){
+			//String incomingCmd = arg.body().toString();
+			String incomingCmd = arg;
 			if ("{}".equals(incomingCmd)) {
 				log.error("Received empty {} in webcmds");
 				return;
@@ -116,13 +120,16 @@ public class EBCHandlers {
 				}
 			}
 
-		}).exceptionHandler(exception -> {
-			log.info("Caught Exception handling mesage from webcmds");
-			log.error(exception.getStackTrace());
-		});
+		}
+		//.exceptionHandler(exception -> {
+			//log.info("Caught Exception handling mesage from webcmds");
+			//log.error(exception.getStackTrace());
+		//});
 
-		Consumer.getFromWebData().handler(arg -> {
-			String incomingData = arg.body().toString();
+		@Incoming("webdata")
+		public void getFromWebData(String arg)  {
+			//String incomingData = arg.body().toString();
+			String incomingData = arg;
 			final JsonObject json = new JsonObject(incomingData); // Buffer.buffer(arg.toString().toString()).toJsonObject();
 			GennyToken userToken = new GennyToken("userToken", json.getString("token"));
 
@@ -130,11 +137,11 @@ public class EBCHandlers {
 			if (!incomingData.contains("<body>Unauthorized</body>")) {
 				sendToClientSessions(userToken, json, false);
 			}
-		}).exceptionHandler(exception -> {
-			log.info("Caught Exception handling mesage from webdata");
-			log.error(exception.getStackTrace());
-		});
-	}
+		}
+		//.exceptionHandler(exception -> {
+			//log.info("Caught Exception handling mesage from webdata");
+			//log.error(exception.getStackTrace());
+		//});
 
 	private static void bridgelog(final GennyToken userToken, final JsonObject msg, final String code,
 			Integer messageLength) {

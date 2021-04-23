@@ -83,48 +83,24 @@ public class BridgeHandler {
 			}
 			String token = rawMessage.getString(TOKEN);
 			GennyToken userToken = new GennyToken(token);
-			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+			if (token !=null && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
 																									// tokens
-
-				//rawMessage.put("sourceAddress", Consumer.directIP); // set the source (return) address for any command
-
 				if (rawMessage.getString(MSG_TYPE).equals(DATA_MSG)) {
 
 					log.info("WEBSOCKET DATA >> EVENT-BUS DATA:" + userToken.getString("session_state") + " :"
 							+ rawMessage.getString(DATA_TYPE) + ":" + StringUtils.abbreviateMiddle(token, "...", 30)
 							+ "  [" + userToken.getUserCode() + "]:  ");
 
-					//if (Producer.getToData().writeQueueFull()) {
-
-						//log.error("WEBSOCKET EVT >> producer data is full hence message cannot be sent");
-
-						//Producer.setToData(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher(DATA));
-
-						//Producer.getToData().send(rawMessage).end();
-
-					//} else {
-						//producer.getToData().send(rawMessage).end();
 						producer.getToData().send(rawMessage.toString());
-					//}
+
 				} else if (rawMessage.getString(MSG_TYPE).equals(EVT_MSG)) {
 					log.info("WEB EVENT    >> EVENT-BUS EVT  :" + userToken.getString("session_state") + " : "
 							+ rawMessage.getString(EVENT_TYPE) + ":"
 
 							+ rawMessage.getJsonObject(DATA).getString(CODE) + " :[" + userToken.getUserCode() + "]"); // +
 
-					//if (Producer.getToEvents().writeQueueFull()) {
-
-						log.error("WEBSOCKET EVT >> producer events is full hence message cannot be sent");
-						//Producer.setToEvents(
-								//CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher(EVENTS));
-						//Producer.getToEvents().send(rawMessage).end();
-
-					//} else {
-
-						//producer.getToEvents().send(rawMessage).end();
 						producer.getToEvents().send(rawMessage.toString());
 
-					//}
 
 					// HACK , change incoming button event to data
 					if ((rawMessage.getJsonObject(DATA).getString(CODE) != null)
@@ -135,14 +111,7 @@ public class BridgeHandler {
 						QDataAnswerMessage dataMsg = new QDataAnswerMessage(dataAnswer);
 						dataMsg.setToken(token);
 						rawMessage = new JsonObject(JsonUtils.toJson(dataMsg));
-						//if (Producer.getToData().writeQueueFull()) {
-							//Producer.setToData(
-									//CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher(DATA));
-							//Producer.getToData().send(rawMessage).end();
-						//} else {
-							//producer.getToData().send(rawMessage).end();
-							producer.getToData().send(rawMessage.toString());
-						//}
+						producer.getToData().send(rawMessage.toString());
 					} 
 					
 				}

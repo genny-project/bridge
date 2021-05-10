@@ -349,48 +349,27 @@ public class BridgeRouterHandlers {
 	
     //public static void virtualEventBusHandler(final RoutingContext routingContext){
     public void virtualEventBusHandler(final RoutingContext routingContext){
-    	
 
-        routingContext.request().bodyHandler(body -> {
-        	
-   
-			final String bodyString = body.toString();
-			final JsonObject rawMessage = new JsonObject(bodyString);
 
-			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+			routingContext.request().bodyHandler(body -> {
 
-				 //if (Producer.getToData().writeQueueFull()) {
 
-				//log.error("WEBSOCKET VB EVT >> producer data is full hence message cannot be sent");
+				final String bodyString = body.toString();
+				final JsonObject rawMessage = new JsonObject(bodyString);
 
-				//Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
+				try{
 
-                //Producer.getToDataWithReply().send(rawMessage, d ->{
-                    //log.info(d);
-                    //JsonObject json= new JsonObject();
-                    //json = (JsonObject) d.result().body();
-                    //routingContext.response().putHeader("Content-Type", "application/json");
-              //routingContext.response().end(json.toString());
+					producer.getToDataWithReply().send(rawMessage, json ->{
+						routingContext.response().putHeader("Content-Type", "application/json");
+						routingContext.response().end(json.toString());
 
-                //}).end();
-
-			//} else{
-			try{
-
-                producer.getToDataWithReply().send(rawMessage, json ->{
-                  //JsonObject json= new JsonObject();
-                    //json = (JsonObject) d.result().body();
-										System.out.println(json);
-                    routingContext.response().putHeader("Content-Type", "application/json");
-        			routingContext.response().end(json.toString());
-
-                });
-			}catch(WebApplicationException e){
-                    routingContext.response().putHeader("Content-Type", "application/json");
-        			routingContext.response().setStatusCode(500).end();
-			}
-			//}
-				 });
+					});
+				}catch(WebApplicationException e){
+					log.error("A error has ocurred in rules");
+					routingContext.response().putHeader("Content-Type", "application/json");
+					routingContext.response().setStatusCode(500).end();
+				}
+			});
     }
     
     public void apiSync2Handler(final RoutingContext routingContext){
@@ -415,54 +394,31 @@ public class BridgeRouterHandlers {
 					// tokens
 					rawMessage.put("token", token);
 
-					// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 
 					DeliveryOptions doptions = new DeliveryOptions();
 					doptions.setSendTimeout(120000);
 
-					//if (Producer.getToData().writeQueueFull()) {
+					try{
 
-					//log.error("WEBSOCKET API SYNC2 EVT >> producer data is full hence message cannot be sent");
-
-					//Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
-
-					//Producer.getToDataWithReply().deliveryOptions(doptions).send(rawMessage, d ->{
-					//log.info(d);
-					//JsonObject json= new JsonObject();
-					//json = (JsonObject) d.result().body();
-					//routingContext.response().putHeader("Content-Type", "application/json");
-					//routingContext.response().end(json.toString());
-
-					//}).end();
-
-					//} else {
-					//producer.getToDataWithReply().deliveryOptions(doptions).send(rawMessage, json ->{
-					producer.getToDataWithReply().send(rawMessage, json ->{
-						//JsonObject json= new JsonObject();
-						try {
-							//json = (JsonObject) d.result().body();
+						producer.getToDataWithReply().send(rawMessage, json ->{
 							routingContext.response().putHeader("Content-Type", "application/json");
 							routingContext.response().end(json.toString());
-
-						} catch (Exception e) {
-							log.error("json returned from rules engine is null");
-							JsonObject err = new JsonObject().put("status", "error");
-							routingContext.request().response().headers().set("Content-Type", "application/json");
-							routingContext.request().response().end(err.encode());
-						}
-
-					});
-					//.end();
-					//}
+						});
+					}catch(WebApplicationException e){
+						log.error("A error has ocurred in rules " + e.getMessage());
+						routingContext.response().putHeader("Content-Type", "application/json");
+						routingContext.response().setStatusCode(500).end();
+					}
 				} else {
 					log.warn("TOKEN NOT ALLOWED " + token);
 				}
-				//routingContext.response().end();
+				
 			});
-     }    
+     
+		}    
     
-    //public static void apiSyncHandler(final RoutingContext routingContext){
-    public void apiSyncHandler(final RoutingContext routingContext){
+		//public static void apiSyncHandler(final RoutingContext routingContext){
+		public void apiSyncHandler(final RoutingContext routingContext){
 
 			routingContext.request().bodyHandler(body -> {
 				final String bodyString = body.toString();
@@ -470,43 +426,26 @@ public class BridgeRouterHandlers {
 				String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
 				if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
-					// tokens
 					rawMessage.put("token", token);
 
-					// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
+					try{
+						producer.getToDataWithReply().send(rawMessage, json ->{
+							routingContext.response().putHeader("Content-Type", "application/json");
+							routingContext.response().end(json.toString());
 
-					//if (Producer.getToData().writeQueueFull()) {
+						});
 
-					//log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
-
-					//Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
-
-					//Producer.getToDataWithReply().send(rawMessage, d ->{
-					//log.info(d);
-					//JsonObject json= new JsonObject();
-					//json = (JsonObject) d.result().body();
-					//routingContext.response().putHeader("Content-Type", "application/json");
-					//routingContext.response().end(json.toString());
-
-					//}).end();
-
-					//} else {
-					producer.getToDataWithReply().send(rawMessage, json ->{
-						//JsonObject json= new JsonObject();
-						//json = (JsonObject) d.result().body();
+					}catch(WebApplicationException e){
+						log.error("A error has ocurred in rules " + e.getMessage());
 						routingContext.response().putHeader("Content-Type", "application/json");
-						routingContext.response().end(json.toString());
-
-					});
-					//.end();
-					//}
+						routingContext.response().setStatusCode(500).end();
+					}
 				} else {
 					log.warn("TOKEN NOT ALLOWED " + token);
 				}
-				//routingContext.response().end();
 			});
-     }    
-    
+		}    
+
 	public static void apiInitHandler(final RoutingContext routingContext) {
 
 		routingContext.request().bodyHandler(body -> {
@@ -593,16 +532,12 @@ public class BridgeRouterHandlers {
             log.info("EVT API POST   >> EVENT-BUS EVENT:");
             log.error("we got into event message");
             j.put("token", localToken);
-            //producer.getToEvents().deliveryOptions(options);
-            //producer.getToEvents().send(j);
             producer.getToEvents().send(j.toString());
 
           } else if ( "webcmds".equals(channel)) {
             log.info("WEBCMD API POST   >> WEB CMDS :" + j);
             log.error("we got into web cmd");
             j.put("token", localToken);
-            //Producer.getToWebCmds().deliveryOptions(options);
-            //Producer.getToWebCmds().send(j);
             EBCHandlers.sendToClientSessions(userToken, j, false);
           } else if ("webdata".equals(channel)) {
             log.info("WEBDATA API POST   >> WEB DATA :" + j);
@@ -616,14 +551,11 @@ public class BridgeRouterHandlers {
             log.error("we got into cmd_msg");
 
             j.put("token", localToken);
-            //Producer.getToCmds().deliveryOptions(options);
-            //Producer.getToCmds().send(j);
             producer.getToCmds().send(j.toString());
           } else if (j.getString("msg_type").equals("MSG_MESSAGE") || "messages".equals(channel)) {
             log.info("MESSAGES API POST   >> EVENT-BUS MSG DATA :");
             log.error("we got into MSG_MESSAGE");
             j.put("token", localToken);
-            //producer.getToMessages().deliveryOptions(options);
             producer.getToMessages().send(j.toString());
 
           } else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
@@ -633,8 +565,6 @@ public class BridgeRouterHandlers {
             if ("Rule".equals(j.getString("data_type"))) {
               log.info("INCOMING RULE !");
             }
-            //Producer.getToData().deliveryOptions(options);
-            //producer.getToData().write(j.toString());
             producer.getToData().send(j.toString());
           }
         } else {
@@ -689,45 +619,23 @@ public class BridgeRouterHandlers {
 
 
 
-				//if (Producer.getToData().writeQueueFull()) {
+				try{
 
-				//log.error("WEBSOCKET API SYNC EVT >> producer data is full hence message cannot be sent");
-
-				//Producer.setToDataWithReply(CurrentVtxCtx.getCurrentCtx().getClusterVtx().eventBus().publisher("dataWithReply"));
-
-				//Producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), d ->{
-				//log.info(d);
-				//JsonObject json= new JsonObject();
-				//json = (JsonObject) d.result().body();
-				//routingContext.response().putHeader("Content-Type", "application/json");
-				//routingContext.response().end(json.toString());
-
-				//}).end();
-
-				//} else {
-				producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), json ->{
-					//JsonObject json= new JsonObject();
-					try {
-						//json = (JsonObject) d.result().body();
-					} catch (Exception e) {
-						log.error(e.getMessage());
-						JsonObject err = new JsonObject().put("status", "error");
-						routingContext.request().response().headers().set("Content-Type", "application/json");
-						routingContext.request().response().end(err.encode());
-					}
+					producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), json ->{
+						routingContext.response().putHeader("Content-Type", "application/json");
+						routingContext.response().end(json.toString());
+					});
+				}catch(WebApplicationException e){
+					log.error("A error has ocurred in rules " + e.getMessage());
 					routingContext.response().putHeader("Content-Type", "application/json");
-					routingContext.response().end(json.toString());
-
-				});
-				//.end();
-				//}
+					routingContext.response().setStatusCode(500).end();
+				}
 			} else {
 				log.warn("TOKEN NOT ALLOWED " + token);
 				JsonObject err = new JsonObject().put("status", "error");
 				routingContext.request().response().headers().set("Content-Type", "application/json");
 				routingContext.request().response().end(err.encode());
 			}
-			//routingContext.response().end();
 		});
 	}
 	

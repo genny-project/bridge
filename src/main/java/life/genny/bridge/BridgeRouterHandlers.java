@@ -394,13 +394,10 @@ public class BridgeRouterHandlers {
 					// tokens
 					rawMessage.put("token", token);
 
-
-					DeliveryOptions doptions = new DeliveryOptions();
-					doptions.setSendTimeout(120000);
-
 					try{
 
 						producer.getToDataWithReply().send(rawMessage, json ->{
+							log.info("Sending from API SYNC 2 "+json);
 							routingContext.response().putHeader("Content-Type", "application/json");
 							routingContext.response().end(json.toString());
 						});

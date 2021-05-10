@@ -44,7 +44,7 @@ public class BridgeRouters {
 	  bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service").handler(bridgeRouterHandlers::apiServiceHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/service/sync").handler(bridgeRouterHandlers::apiSyncHandler).handler(TimeoutHandler.create(120000));   // old mobile
-	  bridgeRouter.route(HttpMethod.POST, "/v7/api/service/sync").handler(bridgeRouterHandlers::apiSync2Handler).handler(TimeoutHandler.create(120000)); // mobile v7
+	  bridgeRouter.route(HttpMethod.POST, "/v7/api/service/sync").blockingHandler(bridgeRouterHandlers::apiSync2Handler).handler(TimeoutHandler.create(120000)); // mobile v7
 
 	  bridgeRouter.route(HttpMethod.GET, "/api/pull/:key").handler(BridgeRouterHandlers::apiGetPullHandler);
 
@@ -53,10 +53,10 @@ public class BridgeRouters {
 
 	  bridgeRouter.route(HttpMethod.POST, "/api/cmds").handler(bridgeRouterHandlers::apiHandler);
 	  bridgeRouter.route(HttpMethod.POST, "/api/data").handler(bridgeRouterHandlers::apiHandler);
-	  bridgeRouter.route(HttpMethod.POST, "/api/devices").handler(bridgeRouterHandlers::apiDevicesHandler);
+	  bridgeRouter.route(HttpMethod.POST, "/api/devices").blockingHandler(bridgeRouterHandlers::apiDevicesHandler);
 	  bridgeRouter.route(HttpMethod.GET, "/api/search").handler(BridgeRouterHandlers::apiSearchHandler);
 
-	  bridgeRouter.route(HttpMethod.POST, "/api/virtualbus").handler(bridgeRouterHandlers::virtualEventBusHandler);
+	  bridgeRouter.route(HttpMethod.POST, "/api/virtualbus").blockingHandler(bridgeRouterHandlers::virtualEventBusHandler);
     
 	  //bridgeRouter.route(HttpMethod.GET, "/metrics").handler(Metrics::metrics);
 	log.info("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");

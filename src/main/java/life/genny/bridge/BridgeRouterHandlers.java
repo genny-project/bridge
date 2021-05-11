@@ -381,7 +381,7 @@ public class BridgeRouterHandlers {
 				try {
 					rawMessage = new JsonObject(bodyString);
 				} catch (Exception e) {
-					log.error("An error happened while parsing msg to json format" + e.getMessage());
+					log.error("An error happened while parsing msg to json format " + bodyString);
 					JsonObject err = new JsonObject().put("status", "error");
 					routingContext.request().response().headers().set("Content-Type", "application/json");
 					routingContext.request().response().end(err.encode());

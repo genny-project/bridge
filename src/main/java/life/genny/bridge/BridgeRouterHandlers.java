@@ -381,6 +381,7 @@ public class BridgeRouterHandlers {
 				try {
 					rawMessage = new JsonObject(bodyString);
 				} catch (Exception e) {
+					log.error("Message to decode :::: " + bodyString);
 					log.error(e.getMessage());
 					JsonObject err = new JsonObject().put("status", "error");
 					routingContext.request().response().headers().set("Content-Type", "application/json");

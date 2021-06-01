@@ -380,7 +380,8 @@ public class BridgeRouterHandlers {
 				JsonObject rawMessage = null ;
 				try {
 					log.error("Message to decode :::: " + bodyString);
-					rawMessage = new JsonObject(bodyString);
+					//rawMessage = new JsonObject(bodyString);
+					rawMessage = JsonUtils.fromJson(bodyString, JsonObject.class);
 				} catch (Exception e) {
 				
 					log.error(e.getMessage());

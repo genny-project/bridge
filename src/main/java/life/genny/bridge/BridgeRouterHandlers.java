@@ -375,8 +375,8 @@ public class BridgeRouterHandlers {
     public void apiSync2Handler(final RoutingContext routingContext){
 
 			routingContext.request().bodyHandler(body -> {
-				log.info("API SYNC 2 !! ");
-				final String bodyString = body.toString();
+				log.info("API SYNC 2 !!! ");
+				final String bodyString = new String(body.getBytes());
 				JsonObject rawMessage = null ;
 				try {
 					log.error("Message to decode :::: " + bodyString);

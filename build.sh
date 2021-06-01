@@ -1,2 +1,3 @@
-#!/bin/bash
-./mvnw clean package -DskipTests=true
+echo "Building the bridge"
+mvn clean package
+mvn eclipse:eclipse

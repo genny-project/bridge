@@ -11,9 +11,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.logging.log4j.Logger;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
@@ -34,6 +34,8 @@ public class MobileResource {
 	@Inject
 	Producer producer;
 
+  @Inject @RestClient VirtualChannelServices virtualChannel;
+
 	@POST
 	public Response sync(String body) {
 
@@ -48,24 +50,20 @@ public class MobileResource {
 
 		String token  = request.getHeader("authorization").split("Bearer ")[1];
 
-		ResponseBuilder response = Response.noContent();
-		if (token != null) { // do not allow empty
+		if (token != null) { 
 
 			rawMessage.put("token", token);
 
 			try{
-				producer.getToDataWithReply().send(rawMessage, json ->{
-					log.info("Message received from rules ::: " + json.toString());
-					response.entity(json.toString());
-				});
+			  JsonObject res = virtualChannel.sendPayload(rawMessage);
+				return Response.ok(res.toString()).build();
 			}catch(WebApplicationException e){
-				Response.serverError().build();
+				log.error("Error when calling rules :::" + e.getMessage());
+				return Response.serverError().build();
 			}
 		} else {
-			//return Response.ok(new JsonObject().put("status", "no token")).build();
 			return Response.ok(new JsonObject().put("status", "no token")).build();
 		}
-		return response.build();
 	}
 
 }

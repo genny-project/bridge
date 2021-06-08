@@ -1,6 +1,7 @@
 package life.genny.bridge;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
@@ -378,22 +379,22 @@ public class BridgeRouterHandlers {
 
 			routingContext.request().bodyHandler(body -> {
 				log.info("API SYNC 2 !!! ");
-				// final Buffer buffer = Buffer.buffer();
+				final Buffer buffer = Buffer.buffer();
 				 
-				 Buffer b = routingContext.getBody();
+//				 Buffer b = routingContext.getBody();
 
-//			        try (final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(body.)) {
-//			            final byte[] buf = new byte[1024];
-//			            int nRead;
-//			            while ((nRead = is.read(buf, 0, buf.length)) != -1) {
-//			                buffer.appendBytes(buf, 0, nRead);
-//			            }
-//			            return buffer;
-//			        } catch (final IOException e) {
-//			            throw new UncheckedIOException(e);
-//			        }
+			        try (final InputStream is = new VertxBufferInputStream(body)) {
+			            final byte[] buf = new byte[1024];
+			            int nRead;
+			            while ((nRead = is.read(buf, 0, buf.length)) != -1) {
+			                buffer.appendBytes(buf, 0, nRead);
+			            }
+			           
+			        } catch (final IOException e) {
+			            throw new UncheckedIOException(e);
+			        }
 				
-				final String bodyString = new String(b.getBytes());
+				final String bodyString = new String(buffer.getBytes());
 				JsonObject rawMessage = null ;
 				try {
 					log.error("Message to decode :::: " + bodyString);

@@ -14,8 +14,15 @@ RUN apk update && apk add jq && apk add curl && apk add bash
 EXPOSE 10001
 
 
-COPY target/lib/* /deployments/lib/
-COPY target/*-runner.jar /deployments/service.jar
+#COPY target/*-runner.jar /deployments/service.jar
+
+COPY target/quarkus-app/lib/ /deployments/lib/
+COPY target/quarkus-app/*.jar /deployments/
+RUN mv /deployments/quarkus-run.jar /deployments/service.jar
+
+COPY target/quarkus-app/app/ /deployments/app/
+COPY target/quarkus-app/quarkus/ /deployments/quarkus/
+
 
 #RUN mkdir /realm
 #ADD realm /opt/realm

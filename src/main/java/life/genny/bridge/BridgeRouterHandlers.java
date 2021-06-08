@@ -1,7 +1,6 @@
 package life.genny.bridge;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,7 +21,6 @@ import javax.ws.rs.WebApplicationException;
 import org.apache.logging.log4j.Logger;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.MessageProducer;
 import io.vertx.core.http.HttpMethod;
@@ -378,22 +376,7 @@ public class BridgeRouterHandlers {
 
 			routingContext.request().bodyHandler(body -> {
 				log.info("API SYNC 2 !!! ");
-				// final Buffer buffer = Buffer.buffer();
-				 
-				 Buffer b = routingContext.getBody();
-
-//			        try (final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(body.)) {
-//			            final byte[] buf = new byte[1024];
-//			            int nRead;
-//			            while ((nRead = is.read(buf, 0, buf.length)) != -1) {
-//			                buffer.appendBytes(buf, 0, nRead);
-//			            }
-//			            return buffer;
-//			        } catch (final IOException e) {
-//			            throw new UncheckedIOException(e);
-//			        }
-				
-				final String bodyString = new String(b.getBytes());
+				final String bodyString = new String(body.getBytes());
 				JsonObject rawMessage = null ;
 				try {
 					log.error("Message to decode :::: " + bodyString);

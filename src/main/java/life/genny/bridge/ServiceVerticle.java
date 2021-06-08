@@ -10,13 +10,8 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.Logger;
 
 import io.quarkus.runtime.Startup;
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.EventBus;
-//import life.genny.channel.Consumer;
-//import life.genny.channel.Producer;
 import life.genny.channel.Routers;
-import life.genny.cluster.Cluster;
 import life.genny.cluster.CurrentVtxCtx;
 import life.genny.eventbus.EventBusInterface;
 import life.genny.eventbus.EventBusVertx;
@@ -27,54 +22,24 @@ import life.genny.utils.VertxUtils;
 @Startup
 @ApplicationScoped
 public class ServiceVerticle {
-	
-  protected static final Logger log = org.apache.logging.log4j.LogManager.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-  //@Inject
-  //EventBusVertx eventBusVertx;
-  //
-  //@Inject
-  //Producer producer;
+  protected static final Logger log = org.apache.logging.log4j.LogManager.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
   @Inject 
   Vertx vertx;
 
   @Inject 
+
   BridgeRouters bridgeRouters;
-//  public void start() {
-//    log.info("Setting up routes");
-//    final Future<Void> startFuture = Future.future();
-//    Cluster.joinCluster().compose(res -> {
-//      EventBusInterface eventBus = new EventBusVertx();
-//      GennyCacheInterface vertxCache = new VertxCache();
-//      VertxUtils.init(eventBus,vertxCache);
-//      Routers.routers(vertx);
-//      BridgeRouters.routers(vertx);
-//      Routers.activate(vertx);
-//      log.info("Bridge now ready");
-//      
-//      EBCHandlers.registerHandlers();
-//      startFuture.complete();
-//    }, startFuture);
-//    
-//  }
-   @PostConstruct
-     public void start() {
-       //EventBus eb = vertx.eventBus();
-       //Cluster.joinCluster();
-       System.out.println(vertx.isClustered());
-       //Consumer.registerAllConsumer(eb);
-       //Producer.registerAllProducers(eb);
-         CurrentVtxCtx.getCurrentCtx().setClusterVtx(vertx);
-         EventBusInterface eventBus = new EventBusVertx();
-         GennyCacheInterface vertxCache = new VertxCache();
-         VertxUtils.init(eventBus,vertxCache);
-         Routers.routers(vertx);
-         bridgeRouters.routers(vertx);
-         Routers.activate(vertx);
-         
-         //EBCHandlers.registerHandlers();
-         
-       
-     }
+
+  @PostConstruct
+  public void start() {
+    CurrentVtxCtx.getCurrentCtx().setClusterVtx(vertx);
+    EventBusInterface eventBus = new EventBusVertx();
+    GennyCacheInterface vertxCache = new VertxCache();
+    VertxUtils.init(eventBus,vertxCache);
+    Routers.routers(vertx);
+    bridgeRouters.routers(vertx);
+    Routers.activate(vertx);
+  }
 }

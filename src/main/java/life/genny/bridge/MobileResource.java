@@ -14,6 +14,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.logging.log4j.Logger;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.keycloak.representations.JsonWebToken;
 
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
@@ -36,8 +37,13 @@ public class MobileResource {
 
   @Inject @RestClient VirtualChannelServices virtualChannel;
 
+	@Inject
+	JsonWebToken accessToken;
+
 	@POST
 	public Response sync(String body) {
+
+		log.info("Message receive from mobile " + body);
 
 		final String bodyString = new String(body);
 		JsonObject rawMessage = null ;
@@ -62,6 +68,7 @@ public class MobileResource {
 				return Response.serverError().build();
 			}
 		} else {
+			log.error("No token");
 			return Response.ok(new JsonObject().put("status", "no token")).build();
 		}
 	}

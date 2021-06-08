@@ -21,7 +21,7 @@ import io.vertx.core.json.JsonObject;
 
 @Path("/v7/api/service/sync")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+//@Consumes(MediaType.APPLICATION_JSON)
 public class MobileResource {
 
 	protected static final Logger log = org.apache.logging.log4j.LogManager

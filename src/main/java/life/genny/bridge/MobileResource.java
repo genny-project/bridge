@@ -37,8 +37,8 @@ public class MobileResource {
 
   @Inject @RestClient VirtualChannelServices virtualChannel;
 
-	@Inject
-	JsonWebToken accessToken;
+	//@Inject
+	//JsonWebToken accessToken;
 
 	@POST
 	public Response sync(String body) {

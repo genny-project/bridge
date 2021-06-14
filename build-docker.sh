@@ -1,6 +1,7 @@
 #!/bin/bash
 
 project=${PWD##*/}
+project=bridge
 realm=gennyproject
 version=$(cat src/main/resources/${project}-git.properties | grep 'git.build.version' | cut -d'=' -f2)
 echo "project ${project}"

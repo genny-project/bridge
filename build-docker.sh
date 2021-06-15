@@ -32,7 +32,7 @@
 
 
 
-project=${PWD##*/}
+project=`echo "${PWD##*/}" | tr '[:upper:]' '[:lower:]'`
 file="src/main/resources/${project}-git.properties"
 org=gennyproject
 function prop() {

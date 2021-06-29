@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 
 import org.apache.logging.log4j.Logger;
+
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
@@ -28,8 +29,6 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CorsHandler;
-//import life.genny.channel.Producer;
-import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
 import life.genny.qwanda.Answer;
 import life.genny.qwanda.attribute.EntityAttribute;
@@ -80,6 +79,7 @@ public class BridgeRouterHandlers {
         "http://localhost:\\d\\d\\d\\d|"+
         "https://localhost:\\d\\d\\d\\d|"+
         "https://.*.genny.life|https://.*.gada.io|"+
+				System.getenv("CORS_URLS")+
         GennySettings.projectUrl).allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.PUT)
 				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type").allowedHeader("Authorization")
 				.allowedHeader("Accept")

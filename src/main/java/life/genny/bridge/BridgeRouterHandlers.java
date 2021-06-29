@@ -80,6 +80,7 @@ public class BridgeRouterHandlers {
         "http://localhost:\\d\\d\\d\\d|"+
         "https://localhost:\\d\\d\\d\\d|"+
         "https://.*.genny.life|https://.*.gada.io|"+
+				System.getenv("CORS_URLS")+
         GennySettings.projectUrl).allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.PUT)
 				.allowedMethod(HttpMethod.OPTIONS).allowedHeader("X-PINGARUNER").allowedHeader("Content-Type").allowedHeader("Authorization")
 				.allowedHeader("Accept")

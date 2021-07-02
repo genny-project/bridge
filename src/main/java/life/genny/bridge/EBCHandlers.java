@@ -78,8 +78,10 @@ public class EBCHandlers {
 						JsonArray items = json.getJsonArray("items");
 						if (!((items == null) || (items.isEmpty()))) {
 							JsonObject be = items.getJsonObject(0);
-							String code = be.getString("code");
-							bridgelog(userToken, json, code, incomingCmd.length());
+							if (be != null) {
+								String code = be.getString("code");
+								bridgelog(userToken, json, code, incomingCmd.length());
+							}
 						}
 
 					} else if ("CMD_BULKASK".equals(json.getString("cmd_type"))) {

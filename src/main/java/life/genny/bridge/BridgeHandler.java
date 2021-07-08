@@ -95,7 +95,7 @@ public class BridgeHandler {
 							+ "  [" + userToken.getUserCode() + "]:  ");
 
 					// clean
-						String cleanedMessage = rawMessage.toString().replaceAll("[^\\x21-\\x7E]", "");
+						String cleanedMessage = rawMessage.toString().replaceAll("[^\\x20-\\x7E]", "");
 						producer.getToData().send(cleanedMessage);
 
 				} else if (rawMessage.getString(MSG_TYPE).equals(EVT_MSG)) {

@@ -94,7 +94,9 @@ public class BridgeHandler {
 							+ rawMessage.getString(DATA_TYPE) + ":" + StringUtils.abbreviateMiddle(token, "...", 30)
 							+ "  [" + userToken.getUserCode() + "]:  ");
 
-						producer.getToData().send(rawMessage.toString());
+					// clean
+						String cleanedMessage = rawMessage.toString().replaceAll("[^\\x20-\\x7E]", "");
+						producer.getToData().send(cleanedMessage);
 
 				} else if (rawMessage.getString(MSG_TYPE).equals(EVT_MSG)) {
 					log.info("WEB EVENT    >> EVENT-BUS EVT  :" + userToken.getString("session_state") + " : "

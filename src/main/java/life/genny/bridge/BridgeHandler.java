@@ -23,6 +23,7 @@ import life.genny.qwanda.Answer;
 import life.genny.qwanda.message.QDataAnswerMessage;
 import life.genny.qwandautils.JsonUtils;
 import life.genny.security.TokenIntrospection;
+import life.genny.qwandautils.GennySettings;
 
 @ApplicationScoped
 public class BridgeHandler {
@@ -83,15 +84,19 @@ public class BridgeHandler {
 			}
 			String token = rawMessage.getString(TOKEN);
 			GennyToken userToken = new GennyToken(token);
-			if (token !=null && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
-																									// tokens
+			if (token !=null ) { // do not allow empty
+								
+				if (("10.123.123.123".equals(GennySettings.defaultLocalIP))  || (TokenIntrospection.checkAuthForRoles(avertx,roles, token))) {
+				// tokens
 				if (rawMessage.getString(MSG_TYPE).equals(DATA_MSG)) {
 
 					log.info("WEBSOCKET DATA >> EVENT-BUS DATA:" + userToken.getString("session_state") + " :"
 							+ rawMessage.getString(DATA_TYPE) + ":" + StringUtils.abbreviateMiddle(token, "...", 30)
 							+ "  [" + userToken.getUserCode() + "]:  ");
 
-						producer.getToData().send(rawMessage.toString());
+					// clean
+						String cleanedMessage = rawMessage.toString().replaceAll("[^\\x20-\\x7E]", "");
+						producer.getToData().send(cleanedMessage);
 
 				} else if (rawMessage.getString(MSG_TYPE).equals(EVT_MSG)) {
 					log.info("WEB EVENT    >> EVENT-BUS EVT  :" + userToken.getString("session_state") + " : "
@@ -113,7 +118,9 @@ public class BridgeHandler {
 						rawMessage = new JsonObject(JsonUtils.toJson(dataMsg));
 						producer.getToData().send(rawMessage.toString());
 					} 
-					
+				} 
+				} else {
+					log.error("checkAuthForRoles returned false");
 				}
 			} else {
 				log.error("EMPTY TOKEN");

@@ -40,7 +40,10 @@ public class MobileResource {
 	public Response sync(String body) {
 
 		final String bodyString = new String(body);
-		String cleanedBody= bodyString.toString().replaceAll("[^\\x20-\\x7E]", "");
+		String cleanedBody= bodyString.toString()
+			.replaceAll("[^\\x20-\\x7E]", " ")
+			.replaceAll(" +", " ")
+			.trim();
 
 		JsonObject rawMessage = null ;
 		try {

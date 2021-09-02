@@ -42,7 +42,7 @@ public class BridgeRouters {
 		bridgeRouter.route("/frontend/*").subRouter(bridgeHandler.eventBusHandler(vertx));
 		bridgeRouter.route(HttpMethod.GET, "/api/events/init").handler(BridgeRouterHandlers::apiGetInitHandler);
 		bridgeRouter.route(HttpMethod.POST, "/api/events/init").handler(BridgeRouterHandlers::apiInitHandler);
-		bridgeRouter.route(HttpMethod.POST, "/api/service").handler(bridgeRouterHandlers::apiServiceHandler);
+		bridgeRouter.route(HttpMethod.POST, "/api/service/commands").handler(bridgeRouterHandlers::apiServiceHandler);
 		bridgeRouter.route(HttpMethod.POST, "/api/service/sync").handler(bridgeRouterHandlers::apiSyncHandler).handler(TimeoutHandler.create(120000));   // old mobile
 		bridgeRouter.route(HttpMethod.POST, "/v7/api/service/sync").blockingHandler(bridgeRouterHandlers::apiSync2Handler).handler(TimeoutHandler.create(120000)); // mobile v7
 

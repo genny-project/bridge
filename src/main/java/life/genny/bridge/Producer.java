@@ -66,6 +66,11 @@ public class Producer {
   public Emitter<String> getToServices() {
     return services;
   }
+  
+  @Inject @Channel("answerout") Emitter<String> answer;
+  public Emitter<String> getToAnswer() {
+    return answer;
+  }
 
   public VirtualHttpChannel getToDataWithReply() {
     return VirtualHttpChannel.post(virtualChannel);

@@ -560,6 +560,11 @@ public class BridgeRouterHandlers {
             log.error("we got into MSG_MESSAGE");
             j.put("token", localToken);
             producer.getToMessages().send(j.toString());
+          } else if (j.getString("msg_type").equals("DATA_MSG") || "answer".equals(channel)) {
+              log.info("ANSWER API POST   >> EVENT-BUS MSG ANSWER :");
+              log.error("we got into MSG_ANSWER");
+              j.put("token", localToken);
+              producer.getToAnswer().send(j.toString());
 
           } else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
             log.info("CMD API POST   >> EVENT-BUS DATA :");

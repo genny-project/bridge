@@ -560,11 +560,16 @@ public class BridgeRouterHandlers {
             log.error("we got into MSG_MESSAGE");
             j.put("token", localToken);
             producer.getToMessages().send(j.toString());
-          } else if (j.getString("msg_type").equals("DATA_MSG") || "answer".equals(channel)) {
+          } else if ("DATA_MSG".equals(j.getString("msg_type")) || "answer".equals(channel)) {
               log.info("ANSWER API POST   >> EVENT-BUS MSG ANSWER :");
-              log.error("we got into MSG_ANSWER");
-              j.put("token", localToken);
-              producer.getToAnswer().send(j.toString());
+              log.error("we got into MSG_ANSWER2");
+              QDataAnswerMessage msg = JsonUtils.fromJson(j.toString(), QDataAnswerMessage.class);
+              Answer ans = msg.getItems()[0]; // TODO assume at least one answer
+				JsonObject json = new JsonObject(JsonUtils.toJson(ans));
+				json.put("token", localToken);
+//             j.put("token", localToken);
+              log.info("Answer Message:<<"+json.toString()+">>");
+              producer.getToAnswer().send(json.toString());
 
           } else if (j.getString("msg_type").equals("DATA_MSG") || "data".equals(channel)) {
             log.info("CMD API POST   >> EVENT-BUS DATA :");

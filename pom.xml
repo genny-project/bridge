@@ -23,7 +23,7 @@
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
 		<docker-plugin.version>0.33.0</docker-plugin.version>
 		<keycloak.test.port>8189</keycloak.test.port>
-		<keycloak.version>11.0.0</keycloak.version>
+		<keycloak.version>15.0.2</keycloak.version>
 		<maven.compiler.parameters>true</maven.compiler.parameters>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>

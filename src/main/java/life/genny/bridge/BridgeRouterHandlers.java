@@ -654,9 +654,10 @@ public class BridgeRouterHandlers {
 	
 	public void apiHandler(final RoutingContext routingContext) {
 		routingContext.request().bodyHandler(body -> {
-			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG"))
+			if (body.toJsonObject().getString("msg_type").equals("CMD_MSG")) {
 				log.info("EVENT-BUS CMD  >> WEBSOCKET CMD :");
-			//Producer.getToClientOutbound().send(body.toJsonObject());
+				//Producer.getToClientOutbound().send(body.toJsonObject());
+			}
 			if (body.toJsonObject().getString("msg_type").equals("DATA_MSG"))
 				log.info("EVENT-BUS DATA >> WEBSOCKET DATA:");
 			//producer.getToData().send(body.toJsonObject());

@@ -103,7 +103,7 @@ public class BridgeHandler {
 							+ rawMessage.getString(EVENT_TYPE) + ":"
 
 							+ rawMessage.getJsonObject(DATA).getString(CODE) + " :[" + userToken.getUserCode() + "]"); // +
-
+							rawMessage.put("sourceAddress", GennySettings.defaultLocalIP);
 						producer.getToEvents().send(rawMessage.toString());
 
 

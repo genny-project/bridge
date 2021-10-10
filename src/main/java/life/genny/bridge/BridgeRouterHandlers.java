@@ -458,7 +458,7 @@ public class BridgeRouterHandlers {
 			// + j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1]);
 			String token = j.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
-			if (token != null/* && TokenIntrospection.checkAuthForRoles(avertx,roles, token) */) { // do not allow empty
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
 																									// tokens
 
 				GennyToken gennyToken = new GennyToken(token);
@@ -521,7 +521,7 @@ public class BridgeRouterHandlers {
           localToken = token;
         }
 
-        if (localToken != null /*&& TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)*/) { // do not
+        if (localToken != null && TokenIntrospection.checkAuthForRoles(avertx, testroles, localToken)) { // do not
           // allow
           // empty
           // tokens
@@ -601,7 +601,7 @@ public class BridgeRouterHandlers {
 			final JsonObject rawMessage = new JsonObject(bodyString);
 			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
 
-			if (token != null /*&& TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
 				// tokens
 				rawMessage.put("token", token);
 				GennyToken userToken  = null;
@@ -777,7 +777,7 @@ public class BridgeRouterHandlers {
 
 		}
 
-		if (token != null /* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
+		if (token != null  && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
 																								// tokens
 
 			if ("DUMMY".equals(token)) {
@@ -855,7 +855,7 @@ public class BridgeRouterHandlers {
 
 		}
 
-		if (token != null /* && TokenIntrospection.checkAuthForRoles(avertx,roles, token)*/ ) { // do not allow empty
+		if (token != null  && TokenIntrospection.checkAuthForRoles(avertx,roles, token) ) { // do not allow empty
 																								// tokens
 
 			if ("DUMMY".equals(token)) {

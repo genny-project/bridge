@@ -58,6 +58,10 @@ public class BridgeRouters {
 
 		bridgeRouter.route(HttpMethod.POST, "/api/virtualbus").blockingHandler(bridgeRouterHandlers::virtualEventBusHandler);
 
+		bridgeRouter.route(HttpMethod.POST, "/api/b2bdata").handler(bridgeRouterHandlers::apiB2BHandlerPost);
+		bridgeRouter.route(HttpMethod.GET, "/api/b2bdata").handler(bridgeRouterHandlers::apiB2BHandlerGet);
+
+		
 		log.info("Activating Bridge Routes on port "+GennySettings.apiPort+" given ["+GennySettings.apiPort+"]");
 
 		HttpServerOptions serverOptions = new HttpServerOptions();

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
@@ -18,6 +19,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
@@ -32,11 +34,14 @@ import io.vertx.ext.web.handler.CorsHandler;
 import life.genny.cluster.CurrentVtxCtx;
 import life.genny.models.GennyToken;
 import life.genny.qwanda.Answer;
+import life.genny.qwanda.AttributeCodeValueString;
+import life.genny.qwanda.GennyItem;
 import life.genny.qwanda.attribute.EntityAttribute;
 import life.genny.qwanda.entity.BaseEntity;
 import life.genny.qwanda.entity.SearchEntity;
 import life.genny.qwanda.message.QDataAnswerMessage;
 import life.genny.qwanda.message.QDataBaseEntityMessage;
+import life.genny.qwanda.message.QDataB2BMessage;
 import life.genny.qwandautils.GennySettings;
 import life.genny.qwandautils.GitUtils;
 import life.genny.qwandautils.JsonUtils;
@@ -60,9 +65,15 @@ public class BridgeRouterHandlers {
 	public static final String PROJECT_DEPENDENCIES = "project_dependencies";
 
 	private static final List<String> roles;
+
 	static {
 
 		roles = TokenIntrospection.setRoles("user");
+	}
+
+	private static final List<String> b2broles;
+	static {
+		b2broles = TokenIntrospection.setRoles("dev","b2b");
 	}
 
 	private static final List<String> testroles;
@@ -836,6 +847,137 @@ public class BridgeRouterHandlers {
 
 	}
 
+	public void apiB2BHandlerGet(final RoutingContext routingContext) {
+		routingContext.request().bodyHandler(body -> {
+			final String bodyString = body.toString();
+			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,b2broles, token) ) { // do not allow empty
+				// tokens
+				GennyToken userToken  = null;
+				try {
+					userToken = new GennyToken(token);
+				} catch (Exception e1) {
+					JsonObject err = new JsonObject().put("status", "error");
+					routingContext.request().response().headers().set("Content-Type", "application/json");
+					routingContext.request().response().end(err.encode());
+					return;
+				}
+
+				final DeliveryOptions options = new DeliveryOptions();
+				options.addHeader("Authorization", "Bearer " + token);
+
+
+				List<GennyItem> gennyItems = new ArrayList<GennyItem>();
+
+				// go through query parameters and add them to a GennyItem
+				GennyItem gennyItem = new GennyItem();
+				MultiMap paramMap = routingContext.request().params();
+				for (Entry<String,String> qparam :  paramMap.entries()) {
+					String key = qparam.getKey();
+					String value = qparam.getValue();
+					
+					key = key.trim();
+					if (StringUtils.isBlank(value)) {
+						continue;
+					}
+					value = value.trim();
+					// hack for common keynames
+					if ("firstname".equalsIgnoreCase(key)) {
+						key = "PRI_FIRSTNAME";
+					} else 	if ("lastname".equalsIgnoreCase(key)) {
+						key = "PRI_LASTNAME";
+					} else 	if ("surname".equalsIgnoreCase(key)) {
+						key = "PRI_LASTNAME";
+					} else 	if ("email".equalsIgnoreCase(key)) {
+						key = "PRI_EMAIL";
+					} else 	if ("mobile".equalsIgnoreCase(key)) {
+						key = "PRI_MOBILE";
+					}
+					AttributeCodeValueString attCodevs = new AttributeCodeValueString(key,value);
+					gennyItem.addB2B(attCodevs);
+				}
+				
+				AttributeCodeValueString attCodevs = new AttributeCodeValueString("PRI_USERNAME",userToken.getUsername());
+				gennyItem.addB2B(attCodevs);
+				attCodevs = new AttributeCodeValueString("PRI_USERCODE",userToken.getUserCode());
+				gennyItem.addB2B(attCodevs);
+			
+				gennyItems.add(gennyItem);
+				
+				QDataB2BMessage dataMsg = new QDataB2BMessage(gennyItems.toArray(new GennyItem[0]));
+				dataMsg.setToken(token);
+				dataMsg.setAliasCode("B2B");
+
+
+				try{
+
+					producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), json ->{
+						routingContext.response().putHeader("Content-Type", "application/json");
+						routingContext.response().end(json.toString());
+					});
+				}catch(WebApplicationException e){
+					log.error("A error has ocurred in B2B " + e.getMessage());
+					routingContext.response().putHeader("Content-Type", "application/json");
+					routingContext.response().setStatusCode(500).end();
+				}
+			} else {
+				log.warn("TOKEN NOT ALLOWED " + token);
+				JsonObject err = new JsonObject().put("status", "error");
+				routingContext.request().response().headers().set("Content-Type", "application/json");
+				routingContext.request().response().end(err.encode());
+			}
+		});	
+		}
+	public void apiB2BHandlerPost(final RoutingContext routingContext) {
+		routingContext.request().bodyHandler(body -> {
+			final String bodyString = body.toString();
+			String token  = routingContext.request().getHeader("authorization").split("Bearer ")[1];//rawMessage.getJsonObject("headers").getString("Authorization").split("Bearer ")[1];
+
+			if (token != null && TokenIntrospection.checkAuthForRoles(avertx,b2broles, token) ) { // do not allow empty
+				// tokens
+				GennyToken userToken  = null;
+				try {
+					userToken = new GennyToken(token);
+				} catch (Exception e1) {
+					JsonObject err = new JsonObject().put("status", "error");
+					routingContext.request().response().headers().set("Content-Type", "application/json");
+					routingContext.request().response().end(err.encode());
+					return;
+				}
+
+				final DeliveryOptions options = new DeliveryOptions();
+				options.addHeader("Authorization", "Bearer " + token);
+
+
+				List<GennyItem> gennyItems = new ArrayList<GennyItem>();
+
+				QDataB2BMessage dataMsg = JsonUtils.fromJson(bodyString, QDataB2BMessage.class);
+				dataMsg.setToken(token);
+				dataMsg.setAliasCode("B2B");
+
+
+				try{
+
+					producer.getToDataWithReply().send(JsonUtils.toJson(dataMsg), json ->{
+						routingContext.response().putHeader("Content-Type", "application/json");
+						routingContext.response().end(json.toString());
+					});
+				}catch(WebApplicationException e){
+					log.error("A error has ocurred in B2B " + e.getMessage());
+					routingContext.response().putHeader("Content-Type", "application/json");
+					routingContext.response().setStatusCode(500).end();
+				}
+			} else {
+				log.warn("TOKEN NOT ALLOWED " + token);
+				JsonObject err = new JsonObject().put("status", "error");
+				routingContext.request().response().headers().set("Content-Type", "application/json");
+				routingContext.request().response().end(err.encode());
+			}
+		});	
+		}
+
+	
 	public static void apiSearchHandler(final RoutingContext context) {
 		log.info("PBRIDGE SEARCH API BEING CALLED:");
 

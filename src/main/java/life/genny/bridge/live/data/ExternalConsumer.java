@@ -1,10 +1,13 @@
 package life.genny.bridge.live.data;
 
+import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.jboss.logging.Logger;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
+import life.genny.bridge.blacklisting.BlackListInfo;
+import life.genny.bridge.blacklisting.BlackListedMessages;
 import life.genny.commons.CommonOps;
 import life.genny.security.keycloak.model.KeycloakTokenPayload;
 import life.genny.security.keycloak.service.RoleBasedPermission;
@@ -24,6 +27,7 @@ public class ExternalConsumer {
     private static final Logger LOG = Logger.getLogger(ExternalConsumer.class);
 
     @Inject RoleBasedPermission permissions;
+    @Inject BlackListInfo blacklist;
 
     @Inject
     InternalProducer producer;
@@ -56,6 +60,13 @@ public class ExternalConsumer {
     void handleIfRolesAllowed(final BridgeEvent bridgeEvent,String...roles) {
         KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(
                 extractTokenFromMessageHeaders(bridgeEvent));
+        if(blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sid))){
+            bridgeEvent.socket().close(-1,BlackListedMessages.BLACKLISTED_MSG);
+            LOG.error("A blacklisted user "
+                    + payload.sid+" tried to access the sockets from remote " 
+                    + bridgeEvent.socket().remoteAddress() );
+            return;
+        }
 
         if(permissions.rolesAllowed(payload, roles))
         {

@@ -131,8 +131,8 @@ public class Bridge {
     @GET
     @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/ops/blacklists")
-    public Set<String> getBlackListedRecords(@PathParam String uuid) {
+    @Path("/admin/blacklists")
+    public Set<String> getBlackListedRecords() {
         LOG.warn("Getting all blacklisted records");
         return blackList.getBlackListedUUIDs().stream()
             .map(d ->d.toString())

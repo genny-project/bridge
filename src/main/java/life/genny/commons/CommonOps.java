@@ -7,7 +7,7 @@ public class CommonOps {
         if(splittedAuthValue.length < 2){
             if(
                     splittedAuthValue.length != 0 && 
-                    !splittedAuthValue[0].toLowerCase().equals("bearer") && 
+                    !splittedAuthValue[0].equalsIgnoreCase("bearer") && 
                     splittedAuthValue[0].length() > 5
                     )
                 return splittedAuthValue[0];

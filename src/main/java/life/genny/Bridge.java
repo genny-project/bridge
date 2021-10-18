@@ -45,7 +45,8 @@ public class Bridge {
      * used to retrieve information in cache and verify there is a realm 
      * associated with the url
      *
-     * @return [TODO:description]
+     * @return InitProperties object will all required information so the clients
+     * gets informed about the protocol for future communication 
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -61,24 +62,29 @@ public class Bridge {
     }
 
     /**
-     * [TODO:description]
+     * Receives a post request from an external client with a token so a session id 
+     * can be extracted from the payload after decoding it. Then it gets registered
+     * in the event bus and it is used to pusblish messages to the external channel 
+     * 
+     * @param auth Authorization header with bearer token
      *
-     * @param auth [TODO:description]
-     *
-     * @return [TODO:description]
+     * @return a confirmation result 
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"user"})
     @Path("/api/events/init")
+    @Deprecated(since = "9.9.0", forRemoval = true)
     public JsonObject initChannelSession(@HeaderParam("Authorization") String auth) {
         return new JsonObject().put("result","confirmed");
     }
 
     /**
-     * [TODO:description]
+     * A request with a DELETE verb will delete all the blacklisted records.
+     * This can only happen if the user normally admin or sec have the right
+     * permissions.
      *
-     * @return [TODO:description]
+     * @return 200 
      */
     @DELETE
     @RolesAllowed({"admin"})
@@ -90,11 +96,11 @@ public class Bridge {
     }
 
     /**
-     * [TODO:description]
+     * A request with a DELETE verb will delete only the blacklisted record associated
+     * to the parameter uuid. This can only happen if the user normally admin or sec 
+     * have the right permissions.
      *
-     * @param uuid [TODO:description]
-     *
-     * @return [TODO:description]
+     * @return 200 
      */
     @DELETE
     @RolesAllowed({"admin"})
@@ -106,27 +112,32 @@ public class Bridge {
     }
 
     /**
-     * 
+     * A request with a PUT verb will add, delete all or delete just a record depending on 
+     * the protocol specified in the parameter. The protocol consist of the following:
+     *      - Just a dash/minus (-)
+     *      - A dash/minus appended with a {@link UUID} (-UUID.toString())
+     *      - A {@link UUID} (UUID.toString())
+     * This can only happen if the user normally admin or sec 
+     * have the right permissions.
      *
-     * @param uuid [TODO:description]
-     *
-     * @return [TODO:description]
+     * @return 200 
      */
     @PUT
     @RolesAllowed({"admin"})
-    @Path("/admin/blacklist/{uuid}")
-    public Response addBlackListedRecord(@PathParam String uuid) {
-        LOG.warn("Adding a new record {"+uuid+"} blacklisted record");
-        blackList.onReceived(uuid);
+    @Path("/admin/blacklist/{protocol}")
+    public Response addBlackListedRecord(@PathParam String protocol) {
+        LOG.warn("Received a protocol {"+protocol+"} the blacklist map will be handled" +
+               " accordingly");
+        blackList.onReceived(protocol);
         return Response.ok().build();
     }
 
     /**
      * 
+     * A GET request to get all the blacklisted UUIDS that are currently registered
      *
-     * @param uuid [TODO:description]
      *
-     * @return [TODO:description]
+     * @return An array of uniques UUIDs
      */
     @GET
     @RolesAllowed({"admin"})

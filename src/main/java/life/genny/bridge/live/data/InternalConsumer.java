@@ -13,7 +13,9 @@ import life.genny.security.keycloak.model.KeycloakTokenPayload;
 import life.genny.security.keycloak.service.TokenVerification;
 
 /**
- * InternalConsumer --- 
+ * InternalConsumer --- The class where all messages from the backends such as lauchy, 
+ * wildfly-rulesservice and other internal applications are received to dispatch to the 
+ * requested client by reading the token and routing by sesssion id.
  *
  * @author    hello@gada.io
  *
@@ -26,10 +28,20 @@ public class InternalConsumer {
 	@Inject EventBus bus;
 	@Inject BlackListInfo blackList;
 
+	/**
+	 * A request with a protocol which will add, delete all or delete just a record depending on 
+	 * the protocol specified in the in the message. The protocol consist of the following:
+	 *      - Just a dash/minus (-)
+	 *      - A dash/minus appended with a {@link UUID} (-UUID.toString())
+	 *      - A {@link UUID} (UUID.toString())
+	 *
+	 * @param protocol A string with the rules already mentioned
+	 */
 	@Incoming("blacklists")
-	public void getBlackLists(String uuid){
-		LOG.warn("New recorded info associated to invalid data this uuid {"+uuid+"} will be blacklisted" );
-		blackList.onReceived(uuid);
+	public void getBlackLists(String protocol){
+		LOG.warn("New recorded info associated to invalid data this protocol {"+protocol+"} "
+				+"will be handled in the blacklisted class" );
+		blackList.onReceived(protocol);
 	}
 
 	@Incoming("webcmds")
@@ -44,6 +56,14 @@ public class InternalConsumer {
 		handleIncomingMessage(arg);
 	}
 
+	/**
+	 * It checks that no confidential information has been leaked. It will delete the key properties
+	 * if it finds any
+	 *
+	 * @param json A JsonObject 
+	 *
+	 * @return A JsonObject without the confidential key properties 
+	 */
 	public static JsonObject removeKeys(final JsonObject json) {
 		if(json.containsKey("token"))
 			json.remove("token"); // do not show the token
@@ -52,6 +72,11 @@ public class InternalConsumer {
 		return json;
 	}
 
+	/**
+	 * Handle the message and route by session id which is extracted from the token 
+	 *
+	 * @param arg A Json string which is parsed inside the body of the method
+	 */
 	public void handleIncomingMessage(String arg){
 		String incoming = arg;
 		if ("{}".equals(incoming)) {

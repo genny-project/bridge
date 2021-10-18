@@ -19,7 +19,7 @@ import io.vertx.core.json.JsonObject;
 import life.genny.bridge.client.RulesserviceClient;
 
 /**
- * MobileResource --- 
+ * MobileResource --- All endpoints related to the mobile app external client
  *
  * @author    hello@gada.io
  *
@@ -39,6 +39,14 @@ public class MobileResource {
 
   @Inject @RestClient RulesserviceClient virtualChannel;
 
+	/**
+	 * The mobile app client will sync it database to the schema of interest and the persisted in our
+	 * backeds 
+	 *
+	 * @param body A Json string object
+	 *
+	 * @return 200 or 500 depending of the request data and the response from wildfly-rulesservice
+	 */
 	@POST
 	@RolesAllowed({"user"})
 	public Response sync(String body) {

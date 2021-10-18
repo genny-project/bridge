@@ -25,7 +25,7 @@ public interface KeycloakHttpClient {
      * @return CertResponse
      */
     @GET
-    @Path("/auth/realms/{realm}/protocol/openid-connect/certs")
+    @Path("/realms/{realm}/protocol/openid-connect/certs")
     public CertsResponse fetchRealmCerts(@PathParam String realm);
 
 }

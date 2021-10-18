@@ -23,9 +23,8 @@ import life.genny.bridge.exception.BridgeException;
 import life.genny.bridge.model.InitProperties;
 
 /**
- * Bridge --- Custom exception to identified in-house commun 
- * issues which were faced before, known issues or expected problems that 
- * can be documented 
+ * Bridge ---Endpoints consisting in providing model data from the model life.genny.bridge.model
+ * also there are some endpoints that handle the data that has been blacklisted
  *
  * @author    hello@gada.io
  *

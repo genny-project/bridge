@@ -6,8 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Singleton;
 import org.jboss.logging.Logger;
 
-import io.quarkus.logging.Log;
-
 /**
  * BlackListInfo --- Handle rules and conditions sent from different sources
  * such as kafka or http endpoints. The conditions are:
@@ -66,7 +64,7 @@ public class BlackListInfo {
                 String withoutMinus = protocol.substring(1);
                 deleteRecord(UUID.fromString(withoutMinus));
             }else{
-                Log.info("Added blacklist "+protocol);
+                LOG.info("Added blacklist "+protocol);
                 this.blackListedUUIDs.add(UUID.fromString(protocol));
             }
         } catch (IllegalArgumentException exception){

@@ -94,6 +94,7 @@ public class KeycloakTokenPayload {
         keycloakTokenPayload.sessionState = jsonPayload.getString("session_state");
         keycloakTokenPayload.token = token;
         keycloakTokenPayload.sid = jsonPayload.getString("sid");
+        keycloakTokenPayload.sub = jsonPayload.getString("sub");
         return keycloakTokenPayload;
     }
 

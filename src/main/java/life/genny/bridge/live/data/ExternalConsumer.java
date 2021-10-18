@@ -60,10 +60,10 @@ public class ExternalConsumer {
     void handleIfRolesAllowed(final BridgeEvent bridgeEvent,String...roles) {
         KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(
                 extractTokenFromMessageHeaders(bridgeEvent));
-        if(blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sid))){
+        if(blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))){
             bridgeEvent.socket().close(-1,BlackListedMessages.BLACKLISTED_MSG);
             LOG.error("A blacklisted user "
-                    + payload.sid+" tried to access the sockets from remote " 
+                    + payload.sub+" tried to access the sockets from remote " 
                     + bridgeEvent.socket().remoteAddress() );
             return;
         }
@@ -74,7 +74,7 @@ public class ExternalConsumer {
         }
         else{
             LOG.error("A message was sent with a bad token or an unauthorized user or a token from "+
-                    "a different authority this user has not access to this request " + payload.sid );
+                    "a different authority this user has not access to this request " + payload.sub );
             bridgeEvent.complete(false);
         }
     }

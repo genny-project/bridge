@@ -67,7 +67,7 @@ public class InternalConsumer {
 				bus.publish(payload.sessionState, removeKeys(json));
 			}else{
 				LOG.error("The host service of channel producer tried to accessed an endpoint and got"+
-						"an unathorized message potentially from api and the producer hosted in rulesservice");
+						"an unauthorised message potentially from api and the producer hosted in rulesservice");
 			}
 		} catch (GennyKeycloakException e) {
 			LOG.error("The token verification has failed somehow this token was able to penatrate other "+

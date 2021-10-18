@@ -1,4 +1,4 @@
-package life.genny;
+package life.genny.bridge.endpoints;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

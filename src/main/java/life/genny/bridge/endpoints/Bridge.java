@@ -1,4 +1,4 @@
-package life.genny;
+package life.genny.bridge.endpoints;
 
 import java.util.Set;
 import java.util.UUID;
@@ -67,13 +67,13 @@ public class Bridge {
      *
      * @return [TODO:description]
      */
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"user"})
-    @Path("/api/events/init")
-    public JsonObject initChannelSession(@HeaderParam("Authorization") String auth) {
-        return new JsonObject().put("result","confirmed");
-    }
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @RolesAllowed({"user"})
+//    @Path("/api/events/init")
+//    public JsonObject initChannelSession(@HeaderParam("Authorization") String auth) {
+//        return new JsonObject().put("result","confirmed");
+//    }
 
     /**
      * [TODO:description]
@@ -81,7 +81,7 @@ public class Bridge {
      * @return [TODO:description]
      */
     @DELETE
-    @RolesAllowed({"admin"})
+    @RolesAllowed({"ptest"})
     @Path("/admin/blacklist")
     public Response deleteAllBlackListedRecords() {
         LOG.warn("Deleting all blacklisted records");
@@ -97,7 +97,7 @@ public class Bridge {
      * @return [TODO:description]
      */
     @DELETE
-    @RolesAllowed({"admin"})
+    @RolesAllowed({"ptest"})
     @Path("/admin/blacklist/{uuid}")
     public Response deleteBlackListedRecord(@PathParam UUID uuid) {
         LOG.warn("Deleting blacklisted record {"+uuid+"}");
@@ -112,8 +112,8 @@ public class Bridge {
      *
      * @return [TODO:description]
      */
-    @PUT
-    @RolesAllowed({"admin"})
+    @POST
+    @RolesAllowed({"service"})
     @Path("/admin/blacklist/{uuid}")
     public Response addBlackListedRecord(@PathParam String uuid) {
         LOG.warn("Adding a new record {"+uuid+"} blacklisted record");
@@ -129,7 +129,7 @@ public class Bridge {
      * @return [TODO:description]
      */
     @GET
-    @RolesAllowed({"admin"})
+    @RolesAllowed({"service"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/admin/blacklists")
     public Set<String> getBlackListedRecords() {

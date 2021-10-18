@@ -7,6 +7,13 @@ import javax.ws.rs.core.MediaType;
 
 import io.vertx.core.json.JsonObject;
 
+/**
+ * DummyVersion --- An endpoint normally used by public facing clients
+ * such as alyson to retrieve information about this project. 
+ *
+ * @author    hello@gada.io
+ *
+ */
 @Path("/api/version")
 public class DummyVersion {
 	

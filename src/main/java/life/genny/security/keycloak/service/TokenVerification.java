@@ -24,17 +24,32 @@ import life.genny.security.keycloak.model.CertsResponse;
 import life.genny.security.keycloak.model.KeycloakRealmKey;
 import life.genny.security.keycloak.model.KeycloakTokenPayload;
 
+/**
+ * TokenVerification --- Handles the signature of the token to check if it was signed 
+ * by the right Authorization server
+ *
+ * @author    hello@gada.io
+ *
+ */
 @ApplicationScoped
 public class TokenVerification {
+
+    private static final Logger LOG = Logger.getLogger(TokenVerification.class);
 
     @Inject JWTParser parser;
     @Inject @RestClient KeycloakHttpClient client;
 
     Map<String, CertsResponse> certStore = new HashMap<>();
 
-    private static final Logger LOG = Logger.getLogger(TokenVerification.class);
-
-    public CertsResponse getCert(String realm){
+    /**
+     * Checks in the certStore if the Public Certs has been fetched from a particular 
+     * realm if it exists then retrieve otherwise fetch it.  
+     *
+     * @param realm Realm from Keycloak 
+     *
+     * @return CertsReponse
+     */
+    CertsResponse getCert(String realm){
         if(certStore.containsKey(realm)){
             return certStore.get(realm);
         }
@@ -43,6 +58,19 @@ public class TokenVerification {
         return certStore.get(realm);
     }
 
+    /**
+     * Verify from the cert that the token has been signed from the right Authorization 
+     * server
+     *
+     * @param realm Realm from Keycloak 
+     * @param token Bearer token 
+     *
+     * @return The payload encoded in the token parsed  to a KeycloakToken
+     *
+     * @throws GennyKeycloakException throws exception if the public key couldn't be generated
+     * or the wrong algorithm type was used or the token couldn't be parsed to a KeycloakTokenPayload
+     * object
+     */
     public KeycloakTokenPayload verify(String realm, String token) throws GennyKeycloakException{
 
         CertsResponse certs = getCert(realm);

@@ -60,13 +60,6 @@ public class Bridge {
     @Path("/api/events/init")
     public Response configObject(@QueryParam("url") String url) {
         try {
-            url = CommonOps.constructBaseURL(uriInfo);
-        } catch (MalformedURLException e1) {
-            LOG.error("An error occurred in constructing the base Url");
-            e1.printStackTrace();
-            return Response.status(500).build();
-        }
-        try {
             return Response.ok(new InitProperties(url)).build();
         } catch (BridgeException e) {
             LOG.error("The configuration does not exist or cannot be find please check the ENVs");

@@ -1,9 +1,5 @@
 package life.genny.commons;
 
-import java.net.MalformedURLException;
-
-import javax.ws.rs.core.UriInfo;
-
 /**
  * CommonOps --- common operations function used within this project
  *
@@ -40,11 +36,4 @@ public class CommonOps {
         return splittedAuthValue[1];
     }
 
-
-    public static String constructBaseURL(UriInfo uriInfo) throws MalformedURLException {
-        String protocol = uriInfo.getRequestUri().toURL().getProtocol();
-        int port = uriInfo.getRequestUri().toURL().getPort();
-        String host = uriInfo.getRequestUri().toURL().getHost();
-        return  protocol + "://" + host + ":" + port;
-    }
 }

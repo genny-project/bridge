@@ -1,8 +1,5 @@
 package life.genny.bridge.endpoints;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,7 +24,6 @@ import io.vertx.core.json.JsonObject;
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.bridge.exception.BridgeException;
 import life.genny.bridge.model.InitProperties;
-import life.genny.commons.CommonOps;
 
 /**
  * Bridge ---Endpoints consisting in providing model data from the model life.genny.bridge.model

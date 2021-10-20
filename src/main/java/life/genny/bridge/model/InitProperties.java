@@ -24,6 +24,14 @@ public class InitProperties {
     String googleMapsApikey;
     @JsonProperty(value="ENV_KEYCLOAK_REDIRECTURI")
     String keycloakRedirectUri;
+    @JsonProperty(value="ENV_MEDIA_PROXY_URL")
+    String mediaProxyUrl;
+
+    public InitProperties(String url) throws BridgeException{
+        this();
+        setMediaProxyUrl(url);
+
+    }
 
     public InitProperties() throws BridgeException{
         setRealm(System.getenv("realm"));
@@ -35,6 +43,9 @@ public class InitProperties {
         this.realm = throwIfNull(realm,"realm");
     }
 
+    public void setMediaProxyUrl(String url) {
+        this.mediaProxyUrl = url + "/web/pubilc";
+    }
 
     public void setGoogleMapsApikey(String googleMapsApikey) throws BridgeException {
         this.googleMapsApikey = throwIfNull(googleMapsApikey,"ENV_GOOGLE_MAPS_APIKEY");

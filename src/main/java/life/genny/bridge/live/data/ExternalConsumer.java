@@ -27,7 +27,7 @@ public class ExternalConsumer {
     private static final Logger LOG = Logger.getLogger(ExternalConsumer.class);
 
     @Inject RoleBasedPermission permissions;
-    @Inject BlackListInfo blacklist;
+    //@Inject BlackListInfo blacklist;
 
     @Inject
     InternalProducer producer;
@@ -60,13 +60,13 @@ public class ExternalConsumer {
     void handleIfRolesAllowed(final BridgeEvent bridgeEvent,String...roles) {
         KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(
                 extractTokenFromMessageHeaders(bridgeEvent));
-        if(blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))){
-            bridgeEvent.socket().close(-1,BlackListedMessages.BLACKLISTED_MSG);
-            LOG.error("A blacklisted user "
-                    + payload.sub+" tried to access the sockets from remote " 
-                    + bridgeEvent.socket().remoteAddress() );
-            return;
-        }
+        //if(blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))){
+            //bridgeEvent.socket().close(-1,BlackListedMessages.BLACKLISTED_MSG);
+            //LOG.error("A blacklisted user "
+                    //+ payload.sub+" tried to access the sockets from remote " 
+                    //+ bridgeEvent.socket().remoteAddress() );
+            //return;
+        //}
 
         if(permissions.rolesAllowed(payload, roles))
         {

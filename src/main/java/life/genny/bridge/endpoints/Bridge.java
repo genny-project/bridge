@@ -1,5 +1,8 @@
 package life.genny.bridge.endpoints;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -12,8 +15,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -21,6 +27,7 @@ import io.vertx.core.json.JsonObject;
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.bridge.exception.BridgeException;
 import life.genny.bridge.model.InitProperties;
+import life.genny.commons.CommonOps;
 
 /**
  * Bridge ---Endpoints consisting in providing model data from the model life.genny.bridge.model
@@ -34,6 +41,7 @@ public class Bridge {
 
     private static final Logger LOG = Logger.getLogger(Bridge.class);
     @Inject BlackListInfo blackList;
+    @Context UriInfo uriInfo;
 
     /**
      * The entrypoint for external clients who wants to establish a connection 
@@ -52,7 +60,14 @@ public class Bridge {
     @Path("/api/events/init")
     public Response configObject(@QueryParam("url") String url) {
         try {
-            return Response.ok(new InitProperties()).build();
+            url = CommonOps.constructBaseURL(uriInfo);
+        } catch (MalformedURLException e1) {
+            LOG.error("An error occurred in constructing the base Url");
+            e1.printStackTrace();
+            return Response.status(500).build();
+        }
+        try {
+            return Response.ok(new InitProperties(url)).build();
         } catch (BridgeException e) {
             LOG.error("The configuration does not exist or cannot be find please check the ENVs");
             e.printStackTrace();
@@ -87,7 +102,7 @@ public class Bridge {
      * @return 200 
      */
     @DELETE
-    @RolesAllowed({"ptest"})
+    @RolesAllowed({"ptest,test"})
     @Path("/admin/blacklist")
     public Response deleteAllBlackListedRecords() {
         LOG.warn("Deleting all blacklisted records");
@@ -103,7 +118,7 @@ public class Bridge {
      * @return 200 
      */
     @DELETE
-    @RolesAllowed({"ptest"})
+    @RolesAllowed({"ptest,test"})
     @Path("/admin/blacklist/{uuid}")
     public Response deleteBlackListedRecord(@PathParam UUID uuid) {
         LOG.warn("Deleting blacklisted record {"+uuid+"}");
@@ -124,7 +139,7 @@ public class Bridge {
      */
 
     @PUT
-    @RolesAllowed({"ptest"})
+    @RolesAllowed({"ptest,test"})
     @Path("/admin/blacklist/{protocol}")
     public Response addBlackListedRecord(@PathParam String protocol) {
         LOG.warn("Received a protocol {"+protocol+"} the blacklist map will be handled" +
@@ -141,7 +156,7 @@ public class Bridge {
      * @return An array of uniques UUIDs
      */
     @GET
-    @RolesAllowed({"service"})
+    @RolesAllowed({"service,test"})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/admin/blacklists")
     public Set<String> getBlackListedRecords() {

@@ -26,11 +26,13 @@ public class InitProperties {
     String keycloakRedirectUri;
     @JsonProperty(value="ENV_MEDIA_PROXY_URL")
     String mediaProxyUrl;
+    @JsonProperty(value="api_url")
+    String apiUrl;
 
     public InitProperties(String url) throws BridgeException{
         this();
         setMediaProxyUrl(url);
-
+        setApiUrl(url);
     }
 
     public InitProperties() throws BridgeException{
@@ -44,7 +46,11 @@ public class InitProperties {
     }
 
     public void setMediaProxyUrl(String url) {
-        this.mediaProxyUrl = url + "/web/pubilc";
+        this.mediaProxyUrl = url + "/web/public";
+    }
+
+    public void setApiUrl(String url) {
+        this.apiUrl = url;
     }
 
     public void setGoogleMapsApikey(String googleMapsApikey) throws BridgeException {

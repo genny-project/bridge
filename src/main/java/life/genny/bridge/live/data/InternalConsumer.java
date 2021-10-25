@@ -1,12 +1,15 @@
 package life.genny.bridge.live.data;
 
 import javax.inject.Inject;
+import javax.json.JsonObject;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonObject;
+
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.security.keycloak.exception.GennyKeycloakException;
 import life.genny.security.keycloak.model.KeycloakTokenPayload;
@@ -27,6 +30,8 @@ public class InternalConsumer {
 	@Inject TokenVerification verification;
 	@Inject EventBus bus;
 	@Inject BlackListInfo blackList;
+	
+	Jsonb jsonb = JsonbBuilder.create();
 
 	/**
 	 * A request with a protocol which will add, delete all or delete just a record depending on 
@@ -83,7 +88,7 @@ public class InternalConsumer {
 			LOG.warn("The payload sent from the webcmd producer is empty");
 			return;
 		}
-		final JsonObject json = new JsonObject(incoming); 
+		final JsonObject json = jsonb.fromJson(incoming, JsonObject.class);
 		KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(json.getString("token"));
 		try {
 			verification.verify(payload.realm, payload.token);

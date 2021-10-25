@@ -83,22 +83,27 @@ public class InternalConsumer {
 			LOG.warn("The payload sent from the webcmd producer is empty");
 			return;
 		}
-		final JsonObject json = new JsonObject(incoming); 
-		KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(json.getString("token"));
-		try {
-			verification.verify(payload.realm, payload.token);
-			if (!incoming.contains("<body>Unauthorized</body>")) {
-				LOG.info("Publishing message to session " + payload.sessionState);
-				bus.publish(payload.sessionState, removeKeys(json));
-			}else{
-				LOG.error("The host service of channel producer tried to accessed an endpoint and got"+
-						"an unauthorised message potentially from api and the producer hosted in rulesservice");
-			}
-		} catch (GennyKeycloakException e) {
-			LOG.error("The token verification has failed somehow this token was able to penatrate other "+
-					"security barriers please check this exception in more depth");
-			e.printStackTrace();
-			return ;
-		}
+                try {
+                        final JsonObject json = new JsonObject(incoming); 
+                        KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(json.getString("token"));
+                        try {
+                                verification.verify(payload.realm, payload.token);
+                                if (!incoming.contains("<body>Unauthorized</body>")) {
+                                        LOG.info("Publishing message to session " + payload.sessionState);
+                                        bus.publish(payload.sessionState, removeKeys(json));
+                                }else{
+                                        LOG.error("The host service of channel producer tried to accessed an endpoint and got"+
+                                                "an unauthorised message potentially from api and the producer hosted in rulesservice");
+                                }
+                        } catch (GennyKeycloakException e) {
+                                LOG.error("The token verification has failed somehow this token was able to penatrate other "+
+                                        "security barriers please check this exception in more depth");
+                                e.printStackTrace();
+                                return ;
+                        }
+
+                }catch(io.vertx.core.json.DecodeException e){
+                        LOG.error("Failed to parse this message {"+arg+"} to a json object ");
+                }
 	}
 }

@@ -128,7 +128,7 @@ public class Bridge {
      */
 
     @PUT
-    @RolesAllowed({"ptest,test"})
+    @RolesAllowed({"ptest","test","admin"})
     @Path("/admin/blacklist/{protocol}")
     public Response addBlackListedRecord(@PathParam String protocol) {
         LOG.warn("Received a protocol {"+protocol+"} the blacklist map will be handled" +

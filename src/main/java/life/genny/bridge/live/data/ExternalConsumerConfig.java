@@ -2,9 +2,12 @@ package life.genny.bridge.live.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
@@ -28,6 +31,8 @@ public class ExternalConsumerConfig {
 
 	@Inject Vertx vertx;
 	@Inject ExternalConsumer handler;
+        @ConfigProperty(name = "environment") Optional<String> environment;
+
 
 	/**
 	 * This method is used to set all the types of addresses that will be allowed 
@@ -111,7 +116,10 @@ public class ExternalConsumerConfig {
 		SockJSHandlerOptions sockOptions = new SockJSHandlerOptions().setHeartbeatInterval(2000);
 		SockJSHandler sockJSHandler = SockJSHandler.create(vertx, sockOptions);
 		sockJSHandler.bridge(setBridgeOptions(),handler::handleConnectionTypes);
-		router.route().handler(cors());
+                environment.filter(d -> !d.equals("prod"))
+                .ifPresent(d -> {
+                        router.route().handler(cors());
+                });
 		router.route("/frontend/*").handler(sockJSHandler);
 	}
 }

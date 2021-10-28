@@ -1,5 +1,6 @@
 package life.genny.bridge.model;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -46,7 +47,7 @@ public class InitProperties {
     }
 
     public void setMediaProxyUrl(String url) {
-        this.mediaProxyUrl = url + "/web/public";
+        this.mediaProxyUrl = url + "web/public";
     }
 
     public void setApiUrl(String url) {

@@ -54,9 +54,9 @@ public class Bridge {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/api/events/init")
-    public Response configObject(@QueryParam("url") String url) {
+    public Response configObject() {
         try {
-            return Response.ok(new InitProperties(url)).build();
+            return Response.ok(new InitProperties(uriInfo.getBaseUri().toString())).build();
         } catch (BridgeException e) {
             LOG.error("The configuration does not exist or cannot be find please check the ENVs");
             e.printStackTrace();

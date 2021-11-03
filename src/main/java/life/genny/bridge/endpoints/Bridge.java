@@ -154,5 +154,22 @@ public class Bridge {
             .map(d ->d.toString())
             .collect(Collectors.toSet());
     }
+    /**
+     * 
+     * A GET request to get all the blacklisted UUIDS that are currently registered
+     *
+     *
+     * @return An array of uniques UUIDs
+     */
+    @GET
+    @RolesAllowed({"user"})
+    @Produces(MediaType.APPLICATION_JSON)
+    //@Path("/admin/blacklists")
+    public Set<String> getB2BHandler() {
+        LOG.warn("Getting all blacklisted records");
+        return blackList.getBlackListedUUIDs().stream()
+            .map(d ->d.toString())
+            .collect(Collectors.toSet());
+    }
 }
 

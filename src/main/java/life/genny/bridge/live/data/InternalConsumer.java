@@ -2,6 +2,7 @@ package life.genny.bridge.live.data;
 
 import javax.inject.Inject;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
@@ -27,6 +28,11 @@ public class InternalConsumer {
 	@Inject TokenVerification verification;
 	@Inject EventBus bus;
 	@Inject BlackListInfo blackList;
+	
+	
+	@ConfigProperty(name = "genny.log.show.outgoing.json", defaultValue = "false")
+	Boolean showOutgoingJson;
+
 
 	/**
 	 * A request with a protocol which will add, delete all or delete just a record depending on 
@@ -46,7 +52,7 @@ public class InternalConsumer {
 
 	@Incoming("webcmds")
 	public void getFromWebCmds(String arg){
-		LOG.info("Message received in webcmd");
+		LOG.info("Message received in webcmd "+(showOutgoingJson?arg:""));
 		handleIncomingMessage(arg);
 	}
 

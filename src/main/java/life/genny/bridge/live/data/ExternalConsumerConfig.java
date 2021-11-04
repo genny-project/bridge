@@ -123,4 +123,4 @@ public class ExternalConsumerConfig {
 		router.route("/frontend/*").handler(cors());
 		router.route("/frontend/*").handler(sockJSHandler);
 	}
-
+}

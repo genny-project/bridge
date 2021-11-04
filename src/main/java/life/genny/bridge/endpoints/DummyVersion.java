@@ -28,6 +28,6 @@ public class DummyVersion {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject dummy() {
-        return new JsonObject();
+        return new JsonObject().put("version", "Not supported");
     }
 }

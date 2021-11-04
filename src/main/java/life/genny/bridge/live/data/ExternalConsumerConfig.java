@@ -120,6 +120,7 @@ public class ExternalConsumerConfig {
                 .ifPresent(d -> {
                         router.route().handler(cors());
                 });
+		router.route("/frontend/*").handler(cors());
 		router.route("/frontend/*").handler(sockJSHandler);
 	}
-}
+

@@ -1,6 +1,5 @@
 package life.genny.bridge.endpoints;
 
-import java.net.MalformedURLException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -57,12 +56,8 @@ public class Bridge {
     @Path("/api/events/init")
     public Response configObject() {
         try {
-            String protocol = uriInfo.getBaseUri().toURL().getProtocol();
-            String host = uriInfo.getBaseUri().toURL().getHost();
-            InitProperties props = new InitProperties(uriInfo.getBaseUri().toString());
-            props.setMediaProxyUrl(protocol,host);
-            return Response.ok(props).build();
-        } catch (BridgeException | MalformedURLException e) {
+            return Response.ok(new InitProperties(uriInfo.getBaseUri().toString())).build();
+        } catch (BridgeException e) {
             LOG.error("The configuration does not exist or cannot be find please check the ENVs");
             e.printStackTrace();
             return Response.status(404).build();

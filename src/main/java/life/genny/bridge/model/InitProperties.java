@@ -32,7 +32,6 @@ public class InitProperties {
 
     public InitProperties(String url) throws BridgeException{
         this();
-        System.out.println(url);
         setMediaProxyUrl(url);
         setApiUrl(url);
     }
@@ -49,10 +48,6 @@ public class InitProperties {
 
     public void setMediaProxyUrl(String url) {
         this.mediaProxyUrl = url + "web/public";
-    }
-
-    public void setMediaProxyUrl(String protocol, String host) {
-        this.mediaProxyUrl = protocol + "://" + host + "/web/public";
     }
 
     public void setApiUrl(String url) {

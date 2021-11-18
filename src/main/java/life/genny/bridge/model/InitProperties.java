@@ -32,6 +32,7 @@ public class InitProperties {
 
     public InitProperties(String url) throws BridgeException{
         this();
+        url = Optional.ofNullable(System.getenv("SERVER_URL")).orElse(url);
         setMediaProxyUrl(url);
         setApiUrl(url);
     }
@@ -47,7 +48,7 @@ public class InitProperties {
     }
 
     public void setMediaProxyUrl(String url) {
-        this.mediaProxyUrl = url + "web/public";
+        this.mediaProxyUrl = url + "/web/public";
     }
 
     public void setApiUrl(String url) {

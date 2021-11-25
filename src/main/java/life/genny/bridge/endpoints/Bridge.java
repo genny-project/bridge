@@ -207,7 +207,7 @@ public class Bridge {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerGet() {
-
+		LOG.info("B2B Get received..");
 		GennyToken userToken = null;
 
 		// Because of the RolesAllowed, this token checking code should always work
@@ -271,6 +271,7 @@ public class Bridge {
 
 		Jsonb jsonb = JsonbBuilder.create();
 		String dataMsgJson = jsonb.toJson(dataMsg);
+		LOG.info("B2B sending "+dataMsgJson);
 		producer.getToData().send(dataMsgJson);
 
 		return Response.ok().build();
@@ -289,7 +290,7 @@ public class Bridge {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerPost(QDataB2BMessage dataMsg) {
-
+		LOG.info("B2B POST received..");
 		GennyToken userToken = null;
 
 		String token = null;

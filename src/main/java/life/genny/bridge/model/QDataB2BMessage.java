@@ -14,6 +14,10 @@ public class QDataB2BMessage extends QDataMessage {
 	  private GennyItem[] items;
 	  private static final String DATATYPE_ITEM = GennyItem.class.getSimpleName();
 
+	  // For json parameters
+	  public QDataB2BMessage() {
+		  super(DATATYPE_ITEM);
+	  }
 
 	  public QDataB2BMessage(final GennyItem[] items) {
 	    super(DATATYPE_ITEM);

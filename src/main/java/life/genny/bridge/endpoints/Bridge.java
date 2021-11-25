@@ -203,13 +203,14 @@ public class Bridge {
 	 * @return An array of uniques UUIDs
 	 */
 	@GET
-	@RolesAllowed({ "test","b2b" })
+	@RolesAllowed({ "test", "b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerGet() {
 
 		GennyToken userToken = null;
 
+		// Because of the RolesAllowed, this token checking code should always work
 		String token = null;
 		try {
 			token = request.getHeader("authorization").split("Bearer ")[1];
@@ -284,16 +285,20 @@ public class Bridge {
 	 * @return Success
 	 */
 	@POST
-	@RolesAllowed({ "test","b2b" })
+	@RolesAllowed({ "test", "b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerPost(QDataB2BMessage dataMsg) {
 
+		GennyToken userToken = null;
+
 		String token = null;
 		try {
 			token = request.getHeader("authorization").split("Bearer ")[1];
-			if (token == null) {
-				LOG.error("Bad token in b2b POST provided");
+			if (token != null) {
+				userToken = new GennyToken(token);
+			} else {
+				LOG.error("Bad token in b2b GET provided");
 				return Response.ok().build(); // just absorb it.
 			}
 		} catch (Exception e) {
@@ -304,6 +309,16 @@ public class Bridge {
 		Jsonb jsonb = JsonbBuilder.create();
 		dataMsg.setToken(token);
 		dataMsg.setAliasCode("STATELESS");
+
+		// loop through all the gennyitems adding this..
+
+		for (GennyItem gennyItem : dataMsg.getItems()) {
+
+			AttributeCodeValueString attCodevs = new AttributeCodeValueString("PRI_USERNAME", userToken.getUsername());
+			gennyItem.addB2B(attCodevs);
+			attCodevs = new AttributeCodeValueString("PRI_USERCODE", userToken.getUserCode());
+			gennyItem.addB2B(attCodevs);
+		}
 
 		String dataMsgJson = jsonb.toJson(dataMsg);
 		producer.getToData().send(dataMsgJson);

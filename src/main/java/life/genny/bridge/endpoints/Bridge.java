@@ -203,7 +203,7 @@ public class Bridge {
 	 * @return An array of uniques UUIDs
 	 */
 	@GET
-	@RolesAllowed({ "b2b" })
+	@RolesAllowed({ "test","b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerGet() {
@@ -284,7 +284,7 @@ public class Bridge {
 	 * @return Success
 	 */
 	@POST
-	@RolesAllowed({ "b2b" })
+	@RolesAllowed({ "test","b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerPost(QDataB2BMessage dataMsg) {

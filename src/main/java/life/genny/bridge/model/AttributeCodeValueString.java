@@ -1,8 +1,13 @@
 package life.genny.bridge.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AttributeCodeValueString {
+	
+	@JsonProperty
 	public String attributeCode;
+	
+	@JsonProperty
 	public String value;
 	
 	

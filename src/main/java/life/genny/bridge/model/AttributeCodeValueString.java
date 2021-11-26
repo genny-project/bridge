@@ -5,6 +5,12 @@ public class AttributeCodeValueString {
 	public String attributeCode;
 	public String value;
 	
+	
+	public AttributeCodeValueString()
+	{
+		
+	}
+	
 	public AttributeCodeValueString(final String attributeCode, final String value)
 	{
 		this.attributeCode = attributeCode;

@@ -39,6 +39,7 @@ public class RoleBasedPermission{
      */
     public Boolean rolesAllowed(KeycloakTokenPayload payload,String...roles){
         try {
+            LOG.info("DEBUG, realm" + payload.realm + ", token:" + payload.token);
             payload = verification.verify(payload.realm, payload.token);
         } catch (GennyKeycloakException e) {
             LOG.error("An error occurred when verifying the token",e);

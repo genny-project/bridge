@@ -38,6 +38,7 @@ public class InitProperties {
     }
 
     public InitProperties() throws BridgeException{
+    	// TODO: fetch these values from Kafka dependent upon the project url
         setRealm(System.getenv("realm"));
         setGoogleMapsApikey(System.getenv("ENV_GOOGLE_MAPS_APIKEY"));
         setKeycloakRedirectUri(System.getenv("ENV_KEYCLOAK_REDIRECTURI"));

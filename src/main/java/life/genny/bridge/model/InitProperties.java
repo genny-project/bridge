@@ -23,6 +23,8 @@ public class InitProperties {
     String realm;
     @JsonProperty(value="ENV_GOOGLE_MAPS_APIKEY")
     String googleMapsApikey;
+    @JsonProperty(value="ENV_GOOGLE_TIMEZONE_APIKEY")
+    String googleTimezoneApikey;
     @JsonProperty(value="ENV_KEYCLOAK_REDIRECTURI")
     String keycloakRedirectUri;
     @JsonProperty(value="ENV_MEDIA_PROXY_URL")
@@ -41,6 +43,7 @@ public class InitProperties {
     	// TODO: fetch these values from Kafka dependent upon the project url
         setRealm(System.getenv("realm"));
         setGoogleMapsApikey(System.getenv("ENV_GOOGLE_MAPS_APIKEY"));
+        setGoogleTimezoneApikey(System.getenv("ENV_GOOGLE_TIMEZONE_APIKEY"));
         setKeycloakRedirectUri(System.getenv("ENV_KEYCLOAK_REDIRECTURI"));
     }
 
@@ -58,6 +61,10 @@ public class InitProperties {
 
     public void setGoogleMapsApikey(String googleMapsApikey) throws BridgeException {
         this.googleMapsApikey = throwIfNull(googleMapsApikey,"ENV_GOOGLE_MAPS_APIKEY");
+    }
+
+    public void setGoogleTimezoneApikey(String googleTimezoneApikey) throws BridgeException {
+        this.googleTimezoneApikey = throwIfNull(googleTimezoneApikey,"ENV_GOOGLE_TIMEZONE_APIKEY");
     }
 
 

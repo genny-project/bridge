@@ -144,7 +144,7 @@ public class ExternalConsumer {
       LOG.info("Sending to message from user " + jti + " to data " + bridgeId);
       producer.getToData().send(body.put(jti, bridgeId).toString());
     } else if (body.getString("msg_type").equals("EVT_MSG")) {
-      LOG.info("Sending to message from user " + jti + " " + bridgeId + " to event");
+      LOG.info("Sending to message from user " + jti + " " + bridgeId + " to events");
       producer.getToEvents().send(body.put(jti, bridgeId).toString());
     } else if ((body.getJsonObject("data").getString("code") != null)
         && (body.getJsonObject("data").getString("code").equals("QUE_SUBMIT"))) {

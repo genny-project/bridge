@@ -269,11 +269,12 @@ public class Bridge {
 
 		Jsonb jsonb = JsonbBuilder.create();
 //		String dataMsgJson = jsonb.toJson(dataMsg);
-		LOG.info("B2B sending ");
-//		producer.getToData().send(dataMsgJson);
-		
 		String dataMsgJsonStr = jsonb.toJson(dataMsg);
 		String jti = userToken.getJti();
+		LOG.info("B2B sending!!! "+jti+" json="+dataMsgJsonStr);
+//		producer.getToData().send(dataMsgJson);
+		
+		
 		JsonObject dataMsgJson = new JsonObject(dataMsgJsonStr);
 		
 		

@@ -42,6 +42,7 @@ import life.genny.bridge.model.GennyItem;
 import life.genny.bridge.model.GennyToken;
 import life.genny.bridge.model.InitProperties;
 import life.genny.bridge.model.QDataB2BMessage;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
  * Bridge ---Endpoints consisting in providing model data from the model
@@ -67,6 +68,10 @@ public class Bridge {
 
 	@Context
 	HttpServerRequest request;
+	
+	@ConfigProperty(name = "bridge.id", defaultValue = "false")
+	  String bridgeId;
+
 
 	/**
 	 * The entrypoint for external clients who wants to establish a connection with
@@ -261,10 +266,19 @@ public class Bridge {
 		dataMsg.setToken(token);
 		dataMsg.setAliasCode("STATELESS");
 
+
 		Jsonb jsonb = JsonbBuilder.create();
-		String dataMsgJson = jsonb.toJson(dataMsg);
-		LOG.info("B2B sending " + dataMsgJson);
-		producer.getToData().send(dataMsgJson);
+//		String dataMsgJson = jsonb.toJson(dataMsg);
+		LOG.info("B2B sending ");
+//		producer.getToData().send(dataMsgJson);
+		
+		String dataMsgJsonStr = jsonb.toJson(dataMsg);
+		String jti = userToken.getJti();
+		JsonObject dataMsgJson = new JsonObject(dataMsgJsonStr);
+		
+		
+		producer.getToData().send(dataMsgJson.put(jti, bridgeId).toString());
+
 
 		return Response.ok().build();
 	}
@@ -311,8 +325,12 @@ public class Bridge {
 			gennyItem.addB2B(attCodevs);
 		}
 
-		String dataMsgJson = jsonb.toJson(dataMsg);
-		producer.getToData().send(dataMsgJson);
+		String dataMsgJsonStr = jsonb.toJson(dataMsg);
+		String jti = userToken.getJti();
+		JsonObject dataMsgJson = new JsonObject(dataMsgJsonStr);
+		
+		
+		producer.getToData().send(dataMsgJson.put(jti, bridgeId).toString());
 
 		return Response.ok().build();
 	}

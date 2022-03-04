@@ -258,6 +258,10 @@ public class GennyToken implements Serializable {
 	public String getUsername() {
 		return getString("preferred_username");
 	}
+	
+	public String getJti() {
+		return getString("jti");
+	}
 
 	public String getKeycloakUrl() {
 		String fullUrl = getString("iss");

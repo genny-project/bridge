@@ -68,10 +68,9 @@ public class Bridge {
 
 	@Context
 	HttpServerRequest request;
-	
-	@ConfigProperty(name = "bridge.id", defaultValue = "false")
-	  String bridgeId;
 
+	@ConfigProperty(name = "bridge.id", defaultValue = "false")
+	String bridgeId;
 
 	/**
 	 * The entrypoint for external clients who wants to establish a connection with
@@ -82,7 +81,7 @@ public class Bridge {
 	 *            used to retrieve information in cache and verify there is a realm
 	 *            associated with the url
 	 * @return InitProperties object will all required information so the clients
-	 * gets informed about the protocol for future communication
+	 *         gets informed about the protocol for future communication
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -108,7 +107,7 @@ public class Bridge {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@RolesAllowed({"user"})
+	@RolesAllowed({ "user" })
 	@Path("/api/events/init")
 	@Deprecated(since = "9.9.0", forRemoval = true)
 	public JsonObject initChannelSession(@HeaderParam("Authorization") String auth) {
@@ -122,7 +121,7 @@ public class Bridge {
 	 * @return 200
 	 */
 	@DELETE
-	@RolesAllowed({"ptest,test"})
+	@RolesAllowed({ "ptest,test" })
 	@Path("/admin/blacklist")
 	public Response deleteAllBlackListedRecords() {
 		LOG.warn("Deleting all blacklisted records");
@@ -138,7 +137,7 @@ public class Bridge {
 	 * @return 200
 	 */
 	@DELETE
-	@RolesAllowed({"ptest,test"})
+	@RolesAllowed({ "ptest,test" })
 	@Path("/admin/blacklist/{uuid}")
 	public Response deleteBlackListedRecord(@PathParam UUID uuid) {
 		LOG.warn("Deleting blacklisted record {" + uuid + "}");
@@ -157,7 +156,7 @@ public class Bridge {
 	 */
 
 	@PUT
-	@RolesAllowed({"ptest", "test", "admin"})
+	@RolesAllowed({ "ptest", "test", "admin" })
 	@Path("/admin/blacklist/{protocol}")
 	public Response addBlackListedRecord(@PathParam String protocol) {
 		LOG.warn("Received a protocol {" + protocol + "} the blacklist map will be handled" + " accordingly");
@@ -171,7 +170,7 @@ public class Bridge {
 	 * @return An array of uniques UUIDs
 	 */
 	@GET
-	@RolesAllowed({"service,test"})
+	@RolesAllowed({ "service,test" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/admin/blacklists")
 	public Set<String> getBlackListedRecords() {
@@ -185,7 +184,7 @@ public class Bridge {
 	 * @return An array of uniques UUIDs
 	 */
 	@GET
-	@RolesAllowed({"user"})
+	@RolesAllowed({ "user" })
 	@Produces(MediaType.APPLICATION_JSON)
 	// @Path("/admin/blacklists")
 	public Set<String> getB2BHandler() {
@@ -200,7 +199,7 @@ public class Bridge {
 	 * @return An array of uniques UUIDs
 	 */
 	@GET
-	@RolesAllowed({"test", "b2b"})
+	@RolesAllowed({ "test", "b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerGet() {
@@ -232,9 +231,10 @@ public class Bridge {
 
 		while (it.hasNext()) {
 			String key = (String) it.next();
-			String value = paramMap.getFirst(key); // assume a single key
-
 			key = key.trim();
+			String value = paramMap.getFirst(key); // assume a single key
+			LOG.info("key:" + key + "-->" + value);
+
 			if (value.isBlank()) {
 				continue;
 			}
@@ -266,20 +266,19 @@ public class Bridge {
 		dataMsg.setToken(token);
 		dataMsg.setAliasCode("STATELESS");
 
-
 		Jsonb jsonb = JsonbBuilder.create();
-//		String dataMsgJson = jsonb.toJson(dataMsg);
+		// String dataMsgJson = jsonb.toJson(dataMsg);
 		String dataMsgJsonStr = jsonb.toJson(dataMsg);
 		String jti = userToken.getJti();
-		LOG.info("B2B sending!!! "+jti+" json="+dataMsgJsonStr);
-//		producer.getToData().send(dataMsgJson);
-		
-		
-		JsonObject dataMsgJson = new JsonObject(dataMsgJsonStr);
-		
-		
-		producer.getToData().send(dataMsgJson.put(jti, bridgeId).toString());
+		LOG.info("B2B sending!!! " + jti + " json=" + dataMsgJsonStr);
+		// producer.getToData().send(dataMsgJson);
 
+		JsonObject dataMsgJson = new JsonObject(dataMsgJsonStr);
+		LOG.info("jti=" + jti);
+		LOG.info("bridgeId=" + bridgeId);
+		LOG.info("dataMsgJson:" + dataMsgJson);
+
+		producer.getToData().send(dataMsgJson.put(jti, bridgeId).toString());
 
 		return Response.ok().build();
 	}
@@ -291,7 +290,7 @@ public class Bridge {
 	 * @return Success
 	 */
 	@POST
-	@RolesAllowed({"test", "b2b"})
+	@RolesAllowed({ "test", "b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/b2bdata")
 	public Response apiB2BHandlerPost(QDataB2BMessage dataMsg) {
@@ -329,15 +328,14 @@ public class Bridge {
 		String dataMsgJsonStr = jsonb.toJson(dataMsg);
 		String jti = userToken.getJti();
 		JsonObject dataMsgJson = new JsonObject(dataMsgJsonStr);
-		
-		
+
 		producer.getToData().send(dataMsgJson.put(jti, bridgeId).toString());
 
 		return Response.ok().build();
 	}
 
 	@POST
-	@RolesAllowed({"test", "b2b"})
+	@RolesAllowed({ "test", "b2b" })
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/api/service")
 	public Response apiServiceHandlerPost(QDataB2BMessage dataMsg) {

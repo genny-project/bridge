@@ -43,6 +43,7 @@ import life.genny.bridge.model.GennyToken;
 import life.genny.bridge.model.InitProperties;
 import life.genny.bridge.model.QDataB2BMessage;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.net.URLDecoder;
 
 /**
  * Bridge ---Endpoints consisting in providing model data from the model
@@ -239,6 +240,11 @@ public class Bridge {
 				continue;
 			}
 			value = value.trim();
+			try {
+			value = URLDecoder.decode(value, "UTF-8");
+			} catch (Exception e) {
+				
+			}
 			// hack for common keynames
 			if ("firstname".equalsIgnoreCase(key)) {
 				key = "PRI_FIRSTNAME";

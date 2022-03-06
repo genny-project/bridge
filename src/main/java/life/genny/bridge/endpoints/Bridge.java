@@ -234,17 +234,18 @@ public class Bridge {
 			String key = (String) it.next();
 			key = key.trim();
 			String value = paramMap.getFirst(key); // assume a single key
-			LOG.info("key:" + key + "-->" + value);
+			value = value.trim();
 
 			if (value.isBlank()) {
 				continue;
 			}
-			value = value.trim();
 			try {
-			value = URLDecoder.decode(value, "UTF-8");
+				value = URLDecoder.decode(value, "UTF-8");
 			} catch (Exception e) {
 				
 			}
+			LOG.info("key:" + key + "-->" + value);
+
 			// hack for common keynames
 			if ("firstname".equalsIgnoreCase(key)) {
 				key = "PRI_FIRSTNAME";

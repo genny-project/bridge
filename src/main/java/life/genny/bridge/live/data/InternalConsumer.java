@@ -25,7 +25,7 @@ public class InternalConsumer {
   @Inject TokenVerification verification;
   @Inject EventBus bus;
   @Inject BlackListInfo blackList;
-  @Inject ExternalConsumerService service;
+  @Inject BridgeGrpcService service;
 
   @ConfigProperty(name = "genny.log.show.outgoing.json", defaultValue = "false")
   Boolean showOutgoingJson;

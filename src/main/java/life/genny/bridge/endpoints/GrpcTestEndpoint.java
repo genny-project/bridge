@@ -8,7 +8,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 import io.vertx.core.http.HttpServerRequest;
-import life.genny.bridge.live.data.ExternalConsumerService;
+import life.genny.bridge.live.data.BridgeGrpcService;
 import life.genny.bridge.model.grpc.Item;
 
 /**
@@ -27,7 +27,7 @@ public class GrpcTestEndpoint {
 	HttpServerRequest request;
 
     @Inject
-    ExternalConsumerService grpcService;
+    BridgeGrpcService grpcService;
 
     @GET
     @Path("/{message}")

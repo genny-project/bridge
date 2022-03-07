@@ -16,7 +16,6 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.TimeoutException;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
-import io.smallrye.reactive.messaging.providers.MediatorConfigurationSupport.GenericTypeAssignable;
 import io.vertx.core.json.JsonObject;
 import life.genny.bridge.model.grpc.Empty;
 import life.genny.bridge.model.grpc.Item;
@@ -33,9 +32,9 @@ import life.genny.security.keycloak.model.KeycloakTokenPayload;
 @GrpcService
 @Default
 @Singleton
-public class ExternalConsumerService implements Stream {
+public class BridgeGrpcService implements Stream {
 
-    private static final Logger LOG = Logger.getLogger(ExternalConsumerService.class);
+    private static final Logger LOG = Logger.getLogger(BridgeGrpcService.class);
 
     @Inject
     ExternalConsumer handler;
@@ -46,8 +45,7 @@ public class ExternalConsumerService implements Stream {
     private Duration timeout = Duration.ofSeconds(15);
 
     /**
-     * Stores a map between the token of a session (Please fix this to use JTI or
-     * something!) and
+     * Stores a map between jti and
      * a broadcast processor
      */
     private static Map<String, BroadcastProcessor<Item>> processors = new HashMap<>();
@@ -70,7 +68,9 @@ public class ExternalConsumerService implements Stream {
     @Override
     public Multi<Item> connect(Item request) {
 
-        if (processors.containsKey(getPayload(request).jti)) {
+        KeycloakTokenPayload payload = getPayload(request);
+
+        if (processors.containsKey(payload.jti)) {
             LOG.error("2 sessions with the same token tried to connect!");
             // Throw an exception to indicate that they're already connected?
             // Not sure how to do this
@@ -81,12 +81,12 @@ public class ExternalConsumerService implements Stream {
         Multi<Item> multi = processor
                 // .onItem().invoke() // - Called when an item is being sent
                 .ifNoItem().after(timeout).failWith(new TimeoutException()).invoke(() -> {
-                    onFail(getPayload(request).jti);
+                    onFail(payload.jti);
                 });
 
-        processors.put(getPayload(request), processor);
+        processors.put(payload.jti, processor);
 
-        LOG.info("New session with jti " + getPayload(request).jti + " just connected!");
+        LOG.info("New session with jti " + payload.jti + " just connected!");
 
         return multi;
     }
@@ -102,17 +102,14 @@ public class ExternalConsumerService implements Stream {
 
         routeMessage(request);
 
-        // event.setRawMessage(object);
-
         // Return an Empty Uni
         return Uni.createFrom().nothing();
     }
 
     /**
-     * Call this to send data to the frontend based on a token
-     * (Convert to JTI or something please!)
+     * Call this to send data to the frontend based on a jti
      * 
-     * @param token - User to send to
+     * @param jti - User to send to
      * @param data  - Data to send. Can possibly be a Multi if we want to send a few
      *              things
      */

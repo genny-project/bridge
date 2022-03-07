@@ -4,7 +4,9 @@ package life.genny.bridge.live.data;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -28,6 +30,7 @@ import life.genny.bridge.model.grpc.Stream;
  * @author Dan
  */
 @GrpcService
+@Default
 @Singleton
 public class ExternalConsumerService implements Stream {
 
@@ -114,12 +117,25 @@ public class ExternalConsumerService implements Stream {
     }
 
     /**
+     * Broadcast data to all connected clients
+     * @param data
+     */
+    public void broadcast(Item data) {
+
+        for (Entry<String, BroadcastProcessor<Item>> entry : processors.entrySet()) {
+            send(entry.getKey(), data);
+        }
+
+    }
+
+    /**
      * Heartbeat to keep connections alive. Should be called by the frontend on a timer
      */
     @Override
     public Uni<Empty> heartbeat(Empty request) {
         return Uni.createFrom().nothing();
     }
+
 
     
 

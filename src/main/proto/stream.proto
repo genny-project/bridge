@@ -12,6 +12,7 @@ service Stream {
     rpc Source(Empty) returns (stream Item) {}
     rpc Sink(stream Item) returns (Empty) {}
     rpc Pipe(stream Item) returns (stream Item) {}
+    rpc Poll(Empty) returns (Item) {}
 }
 
 // The request Item

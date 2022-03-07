@@ -84,6 +84,10 @@ public class ExternalConsumerService implements Stream {
                 .onItem().scan(() -> 0L, Long::sum)
                 .onItem().transform(l -> Item.newBuilder().setBody(Long.toString(l)).build());
     }
+    @Override
+    public Uni<Item> poll(Empty empty){
+        return Uni.createFrom().item(Item.newBuilder().setBody("New value").build());
+    }
     
     public StreamObserver<Item> pipe(final StreamObserver<Item> observer) {
         return new StreamObserver<Item>() {

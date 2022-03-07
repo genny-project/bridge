@@ -145,14 +145,22 @@ public class BridgeGrpcService implements Stream {
         return Uni.createFrom().nothing();
     }
 
+    /**
+     * Takes an item sent through {@link BridgeGrpcService#sink} and sends it through to kafka
+     * @param request
+     */
     public void routeMessage(Item request) {
-        LOG.info("Item body " + request.getBody() + "Token " + request.getToken());
         KeycloakTokenPayload payload = getPayload(request);
-        System.out.println("JTI " + payload.jti + " " + payload.sid);
+        LOG.info("JTI " + payload.jti + " " + payload.sid);
         JsonObject object = new JsonObject(request.getBody());
         handler.routeDataByMessageType(object, payload.sid, payload.jti);
     }
 
+    /**
+     * Creates a keycloakTokenPayload out of an Item, based on its token
+     * @param request
+     * @return
+     */
     private KeycloakTokenPayload getPayload(Item request) {
         KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(request.getToken());
         return payload;

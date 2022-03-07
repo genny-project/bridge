@@ -88,7 +88,7 @@ public class ExternalConsumerService implements Stream {
 
         LOG.info("Got data from " + request.getToken() + " \n " + request.getBody());
 
-
+        
 
         //Return an Empty Uni
         return Uni.createFrom().nothing();
@@ -108,6 +108,14 @@ public class ExternalConsumerService implements Stream {
 
         //Throw an exception or something?        
 
+    }
+
+    /**
+     * Heartbeat to keep connections alive. Should be called by the frontend on a timer
+     */
+    @Override
+    public Uni<Empty> heartbeat(Empty request) {
+        return Uni.createFrom().nothing();
     }
 
     

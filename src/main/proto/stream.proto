@@ -10,6 +10,9 @@ package stream;
 service Stream {
     rpc Connect(Item) returns (stream Item) {}
     rpc sink(Item) returns (Empty) {}
+
+    rpc Heartbeat(Empty) returns (Empty) {}
+
 }
 
 // The request Item

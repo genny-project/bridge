@@ -51,7 +51,7 @@ public class BridgeGrpcService implements Stream {
     private static Map<String, BroadcastProcessor<Item>> processors = new HashMap<>();
 
     /**
-     * Called when a connection times out. Get this to work with JTI or something
+     * Called when a connection times out
      * 
      * @param jti
      */

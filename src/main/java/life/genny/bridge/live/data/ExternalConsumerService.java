@@ -84,11 +84,11 @@ public class ExternalConsumerService implements Stream {
      * @param request - A multi of Items containing the data
      */
     @Override
-    public Uni<Empty> sink(Multi<Item> request) {
+    public Uni<Empty> sink(Item request) {
 
-        LOG.info("Got data!");
+        LOG.info("Got data from " + request.getToken() + " \n " + request.getBody());
 
-        //Proccess the data here somehow
+
 
         //Return an Empty Uni
         return Uni.createFrom().nothing();

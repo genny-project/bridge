@@ -9,7 +9,7 @@ package stream;
 // The greeting service definition.
 service Stream {
     rpc Connect(Item) returns (stream Item) {}
-    rpc sink(stream Item) returns (Empty) {}
+    rpc sink(Item) returns (Empty) {}
 }
 
 // The request Item

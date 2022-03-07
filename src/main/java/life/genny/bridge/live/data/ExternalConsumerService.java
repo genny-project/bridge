@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.jboss.logging.Logger;
 
 import io.quarkus.grpc.GrpcService;
 import io.smallrye.mutiny.Multi;
@@ -15,7 +18,6 @@ import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 import life.genny.bridge.model.grpc.Empty;
 import life.genny.bridge.model.grpc.Item;
 import life.genny.bridge.model.grpc.Stream;
-import org.jboss.logging.Logger;
 
 
 /**
@@ -26,6 +28,7 @@ import org.jboss.logging.Logger;
  * @author Dan
  */
 @GrpcService
+@Singleton
 public class ExternalConsumerService implements Stream {
 
     private static final Logger LOG = Logger.getLogger(ExternalConsumerService.class);

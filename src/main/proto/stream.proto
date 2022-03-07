@@ -8,11 +8,8 @@ package stream;
 
 // The greeting service definition.
 service Stream {
-    // Sends a greeting
-    rpc Source(Empty) returns (stream Item) {}
-    rpc Sink(stream Item) returns (Empty) {}
-    rpc Pipe(stream Item) returns (stream Item) {}
-    rpc Poll(Empty) returns (Item) {}
+    rpc Connect(Empty) returns (stream Item) {}
+    rpc sink(stream Item) returns (Empty) {}
 }
 
 // The request Item

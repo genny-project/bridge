@@ -25,6 +25,7 @@ public class InternalConsumer {
   @Inject TokenVerification verification;
   @Inject EventBus bus;
   @Inject BlackListInfo blackList;
+  @Inject ExternalConsumerService service;
 
   @ConfigProperty(name = "genny.log.show.outgoing.json", defaultValue = "false")
   Boolean showOutgoingJson;
@@ -91,6 +92,7 @@ public class InternalConsumer {
         verification.verify(payload.realm, payload.token);
         if (!incoming.contains("<body>Unauthorized</body>")) {
           LOG.info("Publishing message to session " + payload.sessionState);
+          System.out.println("Got incoming " +incoming);
           bus.publish(payload.sessionState, removeKeys(json));
         } else {
           LOG.error(

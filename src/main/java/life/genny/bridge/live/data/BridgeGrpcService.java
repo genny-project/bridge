@@ -79,7 +79,7 @@ public class BridgeGrpcService implements Stream {
         BroadcastProcessor<Item> processor = BroadcastProcessor.create();
         Multi<Item> multi = processor
                 // .onItem().invoke() // - Called when an item is being sent
-                .ifNoItem().after(timeout).failWith(new TimeoutException())
+                .ifNoItem().after(timeout).failWith(io.grpc.Status.ABORTED.withDescription("Client timed out!").asRuntimeException())
                 .onFailure().invoke(() -> {
                     onError(payload.jti);
                 });

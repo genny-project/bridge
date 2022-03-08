@@ -50,13 +50,16 @@ public class BridgeGrpcService implements Stream {
      */
     private static Map<String, BroadcastProcessor<Item>> processors = new HashMap<>();
 
+
     /**
      * Called when a connection times out
      * 
      * @param jti
      */
-    private static void onFail(String jti) {
-        LOG.warn("Session with jti " + jti + " timed out!");
+    private static void onTimeout(String jti) {
+        LOG.warn("Session with jti " + jti + " just timed out!");
+        processors.get(jti).onNext(Item.newBuilder().setBody("You timed out!").build());
+        processors.get(jti).onComplete();
         processors.remove(jti);
     }
 
@@ -80,8 +83,9 @@ public class BridgeGrpcService implements Stream {
         BroadcastProcessor<Item> processor = BroadcastProcessor.create();
         Multi<Item> multi = processor
                 // .onItem().invoke() // - Called when an item is being sent
-                .ifNoItem().after(timeout).failWith(new TimeoutException()).invoke(() -> {
-                    onFail(payload.jti);
+                .ifNoItem().after(timeout).failWith(new TimeoutException())
+                .onFailure(failure -> failure instanceof TimeoutException).invoke(() -> {
+                    onTimeout(payload.jti);
                 });
 
         processors.put(payload.jti, processor);
@@ -141,7 +145,12 @@ public class BridgeGrpcService implements Stream {
      * timer
      */
     @Override
-    public Uni<Empty> heartbeat(Empty request) {
+    public Uni<Empty> heartbeat(Item request) {
+
+        KeycloakTokenPayload payload = getPayload(request);
+
+        send(payload.jti, request);
+
         return Uni.createFrom().nothing();
     }
 

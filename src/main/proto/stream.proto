@@ -11,7 +11,7 @@ service Stream {
     rpc Connect(Item) returns (stream Item) {}
     rpc sink(Item) returns (Empty) {}
 
-    rpc Heartbeat(Empty) returns (Empty) {}
+    rpc Heartbeat(Item) returns (Empty) {}
 
 }
 

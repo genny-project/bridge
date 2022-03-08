@@ -52,7 +52,7 @@ public class BridgeGrpcService implements Stream {
 
 
     /**
-     * Called when a connection times out
+     * Called when a connection errors out in some way
      * 
      * @param jti
      */

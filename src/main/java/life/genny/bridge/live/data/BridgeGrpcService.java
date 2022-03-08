@@ -74,9 +74,8 @@ public class BridgeGrpcService implements Stream {
 
         if (processors.containsKey(payload.jti)) {
             LOG.error("2 sessions with the same token tried to connect!");
-            return Multi.createFrom().failure(new IllegalAccessException("You're already connected!"));
+            return Multi.createFrom().failure(io.grpc.Status.ALREADY_EXISTS.withDescription("Client already connected!").asRuntimeException());
         }
-
         BroadcastProcessor<Item> processor = BroadcastProcessor.create();
         Multi<Item> multi = processor
                 // .onItem().invoke() // - Called when an item is being sent

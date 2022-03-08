@@ -56,9 +56,8 @@ public class BridgeGrpcService implements Stream {
      * 
      * @param jti
      */
-    private static void onTimeout(String jti) {
-        LOG.warn("Session with jti " + jti + " just timed out!");
-        processors.get(jti).onNext(Item.newBuilder().setBody("You timed out!").build());
+    private static void onError(String jti) {
+        LOG.warn("Session with jti " + jti + " just errored out!");
         processors.get(jti).onComplete();
         processors.remove(jti);
     }
@@ -75,17 +74,15 @@ public class BridgeGrpcService implements Stream {
 
         if (processors.containsKey(payload.jti)) {
             LOG.error("2 sessions with the same token tried to connect!");
-            // Throw an exception to indicate that they're already connected?
-            // Not sure how to do this
-            return null;
+            return Multi.createFrom().failure(new IllegalAccessException("You're already connected!"));
         }
 
         BroadcastProcessor<Item> processor = BroadcastProcessor.create();
         Multi<Item> multi = processor
                 // .onItem().invoke() // - Called when an item is being sent
                 .ifNoItem().after(timeout).failWith(new TimeoutException())
-                .onFailure(failure -> failure instanceof TimeoutException).invoke(() -> {
-                    onTimeout(payload.jti);
+                .onFailure().invoke(() -> {
+                    onError(payload.jti);
                 });
 
         processors.put(payload.jti, processor);

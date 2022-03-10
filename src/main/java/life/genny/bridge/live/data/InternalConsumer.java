@@ -1,15 +1,18 @@
 package life.genny.bridge.live.data;
 
-import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonObject;
 import javax.inject.Inject;
-import life.genny.bridge.blacklisting.BlackListInfo;
-import life.genny.security.keycloak.exception.GennyKeycloakException;
-import life.genny.security.keycloak.model.KeycloakTokenPayload;
-import life.genny.security.keycloak.service.TokenVerification;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
+
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
+import life.genny.bridge.blacklisting.BlackListInfo;
+import life.genny.bridge.model.grpc.Item;
+import life.genny.security.keycloak.exception.GennyKeycloakException;
+import life.genny.security.keycloak.model.KeycloakTokenPayload;
+import life.genny.security.keycloak.service.TokenVerification;
 
 /**
  * InternalConsumer --- The class where all messages from the backends such as lauchy,
@@ -25,7 +28,7 @@ public class InternalConsumer {
   @Inject TokenVerification verification;
   @Inject EventBus bus;
   @Inject BlackListInfo blackList;
-  @Inject BridgeGrpcService service;
+  @Inject BridgeGrpcService grpcService;
 
   @ConfigProperty(name = "genny.log.show.outgoing.json", defaultValue = "false")
   Boolean showOutgoingJson;
@@ -92,7 +95,9 @@ public class InternalConsumer {
         verification.verify(payload.realm, payload.token);
         if (!incoming.contains("<body>Unauthorized</body>")) {
           LOG.info("Publishing message to session " + payload.sessionState);
-          System.out.println("Got incoming " +incoming);
+
+          grpcService.send(payload.jti, Item.newBuilder().setBody(removeKeys(json).toString()).build());
+
           bus.publish(payload.sessionState, removeKeys(json));
         } else {
           LOG.error(

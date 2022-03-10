@@ -98,7 +98,7 @@ public class BridgeGrpcService implements Stream {
      */
     @Override
     public Uni<Empty> sink(Item request) {
-        LOG.info("Got data from " + getPayload(request).jti + " \n " + request.getBody());
+        LOG.info("Got data from " + getPayload(request).jti);
 
         routeMessage(request);
 

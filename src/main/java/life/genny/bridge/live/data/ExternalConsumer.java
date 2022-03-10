@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.bridge.blacklisting.BlackListedMessages;
 import life.genny.commons.CommonOps;
+import life.genny.qwandaq.utils.KafkaUtils;
 import life.genny.security.keycloak.model.KeycloakTokenPayload;
 import life.genny.security.keycloak.service.RoleBasedPermission;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -23,152 +24,159 @@ import org.jboss.logging.Logger;
 @Singleton
 public class ExternalConsumer {
 
-  private static final Logger LOG = Logger.getLogger(ExternalConsumer.class);
+	private static final Logger log = Logger.getLogger(ExternalConsumer.class);
 
-  @Inject RoleBasedPermission permissions;
-  @Inject BlackListInfo blacklist;
+	@Inject RoleBasedPermission permissions;
+	@Inject BlackListInfo blacklist;
 
-  @Inject InternalProducer producer;
+	@ConfigProperty(name = "bridge.id", defaultValue = "false")
+	String bridgeId;
 
-  @ConfigProperty(name = "bridge.id", defaultValue = "false")
-  String bridgeId;
+	/**
+	 * Extract the token from the headers. The websocket mesage will be a json object and the root key
+	 * properties of the object will contain headers, body and types such as PING PUBLISH and others
+	 * from {@BridgeEvent}
+	 *
+	 * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
+	 *     ExternalConsumerConfig} method - init(@Observes Router router)
+	 * @return A bearer token
+	 */
+	public String extractTokenFromMessageHeaders(BridgeEvent bridgeEvent) {
+		JsonObject headers = bridgeEvent.getRawMessage().getJsonObject("headers");
+		return CommonOps.extractTokenFromHeaders(headers.getString("Authorization"));
+	}
 
-  /**
-   * Extract the token from the headers. The websocket mesage will be a json object and the root key
-   * properties of the object will contain headers, body and types such as PING PUBLISH and others
-   * from {@BridgeEvent}
-   *
-   * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @return A bearer token
-   */
-  public String extractTokenFromMessageHeaders(BridgeEvent bridgeEvent) {
-    JsonObject headers = bridgeEvent.getRawMessage().getJsonObject("headers");
-    return CommonOps.extractTokenFromHeaders(headers.getString("Authorization"));
-  }
+	/**
+	 * Checks if the token has been verified and contains the roles and permission for this request
+	 *
+	 * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
+	 *     ExternalConsumerConfig} method - init(@Observes Router router)
+	 * @param roles An arrays of string with each string being a role such user, test, admin etc.
+	 */
+	void handleIfRolesAllowed(final BridgeEvent bridgeEvent, String... roles) {
 
-  /**
-   * Checks if the token has been verified and contains the roles and permission for this request
-   *
-   * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @param roles An arrays of string with each string being a role such user, test, admin etc.
-   */
-  void handleIfRolesAllowed(final BridgeEvent bridgeEvent, String... roles) {
-    KeycloakTokenPayload payload =
-        KeycloakTokenPayload.decodeToken(extractTokenFromMessageHeaders(bridgeEvent));
-    if (blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))) {
-      bridgeEvent.socket().close(-1, BlackListedMessages.BLACKLISTED_MSG);
-      LOG.error(
-          "A blacklisted user "
-              + payload.sub
-              + " tried to access the sockets from remote "
-              + bridgeEvent.socket().remoteAddress());
-      return;
-    }
+		KeycloakTokenPayload payload =
+			KeycloakTokenPayload.decodeToken(extractTokenFromMessageHeaders(bridgeEvent));
 
-    if (permissions.rolesAllowed(payload, roles)) {
-      bridgeHandler(bridgeEvent, payload);
-    } else {
-      LOG.error(
-          "A message was sent with a bad token or an unauthorized user or a token from "
-              + "a different authority this user has not access to this request "
-              + payload.sub);
-      bridgeEvent.complete(false);
-    }
-  }
+		if (blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))) {
 
-  /**
-   * Checks whether the messsage contains within body and data key property. In addition a limit of
-   * 100kb is set so if the message is greater than tha the socket will be closed
-   *
-   * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @return - True if contains data key field and json message is less than 100kb - False otherwise
-   */
-  Boolean validateMessage(BridgeEvent bridgeEvent) {
-    JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
-    if (rawMessage.toBuffer().length() > 100000) {
-      LOG.error(
-          "message of size "
-              + rawMessage.toBuffer().length()
-              + " is larger than 100kb sent from "
-              + bridgeEvent.socket().remoteAddress()
-              + " coming from the domain "
-              + bridgeEvent.socket().uri());
-      bridgeEvent.socket().close(-1, "message message is larger than 100kb");
-      return false;
-    }
-    try {
-      return rawMessage.containsKey("data");
-    } catch (Exception e) {
-      LOG.error("message does not have data field inside body");
-      bridgeEvent.complete(true);
-      return false;
-    }
-  }
+			bridgeEvent.socket().close(-1, BlackListedMessages.BLACKLISTED_MSG);
+			log.errorv(
+					"A blacklisted user {} tried to access the sockets from remote {}",
+					payload.sub,
+					bridgeEvent.socket().remoteAddress());
+			return;
+		}
 
-  /**
-   * Only handle mesages when they are type SEND or PUBLISH.
-   *
-   * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   */
-  void handleConnectionTypes(final BridgeEvent bridgeEvent) {
-    switch (bridgeEvent.type()) {
-      case PUBLISH:
-      case SEND:
-        {
-          handleIfRolesAllowed(bridgeEvent, "user");
-        }
-      case SOCKET_CLOSED:
-      case SOCKET_CREATED:
-      default:
-        {
-          bridgeEvent.complete(true);
-          return;
-        }
-    }
-  }
+		if (permissions.rolesAllowed(payload, roles)) {
+			bridgeHandler(bridgeEvent, payload);
+		} else {
+			log.error("A message was sent with a bad token or an unauthorized user or a token from "
+					+ "a different authority this user has not access to this request " + payload.sub);
+			bridgeEvent.complete(false);
+		}
+	}
 
-  /**
-   * Depending of the message type the corresponding internal producer channel is used to route that
-   * request on the backends such as rules, api, sheelemy notes, messages etc.
-   *
-   * @param body The body extracted from the raw json object sent from BridgeEvent
-   * @param userUUID User UUID
-   */
-  void routeDataByMessageType(JsonObject body, String userUUID, String jti) {
-    // producer.getToBridgeSwitch().send(new JsonObject().put("tokenId", tokenId).toString());
-    if (body.getString("msg_type").equals("DATA_MSG")) {
-      LOG.info("Sending to message from user " + jti + " to data " + bridgeId);
-      producer.getToData().send(body.put(jti, bridgeId).toString());
-    } else if (body.getString("msg_type").equals("EVT_MSG")) {
-      LOG.info("Sending to message from user " + jti + " " + bridgeId + " to events");
-      producer.getToEvents().send(body.put(jti, bridgeId).toString());
-    } else if ((body.getJsonObject("data").getString("code") != null)
-        && (body.getJsonObject("data").getString("code").equals("QUE_SUBMIT"))) {
-      LOG.error("A deadend message was sent with the code QUE_SUBMIT");
-    }
-  }
+	/**
+	 * Checks whether the messsage contains within body and data key property. In addition a limit of
+	 * 100kb is set so if the message is greater than tha the socket will be closed
+	 *
+	 * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
+	 *     ExternalConsumerConfig} method - init(@Observes Router router)
+	 * @return - True if contains data key field and json message is less than 100kb - False otherwise
+	 */
+	Boolean validateMessage(BridgeEvent bridgeEvent) {
 
-  /**
-   * Handle message after token has been verified
-   *
-   * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @param payload KeycloakTokenPayload object return from an authorized access check
-   */
-  protected void bridgeHandler(final BridgeEvent bridgeEvent, KeycloakTokenPayload payload) {
-    JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
-    if (!validateMessage(bridgeEvent)) {
-      LOG.error(
-          "An invalid message has been received from this user "
-              + payload.sid
-              + " this message will be ingored ");
-      return;
-    }
-    routeDataByMessageType(rawMessage.getJsonObject("data"), payload.sid, payload.jti);
-    bridgeEvent.complete(true);
-  }
+		JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
+
+		if (rawMessage.toBuffer().length() > 100000) {
+
+			log.errorv("message of size {} is larger than 100kb sent from {} coming from the domain {}",
+					rawMessage.toBuffer().length(),
+					bridgeEvent.socket().remoteAddress(),
+					bridgeEvent.socket().uri());
+
+			bridgeEvent.socket().close(-1, "message message is larger than 100kb");
+			return false;
+		}
+
+		try {
+
+			return rawMessage.containsKey("data");
+
+		} catch (Exception e) {
+			log.error("message does not have data field inside body");
+			bridgeEvent.complete(true);
+			return false;
+		}
+	}
+
+	/**
+	 * Only handle mesages when they are type SEND or PUBLISH.
+	 *
+	 * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
+	 *     ExternalConsumerConfig} method - init(@Observes Router router)
+	 */
+	void handleConnectionTypes(final BridgeEvent bridgeEvent) {
+		switch (bridgeEvent.type()) {
+			case PUBLISH:
+			case SEND:
+				{
+					handleIfRolesAllowed(bridgeEvent, "user");
+				}
+			case SOCKET_CLOSED:
+			case SOCKET_CREATED:
+			default:
+				{
+					bridgeEvent.complete(true);
+					return;
+				}
+		}
+	}
+
+	/**
+	 * Depending of the message type the corresponding internal producer channel is used to route that
+	 * request on the backends such as rules, api, sheelemy notes, messages etc.
+	 *
+	 * @param body The body extracted from the raw json object sent from BridgeEvent
+	 * @param userUUID User UUID
+	 */
+	void routeDataByMessageType(JsonObject body, String userUUID, String jti) {
+
+		if (body.getString("msg_type").equals("DATA_MSG")) {
+
+			log.info("Sending to message from user " + jti + " to data " + bridgeId);
+			KafkaUtils.writeMsg("data", body.put(jti, bridgeId).toString());
+
+		} else if (body.getString("msg_type").equals("EVT_MSG")) {
+
+			log.info("Sending to message from user " + jti + " " + bridgeId + " to events");
+			KafkaUtils.writeMsg("events", body.put(jti, bridgeId).toString());
+
+		} else if ((body.getJsonObject("data").getString("code") != null)
+				&& (body.getJsonObject("data").getString("code").equals("QUE_SUBMIT"))) {
+
+			log.error("A deadend message was sent with the code QUE_SUBMIT");
+				}
+	}
+
+	/**
+	 * Handle message after token has been verified
+	 *
+	 * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
+	 *     ExternalConsumerConfig} method - init(@Observes Router router)
+	 * @param payload KeycloakTokenPayload object return from an authorized access check
+	 */
+	protected void bridgeHandler(final BridgeEvent bridgeEvent, KeycloakTokenPayload payload) {
+
+		JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
+
+		if (!validateMessage(bridgeEvent)) {
+			log.errorv("An invalid message has been received from this user {} this message will be ingored ", payload.sid);
+			return;
+		}
+
+		routeDataByMessageType(rawMessage.getJsonObject("data"), payload.sid, payload.jti);
+		bridgeEvent.complete(true);
+	}
 }

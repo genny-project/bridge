@@ -3,6 +3,7 @@ package life.genny.bridge.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import life.genny.qwandaq.message.QDataMessage;
 
 @RegisterForReflection
 public class QDataB2BMessage extends QDataMessage {

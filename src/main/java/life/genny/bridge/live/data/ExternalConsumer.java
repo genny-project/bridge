@@ -8,6 +8,9 @@ import javax.inject.Singleton;
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.bridge.blacklisting.BlackListedMessages;
 import life.genny.commons.CommonOps;
+import life.genny.qwandaq.data.BridgeSwitch;
+import life.genny.qwandaq.models.GennyToken;
+import life.genny.qwandaq.utils.HttpUtils;
 import life.genny.qwandaq.utils.KafkaUtils;
 import life.genny.security.keycloak.model.KeycloakTokenPayload;
 import life.genny.security.keycloak.service.RoleBasedPermission;
@@ -43,7 +46,7 @@ public class ExternalConsumer {
 	 */
 	public String extractTokenFromMessageHeaders(BridgeEvent bridgeEvent) {
 		JsonObject headers = bridgeEvent.getRawMessage().getJsonObject("headers");
-		return CommonOps.extractTokenFromHeaders(headers.getString("Authorization"));
+		return HttpUtils.extractTokenFromHeaders(headers.getString("Authorization"));
 	}
 
 	/**
@@ -141,23 +144,29 @@ public class ExternalConsumer {
 	 * @param body The body extracted from the raw json object sent from BridgeEvent
 	 * @param userUUID User UUID
 	 */
-	void routeDataByMessageType(JsonObject body, String userUUID, String jti) {
+	void routeDataByMessageType(GennyToken gennyToken, JsonObject body) {
 
+		BridgeSwitch.put(gennyToken, bridgeId);
+
+		// forward data to data channel
 		if (body.getString("msg_type").equals("DATA_MSG")) {
 
-			log.info("Sending to message from user " + jti + " to data " + bridgeId);
-			KafkaUtils.writeMsg("data", body.put(jti, bridgeId).toString());
+			log.info("Sending to message from user " + gennyToken.getUniqueId() + " to data " + bridgeId);
+			// KafkaUtils.writeMsg("data", body.put(jti, bridgeId).toString());
+			KafkaUtils.writeMsg("data", body.toString());
 
+		// forward events to events channel
 		} else if (body.getString("msg_type").equals("EVT_MSG")) {
 
-			log.info("Sending to message from user " + jti + " " + bridgeId + " to events");
-			KafkaUtils.writeMsg("events", body.put(jti, bridgeId).toString());
+			log.info("Sending to message from user " + gennyToken.getUniqueId() + " " + bridgeId + " to events");
+			// KafkaUtils.writeMsg("events", body.put(jti, bridgeId).toString());
+			KafkaUtils.writeMsg("events", body.toString());
 
 		} else if ((body.getJsonObject("data").getString("code") != null)
 				&& (body.getJsonObject("data").getString("code").equals("QUE_SUBMIT"))) {
 
 			log.error("A deadend message was sent with the code QUE_SUBMIT");
-				}
+		}
 	}
 
 	/**
@@ -176,7 +185,10 @@ public class ExternalConsumer {
 			return;
 		}
 
-		routeDataByMessageType(rawMessage.getJsonObject("data"), payload.sid, payload.jti);
+		// NOTE: We should probably remove KeycloakTokenPayload in favour of GennyToken
+		GennyToken gennyToken = new GennyToken(payload.token);
+
+		routeDataByMessageType(gennyToken, rawMessage.getJsonObject("data"));
 		bridgeEvent.complete(true);
 	}
 }

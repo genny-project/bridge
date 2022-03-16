@@ -71,16 +71,17 @@ public class TokenVerification {
      * or the wrong algorithm type was used or the token couldn't be parsed to a KeycloakTokenPayload
      * object
      */
-    public KeycloakTokenPayload verify(String realm, String token) throws GennyKeycloakException{
+    public KeycloakTokenPayload verify(String realm, String token) throws GennyKeycloakException {
 
         CertsResponse certs = getCert(realm);
         Optional<KeycloakRealmKey> keyMaybe = certs.keys.stream().findFirst();
 
-        if(keyMaybe.isEmpty())
-            throw new GennyKeycloakException(
-                    "Code is : I dont'have code please define me",
-                    "Not Certificate public key found for realm " + realm, 
-                    new NullPointerException());
+        if (keyMaybe.isEmpty()) {
+			throw new GennyKeycloakException(
+					"Code is : I dont'have code please define me",
+					"Not Certificate public key found for realm " + realm, 
+					new NullPointerException());
+		}
 
         KeycloakRealmKey key = keyMaybe.get();
         PublicKey publicKey = null;

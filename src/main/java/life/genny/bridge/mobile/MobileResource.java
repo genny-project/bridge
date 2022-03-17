@@ -37,7 +37,7 @@ public class MobileResource {
 	@Context
 	HttpServerRequest request;
 
-  @Inject @RestClient RulesserviceClient virtualChannel;
+	@Inject @RestClient RulesserviceClient virtualChannel;
 
 	/**
 	 * The mobile app client will sync it database to the schema of interest and the persisted in our

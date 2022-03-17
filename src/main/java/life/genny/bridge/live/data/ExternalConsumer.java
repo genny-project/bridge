@@ -187,6 +187,11 @@ public class ExternalConsumer {
 		// put id into user cached bridge info
 		BridgeSwitch.put(gennyToken, bridgeId);
 
+		// add id to active bridges if not there already
+		if (!BridgeSwitch.activeBridgeIds.contains(bridgeId)) {
+			BridgeSwitch.activeBridgeIds.add(bridgeId);
+		}
+
 		routeDataByMessageType(gennyToken, rawMessage.getJsonObject("data"));
 		bridgeEvent.complete(true);
 	}

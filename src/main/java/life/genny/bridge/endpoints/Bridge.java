@@ -28,14 +28,14 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
+import life.genny.qwandaq.message.QDataB2BMessage;
+import life.genny.qwandaq.models.AttributeCodeValueString;
+import life.genny.qwandaq.models.GennyItem;
 import life.genny.qwandaq.models.GennyToken;
 import life.genny.qwandaq.utils.KafkaUtils;
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.bridge.exception.BridgeException;
-import life.genny.bridge.model.AttributeCodeValueString;
-import life.genny.bridge.model.GennyItem;
 import life.genny.bridge.model.InitProperties;
-import life.genny.bridge.model.QDataB2BMessage;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.net.URLDecoder;
 

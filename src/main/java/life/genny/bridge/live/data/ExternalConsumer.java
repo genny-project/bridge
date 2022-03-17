@@ -6,8 +6,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import life.genny.bridge.blacklisting.BlackListInfo;
-import life.genny.bridge.blacklisting.BlackListedMessages;
-import life.genny.commons.CommonOps;
 import life.genny.qwandaq.data.BridgeSwitch;
 import life.genny.qwandaq.models.GennyToken;
 import life.genny.qwandaq.utils.HttpUtils;
@@ -63,9 +61,8 @@ public class ExternalConsumer {
 
 		if (blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))) {
 
-			bridgeEvent.socket().close(-1, BlackListedMessages.BLACKLISTED_MSG);
-			log.errorv(
-					"A blacklisted user {} tried to access the sockets from remote {}",
+			bridgeEvent.socket().close(-1, "Here is the confs ::: KLJHsSF#22452345SD09Jjla");
+			log.errorv("A blacklisted user {} tried to access the sockets from remote {}",
 					payload.sub,
 					bridgeEvent.socket().remoteAddress());
 			return;
@@ -121,6 +118,7 @@ public class ExternalConsumer {
 	 *     ExternalConsumerConfig} method - init(@Observes Router router)
 	 */
 	void handleConnectionTypes(final BridgeEvent bridgeEvent) {
+
 		switch (bridgeEvent.type()) {
 			case PUBLISH:
 			case SEND:
@@ -145,8 +143,6 @@ public class ExternalConsumer {
 	 * @param userUUID User UUID
 	 */
 	void routeDataByMessageType(GennyToken gennyToken, JsonObject body) {
-
-		BridgeSwitch.put(gennyToken, bridgeId);
 
 		// forward data to data channel
 		if (body.getString("msg_type").equals("DATA_MSG")) {
@@ -187,6 +183,9 @@ public class ExternalConsumer {
 
 		// NOTE: We should probably remove KeycloakTokenPayload in favour of GennyToken
 		GennyToken gennyToken = new GennyToken(payload.token);
+
+		// put id into user cached bridge info
+		BridgeSwitch.put(gennyToken, bridgeId);
 
 		routeDataByMessageType(gennyToken, rawMessage.getJsonObject("data"));
 		bridgeEvent.complete(true);

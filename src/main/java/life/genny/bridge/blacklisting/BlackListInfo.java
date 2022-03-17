@@ -18,7 +18,7 @@ import org.jboss.logging.Logger;
 @Singleton
 public class BlackListInfo {
 
-    private static final Logger LOG = Logger.getLogger(BlackListInfo.class);
+    private static final Logger log = Logger.getLogger(BlackListInfo.class);
 
     Set<UUID> blackListedUUIDs = ConcurrentHashMap.newKeySet();
 
@@ -45,31 +45,33 @@ public class BlackListInfo {
      *
      * @param uuidRuleProtocol
      */
-    public void onReceived(String uuidRuleProtocol){
+    public void onReceived(String uuidRuleProtocol) {
+
         String protocol = uuidRuleProtocol.trim();
-        if(protocol.equals("-")){
+        if (protocol.equals("-")) {
             deleteAll();
             return;
-        }
-        else if (protocol.length() < 2){
+        } else if (protocol.length() < 2) {
             return;
         }
 
         boolean hasDelete = false;
-        if(protocol.startsWith("-") && !protocol.subSequence(1, 2).equals("-")){
+        if (protocol.startsWith("-") && !protocol.subSequence(1, 2).equals("-")) {
             hasDelete = true;
         }
-        try{
-            if (hasDelete){
+
+        try {
+
+            if (hasDelete) {
                 String withoutMinus = protocol.substring(1);
                 deleteRecord(UUID.fromString(withoutMinus));
-            }else{
-                LOG.info("Added blacklist "+protocol);
+            } else {
+                log.infov("Added blacklist {}", protocol);
                 this.blackListedUUIDs.add(UUID.fromString(protocol));
             }
-        } catch (IllegalArgumentException exception){
-            LOG.error("The string received might not be a uuid {"+uuidRuleProtocol+"} please check again");
-        }
 
+        } catch (IllegalArgumentException exception){
+            log.error("The string received might not be a uuid {"+uuidRuleProtocol+"} please check again");
+        }
     }
 }

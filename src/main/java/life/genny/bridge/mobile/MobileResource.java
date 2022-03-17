@@ -29,7 +29,7 @@ import life.genny.bridge.client.RulesserviceClient;
 @Consumes(MediaType.APPLICATION_JSON)
 public class MobileResource {
 
-	private static final Logger LOG = Logger.getLogger(MobileResource.class);
+	private static final Logger log = Logger.getLogger(MobileResource.class);
 
 	@Context
 	UriInfo info;
@@ -37,7 +37,7 @@ public class MobileResource {
 	@Context
 	HttpServerRequest request;
 
-  @Inject @RestClient RulesserviceClient virtualChannel;
+	@Inject @RestClient RulesserviceClient virtualChannel;
 
 	/**
 	 * The mobile app client will sync it database to the schema of interest and the persisted in our
@@ -50,28 +50,32 @@ public class MobileResource {
 	@POST
 	@RolesAllowed({"user"})
 	public Response sync(String body) {
-		LOG.info("Mobile app from a user in sync with the database");
+
+		log.info("Mobile app from a user in sync with the database");
+
 		final String bodyString = new String(body);
 		String cleanedBody= bodyString.toString()
 			.replaceAll("[^\\x20-\\x7E]", " ")
 			.replaceAll(" +", " ")
 			.trim();
-		JsonObject rawMessage = null ;
+		JsonObject rawMessage = null;
+
 		try {
 			rawMessage = new JsonObject(cleanedBody);
 		} catch (Exception e) {
-			LOG.error("An error occurred when parsing message to JsonObject " + cleanedBody.substring(1,20));
+			log.error("An error occurred when parsing message to JsonObject " + cleanedBody.substring(1,20));
 			JsonObject err = new JsonObject().put("status", "error");
 			return Response.ok(err).build();
 		}
+
 		String token  = request.getHeader("authorization").split("Bearer ")[1];
 		if (token != null) { 
 			rawMessage.put("token", token);
-			try{
+			try {
 				JsonObject res = virtualChannel.sendPayload(rawMessage);
 				return Response.ok(res.toString()).build();
-			}catch(WebApplicationException e){
-				LOG.error("An error occurred when sending payload to rulesservice datawithreply with the following "+
+			} catch(WebApplicationException e) {
+				log.error("An error occurred when sending payload to rulesservice datawithreply with the following "+
 						"exception ",e);
 				return Response.serverError().build();
 			}

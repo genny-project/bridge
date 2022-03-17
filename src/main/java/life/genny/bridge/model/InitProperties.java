@@ -35,7 +35,7 @@ public class InitProperties {
         setApiUrl(url);
     }
 
-    public InitProperties() throws BridgeException{
+    public InitProperties() throws BridgeException {
     	// TODO: fetch these values from Kafka dependent upon the project url
         setRealm(System.getenv("realm"));
         setKeycloakRedirectUri(System.getenv("ENV_KEYCLOAK_REDIRECTURI"));

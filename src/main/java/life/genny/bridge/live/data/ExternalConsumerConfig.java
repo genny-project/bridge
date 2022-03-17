@@ -31,7 +31,7 @@ public class ExternalConsumerConfig {
 
 	@Inject Vertx vertx;
 	@Inject ExternalConsumer handler;
-        @ConfigProperty(name = "environment") Optional<String> environment;
+	@ConfigProperty(name = "environment") Optional<String> environment;
 
 
 	/**
@@ -49,7 +49,7 @@ public class ExternalConsumerConfig {
 		inbounds.add(new PermittedOptions().setAddressRegex(".*")); 
 		return inbounds;
 	}
-	
+
 	/**
 	 * This method is used to set all the types of addresses that will be allowed 
 	 * to send or publish to an external client which has registered the listener with addresses 
@@ -116,10 +116,10 @@ public class ExternalConsumerConfig {
 		SockJSHandlerOptions sockOptions = new SockJSHandlerOptions().setHeartbeatInterval(2000);
 		SockJSHandler sockJSHandler = SockJSHandler.create(vertx, sockOptions);
 		sockJSHandler.bridge(setBridgeOptions(),handler::handleConnectionTypes);
-                environment.filter(d -> !d.equals("prod"))
-                .ifPresent(d -> {
-                        router.route().handler(cors());
-                });
+		environment.filter(d -> !d.equals("prod"))
+			.ifPresent(d -> {
+				router.route().handler(cors());
+			});
 		router.route("/frontend/*").handler(cors());
 		router.route("/frontend/*").handler(sockJSHandler);
 	}

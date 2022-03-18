@@ -142,9 +142,10 @@ public class ExternalConsumer {
 	 */
 	void handleConnectionTypes(final BridgeEvent bridgeEvent) {
 
-		log.info("Found Bridge Event!!!");
+		log.info("Found Bridge Event!!! type = " + bridgeEvent.type().toString());
 
-		log.info(jsonb.toJson(bridgeEvent));
+		JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
+		log.info(rawMessage.toString());
 
 		switch (bridgeEvent.type()) {
 			case PUBLISH:

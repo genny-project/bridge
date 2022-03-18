@@ -81,6 +81,8 @@ public class Bridge {
 	public Response configObject() {
 
 		try {
+			log.info("Base URI = " + uriInfo.getBaseUri().toString());
+			log.info("SERVER_URL = " + System.getenv("SERVER_URL"));
 			return Response.ok(new InitProperties(uriInfo.getBaseUri().toString())).build();
 		} catch (BridgeException e) {
 			log.error("The configuration does not exist or cannot be find please check the ENVs");

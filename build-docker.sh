@@ -15,7 +15,7 @@ else
 fi
 
 echo "project = ${project}"
-echo "org= ${org}"
+echo "org = ${org}"
 echo "version = ${version}"
 USER=`whoami`
 ./mvnw clean package -Dquarkus.container-image.build=true -DskipTests=true

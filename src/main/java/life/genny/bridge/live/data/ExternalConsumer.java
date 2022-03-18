@@ -144,8 +144,13 @@ public class ExternalConsumer {
 
 		log.info("Found Bridge Event!!! type = " + bridgeEvent.type().toString());
 
-		JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
-		log.info(rawMessage.toString());
+		JsonObject rawMessage = bridgeEvent.getRawMessage();
+		if (rawMessage != null) {
+			JsonObject body = rawMessage.getJsonObject("body");
+			log.info(body.toString());
+		} else {
+			log.info("NULL RAW MESSAGE");
+		}
 
 		switch (bridgeEvent.type()) {
 			case PUBLISH:

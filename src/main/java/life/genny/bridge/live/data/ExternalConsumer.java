@@ -1,8 +1,11 @@
 package life.genny.bridge.live.data;
 
+import io.quarkus.runtime.StartupEvent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
 import java.util.UUID;
+
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import life.genny.bridge.blacklisting.BlackListInfo;
@@ -12,6 +15,8 @@ import life.genny.qwandaq.utils.HttpUtils;
 import life.genny.qwandaq.utils.KafkaUtils;
 import life.genny.security.keycloak.model.KeycloakTokenPayload;
 import life.genny.security.keycloak.service.RoleBasedPermission;
+import life.genny.serviceq.Service;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
@@ -29,9 +34,22 @@ public class ExternalConsumer {
 
 	@Inject RoleBasedPermission permissions;
 	@Inject BlackListInfo blacklist;
+	@Inject Service service;
 
 	@ConfigProperty(name = "bridge.id", defaultValue = "false")
 	String bridgeId;
+
+    void onStart(@Observes StartupEvent ev) {
+
+		// log our service config
+		service.showConfiguration();
+
+		// init necessary connections
+		service.initToken();
+		service.initCache();
+		service.initKafka();
+		log.info("[*] Finished Startup!");
+    }
 
 	/**
 	 * Extract the token from the headers. The websocket mesage will be a json object and the root key

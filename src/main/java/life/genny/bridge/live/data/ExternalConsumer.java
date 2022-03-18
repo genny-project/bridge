@@ -8,6 +8,9 @@ import java.util.UUID;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.qwandaq.data.BridgeSwitch;
 import life.genny.qwandaq.models.GennyToken;
@@ -31,6 +34,8 @@ import org.jboss.logging.Logger;
 public class ExternalConsumer {
 
 	private static final Logger log = Logger.getLogger(ExternalConsumer.class);
+
+	static Jsonb jsonb = JsonbBuilder.create();
 
 	@Inject RoleBasedPermission permissions;
 	@Inject BlackListInfo blacklist;
@@ -138,6 +143,8 @@ public class ExternalConsumer {
 	void handleConnectionTypes(final BridgeEvent bridgeEvent) {
 
 		log.info("Found Bridge Event!!!");
+
+		log.info(jsonb.toJson(bridgeEvent));
 
 		switch (bridgeEvent.type()) {
 			case PUBLISH:

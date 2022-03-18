@@ -137,6 +137,8 @@ public class ExternalConsumer {
 	 */
 	void handleConnectionTypes(final BridgeEvent bridgeEvent) {
 
+		log.info("Found Bridge Event!!!");
+
 		switch (bridgeEvent.type()) {
 			case PUBLISH:
 			case SEND:

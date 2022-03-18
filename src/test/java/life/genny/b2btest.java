@@ -10,9 +10,9 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.jupiter.api.Test;
 
-import life.genny.qwandaq.models.AttributeCodeValueString;
-import life.genny.qwandaq.models.GennyItem;
-import life.genny.qwandaq.message.QDataB2BMessage;
+import life.genny.bridge.model.AttributeCodeValueString;
+import life.genny.bridge.model.GennyItem;
+import life.genny.bridge.model.QDataB2BMessage;
 
 public class b2btest {
 

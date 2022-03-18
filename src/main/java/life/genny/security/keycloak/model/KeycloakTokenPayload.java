@@ -3,8 +3,7 @@ package life.genny.security.keycloak.model;
 import io.vertx.core.json.JsonObject;
 import java.util.Set;
 import java.util.stream.Collectors;
-import life.genny.qwandaq.utils.HttpUtils;
-
+import life.genny.commons.CommonOps;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jose4j.base64url.Base64;
 
@@ -83,7 +82,7 @@ public class KeycloakTokenPayload {
   public static KeycloakTokenPayload decodeToken(String token) {
     /* Below declaration checks If it is from Auth headers then
     extract the token otherwise return same token */
-    token = HttpUtils.extractTokenFromHeaders(token);
+    token = CommonOps.extractTokenFromHeaders(token);
     KeycloakTokenPayload keycloakTokenPayload = new KeycloakTokenPayload();
     String payload = new String(Base64.decode(token.split("\\.")[1]));
     JsonObject jsonPayload = new JsonObject(payload);

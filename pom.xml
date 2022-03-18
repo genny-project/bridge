@@ -8,17 +8,18 @@
 	<artifactId>bridge</artifactId>
 	<version>10.1.0</version>
 	<properties>
-		<genny.version>${project.version}</genny.version>
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
-		<!-- <maven.compiler.parameters>true</maven.compiler.parameters> -->
+		<maven.compiler.parameters>true</maven.compiler.parameters>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<quarkus-plugin.version>2.7.4.Final</quarkus-plugin.version>
-		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-		<quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-		<quarkus.platform.version>2.7.4.Final</quarkus.platform.version>
+		<project.reporting.outputEncoding>UTF-8
+		</project.reporting.outputEncoding>
+		<quarkus.platform.artifact-id>quarkus-bom
+		</quarkus.platform.artifact-id>
+		<quarkus.platform.group-id>io.quarkus.platform
+		</quarkus.platform.group-id>
+		<quarkus.platform.version>2.7.3.Final</quarkus.platform.version>
 		<surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
 	</properties>
 	<dependencyManagement>
@@ -34,9 +35,16 @@
 	</dependencyManagement>
 	<dependencies>
 		<dependency>
-			<groupId>life.genny</groupId>
-			<artifactId>serviceq</artifactId>
-			<version>${genny.version}</version>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-arc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-jsonb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-resteasy</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -44,11 +52,31 @@
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-jwt-build</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-oidc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-resteasy-jackson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-vertx-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-client-jackson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -78,13 +106,13 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> -->
-			<!-- 	<artifactId>maven-compiler-plugin</artifactId> -->
-			<!-- 	<version>${compiler-plugin.version}</version> -->
-			<!-- 	<configuration> -->
-			<!-- 		<parameters>${maven.compiler.parameters}</parameters> -->
-			<!-- 	</configuration> -->
-			<!-- </plugin> -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler-plugin.version}</version>
+				<configuration>
+					<parameters>${maven.compiler.parameters}</parameters>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire-plugin.version}</version>

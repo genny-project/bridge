@@ -3,7 +3,7 @@ package life.genny.bridge.client;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import io.vertx.core.json.JsonObject;
-import life.genny.bridge.client.exception.ResponseException;
+import life.genny.qwandaq.exception.ResponseException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -17,8 +17,7 @@ import javax.ws.rs.Path;
  */
 @Path("/eventbus")
 @RegisterRestClient
-@RegisterProvider(value = ResponseException.class,
-                  priority = 50)
+@RegisterProvider(value = ResponseException.class, priority = 50)
 public interface RulesserviceClient {
 
     @POST

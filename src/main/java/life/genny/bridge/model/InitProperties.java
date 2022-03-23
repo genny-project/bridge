@@ -3,7 +3,7 @@ package life.genny.bridge.model;
 import java.util.Arrays;
 import java.util.Optional;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.json.bind.annotation.JsonbProperty;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import life.genny.bridge.exception.BridgeException;
@@ -19,43 +19,58 @@ import life.genny.bridge.exception.BridgeException;
 @RegisterForReflection
 public class InitProperties {
 
-    @JsonProperty
+    @JsonbProperty
     String realm;
-    @JsonProperty(value="ENV_KEYCLOAK_REDIRECTURI")
+    @JsonbProperty("ENV_KEYCLOAK_REDIRECTURI")
     String keycloakRedirectUri;
-    @JsonProperty(value="ENV_MEDIA_PROXY_URL")
+    @JsonbProperty("ENV_MEDIA_PROXY_URL")
     String mediaProxyUrl;
-    @JsonProperty(value="api_url")
+    @JsonbProperty("api_url")
     String apiUrl;
 
-    public InitProperties(String url) throws BridgeException{
+    public InitProperties(String url) throws BridgeException {
         this();
         url = Optional.ofNullable(System.getenv("SERVER_URL")).orElse(url);
         setMediaProxyUrl(url);
         setApiUrl(url);
     }
 
-    public InitProperties() throws BridgeException{
+    public InitProperties() throws BridgeException {
     	// TODO: fetch these values from Kafka dependent upon the project url
         setRealm(System.getenv("realm"));
         setKeycloakRedirectUri(System.getenv("ENV_KEYCLOAK_REDIRECTURI"));
     }
 
+	public String getRealm() {
+		return realm;
+	}
+
     public void setRealm(String realm) throws BridgeException {
         this.realm = throwIfNull(realm,"realm");
     }
+
+	public String getKeycloakRedirectUri() {
+		return keycloakRedirectUri;
+	}
+
+    public void setKeycloakRedirectUri(String keycloakRedirectUri) throws BridgeException {
+        this.keycloakRedirectUri = throwIfNull(keycloakRedirectUri, "ENV_KEYCLOAK_REDIRECTURI");
+    }
+
+	public String getMediaProxyUrl() {
+		return mediaProxyUrl;
+	}
 
     public void setMediaProxyUrl(String url) {
         this.mediaProxyUrl = url + "/web/public";
     }
 
+	public String getApiUrl() {
+		return apiUrl;
+	}
+
     public void setApiUrl(String url) {
         this.apiUrl = url;
-    }
-
-
-    public void setKeycloakRedirectUri(String keycloakRedirectUri) throws BridgeException {
-        this.keycloakRedirectUri = throwIfNull(keycloakRedirectUri,"ENV_KEYCLOAK_REDIRECTURI");
     }
 
     /**

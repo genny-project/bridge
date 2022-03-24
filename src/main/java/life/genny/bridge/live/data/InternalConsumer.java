@@ -10,9 +10,9 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import life.genny.bridge.blacklisting.BlackListInfo;
 import life.genny.bridge.model.grpc.Item;
-import life.genny.security.keycloak.exception.GennyKeycloakException;
-import life.genny.security.keycloak.model.KeycloakTokenPayload;
-import life.genny.security.keycloak.service.TokenVerification;
+import life.genny.qwandaq.models.GennyToken;
+import life.genny.qwandaq.security.keycloak.KeycloakTokenPayload;
+import life.genny.qwandaq.security.keycloak.TokenVerification;
 
 /**
  * InternalConsumer --- The class where all messages from the backends such as lauchy,
@@ -99,10 +99,12 @@ public class InternalConsumer {
 			final JsonObject json = new JsonObject(incoming);
 			GennyToken gennyToken = new GennyToken(json.getString("token"));
 			verification.verify(gennyToken.getRealm(), gennyToken.getToken());
-
+			KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(json.getString("token"));
+			
 			if (!incoming.contains("<body>Unauthorized</body>")) {
 				String sessionState = (String) gennyToken.getAdecodedTokenMap().get("session_state");
 				log.info("Publishing message to session " + sessionState);
+				
 				grpcService.send(payload.jti, Item.newBuilder().setBody(removeKeys(json).toString()).build());
 				bus.publish(sessionState, removeKeys(json));
 

@@ -20,7 +20,8 @@ import io.vertx.core.json.JsonObject;
 import life.genny.bridge.model.grpc.Empty;
 import life.genny.bridge.model.grpc.Item;
 import life.genny.bridge.model.grpc.Stream;
-import life.genny.security.keycloak.model.KeycloakTokenPayload;
+import life.genny.qwandaq.models.GennyToken;
+import life.genny.qwandaq.security.keycloak.KeycloakTokenPayload;
 
 /**
  * Implementation of {@link Stream} that handles GRPC communication
@@ -158,7 +159,7 @@ public class BridgeGrpcService implements Stream {
         KeycloakTokenPayload payload = getPayload(request);
         LOG.info("JTI " + payload.jti + " " + payload.sid);
         JsonObject object = new JsonObject(request.getBody());
-        handler.routeDataByMessageType(object, payload.sid, payload.jti);
+        handler.routeDataByMessageType(object, new GennyToken(request.getToken()));
     }
 
     /**

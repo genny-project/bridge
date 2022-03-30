@@ -12,6 +12,7 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
 import life.genny.bridge.blacklisting.BlackListInfo;
+import life.genny.qwandaq.data.BridgeSwitch;
 import life.genny.qwandaq.models.GennyToken;
 import life.genny.qwandaq.security.keycloak.RoleBasedPermission;
 import life.genny.qwandaq.utils.HttpUtils;
@@ -128,6 +129,11 @@ public class ExternalConsumer {
 					+ gennyToken.getUserCode() + " this message will be ingored ");
 			return;
 		}
+
+		// put bridgeId into users cached info
+		BridgeSwitch.put(gennyToken, bridgeId);
+		BridgeSwitch.addActiveBridgeId(gennyToken, bridgeId);
+
 		routeDataByMessageType(rawMessageBody.getJsonObject("data"), gennyToken);
 		bridgeEvent.complete(true);
 	}
@@ -173,7 +179,7 @@ public class ExternalConsumer {
 	 */
 	void routeDataByMessageType(JsonObject body, GennyToken gennyToken) {
 
-		log.debug("Incoming Payload = " + body.toString());
+		log.info("Incoming Payload = " + body.toString());
 
 		if (body.getString("msg_type").equals("DATA_MSG")) {
 

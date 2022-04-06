@@ -10,6 +10,7 @@ import life.genny.qwandaq.security.keycloak.TokenVerification;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
+import life.genny.qwandaq.utils.CacheUtils;
 
 /**
  * InternalConsumer --- The class where all messages from the backends such as lauchy,
@@ -83,6 +84,9 @@ public class InternalConsumer {
 	 */
 	public void handleIncomingMessage(String arg) {
 
+		String jsonAttribute = (String) CacheUtils.readCache("internmatch", "attributes");
+
+		log.debug("Outgoing Payload jsonAttribute = " + jsonAttribute);
 		log.debug("Outgoing Payload = " + arg);
 
 		String incoming = arg;

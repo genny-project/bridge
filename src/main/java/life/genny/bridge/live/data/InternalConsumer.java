@@ -84,9 +84,9 @@ public class InternalConsumer {
 	 */
 	public void handleIncomingMessage(String arg) {
 
-		String jsonAttribute = (String) CacheUtils.readCache("internmatch", "attributes");
+		// String jsonAttribute = (String) CacheUtils.readCache("internmatch", "attributes");
 
-		log.debug("Outgoing Payload jsonAttribute = " + jsonAttribute);
+		// log.debug("Outgoing Payload jsonAttribute = " + jsonAttribute);
 		log.debug("Outgoing Payload = " + arg);
 
 		String incoming = arg;

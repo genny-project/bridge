@@ -27,17 +27,29 @@ public class InitProperties {
     String mediaProxyUrl;
     @JsonProperty(value="api_url")
     String apiUrl;
+    @JsonProperty
+    String clientId;
 
     public InitProperties(String url) throws BridgeException{
         this();
-        url = Optional.ofNullable(System.getenv("SERVER_URL")).orElse(url);
+        // url = Optional.ofNullable(System.getenv("SERVER_URL")).orElse(url);
         setMediaProxyUrl(url);
         setApiUrl(url);
+
+		if (url.contains("internmatch")) {
+			setClientId("alyson");
+		} else if (url.contains("mentormatch") || url.contains("mentor-match")) {
+			setClientId("mentormatch");
+		} else if (url.contains("lojing")) {
+			setClientId("lojing");
+		} else if (url.contains("credmatch") || url.contains("cred-match")) {
+			setClientId("credmatch");
+		}
     }
 
     public InitProperties() throws BridgeException{
     	// TODO: fetch these values from Kafka dependent upon the project url
-        setRealm(System.getenv("realm"));
+        setRealm("internmatch");
         setKeycloakRedirectUri(System.getenv("ENV_KEYCLOAK_REDIRECTURI"));
     }
 
@@ -53,6 +65,9 @@ public class InitProperties {
         this.apiUrl = url;
     }
 
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 
     public void setKeycloakRedirectUri(String keycloakRedirectUri) throws BridgeException {
         this.keycloakRedirectUri = throwIfNull(keycloakRedirectUri,"ENV_KEYCLOAK_REDIRECTURI");

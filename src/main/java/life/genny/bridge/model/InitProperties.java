@@ -36,7 +36,7 @@ public class InitProperties {
         setMediaProxyUrl(url);
         setApiUrl(url);
 
-		if (url.contains("internmatch")) {
+		if (url.contains("internmatch") || url.contains("alyson")) {
 			setClientId("alyson");
 		} else if (url.contains("mentormatch") || url.contains("mentor-match")) {
 			setClientId("mentormatch");

@@ -35,7 +35,6 @@ public class InitProperties {
         // url = Optional.ofNullable(System.getenv("SERVER_URL")).orElse(url);
         setMediaProxyUrl(url);
         setApiUrl(url);
-
 		if (url.contains("internmatch") || url.contains("alyson")) {
 			setClientId("alyson");
 		} else if (url.contains("mentormatch") || url.contains("mentor-match")) {
@@ -44,7 +43,10 @@ public class InitProperties {
 			setClientId("lojing");
 		} else if (url.contains("credmatch") || url.contains("cred-match")) {
 			setClientId("credmatch");
-		}
+		} else {
+            System.err.println("INITPROPS Fallback to alyson from url: [" + url + "] !");
+            setClientId("alyson");
+        }
     }
 
     public InitProperties() throws BridgeException {

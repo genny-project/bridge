@@ -14,9 +14,12 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 /**
- * ExternalConsumer --- External clients can connect to the endpoint configured in {@link
- * ExternalConsumerConfig} to upgrade websockets and maintain a real time communication. The only
- * knowned external consumer is alyson but it can be adapted to any other client.
+ * ExternalConsumer --- External clients can connect to the endpoint configured
+ * in {@link
+ * ExternalConsumerConfig} to upgrade websockets and maintain a real time
+ * communication. The only
+ * knowned external consumer is alyson but it can be adapted to any other
+ * client.
  *
  * @author hello@gada.io
  */
@@ -25,21 +28,27 @@ public class ExternalConsumer {
 
   private static final Logger LOG = Logger.getLogger(ExternalConsumer.class);
 
-  @Inject RoleBasedPermission permissions;
-  @Inject BlackListInfo blacklist;
+  @Inject
+  RoleBasedPermission permissions;
+  @Inject
+  BlackListInfo blacklist;
 
-  @Inject InternalProducer producer;
+  @Inject
+  InternalProducer producer;
 
   @ConfigProperty(name = "bridge.id", defaultValue = "false")
   String bridgeId;
 
   /**
-   * Extract the token from the headers. The websocket mesage will be a json object and the root key
-   * properties of the object will contain headers, body and types such as PING PUBLISH and others
+   * Extract the token from the headers. The websocket mesage will be a json
+   * object and the root key
+   * properties of the object will contain headers, body and types such as PING
+   * PUBLISH and others
    * from {@BridgeEvent}
    *
    * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
+   *                    ExternalConsumerConfig} method - init(@Observes Router
+   *                    router)
    * @return A bearer token
    */
   public String extractTokenFromMessageHeaders(BridgeEvent bridgeEvent) {
@@ -48,15 +57,17 @@ public class ExternalConsumer {
   }
 
   /**
-   * Checks if the token has been verified and contains the roles and permission for this request
+   * Checks if the token has been verified and contains the roles and permission
+   * for this request
    *
    * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @param roles An arrays of string with each string being a role such user, test, admin etc.
+   *                    ExternalConsumerConfig} method - init(@Observes Router
+   *                    router)
+   * @param roles       An arrays of string with each string being a role such
+   *                    user, test, admin etc.
    */
   void handleIfRolesAllowed(final BridgeEvent bridgeEvent, String... roles) {
-    KeycloakTokenPayload payload =
-        KeycloakTokenPayload.decodeToken(extractTokenFromMessageHeaders(bridgeEvent));
+    KeycloakTokenPayload payload = KeycloakTokenPayload.decodeToken(extractTokenFromMessageHeaders(bridgeEvent));
     if (blacklist.getBlackListedUUIDs().contains(UUID.fromString(payload.sub))) {
       bridgeEvent.socket().close(-1, BlackListedMessages.BLACKLISTED_MSG);
       LOG.error(
@@ -79,12 +90,15 @@ public class ExternalConsumer {
   }
 
   /**
-   * Checks whether the messsage contains within body and data key property. In addition a limit of
+   * Checks whether the messsage contains within body and data key property. In
+   * addition a limit of
    * 100kb is set so if the message is greater than tha the socket will be closed
    *
    * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @return - True if contains data key field and json message is less than 100kb - False otherwise
+   *                    ExternalConsumerConfig} method - init(@Observes Router
+   *                    router)
+   * @return - True if contains data key field and json message is less than 100kb
+   *         - False otherwise
    */
   Boolean validateMessage(BridgeEvent bridgeEvent) {
     JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");
@@ -112,36 +126,38 @@ public class ExternalConsumer {
    * Only handle mesages when they are type SEND or PUBLISH.
    *
    * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
+   *                    ExternalConsumerConfig} method - init(@Observes Router
+   *                    router)
    */
   void handleConnectionTypes(final BridgeEvent bridgeEvent) {
     switch (bridgeEvent.type()) {
       case PUBLISH:
-      case SEND:
-        {
-          handleIfRolesAllowed(bridgeEvent, "user");
-        }
+      case SEND: {
+        handleIfRolesAllowed(bridgeEvent, "user");
+      }
       case SOCKET_CLOSED:
       case SOCKET_CREATED:
-      default:
-        {
-          bridgeEvent.complete(true);
-          return;
-        }
+      default: {
+        bridgeEvent.complete(true);
+        return;
+      }
     }
   }
 
   /**
-   * Depending of the message type the corresponding internal producer channel is used to route that
+   * Depending of the message type the corresponding internal producer channel is
+   * used to route that
    * request on the backends such as rules, api, sheelemy notes, messages etc.
    *
-   * @param body The body extracted from the raw json object sent from BridgeEvent
+   * @param body     The body extracted from the raw json object sent from
+   *                 BridgeEvent
    * @param userUUID User UUID
    */
   void routeDataByMessageType(JsonObject body, String userUUID, String jti) {
-    // producer.getToBridgeSwitch().send(new JsonObject().put("tokenId", tokenId).toString());
+    // producer.getToBridgeSwitch().send(new JsonObject().put("tokenId",
+    // tokenId).toString());
     if (body.getString("msg_type").equals("DATA_MSG")) {
-      LOG.info("Sending to message from user " + jti + " to data " + bridgeId);
+      LOG.info("Sending to message from user " + jti + " to data " + bridgeId + ":::::" + body);
       producer.getToData().send(body.put(jti, bridgeId).toString());
     } else if (body.getString("msg_type").equals("EVT_MSG")) {
       LOG.info("Sending to message from user " + jti + " " + bridgeId + " to events");
@@ -156,8 +172,10 @@ public class ExternalConsumer {
    * Handle message after token has been verified
    *
    * @param bridgeEvent BridgeEvent object pass as an argument. See more {@link
-   *     ExternalConsumerConfig} method - init(@Observes Router router)
-   * @param payload KeycloakTokenPayload object return from an authorized access check
+   *                    ExternalConsumerConfig} method - init(@Observes Router
+   *                    router)
+   * @param payload     KeycloakTokenPayload object return from an authorized
+   *                    access check
    */
   protected void bridgeHandler(final BridgeEvent bridgeEvent, KeycloakTokenPayload payload) {
     JsonObject rawMessage = bridgeEvent.getRawMessage().getJsonObject("body");

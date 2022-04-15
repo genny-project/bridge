@@ -64,11 +64,11 @@ public class GennyToken implements Serializable {
 				} else if (adecodedTokenMap.get("azp") != null) {
 					realm = (adecodedTokenMap.get("azp").toString()); // clientid
 				}
-//				if ((realm.equals("alyson"))) {
-//					String[] issArray = adecodedTokenMap.get("iss").toString().split("/");
-//					realm = issArray[issArray.length-1];
-//					//realm = (adecodedTokenMap.get("aud").toString()); // handle non Keycloak 6+
-//				}
+				// if ((realm.equals("alyson"))) {
+				// String[] issArray = adecodedTokenMap.get("iss").toString().split("/");
+				// realm = issArray[issArray.length-1];
+				// //realm = (adecodedTokenMap.get("aud").toString()); // handle non Keycloak 6+
+				// }
 
 				// Adding realm name to the decoded token
 				adecodedTokenMap.put("realm", realm);
@@ -102,101 +102,116 @@ public class GennyToken implements Serializable {
 		}
 	}
 
-//	public GennyToken(final String code, final String id, final String issuer, final String subject, final long ttl,
-//			final String secret, final String realm, final String username, final String name, final String role) {
-//
-//		this(code, id, issuer, subject, ttl, secret, realm, username, name, role,
-//				LocalDateTime.now().plusSeconds(24 * 60 * 60)); // 1 day expiry
-//	}
+	// public GennyToken(final String code, final String id, final String issuer,
+	// final String subject, final long ttl,
+	// final String secret, final String realm, final String username, final String
+	// name, final String role) {
+	//
+	// this(code, id, issuer, subject, ttl, secret, realm, username, name, role,
+	// LocalDateTime.now().plusSeconds(24 * 60 * 60)); // 1 day expiry
+	// }
 
-//	public GennyToken(final String code, final String id, final String issuer, final String subject, final long ttl,
-//			final String secret, final String realm, final String username, final String name, final String role,
-//			final LocalDateTime expiryDateTime) {
-//		adecodedTokenMap = new HashMap<String, Object>();
-//		adecodedTokenMap.put("preferred_username", username);
-//		adecodedTokenMap.put("name", name);
-//		if (username.contains("@")) {
-//			adecodedTokenMap.put("email", username);
-//		} else {
-//			adecodedTokenMap.put("email", username + "@gmail.com");
-//		}
-//		String[] names = name.split(" ");
-//		adecodedTokenMap.put("given_name", names[0].trim());
-//		adecodedTokenMap.put("family_name", names[1].trim());
-//		adecodedTokenMap.put("jti", UUID.randomUUID().toString().substring(0, 20));
-//		adecodedTokenMap.put("sub", id);
-//		adecodedTokenMap.put("realm", realm);
-//		adecodedTokenMap.put("azp", realm);
-//		adecodedTokenMap.put("aud", realm);
-//		// adecodedTokenMap.put("realm_access", "{ \"roles\": [\"user\",\"" + role +
-//		// "\"] }");
-//		adecodedTokenMap.put("exp", expiryDateTime.atZone(ZoneId.of("UTC")).toEpochSecond());
-//		adecodedTokenMap.put("iat", LocalDateTime.now().atZone(ZoneId.of("UTC")).toEpochSecond());
-//		adecodedTokenMap.put("auth_time", LocalDateTime.now().atZone(ZoneId.of("UTC")).toEpochSecond());
-//		adecodedTokenMap.put("session_state", UUID.randomUUID().toString().substring(0, 32)); // TODO set size ot same
-//																								// as keycloak
-//
-//		userRoles = new HashSet<String>();
-////		  "realm_access": {
-////		    "roles": [
-////		      "test",
-////		      "dev",
-////		      "offline_access",
-////		      "admin",
-////		      "uma_authorization",
-////		      "user",
-////		      "supervisor"
-////		    ]
-////		  },
-//
-//		ArrayJson rj = new ArrayJson();
-//		userRoles.add("user");
-//		rj.roles.add("user");
-//		String[] roles = role.split(",:;");
-//		for (String r : roles) {
-//			userRoles.add(r);
-//			rj.roles.add(r);
-//		}
-//
-//		adecodedTokenMap.put("realm_access", rj);
-//
-//		String jwtToken = null;
-//
-//		jwtToken = SecurityUtils.createJwt(id, issuer, subject, ttl, secret, adecodedTokenMap);
-//		token = jwtToken;
-//		this.realm = realm;
-//		if ("service".equals(username)) {
-//			this.userCode = "PER_SERVICE";
-//		} else {
-////		String normalisedUsername = QwandaUtils.getNormalisedUsername(id);
-////		if (normalisedUsername.toUpperCase().startsWith("PER_")) {
-////			this.userCode = normalisedUsername.toUpperCase();
-////		} else {
-//			this.userCode = "PER_" + id.toUpperCase();
-////		}
-//		}
-//
-//		this.code = code;
-//		setupRoles();
-//	}
+	// public GennyToken(final String code, final String id, final String issuer,
+	// final String subject, final long ttl,
+	// final String secret, final String realm, final String username, final String
+	// name, final String role,
+	// final LocalDateTime expiryDateTime) {
+	// adecodedTokenMap = new HashMap<String, Object>();
+	// adecodedTokenMap.put("preferred_username", username);
+	// adecodedTokenMap.put("name", name);
+	// if (username.contains("@")) {
+	// adecodedTokenMap.put("email", username);
+	// } else {
+	// adecodedTokenMap.put("email", username + "@gmail.com");
+	// }
+	// String[] names = name.split(" ");
+	// adecodedTokenMap.put("given_name", names[0].trim());
+	// adecodedTokenMap.put("family_name", names[1].trim());
+	// adecodedTokenMap.put("jti", UUID.randomUUID().toString().substring(0, 20));
+	// adecodedTokenMap.put("sub", id);
+	// adecodedTokenMap.put("realm", realm);
+	// adecodedTokenMap.put("azp", realm);
+	// adecodedTokenMap.put("aud", realm);
+	// // adecodedTokenMap.put("realm_access", "{ \"roles\": [\"user\",\"" + role +
+	// // "\"] }");
+	// adecodedTokenMap.put("exp",
+	// expiryDateTime.atZone(ZoneId.of("UTC")).toEpochSecond());
+	// adecodedTokenMap.put("iat",
+	// LocalDateTime.now().atZone(ZoneId.of("UTC")).toEpochSecond());
+	// adecodedTokenMap.put("auth_time",
+	// LocalDateTime.now().atZone(ZoneId.of("UTC")).toEpochSecond());
+	// adecodedTokenMap.put("session_state",
+	// UUID.randomUUID().toString().substring(0, 32)); // TODO set size ot same
+	// // as keycloak
+	//
+	// userRoles = new HashSet<String>();
+	//// "realm_access": {
+	//// "roles": [
+	//// "test",
+	//// "dev",
+	//// "offline_access",
+	//// "admin",
+	//// "uma_authorization",
+	//// "user",
+	//// "supervisor"
+	//// ]
+	//// },
+	//
+	// ArrayJson rj = new ArrayJson();
+	// userRoles.add("user");
+	// rj.roles.add("user");
+	// String[] roles = role.split(",:;");
+	// for (String r : roles) {
+	// userRoles.add(r);
+	// rj.roles.add(r);
+	// }
+	//
+	// adecodedTokenMap.put("realm_access", rj);
+	//
+	// String jwtToken = null;
+	//
+	// jwtToken = SecurityUtils.createJwt(id, issuer, subject, ttl, secret,
+	// adecodedTokenMap);
+	// token = jwtToken;
+	// this.realm = realm;
+	// if ("service".equals(username)) {
+	// this.userCode = "PER_SERVICE";
+	// } else {
+	//// String normalisedUsername = QwandaUtils.getNormalisedUsername(id);
+	//// if (normalisedUsername.toUpperCase().startsWith("PER_")) {
+	//// this.userCode = normalisedUsername.toUpperCase();
+	//// } else {
+	// this.userCode = "PER_" + id.toUpperCase();
+	//// }
+	// }
+	//
+	// this.code = code;
+	// setupRoles();
+	// }
 
-//	public GennyToken(final String code, final String realm, final String username, final String name,
-//			final String role) {
-//		this(code, "ABBCD", "Genny Project", "Test JWT", 100000, "IamASecret", realm, username, name, role,
-//				LocalDateTime.now().plusSeconds(24 * 60 * 60));
-//	}
-//
-//	public GennyToken(final String uuid, final String code, final String realm, final String username,
-//			final String name, final String role, LocalDateTime expiryDateTime) {
-//		this(code, uuid, "Genny Project", "Test JWT", 100000, "IamASecret", realm, username, name, role,
-//				expiryDateTime);
-//	}
-//
-//	public GennyToken(final String code, final String realm, final String username, final String name,
-//			final String role, LocalDateTime expiryDateTime) {
-//		this(code, "ABBCD", "Genny Project", "Test JWT", 100000, "IamASecret", realm, username, name, role,
-//				expiryDateTime);
-//	}
+	// public GennyToken(final String code, final String realm, final String
+	// username, final String name,
+	// final String role) {
+	// this(code, "ABBCD", "Genny Project", "Test JWT", 100000, "IamASecret", realm,
+	// username, name, role,
+	// LocalDateTime.now().plusSeconds(24 * 60 * 60));
+	// }
+	//
+	// public GennyToken(final String uuid, final String code, final String realm,
+	// final String username,
+	// final String name, final String role, LocalDateTime expiryDateTime) {
+	// this(code, uuid, "Genny Project", "Test JWT", 100000, "IamASecret", realm,
+	// username, name, role,
+	// expiryDateTime);
+	// }
+	//
+	// public GennyToken(final String code, final String realm, final String
+	// username, final String name,
+	// final String role, LocalDateTime expiryDateTime) {
+	// this(code, "ABBCD", "Genny Project", "Test JWT", 100000, "IamASecret", realm,
+	// username, name, role,
+	// expiryDateTime);
+	// }
 
 	public String getToken() {
 		return token;
@@ -239,8 +254,19 @@ public class GennyToken implements Serializable {
 		return getRealm() + ": " + getCode() + ": " + getUserCode() + ": " + this.userRoles;
 	}
 
+	/**
+	 * @return String TODO: Docs
+	 */
+	@Deprecated
 	public String getRealm() {
-		return realm;
+		String clientId = adecodedTokenMap.get("azp").toString();
+
+		if (clientId.equals("internmatch") || clientId.equals("alyson")) {
+			return "internmatch";
+		} else {
+			return clientId;
+		}
+
 	}
 
 	public String getString(final String key) {
@@ -258,7 +284,7 @@ public class GennyToken implements Serializable {
 	public String getUsername() {
 		return getString("preferred_username");
 	}
-	
+
 	public String getJti() {
 		return getString("jti");
 	}
@@ -437,7 +463,7 @@ public class GennyToken implements Serializable {
 
 		final String[] chunks = bearerToken.split("\\.");
 		Base64.Decoder decoder = Base64.getDecoder();
-//		String header = new String(decoder.decode(chunks[0]));
+		// String header = new String(decoder.decode(chunks[0]));
 		String payload = new String(decoder.decode(chunks[1]));
 		JsonObject json = jsonb.fromJson(payload, JsonObject.class);
 		return json;

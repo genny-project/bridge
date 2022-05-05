@@ -58,7 +58,7 @@ public class InitProperties {
     }
 
     public void setMediaProxyUrl(String url) {
-        this.mediaProxyUrl = url + "/web/public";
+        this.mediaProxyUrl = url + "web/public";
     }
 
     public void setApiUrl(String url) {
